@@ -1,0 +1,10 @@
+version: 2
+updates:
+    - package-ecosystem: "maven"
+      directory: "/"
+      schedule:
+          interval: "daily"
+      commit-message:
+          prefix: "maven dependency"
+      labels:
+          - "dependency"
