@@ -9,5 +9,6 @@ mysql -u root -e "FLUSH PRIVILEGES"
 
 ## Symfony server starten
 ```bash
+composer install
 symfony server:start
 ```
