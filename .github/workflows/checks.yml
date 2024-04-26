@@ -1,0 +1,58 @@
+name: checks
+
+on: [push]
+
+jobs:
+  phpstan:
+    name: PHP Stan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPStan
+        run: |
+          php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=-1
+
+  phpcsfixer:
+    name: PHP CS Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --ignore-platform-req=ext-http
+
+      - name: Run PHP CS Fixer
+        run: |
+          php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --using-cache=no --dry-run --diff
+
+  bearer:
+    name: Bearer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Bearer
+        run: |
+          curl -sfL https://raw.githubusercontent.com/Bearer/bearer/main/contrib/install.sh | sh
+
+      - name: Run Bearer
+        run: |
+          ./bin/bearer scan ./
