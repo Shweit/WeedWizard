@@ -3,3 +3,6 @@ php-cs-fixer:
 
 phpstan:
 	php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=-1
+
+webpack-watch:
+	npm build watch
