@@ -89,7 +89,7 @@ readonly class CannaDoseCalculatorService implements CannaDoseCalculatorInterfac
                     'annotations' => [
                         [
                             'type' => 'point',
-                            'xValue' => $data['intensity'] -1,
+                            'xValue' => $data['intensity'] - 1,
                             'yValue' => $data['recommended_dosage'],
                             'backgroundColor' => 'rgba(255, 99, 132, 0.25)',
                         ],
