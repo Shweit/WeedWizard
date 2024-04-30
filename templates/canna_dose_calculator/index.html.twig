@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CannaDose Calculator{% endblock %}
+
+{% block body %}
+    {{ form(form) }}
+
+    1. Anfänger (Erfahrungsfaktor = 0.8): Personen, die noch nie oder nur sehr selten Cannabis konsumiert haben. Sie haben eine sehr geringe oder gar keine Toleranz gegenüber den Wirkungen von THC.
+
+    2. Gelegenheitsnutzer (Erfahrungsfaktor = 1.0): Personen, die gelegentlich Cannabis konsumieren, aber nicht regelmäßig. Sie haben eine gewisse Toleranz, aber die Wirkungen von THC können immer noch stark sein.
+
+    3. Regelmäßige Nutzer (Erfahrungsfaktor = 1.4): Personen, die regelmäßig Cannabis konsumieren und eine hohe Toleranz gegenüber den Wirkungen von THC haben.
+
+    4. Schwere Nutzer (Erfahrungsfaktor = 1.8): Personen, die täglich oder fast täglich Cannabis konsumieren. Sie haben eine sehr hohe Toleranz und benötigen in der Regel höhere Dosen, um die gewünschten Wirkungen zu erzielen.
+
+    {% for recommendedDosage in recommendedDosages %}
+        <div class="card mb-3">
+            <div class="card-header">
+                {{ recommendedDosage.id }} - {{ recommendedDosage.createdAt|date('d.m.Y') }}
+            </div>
+            <div class="card-body">
+                <p>Für eine <b>{{ recommendedDosage.basisDosage }}mg</b> Basisdosierung und einem Faktor von <b>{{ recommendedDosage.experience }}</b>, bei einer Intensität von <b>{{ recommendedDosage.intensity }}</b> beträgt die empfohlene Dosierung: <b>{{ recommendedDosage.recommendedDosage }}mg</b></p>
+                <a href="{{ path('weedwizard_cannadose_calculator_show_recommended_dosage', {'id': recommendedDosage.id}) }}">Mehr erfahren -></a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
