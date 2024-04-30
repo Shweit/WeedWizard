@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Empfohlene Dosis</h2>
+    <p>Die empfohlene Dosis beträgt {{ lastDosage.recommendedDosage }} mg.</p>
+
+    {{ render_chart(chart) }}
+{% endblock %}
+
