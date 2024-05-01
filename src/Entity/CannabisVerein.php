@@ -1,0 +1,171 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CannabisVereinRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: CannabisVereinRepository::class)]
+class CannabisVerein
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $strasse = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $hausnummer = null;
+
+    #[ORM\Column]
+    private ?int $plz = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ort = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresszusatz = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $website = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
+    private ?string $mitgliedsbeitrag = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $beschreibung = null;
+
+    #[ORM\Column(length: 1023, nullable: true)]
+    private ?string $sonstiges = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStraße(): ?string
+    {
+        return $this->strasse;
+    }
+
+    public function setStraße(string $Straße): static
+    {
+        $this->strasse = $Straße;
+
+        return $this;
+    }
+
+    public function getHausnummer(): ?string
+    {
+        return $this->hausnummer;
+    }
+
+    public function setHausnummer(string $hausnummer): static
+    {
+        $this->hausnummer = $hausnummer;
+
+        return $this;
+    }
+
+    public function getPlz(): ?int
+    {
+        return $this->plz;
+    }
+
+    public function setPlz(int $plz): static
+    {
+        $this->plz = $plz;
+
+        return $this;
+    }
+
+    public function getOrt(): ?string
+    {
+        return $this->ort;
+    }
+
+    public function setOrt(string $ort): static
+    {
+        $this->ort = $ort;
+
+        return $this;
+    }
+
+    public function getAdresszusatz(): ?string
+    {
+        return $this->adresszusatz;
+    }
+
+    public function setAdresszusatz(?string $adresszusatz): static
+    {
+        $this->adresszusatz = $adresszusatz;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    public function getMitgliedsbeitrag(): ?string
+    {
+        return $this->mitgliedsbeitrag;
+    }
+
+    public function setMitgliedsbeitrag(string $mitgliedsbeitrag): static
+    {
+        $this->mitgliedsbeitrag = $mitgliedsbeitrag;
+
+        return $this;
+    }
+
+    public function getBeschreibung(): ?string
+    {
+        return $this->beschreibung;
+    }
+
+    public function setBeschreibung(?string $beschreibung): static
+    {
+        $this->beschreibung = $beschreibung;
+
+        return $this;
+    }
+
+    public function getSonstiges(): ?string
+    {
+        return $this->sonstiges;
+    }
+
+    public function setSonstiges(?string $sonstiges): static
+    {
+        $this->sonstiges = $sonstiges;
+
+        return $this;
+    }
+}
