@@ -74,6 +74,7 @@ class CannabisVereinController extends AbstractController
             'lowestPrice' => $lowestPrice,
             'highestPrice' => $highestPrice,
             'form' => $form->createView(),
+            'cannabisVerein' => $cannabisVerein,
         ]);
     }
 
