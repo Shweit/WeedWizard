@@ -37,6 +37,8 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // do anything else you need here, like send an email
+
             return $security->login($user, WeedWizardAuthenticator::class, 'main');
         }
 
