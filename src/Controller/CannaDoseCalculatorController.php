@@ -18,8 +18,7 @@ class CannaDoseCalculatorController extends AbstractController
     public function __construct(
         private readonly CannaDoseCalculatorService $cannaDoseCalculatorService,
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     #[Route('/cannadose-calculator', name: 'weedwizard_cannadose_calculator')]
     public function index(Request $request, UserInterface $user): Response
