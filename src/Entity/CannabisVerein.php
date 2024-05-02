@@ -83,14 +83,14 @@ class CannabisVerein
         return $this;
     }
 
-    public function getStraße(): ?string
+    public function getStrasse(): ?string
     {
         return $this->strasse;
     }
 
-    public function setStraße(string $Straße): static
+    public function setStrasse(string $Strasse): static
     {
-        $this->strasse = $Straße;
+        $this->strasse = $Strasse;
 
         return $this;
     }
