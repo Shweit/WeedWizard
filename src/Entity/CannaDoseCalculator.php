@@ -28,6 +28,10 @@ class CannaDoseCalculator
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at;
 
+    #[ORM\ManyToOne(inversedBy: 'cannaDoseCalculators')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
@@ -101,5 +105,17 @@ class CannaDoseCalculator
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
