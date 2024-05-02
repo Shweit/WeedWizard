@@ -26,6 +26,8 @@
 phpstan.neon
 ###< phpstan/phpstan ###
 
+.idea
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
