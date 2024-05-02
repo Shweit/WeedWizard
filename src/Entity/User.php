@@ -380,6 +380,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<int, CannabisVerein>
+     */
+    public function getCannabisVereine(): Collection
+    {
+        return $this->cannabisVereine;
+    }
+
+    public function addCannabisVereine(CannabisVerein $cannabisVereine): static
+    {
+        if (!$this->cannabisVereine->contains($cannabisVereine)) {
+            $this->cannabisVereine->add($cannabisVereine);
+            $cannabisVereine->addMitglieder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCannabisVereine(CannabisVerein $cannabisVereine): static
+    {
+        if ($this->cannabisVereine->removeElement($cannabisVereine)) {
+            $cannabisVereine->removeMitglieder($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Plant>
      */
     public function getPlants(): Collection
