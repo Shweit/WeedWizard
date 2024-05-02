@@ -8,4 +8,13 @@
     <h1 class="">Vereine</h1>
     <h3>Finde oder erstelle Vereine</h3>
 
+    {%  for verein in {{ cannabisVereine }} %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ verein.name }}</h5>
+                <p class="card-text">{{ verein.beschreibung }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
 {% endblock %}

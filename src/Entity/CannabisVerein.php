@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CannabisVereinRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,6 +45,17 @@ class CannabisVerein
 
     #[ORM\Column(length: 1023, nullable: true)]
     private ?string $sonstiges = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'cannabisVereine')]
+    private Collection $mitglieder;
+
+    public function __construct()
+    {
+        $this->mitglieder = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -165,6 +178,30 @@ class CannabisVerein
     public function setSonstiges(?string $sonstiges): static
     {
         $this->sonstiges = $sonstiges;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getMitglieder(): Collection
+    {
+        return $this->mitglieder;
+    }
+
+    public function addMitglieder(User $mitglieder): static
+    {
+        if (!$this->mitglieder->contains($mitglieder)) {
+            $this->mitglieder->add($mitglieder);
+        }
+
+        return $this;
+    }
+
+    public function removeMitglieder(User $mitglieder): static
+    {
+        $this->mitglieder->removeElement($mitglieder);
 
         return $this;
     }

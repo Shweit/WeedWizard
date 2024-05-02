@@ -53,8 +53,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     private Collection $notifications;
 
+    /**
+     * @var Collection<int, CannabisVerein>
+     */
+    #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
+    private Collection $cannabisVereine;
+
     public function __construct()
     {
+        $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
     }
 
@@ -193,6 +200,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CannabisVerein>
+     */
+    public function getCannabisVereine(): Collection
+    {
+        return $this->cannabisVereine;
+    }
+
+    public function addCannabisVereine(CannabisVerein $cannabisVereine): static
+    {
+        if (!$this->cannabisVereine->contains($cannabisVereine)) {
+            $this->cannabisVereine->add($cannabisVereine);
+            $cannabisVereine->addMitglieder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCannabisVereine(CannabisVerein $cannabisVereine): static
+    {
+        if ($this->cannabisVereine->removeElement($cannabisVereine)) {
+            $cannabisVereine->removeMitglieder($this);
         }
 
         return $this;
