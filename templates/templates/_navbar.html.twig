@@ -1,0 +1,90 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle"> <!-- Adjust the logo URL and size -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav" style="gap: 30px">
+                <li class="nav-item ms-2">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannabis Consumption<br> Compliance Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannabis<br> Vereinssuche</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Bud Bash<br> Locator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannastrain<br> Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannadose<br> Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Grow<br> Mate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Canna<br> Consultant</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                {% if app.user == null %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary me-2" href="{{ path('app_register') }}">Registrieren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{{ path('app_login') }}">Einloggen</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item me-4">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-bell"></i>
+                            </span>
+                            <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
+                                <h6 class="dropdown-header dropdown-notifications-header">
+                                    <i class="fa-solid fa-bell"></i>
+                                    Benachrichtigungen
+                                </h6>
+
+                                <ul aria-labelledby="alertsDropdown" style="padding: 0px">
+                                    <li class="alert-item">
+                                        <div class="alert-content">
+                                            <div class="text-truncate" style="width: 300px">Hallo :)S</div>
+                                            <div class="alert-date">December 29, 2021</div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <a class="dropdown-item dropdown-notifications-footer" href="#!">Alle Benachrichtigungen</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                MAX MUSTERMANN
+                            </span>
+                            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
+                                <h6 class="dropdown-header d-flex align-items-center">
+                                    <div class="dropdown-user-details">
+                                        <div class="dropdown-user-details-name">MAX MUSTERMANN</div>
+                                        <div class="dropdown-user-details-email">{{ app.user.email }}</div>
+                                    </div>
+                                </h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item d-flex align-items-center" href="#!">
+                                    <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
