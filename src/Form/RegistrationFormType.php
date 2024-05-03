@@ -12,9 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
@@ -46,7 +44,7 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Bitte gib dein Geburtsdatum an.',
                     ]),
-                    new LessThanOrEqual('-18 years', message: 'Du musst mindestens 18 Jahre alt sein.')
+                    new LessThanOrEqual('-18 years', message: 'Du musst mindestens 18 Jahre alt sein.'),
                 ],
             ])
             ->add('email', EmailType::class, [
