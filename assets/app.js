@@ -8,7 +8,6 @@ import * as bootstrap from 'bootstrap';
 import './bootstrap';
 import './styles/app.scss';
 import './script/chartJsConfig';
-import './script/CannaDoseCalculator';
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 

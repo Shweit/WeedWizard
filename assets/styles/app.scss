@@ -1,1 +1,66 @@
-@import "~bootstrap/scss/bootstrap";
+$primary: #0C4F11 !default;
+$nav-link-color: #212832 !default;
+$light: #FFFFFF !default;
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+.dropdown-user-details-name {
+  color: #212832;
+  font-weight: 500;
+  font-size: 0.9rem;
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-user-details-email {
+  color: #69707a;
+  font-size: 0.75rem;
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-item-icon {
+  color: #a7aeb8;
+  margin-right: 0.5rem;
+  line-height: 1;
+}
+
+.dropdown-notifications-header {
+  background-color: $primary;
+  color: $light !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  line-height: 1;
+}
+
+.dropdown-notifications {
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow-x: hidden;
+  width: 20rem;
+}
+
+.alert-item {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.alert-date {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.dropdown-notifications-footer {
+  justify-content: center;
+  font-size: 0.8rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  color: #a7aeb8;
+  cursor: pointer;
+}
