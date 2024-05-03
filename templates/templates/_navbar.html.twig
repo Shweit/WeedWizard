@@ -66,17 +66,19 @@
                     <li class="nav-item">
                         <div class="dropdown">
                             <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                MAX MUSTERMANN
+                                {{ app.user.firstName }} {{ app.user.lastName }}
                             </span>
                             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
                                 <h6 class="dropdown-header d-flex align-items-center">
                                     <div class="dropdown-user-details">
-                                        <div class="dropdown-user-details-name">MAX MUSTERMANN</div>
+                                        <div class="dropdown-user-details-name">
+                                            {{ app.user.firstName }} {{ app.user.lastName }}
+                                        </div>
                                         <div class="dropdown-user-details-email">{{ app.user.email }}</div>
                                     </div>
                                 </h6>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item d-flex align-items-center" href="#!">
+                                <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
                                     <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
                                     Logout
                                 </a>
