@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
@@ -45,10 +46,7 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Bitte gib dein Geburtsdatum an.',
                     ]),
-                    new Date([
-                        'message' => 'Das Geburtsdatum "{{ value }}" ist kein gültiges Datum.',
-                    ]),
-                    new GreaterThanOrEqual('-18 years', message: 'Du musst mindestens 18 Jahre alt sein.')
+                    new LessThanOrEqual('-18 years', message: 'Du musst mindestens 18 Jahre alt sein.')
                 ],
             ])
             ->add('email', EmailType::class, [
