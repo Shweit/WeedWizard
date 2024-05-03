@@ -3,18 +3,89 @@
 {% block title %}Cannabis Vereine{% endblock %}
 
 {% block body %}
-{#    {{ form(form) }}#}
 
     <h1 class="">Vereine</h1>
     <h3>Finde oder erstelle Vereine</h3>
 
-    {%  for verein in {{ cannabisVereine }} %}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ verein.name }}</h5>
-                <p class="card-text">{{ verein.beschreibung }}</p>
+    <div class="m-4">
+        <div>
+
+            <div class="btn-group mb-2 pr-5">
+                <button type="button" class="btn btn-outline-primary">Filter</button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu p-2 mb-1">
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter1
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter2
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter3
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="btn-group mb-2">
+                <button type="button" class="btn btn-primary">Sortierung</button>
+                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu p-2 mb-1">
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter1
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter2
+                        </label>
+                    </li>
+                    <li>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox">
+                            Filter3
+                        </label>
+                    </li>
+                </ul>
             </div>
         </div>
-    {% endfor %}
+
+        {% for verein in cannabisVereine %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ verein.name }}</h5>
+                    <p class="card-text">{{ verein.beschreibung }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 
 {% endblock %}
