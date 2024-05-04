@@ -1,6 +1,6 @@
 $primary: #0C4F11 !default;
-$nav-link-color: #212832 !default;
-$light: #FFFFFF !default;
+$navbar-light-color: #212832;
+$navbar-dark-color: #DFDFDF;
 
 @import "~bootstrap/scss/bootstrap.scss";
 
@@ -63,4 +63,22 @@ $light: #FFFFFF !default;
   padding-bottom: 0.75rem;
   color: #a7aeb8;
   cursor: pointer;
+}
+
+[data-bs-theme="dark"] {
+  .dropdown-user-details-name {
+    color: #DFDFDF;
+  }
+
+    .bd-navbar {
+    background-color: #050910;
+  }
+
+  .nav-link {
+    color: #DFDFDF !important;
+  }
+
+  code {
+    background-color: #1b1e21 !important;
+  }
 }

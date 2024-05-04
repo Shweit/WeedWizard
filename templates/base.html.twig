@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+
+        {# We need to load this Script first, to avoid site flickering #}
+        {% include 'templates/_bootstrap_darkMode.js.twig' %}
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
