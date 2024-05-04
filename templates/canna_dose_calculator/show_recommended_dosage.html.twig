@@ -1,9 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Empfohlene Dosis</h2>
-    <p>Die empfohlene Dosis beträgt {{ lastDosage.recommendedDosage }} mg.</p>
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Empfohlene Dosis',
+        'button': {
+            'label': 'Zurück',
+            'path': path('weedwizard_cannadose_calculator')
+        },
+    } %}
 
-    {{ render_chart(chart) }}
+    <div class="alert alert-danger">
+        Die empfohlene Dosis ist eine Schätzung, die auf den von dir eingegebenen Werten basiert. Die tatsächliche Dosis kann je nach individueller Toleranz und anderen Faktoren variieren. Bitte gehe verantwortungsbewusst mit Cannabis um.
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Empfohlene Dosis von WeedWizard</h5>
+        </div>
+        <div class="card-body">
+            <p>Für eine <b>{{ lastDosage.basisDosage }}mg</b> Basisdosierung und einem Erfahrungsfaktor von <b>{{ lastDosage.experience }}</b>, bei einer Intensität von <b>{{ lastDosage.intensity }}</b> beträgt die empfohlene Dosierung: <b>{{ lastDosage.recommendedDosage }}mg.</b></p>
+
+
+            {{ render_chart(chart) }}
+        </div>
+    </div>
 {% endblock %}
 

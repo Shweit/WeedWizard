@@ -3,27 +3,72 @@
 {% block title %}CannaDose Calculator{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    {% include('templates/_header.html.twig') with {
+        'title': 'CannaDose Calculator'
+    } %}
 
-    1. Anfänger (Erfahrungsfaktor = 0.8): Personen, die noch nie oder nur sehr selten Cannabis konsumiert haben. Sie haben eine sehr geringe oder gar keine Toleranz gegenüber den Wirkungen von THC.
+    <div class="row">
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Dosisberechnung
+                </div>
+                <div class="card-body">
 
-    2. Gelegenheitsnutzer (Erfahrungsfaktor = 1.0): Personen, die gelegentlich Cannabis konsumieren, aber nicht regelmäßig. Sie haben eine gewisse Toleranz, aber die Wirkungen von THC können immer noch stark sein.
+                    {{ form(form) }}
 
-    3. Regelmäßige Nutzer (Erfahrungsfaktor = 1.4): Personen, die regelmäßig Cannabis konsumieren und eine hohe Toleranz gegenüber den Wirkungen von THC haben.
-
-    4. Schwere Nutzer (Erfahrungsfaktor = 1.8): Personen, die täglich oder fast täglich Cannabis konsumieren. Sie haben eine sehr hohe Toleranz und benötigen in der Regel höhere Dosen, um die gewünschten Wirkungen zu erzielen.
-
-    {% for recommendedDosage in recommendedDosages %}
-        <div class="card mb-3">
-            <div class="card-header">
-                {{ recommendedDosage.id }} - {{ recommendedDosage.createdAt|date('d.m.Y') }}
-            </div>
-            <div class="card-body">
-                <p>Für eine <b>{{ recommendedDosage.basisDosage }}mg</b> Basisdosierung und einem Faktor von <b>{{ recommendedDosage.experience }}</b>, bei einer Intensität von <b>{{ recommendedDosage.intensity }}</b> beträgt die empfohlene Dosierung: <b>{{ recommendedDosage.recommendedDosage }}mg</b></p>
-                <a href="{{ path('weedwizard_cannadose_calculator_show_recommended_dosage', {'id': recommendedDosage.id}) }}">Mehr erfahren -></a>
+                    <div class="alert alert-primary">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Anfänger</div>
+                                    Personen, die noch nie oder nur sehr selten Cannabis konsumiert haben. Sie haben eine sehr geringe oder gar keine Toleranz gegenüber den Wirkungen von THC.
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Gelegenheitsnutzer</div>
+                                    Personen, die gelegentlich Cannabis konsumieren, aber nicht regelmäßig. Sie haben eine gewisse Toleranz, aber die Wirkungen von THC können immer noch stark sein.
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Regelmäßige Nutzer</div>
+                                    Personen, die regelmäßig Cannabis konsumieren und eine hohe Toleranz gegenüber den Wirkungen von THC haben.
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Schwere Nutzer</div>
+                                    Personen, die täglich oder fast täglich Cannabis konsumieren. Sie haben eine sehr hohe Toleranz und benötigen in der Regel höhere Dosen, um die gewünschten Wirkungen zu erzielen.
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
-    {% endfor %}
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Berechnungsergebnisse
+                </div>
+                <div class="card-body overflow-scroll" style="max-height: 840px">
+                    {% for recommendedDosage in recommendedDosages %}
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                {{ recommendedDosage.id }} - {{ recommendedDosage.createdAt|date('d.m.Y') }}
+                            </div>
+                            <div class="card-body">
+                                <p>Für eine <b>{{ recommendedDosage.basisDosage }}mg</b> Basisdosierung und einem Faktor von <b>{{ recommendedDosage.experience }}</b>, bei einer Intensität von <b>{{ recommendedDosage.intensity }}</b> beträgt die empfohlene Dosierung: <b>{{ recommendedDosage.recommendedDosage }}mg</b></p>
+                                <a href="{{ path('weedwizard_cannadose_calculator_show_recommended_dosage', {'id': recommendedDosage.id}) }}">Mehr erfahren -></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}

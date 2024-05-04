@@ -61,7 +61,9 @@ readonly class CannaDoseCalculatorService implements CannaDoseCalculatorInterfac
             'datasets' => [
                 [
                     'label' => 'Dosierung',
-                    'borderColor' => 'rgb(64, 253, 20)',
+                    'borderColor' => 'rgb(12, 79, 17)',
+                    'backgroundColor' => 'rgb(12, 79, 17, 0.1)',
+                    'fill' => true,
                     'data' => array_values($rangeIntensity),
                 ],
             ],
@@ -92,6 +94,7 @@ readonly class CannaDoseCalculatorService implements CannaDoseCalculatorInterfac
                             'xValue' => $data['intensity'] - 1,
                             'yValue' => $data['recommended_dosage'],
                             'backgroundColor' => 'rgba(255, 99, 132, 0.25)',
+                            'borderColor' => 'rgb(255, 99, 132)',
                         ],
                     ],
                 ],
