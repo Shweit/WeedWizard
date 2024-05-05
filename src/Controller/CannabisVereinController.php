@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CannabisVereinController extends AbstractController
 {
-
     private CannabisVereinRepository $cannabisVereinRepository;
 
     public function __construct(
