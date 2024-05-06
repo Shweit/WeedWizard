@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dosage = document.querySelectorAll('.dosage-choice');
     dosage.forEach(function(element) {
         element.addEventListener('click', function() {
-            console.log(element.dataset.basisDosage);
             document.getElementById('canna_dose_calculator_basis_dosage').value = element.dataset.basisDosage;
 
             dosage.forEach(function(element) {
