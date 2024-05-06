@@ -25,6 +25,10 @@ class UserFixtures extends Fixture
             )
         );
 
+        $user->setBirthdate(new \DateTime('1990-01-01'));
+        $user->setFirstname('Max');
+        $user->setLastname('Mustermann');
+
         $manager->persist($user);
         $manager->flush();
     }

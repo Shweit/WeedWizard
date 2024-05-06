@@ -20,7 +20,7 @@ jobs:
 
       - name: Run PHPStan
         run: |
-          php vendor/bin/phpstan analyse --memory-limit=-1
+          php vendor/bin/phpstan analyse -c phpstan.dist.neon --memory-limit=-1
 
   phpcsfixer:
     name: PHP CS Fixer
