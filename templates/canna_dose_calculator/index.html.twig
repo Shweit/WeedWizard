@@ -10,12 +10,35 @@
     <div class="row">
         <div class="col">
             <div class="card mb-3">
-                <div class="card-header">
-                    Dosisberechnung
-                </div>
                 <div class="card-body">
 
-                    {{ form(form) }}
+
+                    {{ form_start(form) }}
+
+                    {{ form_label(form.basis_dosage) }}
+                    {{ form_row(form.basis_dosage) }}
+                    <div class="row text-center mb-3">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice dosage-active" data-basis-dosage="300">
+                                Leicht
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="400">
+                                Mittel
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="500">
+                                Stark
+                            </button>
+                        </div>
+                    </div>
+
+                    {{ form_row(form.experience) }}
+                    {{ form_row(form.intensity) }}
+                    {{ form_row(form.submit) }}
+                    {{ form_end(form) }}
 
                     <div class="alert alert-primary">
                         <ol class="list-group list-group-numbered">

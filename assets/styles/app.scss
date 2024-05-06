@@ -65,12 +65,26 @@ $navbar-dark-color: #DFDFDF;
   cursor: pointer;
 }
 
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.vertical-divider {
+  height: 1px;
+  background-color: #949494;
+  flex-grow: 1;
+}
+
+.card-header {
+  background-color: rgba(181, 223, 185, 0.5);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.dosage-active {
+  background-color: #b5dfb9;
+}
   .vertical-divider {
     height: 1px;
     background-color: #949494;

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,13 +19,9 @@ class CannaDoseCalculatorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('basis_dosage', ChoiceType::class, [
+            ->add('basis_dosage', HiddenType::class, [
                 'label' => 'Basisdosierung',
-                'choices' => [
-                    'Leicht' => 300,
-                    'Mittel' => 400,
-                    'Stark' => 500,
-                ],
+                'data' => 300, // default value for low dose
                 'constraints' => [
                     new NotBlank(
                         message: 'Die Basisdosierung darf nicht leer sein.'
@@ -76,6 +73,9 @@ class CannaDoseCalculatorType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Berechnen',
+                'attr' => [
+                    'class' => 'btn btn-primary w-100',
+                ],
             ])
         ;
     }
