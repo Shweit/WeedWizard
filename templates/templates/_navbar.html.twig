@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg bd-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle"> <!-- Adjust the logo URL and size -->
@@ -9,28 +9,54 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav" style="gap: 30px">
                 <li class="nav-item ms-2">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannabis Consumption<br> Compliance Map</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannabis Consumption<br> Compliance Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannabis<br> Vereinssuche</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannabis<br> Vereinssuche</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Bud Bash<br> Locator</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Bud Bash<br> Locator</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannastrain<br> Library</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannastrain<br> Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Cannadose<br> Calculator</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannadose<br> Calculator</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Grow<br> Mate</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Grow<br> Mate</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" style="color: #212832">Canna<br> Consultant</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Canna<br> Consultant</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+                        <i class="fa-regular fa-sun me-2" id="theme-icon-active"></i>
+                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                        <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+                                <i class="fa-regular fa-sun me-2"></i>
+                                Hell
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                <i class="fa-regular fa-moon me-2"></i>
+                                Dunkel
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                <i class="fa-solid fa-circle-half-stroke me-2"></i>
+                                Auto
+                            </button>
+                        </li>
+                    </ul>
+                </li>
                 {% if app.user == null %}
                     <li class="nav-item">
                         <a class="btn btn-outline-primary me-2" href="{{ path('app_register') }}">Registrieren</a>
@@ -39,16 +65,15 @@
                         <a class="btn btn-primary" href="{{ path('app_login') }}">Einloggen</a>
                     </li>
                 {% else %}
-                    <li class="nav-item me-4">
-                        <div class="dropdown">
-                            <span type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class="dropdown-item-icon"><i class="fa-solid fa-bell"></i></div>
-                            </span>
-                            <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
-                                <h6 class="dropdown-header dropdown-notifications-header">
-                                    <i class="fa-solid fa-bell"></i>
-                                    Benachrichtigungen
-                                </h6>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center me-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-bell"></i>
+                        </button>
+                        <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
+                            <h6 class="dropdown-header dropdown-notifications-header">
+                                <i class="fa-solid fa-bell"></i>
+                                Benachrichtigungen
+                            </h6>
 
                                 <ul aria-labelledby="alertsDropdown" style="padding: 0">
                                     <li class="alert-item">
@@ -59,30 +84,25 @@
                                     </li>
                                 </ul>
 
-                                <a class="dropdown-item dropdown-notifications-footer" href="#!">Alle Benachrichtigungen</a>
-                            </div>
+                            <a class="dropdown-item dropdown-notifications-footer" href="#!">Alle Benachrichtigungen</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ app.user.firstName }} {{ app.user.lastName }}
-                            </span>
-                            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
-                                <h6 class="dropdown-header d-flex align-items-center">
-                                    <div class="dropdown-user-details">
-                                        <div class="dropdown-user-details-name">
-                                            {{ app.user.firstName }} {{ app.user.lastName }}
-                                        </div>
-                                        <div class="dropdown-user-details-email">{{ app.user.email }}</div>
-                                    </div>
-                                </h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
-                                    <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
-                                    Logout
-                                </a>
-                            </div>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
+                            <h6 class="dropdown-header d-flex align-items-center">
+                                <div class="dropdown-user-details">
+                                    <div class="dropdown-user-details-name">{{ app.user.firstName }} {{ app.user.lastName }}</div>
+                                    <div class="dropdown-user-details-email">{{ app.user.email }}</div>
+                                </div>
+                            </h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center" href="#!">
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
+                                Logout
+                            </a>
                         </div>
                     </li>
                 {% endif %}
