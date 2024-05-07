@@ -85,10 +85,18 @@
 
         <div class="d-flex flex-wrap">
             {% for verein in cannabisVereine %}
-                <div class="flex-grow-0 card m-auto mt-3" style="width: 31%">
+                <div class="flex-grow-0 card m-auto mt-3" style="width: 23%">
                     <div class="card-body">
-                        <h5 class="card-title">{{ verein.name }}</h5>
-                        <p class="card-text">{{ verein.beschreibung }}</p>
+                        <h3 class="card-title">{{ verein.name }}</h3><hr>
+                        <p class="card-text">{{ verein.beschreibung }}</p><hr>
+                        {% if verein.mitgliedsbeitrag == null %}
+                            <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                        {% else %}
+                            <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-center p-0">
+                        <a href="" class="btn btn-primary btn-lg w-100 rounded-top-0">Verein ansehen</a>
                     </div>
                 </div>
             {% endfor %}

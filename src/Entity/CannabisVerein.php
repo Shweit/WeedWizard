@@ -40,7 +40,7 @@ class CannabisVerein
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
     private ?string $mitgliedsbeitrag = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 1023, nullable: true)]
     private ?string $beschreibung = null;
 
     #[ORM\Column(length: 1023, nullable: true)]
