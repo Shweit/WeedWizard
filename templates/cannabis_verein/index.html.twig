@@ -3,15 +3,14 @@
 {% block title %}Cannabis Vereine{% endblock %}
 
 {% block body %}
-
     <div class="m-5 mt-0">
         <div class="d-flex justify-content-between p-3 pb-0">
             <div class="block">
                 <h1>Vereine</h1>
                 <h3>Finde oder erstelle Vereine</h3>
             </div>
-            {#        TODO: Link anpassen #}
-            <a href="" class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
+            <a data-bs-toggle="modal" data-bs-target="#new_club"
+               class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
         </div>
         <hr>
 
@@ -108,4 +107,19 @@
         </div>
     </div>
 
+    <div class="modal fade" id="new_club" tabindex="-1" aria-labelledby="Verein erstellen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5">Verein erstellen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                {{ form_start(form) }}
+                <div class="modal-body">
+
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
