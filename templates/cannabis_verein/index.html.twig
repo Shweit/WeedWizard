@@ -116,7 +116,35 @@
                 </div>
                 {{ form_start(form) }}
                 <div class="modal-body">
-
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.beschreibung) }}
+                    {{ form_row(form.address) }}
+                    <div class="row">
+                        <div class="col-9 mb-3" aria-placeholder="Straße">
+                            {{ form_widget(form.strasse) }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form_widget(form.hausnummer) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-3">
+                            {{ form_widget(form.plz) }}
+                        </div>
+                        <div class="col-8 mb-3">
+                            {{ form_widget(form.ort) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_widget(form.adresszusatz) }}
+                    </div>
+                    {{ form_row(form.mitgliedsbeitrag) }}
+                    {{ form_row(form.website) }}
+                    {{ form_row(form.sonstiges) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    {{ form_widget(form.submit) }}
                 </div>
                 {{ form_end(form) }}
             </div>
