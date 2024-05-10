@@ -4,102 +4,106 @@
 
 {% block body %}
 
-    <div class="d-flex justify-content-between p-3 pb-0">
-        <div class="block">
-            <h1>Vereine</h1>
-            <h3>Finde oder erstelle Vereine</h3>
-        </div>
-        {#        TODO: Link anpassen #}
-        <a href="" class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
-    </div>
-    <hr>
+    <div class="">
 
-    <div class="m-3">
-        <div>
-            <div class="btn-group mb-2">
-                <button type="button" class="btn btn-primary">Filter</button>
-                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                </button>
-                <ul class="dropdown-menu p-2 mb-1">
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter1
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter2
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter3
-                        </label>
-                    </li>
-                </ul>
+        <div class="d-flex justify-content-between p-3 pb-0">
+            <div class="block">
+                <h1>Vereine</h1>
+                <h3>Finde oder erstelle Vereine</h3>
             </div>
-
-            <div class="btn-group mb-2">
-                <button type="button" class="btn btn-primary">Sortierung</button>
-                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                </button>
-                <ul class="dropdown-menu p-2 mb-1">
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter1
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter2
-                        </label>
-                    </li>
-                    <li>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <input class="form-check-input" type="checkbox">
-                            Filter3
-                        </label>
-                    </li>
-                </ul>
-            </div>
+            {#        TODO: Link anpassen #}
+            <a href="" class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
         </div>
+        <hr>
 
-        <div class="d-flex flex-wrap align-items-start">
-            {% for verein in cannabisVereine %}
-                <div class="card m-3" style="width: 23%">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ verein.name }}</h3><hr>
-                        <p class="card-text">{{ verein.beschreibung }}</p><hr>
-                        {% if verein.mitgliedsbeitrag == null %}
-                            <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
-                        {% else %}
-                            <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer d-flex align-items-center justify-content-center p-0">
-                        <a href="" class="btn btn-primary btn-lg w-100 rounded-top-0">Verein ansehen</a>
-                    </div>
+        <div class="m-3">
+            <div>
+                <div class="btn-group mb-2">
+                    <button type="button" class="btn btn-primary">Filter</button>
+                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu p-2 mb-1">
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter1
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter2
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter3
+                            </label>
+                        </li>
+                    </ul>
                 </div>
-            {% endfor %}
+
+                <div class="btn-group mb-2">
+                    <button type="button" class="btn btn-primary">Sortierung</button>
+                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu p-2 mb-1">
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter1
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter2
+                            </label>
+                        </li>
+                        <li>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox">
+                                Filter3
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-start">
+                {% for verein in cannabisVereine %}
+                    <div class="card m-3" style="width: 23%">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ verein.name }}</h3>
+                            <hr>
+                            <p class="card-text">{{ verein.beschreibung }}</p>
+                            <hr>
+                            {% if verein.mitgliedsbeitrag == null %}
+                                <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                            {% else %}
+                                <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                            {% endif %}
+                        </div>
+                        <a href="" class="btn btn-primary card-footer bg-primary text-light w-100">
+                            Verein ansehen</a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
