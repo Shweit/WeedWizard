@@ -76,7 +76,7 @@ class CannabisVereinType extends AbstractType
                         max: 5,
                         minMessage: 'Die PLZ muss genau 5 Ziffern lang sein.',
                         maxMessage: 'Die PLZ muss genau 5 Ziffern lang sein.',
-                    )
+                    ),
                 ],
             ])
             ->add('ort', TextType::class, [
