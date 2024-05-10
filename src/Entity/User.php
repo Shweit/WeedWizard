@@ -57,6 +57,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $birthdate = null;
 
     /**
+     * @var Collection<int, BudBash>
+     */
+    #[ORM\ManyToMany(targetEntity: BudBash::class, mappedBy: 'participants')]
+    private Collection $attendedBudBashes;
+
+    /**
+     * @var Collection<int, BudBash>
+     */
+    #[ORM\OneToMany(targetEntity: BudBash::class, mappedBy: 'createdBy')]
+    private Collection $hostedBudBashes;
+
+    /**
      * @var Collection<int, Notification>
      */
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
@@ -73,6 +85,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        $this->attendedBudBashes = new ArrayCollection();
+        $this->hostedBudBashes = new ArrayCollection();
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->cannaDoseCalculators = new ArrayCollection();
@@ -226,6 +240,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthdate(\DateTimeInterface $birthdate): static
     {
         $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BudBash>
+     */
+    public function getAttendedBudBashes(): Collection
+    {
+        return $this->attendedBudBashes;
+    }
+
+    public function addAttendedBudBash(BudBash $attendedBudBash): static
+    {
+        if (!$this->attendedBudBashes->contains($attendedBudBash)) {
+            $this->attendedBudBashes->add($attendedBudBash);
+            $attendedBudBash->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttendedBudBash(BudBash $attendedBudBash): static
+    {
+        if ($this->attendedBudBashes->removeElement($attendedBudBash)) {
+            $attendedBudBash->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BudBash>
+     */
+    public function getHostedBudBashes(): Collection
+    {
+        return $this->hostedBudBashes;
+    }
+
+    public function addHostedBudBash(BudBash $hostedBudBash): static
+    {
+        if (!$this->hostedBudBashes->contains($hostedBudBash)) {
+            $this->hostedBudBashes->add($hostedBudBash);
+            $hostedBudBash->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHostedBudBash(BudBash $hostedBudBash): static
+    {
+        if ($this->hostedBudBashes->removeElement($hostedBudBash)) {
+            // set the owning side to null (unless already changed)
+            if ($hostedBudBash->getCreatedBy() === $this) {
+                $hostedBudBash->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

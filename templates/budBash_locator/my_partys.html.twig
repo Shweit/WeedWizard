@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BudBashLocatorController!{% endblock %}
+
+{% block body %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Meine BudBash Partys',
+    } %}
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator') }}">Party suchen</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page">Meine BudBash Partys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_attended_partys') }}">Beigetretenen BudBash Partys</a>
+        </li>
+    </ul>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    {% for budBash in app.user.hostedBudBashes %}
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>{{ budBash.name }}</h4>
+                                    <small>{{ budBash.start|format_datetime('full', 'short', locale='de') }}</small>
+                                    <hr>
+                                    <p>{{ budBash.extraInfo|default('Der ersteller der Party hat keine Informationen angegeben.') }}</p>
+                                    <hr>
+                                    <p><b>Wo?</b> {{ budBash.address }}</p>
+                                    <p><b>Eintritt?</b> {{ budBash.entranceFee }}€</p>
+                                </div>
+                                <div class="card-footer btn-group">
+                                    <button class="btn btn-danger">Party absagen</button>
+                                    <button class="btn btn-secondary">Anwesenheitsliste</button>
+                                    {% if budBash.budBashCheckAttendances %}
+                                        {% if budBash.start <= date('now') %}
+                                            <button href="#" class="btn btn-primary">Anwesenheit kontrollieren</button>
+                                        {% else %}
+                                            <button disabled href="#" class="btn btn-primary disabled" data-bs-toggle="tooltip" data-bs-title="Du kannst erst die Anwesenheit kontrollieren, sobald die Party gestartet hat">Anwesenheit kontrollieren</button>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger">
+            Du musst dich einloggen, um diese Seite zu sehen.
+        </div>
+    {% endif %}
+{% endblock %}

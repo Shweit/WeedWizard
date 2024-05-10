@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BudBashLocatorController!{% endblock %}
+
+{% block body %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Beigetretenen BudBash Partys',
+    } %}
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator') }}">Party suchen</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_my_partys') }}">Meine BudBash Partys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page">Beigetretenen BudBash Partys</a>
+        </li>
+    </ul>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    {% if budbashes %}
+                        {% for budBash in budbashes %}
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4>{{ budBash.name }}</h4>
+                                        <small>{{ budBash.start|format_datetime('full', 'short', locale='de') }}</small>
+                                        <hr>
+                                        <p>{{ budBash.extraInfo|default('Der ersteller der Party hat keine Informationen angegeben.') }}</p>
+                                        <hr>
+                                        <p><b>Wo?</b> {{ budBash.address }}</p>
+                                        <p><b>Eintritt?</b> {{ budBash.entranceFee }}€</p>
+                                    </div>
+                                    <a class="card-footer btn btn-danger bg-danger" href="{{ path('weedwizard_budbash_locator_absence_party', {'id': budBash.id}) }}">
+                                        Absagen
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12 text-center">
+                            Es wurden keine Partys gefunden, welchen du beigetreten bist.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger">
+            Du musst dich einloggen, um diese Seite zu sehen.
+        </div>
+    {% endif %}
+{% endblock %}

@@ -122,3 +122,15 @@ $navbar-dark-color: #DFDFDF;
     background-color: #3159345e;
   }
 }
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vertical-divider {
+  height: 1px;
+  background-color: #949494;
+  flex-grow: 1;
+}

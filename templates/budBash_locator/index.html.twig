@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BudBashLocatorController!{% endblock %}
+
+{% block body %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'BudBash Locator',
+        'button': {
+            'label': 'Party steigen lassen',
+            'attr': 'data-bs-toggle=modal data-bs-target=#new_busbash'
+        }
+    } %}
+
+    <div class="modal fade" id="new_busbash" tabindex="-1" aria-labelledby="BudBash erstellen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">BudBash Party steigen lassen!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(form) }}
+                    <div class="modal-body">
+                        {% if app.user == null %}
+                            <div class="alert alert-warning">
+                                Du bist nicht angemeldet! Wenn du jetzt eine Party erstellst, wird diese nicht gespeichert werden.
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.start) }}
+                        {{ form_row(form.address) }}
+                        <div id="suggestions-list" class="mb-3" style="display: none"></div>
+                        <div class="row">
+                            <div class="col-9 mb-3">
+                                {{ form_widget(form.address_street) }}
+                            </div>
+                            <div class="col-3 mb-3">
+                                {{ form_widget(form.address_house_number) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 mb-3">
+                                {{ form_widget(form.address_postal_code) }}
+                            </div>
+                            <div class="col-8 mb-3">
+                                {{ form_widget(form.address_city) }}
+                            </div>
+                        </div>
+                        {{ form_row(form.entrance_fee) }}
+                        {{ form_row(form.CheckAttendances) }}
+                        {{ form_row(form.extraInfo) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                        {{ form_widget(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page">Party suchen</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_my_partys') }}">Meine BudBash Partys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_attended_partys') }}">Beigetretenen BudBash Partys</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" class="form-control mb-3" id="searchBudBash" placeholder="Suche nach Name...">
+            <div class="row mb-4">
+                <div class="col-9">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Entfernung" aria-label="Entfernung" aria-describedby="entfernung">
+                        <span class="input-group-text" id="entfernung">km</span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <select class="form-select">
+                        <option value="id_DESC">Neuste</option>
+                        <option value="id_ASC">Älteste</option>
+                        <option value="participants_DESC">Meiste Teilnehmer</option>
+                        <option value="participants_ASC">Wenigste Teilnehmer</option>
+                        <option value="entranceFee_ASC">Eintritt teuerste</option>
+                        <option value="entranceFee_ASC">Eintritt billigste</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                {% if budBashes %}
+                    {% for budBash in budBashes %}
+                        <div class="col-3 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>{{ budBash.name }}</h4>
+                                    <small>{{ budBash.start|format_datetime('full', 'short', locale='de') }}</small>
+                                    <hr>
+                                    <p>{{ budBash.extraInfo|default('Der ersteller der Party hat keine Informationen angegeben.') }}</p>
+                                    <hr>
+                                    <p><b>Wo?</b> {{ budBash.address }}</p>
+                                    <p><b>Eintritt?</b> {{ budBash.entranceFee }}€</p>
+                                </div>
+                                <a class="card-footer btn btn-primary bg-primary" href="{{ path('weedwizard_budbash_locator_attend_party', {id: budBash.id}) }}">
+                                    Teilnehmen
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center">
+                        Es wurden keine Partys gefunden, welchen du noch nicht beigetreten bist :(
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
