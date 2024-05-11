@@ -34,6 +34,7 @@ class CannabisVereinController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->getUser()) {
                 $this->addFlash('danger', 'Um einen Verein zu erstellen, musst du dich einloggen.');
+
                 return $this->redirectToRoute('app_login');
             }
 

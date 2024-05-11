@@ -6,7 +6,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CannabisVereinService
 {
-
     public function __construct(
         private readonly HttpClientInterface $httpClient,
     ) {}
@@ -31,5 +30,4 @@ class CannabisVereinService
             'longitude' => $data['features'][0]['geometry']['coordinates'][0],
         ];
     }
-
 }
