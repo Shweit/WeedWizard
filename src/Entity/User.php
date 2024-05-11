@@ -59,10 +59,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
     private Collection $cannabisVereine;
 
+    /**
+     * @var Collection<int, CannabisVerein>
+     */
+    #[ORM\OneToMany(targetEntity: CannabisVerein::class, mappedBy: 'erstelltVon', orphanRemoval: true)]
+    private Collection $erstellteVereine;
+
     public function __construct()
     {
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->erstellteVereine = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +234,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->cannabisVereine->removeElement($cannabisVereine)) {
             $cannabisVereine->removeMitglieder($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CannabisVerein>
+     */
+    public function getErstellteVereine(): Collection
+    {
+        return $this->erstellteVereine;
+    }
+
+    public function addErstellteVereine(CannabisVerein $erstellteVereine): static
+    {
+        if (!$this->erstellteVereine->contains($erstellteVereine)) {
+            $this->erstellteVereine->add($erstellteVereine);
+            $erstellteVereine->setErstelltVon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeErstellteVereine(CannabisVerein $erstellteVereine): static
+    {
+        if ($this->erstellteVereine->removeElement($erstellteVereine)) {
+            // set the owning side to null (unless already changed)
+            if ($erstellteVereine->getErstelltVon() === $this) {
+                $erstellteVereine->setErstelltVon(null);
+            }
         }
 
         return $this;

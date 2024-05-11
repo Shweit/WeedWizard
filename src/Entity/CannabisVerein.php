@@ -55,6 +55,13 @@ class CannabisVerein
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $coordinaten = null;
+
+    #[ORM\ManyToOne(inversedBy: 'erstellteVereine')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $erstelltVon = null;
+
     public function __construct()
     {
         $this->mitglieder = new ArrayCollection();
@@ -217,6 +224,30 @@ class CannabisVerein
     public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCoordinaten(): ?string
+    {
+        return $this->coordinaten;
+    }
+
+    public function setCoordinaten(string $coordinaten): static
+    {
+        $this->coordinaten = $coordinaten;
+
+        return $this;
+    }
+
+    public function getErstelltVon(): ?User
+    {
+        return $this->erstelltVon;
+    }
+
+    public function setErstelltVon(?User $erstelltVon): static
+    {
+        $this->erstelltVon = $erstelltVon;
 
         return $this;
     }
