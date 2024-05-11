@@ -3,6 +3,51 @@
 {% block title %}Cannabis Vereine{% endblock %}
 
 {% block body %}
+    <div class="modal fade" id="new_club" tabindex="-1" aria-labelledby="Verein erstellen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5">Verein erstellen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                {{ form_start(form) }}
+                <div class="modal-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.beschreibung) }}
+                    {{ form_row(form.adresse) }}
+                    <div id="suggestions-list" class="mb-3" style="display: none"></div>
+                    <div class="row">
+                        <div class="col-9 mb-3" aria-placeholder="Straße">
+                            {{ form_widget(form.strasse) }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form_widget(form.hausnummer) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-3">
+                            {{ form_widget(form.plz) }}
+                        </div>
+                        <div class="col-8 mb-3">
+                            {{ form_widget(form.ort) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_widget(form.adresszusatz) }}
+                    </div>
+                    {{ form_row(form.mitgliedsbeitrag) }}
+                    {{ form_row(form.website) }}
+                    {{ form_row(form.sonstiges) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    {{ form_widget(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
     <div class="m-5 mt-0">
         <div class="d-flex justify-content-between p-3 pb-0">
             <div class="block">
@@ -107,51 +152,6 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="new_club" tabindex="-1" aria-labelledby="Verein erstellen" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fs-5">Verein erstellen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
-                </div>
-                {{ form_start(form) }}
-                <div class="modal-body">
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.beschreibung) }}
-                    {{ form_row(form.adresse) }}
-                    <div id="suggestions-list" class="mb-3" style="display: none"></div>
-                    <div class="row">
-                        <div class="col-9 mb-3" aria-placeholder="Straße">
-                            {{ form_widget(form.strasse) }}
-                        </div>
-                        <div class="col-3 mb-3">
-                            {{ form_widget(form.hausnummer) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 mb-3">
-                            {{ form_widget(form.plz) }}
-                        </div>
-                        <div class="col-8 mb-3">
-                            {{ form_widget(form.ort) }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form_widget(form.adresszusatz) }}
-                    </div>
-                    {{ form_row(form.mitgliedsbeitrag) }}
-                    {{ form_row(form.website) }}
-                    {{ form_row(form.sonstiges) }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                    {{ form_widget(form.submit) }}
-                </div>
-                {{ form_end(form) }}
             </div>
         </div>
     </div>

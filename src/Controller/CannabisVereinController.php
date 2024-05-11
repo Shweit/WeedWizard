@@ -21,11 +21,14 @@ class CannabisVereinController extends AbstractController
     #[Route('/cannabis-verein', name: 'cannabis_verein')]
     public function index(Request $request): Response
     {
+        $cannabisVereine = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
+
+        $cannabisVereine = array_filter($cannabisVereine, function ($verein) {
+            return $verein->getErstelltVon() !== $this->getUser() && !$verein->getMitglieder()->contains($this->getUser());
+        });
 
         $newVerein = new CannabisVerein();
         $form = $this->createForm(CannabisVereinType::class, $newVerein);
-
-        $cannabisVereine = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -34,13 +37,13 @@ class CannabisVereinController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            // User who created the BudBash is automatically a participant
             $newVerein->addMitglieder($this->getUser());
+            $newVerein->setErstelltVon($this->getUser());
 
+            //TODO: Get coordinates from mapbox ask @Shweit
             $mapbox_id = $form->get('mapbox_id')->getData();
             $coordinates = $this->cannabisVereinService->getClubCoordinates($mapbox_id);
             $newVerein->setCoordinaten($coordinates['latitude'] . ',' . $coordinates['longitude']);
-            $newVerein->setErstelltVon($this->getUser());
 
             $this->entityManager->persist($newVerein);
             $this->entityManager->flush();
