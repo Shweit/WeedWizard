@@ -52,6 +52,9 @@ class CannabisVerein
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'cannabisVereine')]
     private Collection $mitglieder;
 
+    #[ORM\Column(length: 255)]
+    private ?string $adresse = null;
+
     public function __construct()
     {
         $this->mitglieder = new ArrayCollection();
@@ -202,6 +205,18 @@ class CannabisVerein
     public function removeMitglieder(User $mitglieder): static
     {
         $this->mitglieder->removeElement($mitglieder);
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): static
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

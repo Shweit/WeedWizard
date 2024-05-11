@@ -30,7 +30,7 @@ class CannabisVereinType extends AbstractType
                     ),
                 ],
             ])
-            ->add('address', TextType::class, [
+            ->add('adresse', TextType::class, [
                 'label' => 'Adresse',
                 'constraints' => [
                     new NotBlank(message: 'Bitte gib eine Adresse ein.'),

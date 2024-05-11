@@ -87,11 +87,15 @@
                 {% for verein in cannabisVereine %}
                     <div class="col-4 mb-3">
                         <div class="card">
+                            <h3 class="card-header">{{ verein.name }}</h3>
                             <div class="card-body">
-                                <h3 class="card-title">{{ verein.name }}</h3>
-                                <hr>
                                 <p class="card-text">{{ verein.beschreibung }}</p>
                                 <hr>
+                                <p class="card-text">Adresse: {{ verein.adresse }}</p>
+                                {% if verein.website != null %}
+                                    <p class="card-text">Website: {{ verein.website }}</p>
+                                {% endif %}
+
                                 {% if verein.mitgliedsbeitrag == null %}
                                     <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
                                 {% else %}
@@ -99,7 +103,7 @@
                                 {% endif %}
                             </div>
                             <a href="" class="btn btn-primary card-footer bg-primary text-light w-100">
-                                Verein ansehen</a>
+                                Verein beitreten</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -118,7 +122,7 @@
                 <div class="modal-body">
                     {{ form_row(form.name) }}
                     {{ form_row(form.beschreibung) }}
-                    {{ form_row(form.address) }}
+                    {{ form_row(form.adresse) }}
                     <div class="row">
                         <div class="col-9 mb-3" aria-placeholder="Straße">
                             {{ form_widget(form.strasse) }}
