@@ -70,7 +70,7 @@ class CannabisVereinType extends AbstractType
                 ],
             ])
             ->add('plz', IntegerType::class, [
-                'mapped' => false,
+//                'mapped' => false,
                 'required' => true,
                 'label' => 'PLZ',
                 'disabled' => true,
