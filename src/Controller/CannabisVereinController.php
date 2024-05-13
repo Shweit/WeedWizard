@@ -57,4 +57,32 @@ class CannabisVereinController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/join-verein/{id}', name: 'join_verein')]
+    public function show(int $id): Response
+    {
+        $cannabisVerein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
+        if (!$cannabisVerein) {
+            $this->addFlash('danger', 'Verein nicht gefunden.');
+
+            return $this->redirectToRoute('cannabis_verein');
+        }
+
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Um einem Verein beizutreten, musst du dich einloggen.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($cannabisVerein->getMitglieder()->contains($this->getUser()) || $cannabisVerein->getErstelltVon() === $this->getUser()) {
+            $this->addFlash('danger', 'Du bist bereits Mitglied in diesem Verein.');
+
+            return $this->redirectToRoute('cannabis_verein');
+        }
+
+        $cannabisVerein->addMitglieder($this->getUser());
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('cannabis_verein');
+    }
 }

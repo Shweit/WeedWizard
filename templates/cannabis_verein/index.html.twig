@@ -147,7 +147,7 @@
                                     <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
                                 {% endif %}
                             </div>
-                            <a href="" class="btn btn-primary card-footer bg-primary text-light w-100">
+                            <a href="{{ path('join_verein', {'id': verein.id}) }}" class="btn btn-primary card-footer bg-primary text-light w-100">
                                 Verein beitreten</a>
                         </div>
                     </div>

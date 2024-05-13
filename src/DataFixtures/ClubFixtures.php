@@ -1,0 +1,55 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\CannabisVerein;
+use App\Entity\User;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class ClubFixtures extends Fixture
+{
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher,
+    ) {}
+
+    public function load(ObjectManager $manager): void
+    {
+        $loremIpsum = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
+        $hausnummer = 10;
+
+        $user = new User();
+
+        $user->setEmail('dev-verein-user@weedwizard.de');
+        $user->setPassword(
+            $this->passwordHasher->hashPassword(
+                $user,
+                'SicheresPasswort'
+            )
+        );
+        $manager->persist($user);
+
+        for ($i = 1; $i <= $hausnummer; ++$i) {
+            $club = new CannabisVerein();
+            $club->setName('Club-' . $i);
+            $club->setAdresse('Hauptstraße ' . $i . ', 12345 Berlin');
+            $club->setCoordinaten('52.520008, 13.404954');
+            $club->setStrasse('Hauptstraße');
+            $club->setHausnummer(strval($i));
+            $club->setPlz(12345);
+            $club->setOrt('Berlin');
+            $club->setAdresszusatz('');
+            $club->setWebsite('dummy-verein.de');
+            $club->setMitgliedsbeitrag(strval(rand(100, 10000) / 100));
+            $club->setBeschreibung($loremIpsum);
+            $club->setSonstiges('Sonst gibts nichts.');
+            $club->setErstelltVon($user);
+            $club->addMitglieder($user);
+
+            $manager->persist($club);
+        }
+
+        $manager->flush();
+    }
+}
