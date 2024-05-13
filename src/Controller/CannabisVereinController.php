@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CannabisVerein;
+use App\Entity\User;
 use App\Form\CannabisVereinType;
 use App\Services\CannabisVereinService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,9 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CannabisVereinController extends AbstractController
 {
+    private User $user;
+
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly CannabisVereinService $cannabisVereinService
+        private readonly CannabisVereinService $cannabisVereinService,
     ) {}
 
     #[Route('/cannabis-verein', name: 'cannabis_verein')]
@@ -38,10 +41,12 @@ class CannabisVereinController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            $newVerein->addMitglieder($this->getUser());
-            $newVerein->setErstelltVon($this->getUser());
+            $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
 
-            //TODO: Get coordinates from mapbox ask @Shweit
+            $newVerein->addMitglieder($this->user);
+            $newVerein->setErstelltVon($this->user);
+
+            // TODO: Get coordinates from mapbox ask @Shweit
             $mapbox_id = $form->get('mapbox_id')->getData();
             $coordinates = $this->cannabisVereinService->getClubCoordinates($mapbox_id);
             $newVerein->setCoordinaten($coordinates['latitude'] . ',' . $coordinates['longitude']);
@@ -74,13 +79,20 @@ class CannabisVereinController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if ($cannabisVerein->getMitglieder()->contains($this->getUser()) || $cannabisVerein->getErstelltVon() === $this->getUser()) {
+        $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
+        if ($this->user->getCannabisVereine()->count() > 0) {
+            $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
+
+            return $this->redirectToRoute('cannabis_verein');
+        }
+
+        if ($cannabisVerein->getMitglieder()->contains($this->user) || $cannabisVerein->getErstelltVon() === $this->user) {
             $this->addFlash('danger', 'Du bist bereits Mitglied in diesem Verein.');
 
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        $cannabisVerein->addMitglieder($this->getUser());
+        $cannabisVerein->addMitglieder($this->user);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('cannabis_verein');
