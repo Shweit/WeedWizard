@@ -3,18 +3,52 @@
 {% block title %}Hello CannaStrainLibraryController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .container-fluid {
+            margin: 1em;
+            width: 98%}
+        .bd-highlight {
+            background-color: rgba(86,61,124,0.15);
+            border: 1px solid rgba(86,61,124,0.15);
+            height: 400px;
+        }
+        #filters {
+            width: 20%;
+        }
+        /*.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }*/
+        /*.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }*/
+    </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/jakob.pfefferkorn/PhpstormProjects/WeedWizard/src/Controller/CannaStrainLibraryController.php</code></li>
-        <li>Your template at <code>/Users/jakob.pfefferkorn/PhpstormProjects/WeedWizard/templates/canna_strain_library/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="container-fluid">
+        <h1 class="text-uppercase">Datenbank</h1>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Sorten</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Zubehör</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Sonstiges</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="d-flex flex-row bd-highlight border-top-4">
+                    <div class="bd-highlight" id="filters">Filters item</div>
+                    <div class="flex-grow-1 bd-highlight" id="results">Results item
+                        <div class="grid">
+                            Hier weiter mit Grid
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                Platzhalter Zubehör
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                Platzhalter Sonstiges
+            </div>
+        </div>
+    </div>
 {% endblock %}

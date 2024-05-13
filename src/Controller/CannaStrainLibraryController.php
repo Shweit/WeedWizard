@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CannaStrainLibraryController extends AbstractController
 {
-    #[Route('/cannastrainlibrary', name: 'app_cannastrainlibrary')]
+    #[Route('/cannastrainlibrary', name: 'weedwizard_cannastrainlibrary')]
     public function index(): Response
     {
         return $this->render('canna_strain_library/index.html.twig', [
