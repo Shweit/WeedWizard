@@ -75,6 +75,8 @@ Encore
         from: './assets/images',
         to: 'images/[path][name].[ext]',
     })
+
+    .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
 ;
 
 module.exports = Encore.getWebpackConfig();

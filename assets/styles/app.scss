@@ -3,6 +3,7 @@ $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
 
 @import "~bootstrap/scss/bootstrap.scss";
+@import "nouislider/dist/nouislider.css";
 
 .dropdown-user-details-name {
   color: #212832;
@@ -133,4 +134,19 @@ $navbar-dark-color: #DFDFDF;
   height: 1px;
   background-color: #949494;
   flex-grow: 1;
+}
+
+.noUi-connect {
+  background-color: $primary;
+}
+
+#priceSlider {
+  padding: 0 16px;
+}
+
+#priceSlider .noUi-tooltip {
+  display: none;
+}
+#priceSlider .noUi-active .noUi-tooltip {
+  display: block;
 }

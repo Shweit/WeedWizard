@@ -9,8 +9,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    const USER_REFERENCE_1 = 'USER_REFERENCE_1';
-    const USER_REFERENCE_2 = 'USER_REFERENCE_2';
+    public const USER_REFERENCE_1 = 'USER_REFERENCE_1';
+    public const USER_REFERENCE_2 = 'USER_REFERENCE_2';
 
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
@@ -30,8 +30,8 @@ class UserFixtures extends Fixture
         );
 
         $user->setBirthdate(new \DateTime('1990-01-01'));
-        $user->setFirstname('Max');
-        $user->setLastname('Mustermann');
+        $user->setFirstname('Developer');
+        $user->setLastname('Account');
 
         $manager->persist($user);
         $manager->flush();
@@ -49,8 +49,8 @@ class UserFixtures extends Fixture
         );
 
         $user->setBirthdate(new \DateTime('1990-01-01'));
-        $user->setFirstname('Erika');
-        $user->setLastname('Musterfrau');
+        $user->setFirstname('Max');
+        $user->setLastname('Mustermann');
 
         $manager->persist($user);
         $manager->flush();

@@ -18,8 +18,18 @@ window.bootstrap = bootstrap;
 window.mapbox_access_token = 'pk.eyJ1Ijoic2h3ZWl0IiwiYSI6ImNsdncwZmI5cjIxY20ycXF6N3FpM2xoNDIifQ.NLaLrz1CAO5jEZtrqwhH4g';
 window.mapbox_session_token = 'weedwizard_webapplication';
 
+// This will trigger all tooltips
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+// This will load the toast on page load
+window.addEventListener('load', function () {
+    const toastLiveExample = document.getElementsByClassName('toast');
+    [...toastLiveExample].forEach(toast => {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast)
+        toastBootstrap.show()
+    });
+});
 
 // This function is used to debounce the input event listener
 // It is used to prevent the input event listener from firing too often

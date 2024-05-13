@@ -74,20 +74,29 @@
         <div class="col-md-12">
             <input type="text" class="form-control mb-3" id="searchBudBash" placeholder="Suche nach Name...">
             <div class="row mb-4">
-                <div class="col-9">
+                <div class="col-4">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Entfernung" aria-label="Entfernung" aria-describedby="entfernung">
-                        <span class="input-group-text" id="entfernung">km</span>
+                        <input type="number" id="entfernung" class="form-control" placeholder="Maximale Entfernung" aria-label="Maximale Entfernung" aria-describedby="Maximale Entfernung" value="{{ app.request.get('distance') }}">
+                        <span class="input-group-text" id="entfernung_label">km</span>
                     </div>
                 </div>
+
+                <div class="col-5">
+                    <div class="input-group mb-3">
+                        <div class="w-100" id="priceSlider" data-min-value="{{ lowestEntranceFee }}" data-max-value="{{ highestEntranceFee }}"></div>
+                    </div>
+                </div>
+
                 <div class="col-3">
-                    <select class="form-select">
-                        <option value="id_DESC">Neuste</option>
-                        <option value="id_ASC">Älteste</option>
-                        <option value="participants_DESC">Meiste Teilnehmer</option>
+                    <select class="form-select" id="sortBy">
+                        <option value="id_ASC">Neuste</option>
+                        <option value="id_DESC">Älteste</option>
+                        <option value="price_ASC">Preis aufsteigend</option>
+                        <option value="price_DESC">Preis absteigend</option>
+                        <option value="date_ASC">Begin aufsteigend</option>
+                        <option value="date_DESC">Begin absteigend</option>
                         <option value="participants_ASC">Wenigste Teilnehmer</option>
-                        <option value="entranceFee_ASC">Eintritt teuerste</option>
-                        <option value="entranceFee_ASC">Eintritt billigste</option>
+                        <option value="participants_DESC">Meiste Teilnehmer</option>
                     </select>
                 </div>
             </div>
@@ -95,7 +104,7 @@
             <div class="row">
                 {% if budBashes %}
                     {% for budBash in budBashes %}
-                        <div class="col-3 mb-3">
+                        <div class="col-3 mb-3 budBashParty" data-name="{{ budBash.name|lower }}" data-coordinates="{{ budBash.coordinates }}" data-price="{{ budBash.entranceFee }}" data-start="{{ budBash.start|date('Y-m-d\\TH:i:sP') }}" data-id="{{ budBash.id }}" data-count-participants="{{ budBash.participants|length }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h4>{{ budBash.name }}</h4>
@@ -104,6 +113,10 @@
                                     <p>{{ budBash.extraInfo|default('Der ersteller der Party hat keine Informationen angegeben.') }}</p>
                                     <hr>
                                     <p><b>Wo?</b> {{ budBash.address }}</p>
+                                    <iframe class="position-relative rounded"
+                                            src="https://www.google.com/maps/embed/v1/place?q={{ budBash.coordinates }}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                                            frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"
+                                            style="border: 0; width: 100%;"></iframe>
                                     <p><b>Eintritt?</b> {{ budBash.entranceFee }}€</p>
                                 </div>
                                 <a class="card-footer btn btn-primary bg-primary" href="{{ path('weedwizard_budbash_locator_attend_party', {id: budBash.id}) }}">

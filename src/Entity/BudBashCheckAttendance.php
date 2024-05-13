@@ -24,6 +24,9 @@ class BudBashCheckAttendance
     #[ORM\Column]
     private ?bool $checked_attendance = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $secret_string = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class BudBashCheckAttendance
     public function setCheckedAttendance(bool $checked_attendance): static
     {
         $this->checked_attendance = $checked_attendance;
+
+        return $this;
+    }
+
+    public function getSecretString(): ?string
+    {
+        return $this->secret_string;
+    }
+
+    public function setSecretString(string $secret_string): static
+    {
+        $this->secret_string = $secret_string;
 
         return $this;
     }

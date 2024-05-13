@@ -16,6 +16,9 @@ bearer:
 webpack-watch:
 	npm run watch
 
+test:
+	php bin/phpunit
+
 reset_db:
 	@echo "$(NC)                                                                  $(NC)"
 	@echo "$(BG_BLUE)                                                                  $(NC)"

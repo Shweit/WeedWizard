@@ -23,7 +23,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    {% for budBash in app.user.hostedBudBashes %}
+                    {% set budBashes = app.user.hostedBudBashes %}
+                    {% set budBashes = budBashes|sort((a, b) => a.start <=> b.start) %}
+                    {% for budBash in budBashes %}
+                        {% include 'budBash_locator/_my_party_attendance.html.twig' with {
+                            'budBash': budBash,
+                        } %}
                         <div class="col-12 mb-3">
                             <div class="card">
                                 <div class="card-body">
@@ -37,10 +42,13 @@
                                 </div>
                                 <div class="card-footer btn-group">
                                     <button class="btn btn-danger">Party absagen</button>
-                                    <button class="btn btn-secondary">Anwesenheitsliste</button>
-                                    {% if budBash.budBashCheckAttendances %}
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#attendanceModal-{{ budBash.id }}">Anwesenheitsliste</button>
+                                    {% if budBash.budBashCheckAttendances.first %}
                                         {% if budBash.start <= date('now') %}
-                                            <button href="#" class="btn btn-primary">Anwesenheit kontrollieren</button>
+                                            {% include 'budBash_locator/_my_party_check_attendance.html.twig' with {
+                                                'budBash': budBash,
+                                            } %}
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkAttendanceModal-{{ budBash.id }}">Anwesenheit kontrollieren</button>
                                         {% else %}
                                             <button disabled href="#" class="btn btn-primary disabled" data-bs-toggle="tooltip" data-bs-title="Du kannst erst die Anwesenheit kontrollieren, sobald die Party gestartet hat">Anwesenheit kontrollieren</button>
                                         {% endif %}
@@ -57,4 +65,9 @@
             Du musst dich einloggen, um diese Seite zu sehen.
         </div>
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('qrScanner') }}
 {% endblock %}

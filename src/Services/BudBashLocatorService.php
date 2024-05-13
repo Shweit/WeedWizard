@@ -6,11 +6,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BudBashLocatorService
 {
-
     public function __construct(
         private HttpClientInterface $httpClient,
-    )
-    {}
+    ) {}
 
     public function getBudBashCoordinates(string $mapbox_id): array
     {
@@ -32,5 +30,4 @@ class BudBashLocatorService
             'longitude' => $data['features'][0]['geometry']['coordinates'][0],
         ];
     }
-
 }
