@@ -7,20 +7,26 @@
         .container-fluid {
             margin: 1em;
             width: 98%}
-        .bd-highlight {
-            background-color: rgba(86,61,124,0.15);
-            border: 1px solid rgba(86,61,124,0.15);
-            height: 400px;
-        }
-        #filters {
+        #filters-container {
             width: 20%;
         }
-        /*.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }*/
-        /*.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }*/
+        .filter-icon {
+            margin-right: 0.5em;
+        }
+        #myTabContent {
+            height: 400px;
+        }
+        .cropped-img {
+            width: auto;
+            height: 200px;
+            overflow: hidden;
+            object-fit: cover;
+        }
+
     </style>
 
     <div class="container-fluid">
-        <h1 class="text-uppercase">Datenbank</h1>
+        <h1 class="text-uppercase mb-4">Datenbank</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Sorten</button>
@@ -34,11 +40,103 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="d-flex flex-row bd-highlight border-top-4">
-                    <div class="bd-highlight" id="filters">Filters item</div>
-                    <div class="flex-grow-1 bd-highlight" id="results">Results item
-                        <div class="grid">
-                            Hier weiter mit Grid
+                <div class="d-flex flex-row border-top-4" id="database-container">
+                    <div class="d-flex flex-column border-right" id="filters-container">
+
+{#                        {{ for filter in filters}}#}
+{#                            Herkunft#}
+                            <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
+                                <div class="flex-item">
+                                    <i class="fa-solid fa-sliders filter-icon"></i>
+                                    <span>Filter</span>
+                                </div>
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                            <div class="flex-item p-3">
+                                <div class="d-flex flex-row justify-content-between mb-2">
+                                    <span class="text-uppercase fw-bold">Herkunft</span>
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
+                                    <span>indica</span>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
+                                    <span>sativa</span>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
+                                    <span>ruderalis</span>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
+                                    <span>unbekannt</span>
+                                </div>
+                            </div>
+{#                        {{ endfor }}#}
+                    </div>
+
+                    <div class="flex-grow-1" id="results">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col p-3">
+                                    <div class="card rounded-3" style="width: auto;">
+                                        <div class="cropped-img rounded-top-3">
+                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">White Widow</h5>
+                                            <p class="card-text">Some description text</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Intensität: stark</li>
+                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
+                                        </ul>
+                                        <div class="card-body align-self-end">
+                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col p-3">
+                                    <div class="card rounded-3" style="width: auto;">
+                                        <div class="cropped-img rounded-top-3">
+                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">White Widow</h5>
+                                            <p class="card-text">Some description text</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Intensität: stark</li>
+                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
+                                        </ul>
+                                        <div class="card-body align-self-end">
+                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col p-3">
+                                    <div class="card rounded-3" style="width: auto;">
+                                        <div class="cropped-img rounded-top-3">
+                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">White Widow</h5>
+                                            <p class="card-text">Some description text</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Intensität: stark</li>
+                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
+                                        </ul>
+                                        <div class="card-body align-self-end">
+                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
