@@ -51,13 +51,20 @@
     <div class="m-5 mt-0">
         <div class="d-flex justify-content-between p-3 pb-0">
             <div class="block">
-                <h1>Vereine</h1>
-                <h3>Finde oder erstelle Vereine</h3>
+                <h1>Cannabis-Vereine</h1>
             </div>
             <a data-bs-toggle="modal" data-bs-target="#new_club"
                class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
         </div>
-        <hr>
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page">Verein suchen</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('my_club') }}">Mein Cannabis-Verein</a>
+            </li>
+        </ul>
 
         <div class="m-3">
             <div class="mb-3">

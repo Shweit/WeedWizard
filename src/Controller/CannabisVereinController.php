@@ -43,6 +43,12 @@ class CannabisVereinController extends AbstractController
 
             $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
 
+            if ($this->user->getCannabisVereine()->count() > 0) {
+                $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
+
+                return $this->redirectToRoute('cannabis_verein');
+            }
+
             $newVerein->addMitglieder($this->user);
             $newVerein->setErstelltVon($this->user);
 
@@ -63,7 +69,7 @@ class CannabisVereinController extends AbstractController
         ]);
     }
 
-    #[Route('/join-verein/{id}', name: 'join_verein')]
+    #[Route('/cannabis-verein/join/{id}', name: 'join_verein')]
     public function show(int $id): Response
     {
         $cannabisVerein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
@@ -93,6 +99,23 @@ class CannabisVereinController extends AbstractController
         }
 
         $cannabisVerein->addMitglieder($this->user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('my_club');
+    }
+
+    #[Route('/cannabis-verein/my-club', name: 'my_club')]
+    public function myClub(): Response
+    {
+        return $this->render('cannabis_verein/_my_club.html.twig');
+    }
+
+    #[Route('/cannabis-verein/leave', name: 'leave_verein')]
+    public function leaveVerein(): Response
+    {
+        $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
+
+        $this->user->getCannabisVereine()->first()->removeMitglieder($this->user);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('cannabis_verein');
