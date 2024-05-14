@@ -19,6 +19,9 @@ webpack-watch:
 test:
 	php bin/phpunit
 
+bearer:
+	./bin/bearer scan ./
+
 reset_db:
 	@echo "$(NC)                                                                  $(NC)"
 	@echo "$(BG_BLUE)                                                                  $(NC)"

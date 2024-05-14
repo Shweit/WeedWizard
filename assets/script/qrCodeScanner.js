@@ -1,4 +1,5 @@
 import jsQR from "jsqr";
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialisiere die Event Listener für alle Modal Elemente
@@ -22,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     modal.scanning = true;
                     scanQRCode(videoElement, modal);
                 }).catch(err => {
-                    console.error(err);
                     const errorAlert = document.getElementById(`checkAttendanceModal-errorAlert-${budBashId}`);
                     errorAlert.textContent = 'Fehler beim Zugriff auf die Kamera';
                     errorAlert.style.display = 'block';
@@ -69,7 +69,7 @@ function scanQRCode(video, modal) {
 
         drawFrame();
     } else {
-        console.error("2D Context mit willReadFrequently kann nicht initialisiert werden.");
+        alert("2D Context mit willReadFrequently kann nicht initialisiert werden.");
     }
 }
 
@@ -98,20 +98,19 @@ function handleData(data, budBashId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert.innerHTML = data.success;
+                    alert.innerHTML = sanitizeHtml(data.success);
                     alert.className = 'alert alert-success';
                     alert.style.display = 'block';
                 } else {
-                    alert.innerHTML = data.error;
+                    alert.innerHTML = sanitizeHtml(data.error);
                     alert.className = 'alert alert-danger';
                     alert.style.display = 'block';
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                aler('Error:', error);
             });
     } else {
-        console.error('Ungültiger QR-Code:', data);
         alert.innerHTML = 'Ungültiger QR-Code';
         alert.style.display = 'block';
     }

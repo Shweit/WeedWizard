@@ -1,4 +1,5 @@
 import nouislider from "nouislider";
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 document.addEventListener('DOMContentLoaded', function() {
     let address_input = document.getElementById('bud_bash_address');
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const suggestion_item = document.createElement('li');
                     suggestion_item.classList.add('list-group-item');
                     suggestion_item.classList.add('list-group-item-action');
-                    suggestion_item.innerHTML = suggestion.name + ', ' + suggestion.place_formatted;
+                    suggestion_item.innerHTML = sanitizeHtml(suggestion.name + ', ' + suggestion.place_formatted);
                     suggestion_item.addEventListener('click', function() {
                         address_input.value = suggestion.name + ', ' + suggestion.place_formatted;
                         document.getElementById('bud_bash_mapbox_id').value = suggestion.mapbox_id;
@@ -213,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     cachedGeoLocation = geoLocation;
                     applyFilter(cachedGeoLocation);
                 }).catch(error => {
-                    console.error("Error getting location: " + error.message);
                     alert('Geolocation nicht verfügbar. Bitte erlauben Sie den Zugriff auf Ihren Standort, oder versuche es später erneut.');
                 });
             } else {
