@@ -10,7 +10,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class NotificationFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager)
     {
         $notification = new Notification();
