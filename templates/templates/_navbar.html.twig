@@ -76,12 +76,7 @@
                             </h6>
 
                                 <ul aria-labelledby="alertsDropdown" style="padding: 0">
-                                    <li class="alert-item">
-                                        <div class="alert-content">
-                                            <div class="text-truncate" style="width: 300px">Hier kommen iteriert die Benachrichtigungen rein</div>
-                                            <div class="alert-date">December 29, 2021</div>
-                                        </div>
-                                    </li>
+                                    {% include 'templates/_notification.html.twig' %}
                                 </ul>
 
                             <a class="dropdown-item dropdown-notifications-footer" href="#!">Alle Benachrichtigungen</a>
@@ -99,7 +94,7 @@
                                 </div>
                             </h6>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item d-flex align-items-center" href="#!">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
                                 Logout
                             </a>
