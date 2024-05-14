@@ -1,0 +1,12 @@
+{# Show only the last 5 Notifications in the dropdown #}
+{% set notifications = app.user.notifications | sort((a, b) => a.id > b.id) | slice(-5) | sort((a, b) => a.id < b.id) %}
+
+{% for notification in notifications %}
+    <li class="alert-item">
+        <div class="alert-content">
+            <div class="text-truncate alert-date" style="width: 300px; font-weight: bolder">{{ notification.type|humanize|upper }}</div>
+            <div class="text-truncate" style="width: 300px">{{ notification.text }}</div>
+            <div class="alert-date">{{ notification.createdAt|format_datetime('full', 'short', locale='de') }}</div>
+        </div>
+    </li>
+{% endfor %}

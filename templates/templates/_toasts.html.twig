@@ -1,0 +1,20 @@
+<div data-toast-container style="position: absolute; top: 1rem; right: 1rem; z-index: 9999;">
+    {% for notice in app.flashes('success') %}
+        <div class="toast border-success" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1; margin-bottom: 10px;">
+            <div class="toast-header text-success">
+                <strong>WeedWizard</strong>
+            </div>
+            <div class="toast-body">{{ notice|raw }}</div>
+        </div>
+    {% endfor %}
+
+    {% for notice in app.flashes('error') %}
+        <div class="toast border-danger" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1; margin-bottom: 10px;">
+            <div class="toast-header text-danger">
+                <i style="margin-right: .5em" data-feather="alert-octagon"></i>
+                <strong>WeedWizard</strong>
+            </div>
+            <div class="toast-body">{{ notice|raw }}</div>
+        </div>
+    {% endfor %}
+</div>

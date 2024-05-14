@@ -25,7 +25,6 @@
         setTheme(getPreferredTheme())
 
         const showActiveTheme = (theme, focus = false) => {
-            console.log(theme)
             const themeSwitcher = document.querySelector('#bd-theme')
 
             if (!themeSwitcher) {
@@ -44,8 +43,6 @@
             } else {
                 svgOfActiveBtn = svgOfActiveBtn.getAttribute('class')
             }
-
-            console.log(svgOfActiveBtn)
 
             document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
                 element.classList.remove('active')

@@ -9,6 +9,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    const USER_REFERENCE = 'user';
+
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
     ) {}
@@ -31,5 +33,7 @@ class UserFixtures extends Fixture
 
         $manager->persist($user);
         $manager->flush();
+
+        $this->setReference(self::USER_REFERENCE, $user);
     }
 }
