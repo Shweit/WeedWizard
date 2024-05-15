@@ -67,7 +67,7 @@ class CannabisVereinController extends AbstractController
     }
 
     #[Route('/cannabis-verein/join/{id}', name: 'join_verein')]
-    public function show(int $id): Response
+    public function joinClub(int $id): Response
     {
         $cannabisVerein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
         if (!$cannabisVerein) {
@@ -107,7 +107,7 @@ class CannabisVereinController extends AbstractController
     }
 
     #[Route('/cannabis-verein/leave', name: 'leave_verein')]
-    public function leaveVerein(): Response
+    public function leaveClub(): Response
     {
         $this->weedWizardKernel->getUser()->getCannabisVereine()->first()->removeMitglieder($this->weedWizardKernel->getUser());
         $this->entityManager->flush();
