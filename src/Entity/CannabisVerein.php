@@ -19,21 +19,6 @@ class CannabisVerein
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $strasse = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $hausnummer = null;
-
-    #[ORM\Column]
-    private ?int $plz = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $ort = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adresszusatz = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
@@ -79,66 +64,6 @@ class CannabisVerein
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStrasse(): ?string
-    {
-        return $this->strasse;
-    }
-
-    public function setStrasse(string $Strasse): static
-    {
-        $this->strasse = $Strasse;
-
-        return $this;
-    }
-
-    public function getHausnummer(): ?string
-    {
-        return $this->hausnummer;
-    }
-
-    public function setHausnummer(string $hausnummer): static
-    {
-        $this->hausnummer = $hausnummer;
-
-        return $this;
-    }
-
-    public function getPlz(): ?int
-    {
-        return $this->plz;
-    }
-
-    public function setPlz(int $plz): static
-    {
-        $this->plz = $plz;
-
-        return $this;
-    }
-
-    public function getOrt(): ?string
-    {
-        return $this->ort;
-    }
-
-    public function setOrt(string $ort): static
-    {
-        $this->ort = $ort;
-
-        return $this;
-    }
-
-    public function getAdresszusatz(): ?string
-    {
-        return $this->adresszusatz;
-    }
-
-    public function setAdresszusatz(?string $adresszusatz): static
-    {
-        $this->adresszusatz = $adresszusatz;
 
         return $this;
     }

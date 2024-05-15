@@ -103,10 +103,6 @@ class CannabisVereinType extends AbstractType
                     'placeholder' => 'Ort',
                 ],
             ])
-            ->add('adresszusatz', TextType::class, [
-                'required' => false,
-                'label' => 'Adresszusatz',
-            ])
             ->add('website', UrlType::class, [
                 'required' => false,
                 'label' => 'Website',
