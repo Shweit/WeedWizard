@@ -54,7 +54,7 @@
                 <h1>Cannabis-Vereine</h1>
             </div>
             <a data-bs-toggle="modal" data-bs-target="#new_club"
-               class="align-self-center btn btn-primary align-self-end">Verein erstellen</a>
+               class="btn btn-primary align-self-center">Verein erstellen</a>
         </div>
 
         <ul class="nav nav-tabs mb-3">
@@ -136,29 +136,36 @@
             </div>
 
             <div class="row justify-content-around">
-                {% for verein in cannabisVereine %}
-                    <div class="col-4 mb-3">
-                        <div class="card">
-                            <h3 class="card-header">{{ verein.name }}</h3>
-                            <div class="card-body">
-                                <p class="card-text">{{ verein.beschreibung }}</p>
-                                <hr>
-                                <p class="card-text">Adresse: {{ verein.adresse }}</p>
-                                {% if verein.website != null %}
-                                    <p class="card-text">Website: {{ verein.website }}</p>
-                                {% endif %}
+                {% if cannabisVereine %}
+                    {% for verein in cannabisVereine %}
+                        <div class="col-4 mb-3">
+                            <div class="card">
+                                <h3 class="card-header">{{ verein.name }}</h3>
+                                <div class="card-body">
+                                    <p class="card-text">{{ verein.beschreibung }}</p>
+                                    <hr>
+                                    <p class="card-text">Adresse: {{ verein.adresse }}</p>
+                                    {% if verein.website != null %}
+                                        <p class="card-text">Website: {{ verein.website }}</p>
+                                    {% endif %}
 
-                                {% if verein.mitgliedsbeitrag == null %}
-                                    <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
-                                {% else %}
-                                    <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
-                                {% endif %}
+                                    {% if verein.mitgliedsbeitrag == null %}
+                                        <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                                    {% else %}
+                                        <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ path('join_verein', {'id': verein.id}) }}"
+                                   class="btn btn-primary card-footer bg-primary text-light w-100">
+                                    Verein beitreten</a>
                             </div>
-                            <a href="{{ path('join_verein', {'id': verein.id}) }}" class="btn btn-primary card-footer bg-primary text-light w-100">
-                                Verein beitreten</a>
                         </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        Es wurden keine Vereine für die gewählten Filter gefunden.
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
