@@ -1,5 +1,7 @@
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
+
 document.addEventListener('DOMContentLoaded', function() {
-    address_input = document.getElementById('cannabis_verein_adresse');
+    let address_input = document.getElementById('cannabis_verein_adresse');
 
     function handleAddressInput(event) {
         const input = event.target.value;
@@ -24,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     const suggestion_item = document.createElement('li');
                     suggestion_item.classList.add('list-group-item');
                     suggestion_item.classList.add('list-group-item-action');
-                    suggestion_item.innerHTML = suggestion.name + ', ' + suggestion.place_formatted;
+                    suggestion_item.innerHTML = sanitizeHtml(suggestion.name + ', ' + suggestion.place_formatted);
                     suggestion_item.addEventListener('click', function() {
                         address_input.value = suggestion.name + ', ' + suggestion.place_formatted;
-                        document.getElementById('bud_bash_mapbox_id').value = suggestion.mapbox_id;
+                        document.getElementById('cannabis_verein_mapbox_id').value = suggestion.mapbox_id;
                         document.getElementById('cannabis_verein_strasse').value = suggestion.context.street.name;
                         if (suggestion.context.address) {
                             document.getElementById('cannabis_verein_hausnummer').value = suggestion.context.address.address_number;

@@ -42,6 +42,7 @@ class CannabisVereinType extends AbstractType
                 'required' => false,
             ])
             ->add('strasse', TextType::class, [
+                'mapped' => false,
                 'required' => true,
                 'label' => 'Straße',
                 'disabled' => true,
@@ -52,6 +53,7 @@ class CannabisVereinType extends AbstractType
                 ],
             ])
             ->add('hausnummer', TextType::class, [
+                'mapped' => false,
                 'required' => true,
                 'label' => 'Hausnummer',
                 'disabled' => true,
@@ -62,7 +64,7 @@ class CannabisVereinType extends AbstractType
                 ],
             ])
             ->add('plz', IntegerType::class, [
-//                'mapped' => false,
+                'mapped' => false,
                 'required' => true,
                 'label' => 'PLZ',
                 'disabled' => true,
@@ -79,6 +81,7 @@ class CannabisVereinType extends AbstractType
                 ],
             ])
             ->add('ort', TextType::class, [
+                'mapped' => false,
                 'required' => true,
                 'disabled' => true,
                 'label' => 'Ort',

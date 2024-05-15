@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\CannabisVerein;
-use App\Entity\User;
 use App\Form\CannabisVereinType;
 use App\Services\CannabisVereinService;
+use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CannabisVereinController extends AbstractController
 {
-    private User $user;
-
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly CannabisVereinService $cannabisVereinService,
+        private readonly WeedWizardKernel $weedWizardKernel,
     ) {}
 
     #[Route('/cannabis-verein', name: 'cannabis_verein')]
@@ -27,7 +26,8 @@ class CannabisVereinController extends AbstractController
         $cannabisVereine = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
 
         $cannabisVereine = array_filter($cannabisVereine, function ($verein) {
-            return $verein->getErstelltVon() !== $this->getUser() && !$verein->getMitglieder()->contains($this->getUser());
+            return $verein->getErstelltVon() !== $this->weedWizardKernel->getUser()
+                && !$verein->getMitglieder()->contains($this->weedWizardKernel->getUser());
         });
 
         $newVerein = new CannabisVerein();
@@ -41,18 +41,15 @@ class CannabisVereinController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
-
-            if ($this->user->getCannabisVereine()->count() > 0) {
+            if ($this->weedWizardKernel->getUser()->getCannabisVereine()->count() > 0) {
                 $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
 
                 return $this->redirectToRoute('cannabis_verein');
             }
 
-            $newVerein->addMitglieder($this->user);
-            $newVerein->setErstelltVon($this->user);
+            $newVerein->addMitglieder($this->weedWizardKernel->getUser());
+            $newVerein->setErstelltVon($this->weedWizardKernel->getUser());
 
-            // TODO: Get coordinates from mapbox ask @Shweit
             $mapbox_id = $form->get('mapbox_id')->getData();
             $coordinates = $this->cannabisVereinService->getClubCoordinates($mapbox_id);
             $newVerein->setCoordinaten($coordinates['latitude'] . ',' . $coordinates['longitude']);
@@ -85,20 +82,19 @@ class CannabisVereinController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
-        if ($this->user->getCannabisVereine()->count() > 0) {
+        if ($this->weedWizardKernel->getUser()->getCannabisVereine()->count() > 0) {
             $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
 
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        if ($cannabisVerein->getMitglieder()->contains($this->user) || $cannabisVerein->getErstelltVon() === $this->user) {
+        if ($cannabisVerein->getMitglieder()->contains($this->weedWizardKernel->getUser()) || $cannabisVerein->getErstelltVon() === $this->weedWizardKernel->getUser()) {
             $this->addFlash('danger', 'Du bist bereits Mitglied in diesem Verein.');
 
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        $cannabisVerein->addMitglieder($this->user);
+        $cannabisVerein->addMitglieder($this->weedWizardKernel->getUser());
         $this->entityManager->flush();
 
         return $this->redirectToRoute('my_club');
@@ -113,9 +109,7 @@ class CannabisVereinController extends AbstractController
     #[Route('/cannabis-verein/leave', name: 'leave_verein')]
     public function leaveVerein(): Response
     {
-        $this->user = $this->entityManager->getRepository(User::class)->findByEmail($this->getUser()->getUserIdentifier());
-
-        $this->user->getCannabisVereine()->first()->removeMitglieder($this->user);
+        $this->weedWizardKernel->getUser()->getCannabisVereine()->first()->removeMitglieder($this->weedWizardKernel->getUser());
         $this->entityManager->flush();
 
         return $this->redirectToRoute('cannabis_verein');
