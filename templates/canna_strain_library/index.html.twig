@@ -44,7 +44,6 @@
                     <div class="d-flex flex-column border-right" id="filters-container">
 
 {#                        {{ for filter in filters}}#}
-{#                            Herkunft#}
                             <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
                                 <div class="flex-item">
                                     <i class="fa-solid fa-sliders filter-icon"></i>
@@ -52,8 +51,9 @@
                                 </div>
                                 <i class="fa-solid fa-xmark"></i>
                             </div>
+
                             <div class="flex-item p-3">
-                                <div class="d-flex flex-row justify-content-between mb-2">
+                                <div class="d-flex flex-row justify-content-between mb-3">
                                     <span class="text-uppercase fw-bold">Herkunft</span>
                                     <i class="fa-solid fa-caret-down"></i>
                                 </div>
@@ -74,6 +74,59 @@
                                     <span>unbekannt</span>
                                 </div>
                             </div>
+
+                            <div class="flex-item p-3">
+                                <div class="d-flex flex-row justify-content-between mb-3">
+                                    <span class="text-uppercase fw-bold">Strain-Typ</span>
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </div>
+                                <div class="mb-2">
+                                    <span>Nur nicht femisierte</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span>nur femisierte</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span>close only strains</span>
+                                </div>
+                            </div>
+
+                            <div class="flex-item p-3">
+                                <div class="d-flex flex-row justify-content-between mb-3">
+                                    <span class="text-uppercase fw-bold">Preisspanne</span>
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </div>
+                                <div class="d-flex flex-row gap-4 mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">€</span>
+                                        <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="min">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">€</span>
+                                        <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="max">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-item p-3">
+                                <div class="d-flex flex-row justify-content-between mb-3">
+                                    <span class="text-uppercase fw-bold">Aufzucht</span>
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-house fa-sm filter-icon"></i>
+                                    <span>Indoor-Sorten</span>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
+                                    <span>Outdoor-Sorten</span>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
+                                    <span>Lorem ipsum</span>
+                                </div>
+                            </div>
+
 {#                        {{ endfor }}#}
                     </div>
 
@@ -81,7 +134,24 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col p-3">
-                                    <div class="card rounded-3" style="width: auto;">
+                                    <div class="card rounded-3 mb-4" style="width: auto;">
+                                        <div class="cropped-img rounded-top-3">
+                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">White Widow</h5>
+                                            <p class="card-text">Some description text</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Intensität: stark</li>
+                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
+                                        </ul>
+                                        <div class="card-body align-self-end">
+                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="card rounded-3 mb-4" style="width: auto;">
                                         <div class="cropped-img rounded-top-3">
                                             <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
                                         </div>
@@ -100,7 +170,7 @@
                                 </div>
 
                                 <div class="col p-3">
-                                    <div class="card rounded-3" style="width: auto;">
+                                    <div class="card rounded-3 mb-4" style="width: auto;">
                                         <div class="cropped-img rounded-top-3">
                                             <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
                                         </div>
@@ -119,7 +189,7 @@
                                 </div>
 
                                 <div class="col p-3">
-                                    <div class="card rounded-3" style="width: auto;">
+                                    <div class="card rounded-3 mb-4" style="width: auto;">
                                         <div class="cropped-img rounded-top-3">
                                             <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
                                         </div>
