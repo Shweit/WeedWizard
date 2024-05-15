@@ -91,10 +91,6 @@ class CannabisVereinType extends AbstractType
                     ),
                 ],
             ])
-            ->add('adresszusatz', TextType::class, [
-                'required' => false,
-                'label' => 'Adresszusatz',
-            ])
             ->add('website', UrlType::class, [
                 'required' => false,
                 'label' => 'Website',

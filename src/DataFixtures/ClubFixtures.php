@@ -35,11 +35,6 @@ class ClubFixtures extends Fixture
             $club->setName('Club-' . $i);
             $club->setAdresse('Hauptstraße ' . $i . ', 12345 Berlin');
             $club->setCoordinaten('52.520008, 13.404954');
-            $club->setStrasse('Hauptstraße');
-            $club->setHausnummer(strval($i));
-            $club->setPlz(12345);
-            $club->setOrt('Berlin');
-            $club->setAdresszusatz('');
             $club->setWebsite('dummy-verein.de');
             $club->setMitgliedsbeitrag(strval(rand(100, 10000) / 100));
             $club->setBeschreibung($loremIpsum);
