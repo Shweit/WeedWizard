@@ -19,18 +19,18 @@ class ClubFixtures extends Fixture
         $loremIpsum = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
         $hausnummer = 10;
 
-        $user = new User();
-
-        $user->setEmail('dev-verein-user@weedwizard.de');
-        $user->setPassword(
-            $this->passwordHasher->hashPassword(
-                $user,
-                'SicheresPasswort'
-            )
-        );
-        $manager->persist($user);
 
         for ($i = 1; $i <= $hausnummer; ++$i) {
+            $user = new User();
+
+            $user->setEmail($this->generateRandomEmail());
+            $user->setPassword(
+                $this->passwordHasher->hashPassword(
+                    $user,
+                    'SicheresPasswort'
+                )
+            );
+
             $club = new CannabisVerein();
             $club->setName('Club-' . $i);
             $club->setAdresse('Hauptstraße ' . $i . ', 12345 Berlin');
@@ -42,9 +42,16 @@ class ClubFixtures extends Fixture
             $club->setErstelltVon($user);
             $club->addMitglieder($user);
 
+            $manager->persist($user);
             $manager->persist($club);
         }
 
         $manager->flush();
+    }
+
+    private function generateRandomEmail(): string
+    {
+        $email = rand(100, 100000);
+        return $email .= '@weedwizard.de';
     }
 }
