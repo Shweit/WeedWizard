@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ComplianceMapController!{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('leafletConfig') }}
+{% endblock %}
+
+{% block body %}
+
+    <div id="map"></div>
+
+
+{% endblock %}
