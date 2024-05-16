@@ -106,10 +106,20 @@ class CannabisVereinController extends AbstractController
         return $this->render('cannabis_verein/_my_club.html.twig');
     }
 
-    #[Route('/cannabis-verein/leave', name: 'leave_verein')]
-    public function leaveClub(): Response
+    #[Route('/cannabis-verein/leave/{id}', name: 'leave_verein')]
+    public function leaveClub(int $id): Response
     {
-        $this->weedWizardKernel->getUser()->getCannabisVereine()->first()->removeMitglieder($this->weedWizardKernel->getUser());
+        $verein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
+        $user = $this->weedWizardKernel->getUser();
+
+        if($verein->getMitglieder()->count() === 1) {
+            $user->removeCannabisVereine($verein);
+            $user->removeErstellteVereine($verein);
+            $this->entityManager->remove($verein);
+        } else {
+            $verein->removeMitglieder($this->weedWizardKernel->getUser());
+            $user->getCannabisVereine()->first()->removeMitglieder($this->weedWizardKernel->getUser());
+        }
         $this->entityManager->flush();
 
         return $this->redirectToRoute('cannabis_verein');

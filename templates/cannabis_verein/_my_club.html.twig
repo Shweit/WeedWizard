@@ -49,7 +49,7 @@
                         {% endif %}
                     </div>
                     <div class="card-footer">
-                        <a href="{{ path('leave_verein') }}" class="btn btn-danger">Verein verlassen</a>
+                        <a href="{{ path('leave_verein', {'id': verein.id}) }}" class="btn btn-danger">Verein verlassen</a>
                     </div>
                 </div>
             {% endif %}
