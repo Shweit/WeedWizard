@@ -112,7 +112,7 @@ class CannabisVereinController extends AbstractController
         $verein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
         $user = $this->weedWizardKernel->getUser();
 
-        if($verein->getMitglieder()->count() === 1) {
+        if ($verein->getMitglieder()->count() === 1) {
             $user->removeCannabisVereine($verein);
             $user->removeErstellteVereine($verein);
             $this->entityManager->remove($verein);
