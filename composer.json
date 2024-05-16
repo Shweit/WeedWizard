@@ -46,10 +46,10 @@
         "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "7.0.*",
         "twig/extra-bundle": "^2.12|^3.0",
+        "ext-pdo": "*",
         "twig/twig": "^2.12|^3.0",
         "ext-curl": "*",
-        "twig/intl-extra": "^3.9",
-        "ext-pdo": "*"
+        "twig/intl-extra": "^3.9"
     },
     "config": {
         "allow-plugins": {

@@ -9,6 +9,7 @@ let userMarkers = [];
 let budBashMarkers = [];
 let publicMarkers = [];
 
+// Initialize the map
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
         maxZoom: 18,

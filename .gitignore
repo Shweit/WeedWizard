@@ -36,3 +36,5 @@ yarn-error.log
 # Maps
 /src/Command/GEOjson/*
 /logfile
+germany-latest.osm.pbf
+germany-latest-with-tags.osm.pbf
