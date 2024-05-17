@@ -1,5 +1,4 @@
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
-import nouislider from "nouislider";
 
 document.addEventListener('DOMContentLoaded', function () {
     let address_input = document.getElementById('cannabis_verein_adresse');
@@ -53,26 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
         applyFilter();
     });
 
-    let priceSlider = document.getElementById('priceSlider');
-    if (priceSlider) {
-        nouislider.create(priceSlider, {
-            start: [parseInt(priceSlider.dataset.minValue), parseInt(priceSlider.dataset.maxValue)],
-            connect: true,
-            range: {
-                'min': parseInt(priceSlider.dataset.minValue),
-                'max': parseInt(priceSlider.dataset.maxValue)
-            },
-            tooltips: true,
-            pips: {
-                mode: 'steps',
-                stepped: true,
-                density: 4
-            }
-        });
-    }
-    priceSlider.noUiSlider.on('change', function (values, handle) {
+    let priceMin = document.getElementById('priceMin');
+    priceMin.addEventListener("change", function () {
         applyFilter();
-    });
+    })
+
+    let priceMax = document.getElementById('priceMax');
+    priceMax.addEventListener("change", function () {
+        applyFilter();
+    })
 
     let searchClub = document.getElementById('searchClub');
     searchClub.addEventListener('keyup', function () {
@@ -181,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 visible = false;
             }
 
-            if (priceSlider.noUiSlider.get()[0] > price || priceSlider.noUiSlider.get()[1] < price) {
+            if (((priceMin.value.trim() !== '') && price < priceMin.value) || (priceMax.value.trim() !== '' && price >= priceMax.value)) {
                 visible = false;
             }
 

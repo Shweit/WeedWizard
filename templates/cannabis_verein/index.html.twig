@@ -65,26 +65,33 @@
 
         <div class="row">
             <div class="col-md-12">
-                <input type="text" class="form-control mb-3" id="searchClub" placeholder="Suche nach Name...">
+                <input type="text" class="form-control mb-3" aria-label="Suche" id="searchClub"
+                       placeholder="Suche nach Name...">
                 <div class="row mb-4">
-                    <div class="col-4">
-                        <div class="input-group mb-3">
-                            <input type="number" id="entfernung" class="form-control" placeholder="Maximale Entfernung"
-                                   aria-label="Maximale Entfernung" aria-describedby="Maximale Entfernung"
-                                   value="{{ app.request.get('distance') }}">
-                            <span class="input-group-text" id="entfernung_label">km</span>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <input type="number" id="entfernung" class="form-control"
+                                   placeholder="Maximale Entfernung" aria-label="Maximale Entfernung"
+                                   aria-describedby="Maximale Entfernung">
+                            <span class="input-group-text"
+                                  id="entfernung_label">km</span>
                         </div>
                     </div>
 
-                    <div class="col-5">
-                        <div class="input-group mb-3">
-                            <div class="w-100" id="priceSlider" data-min-value="{{ lowestPrice }}"
-                                 data-max-value="{{ highestPrice }}"></div>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <input type="number" id="priceMin" class="form-control" placeholder="Min."
+                                   aria-label="Preis" value="{{ lowestPrice }}">
+                            <span class="input-group-text">€</span>
+                            <span class="input-group-text"> - </span>
+                            <input type="number" id="priceMax" class="form-control" placeholder="Max."
+                                   aria-label="Preis" value="{{ highestPrice }}">
+                            <span class="input-group-text">€</span>
                         </div>
                     </div>
 
-                    <div class="col-3">
-                        <select class="form-select" id="sortBy">
+                    <div class="col-2 offset-6">
+                        <select class="form-select" aria-label="sort" id="sortBy">
                             <option value="id_ASC">Neuste</option>
                             <option value="id_DESC">Älteste</option>
                             <option value="price_ASC">Preis aufsteigend</option>
@@ -131,6 +138,5 @@
                 </div>
             {% endif %}
         </div>
-    </div>
     </div>
 {% endblock %}
