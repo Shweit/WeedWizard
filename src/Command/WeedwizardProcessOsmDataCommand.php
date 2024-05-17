@@ -4,9 +4,7 @@ namespace App\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -40,6 +38,7 @@ class WeedwizardProcessOsmDataCommand extends Command
             $io->section('Osmium is not installed. Installing Osmium...');
             if (!$this->installOsmium()) {
                 $io->error('Failed to install Osmium.');
+
                 return Command::FAILURE;
             }
             $io->success('Osmium installed successfully.');
@@ -56,6 +55,7 @@ class WeedwizardProcessOsmDataCommand extends Command
         $fileSize = $this->getRemoteFileSize($url);
         if ($fileSize === false) {
             $io->error('Failed to retrieve the file size.');
+
             return Command::FAILURE;
         }
 
@@ -69,6 +69,7 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         if ($readHandle === false || $writeHandle === false) {
             $io->error('Failed to open file handles.');
+
             return Command::FAILURE;
         }
 
@@ -80,7 +81,7 @@ class WeedwizardProcessOsmDataCommand extends Command
             $progressBar->setProgress($downloadedBytes);
             $formattedDownloaded = $this->formatBytes($downloadedBytes);
             $formattedTotal = $this->formatBytes($fileSize);
-            $progressBar->setMessage("$formattedDownloaded / $formattedTotal", 'info');
+            $progressBar->setMessage("{$formattedDownloaded} / {$formattedTotal}", 'info');
         }
 
         fclose($readHandle);
@@ -122,7 +123,7 @@ class WeedwizardProcessOsmDataCommand extends Command
             'nwr/leisure=water_park',
             'nwr/leisure=golf_course',
             'nwr/leisure=indoor_play',
-            '-o', $filteredOsmFilePath
+            '-o', $filteredOsmFilePath,
         ];
 
         $process = new Process($tagsFilterCommand);
@@ -141,7 +142,7 @@ class WeedwizardProcessOsmDataCommand extends Command
         $geoJsonFilePath = 'germany-latest-with-tags.geojson';
         $convertCommand = [
             'osmtogeojson',
-            $filteredOsmFilePath
+            $filteredOsmFilePath,
         ];
 
         // Create the process and redirect output to file
@@ -163,6 +164,7 @@ class WeedwizardProcessOsmDataCommand extends Command
     {
         $process = new Process(['which', 'osmium']);
         $process->run();
+
         return $process->isSuccessful();
     }
 
@@ -176,6 +178,7 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         $process = new Process(['npm', 'install', '-g', 'osmtogeojson']);
         $process->run();
+
         return $process->isSuccessful();
     }
 
@@ -196,7 +199,7 @@ class WeedwizardProcessOsmDataCommand extends Command
         }
 
         if (preg_match('/Content-Length: (\d+)/', $data, $matches)) {
-            return (int) $matches[1];
+            return (int)$matches[1];
         }
 
         return false;
@@ -209,6 +212,7 @@ class WeedwizardProcessOsmDataCommand extends Command
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
+
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
 }
