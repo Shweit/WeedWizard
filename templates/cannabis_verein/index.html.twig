@@ -122,7 +122,7 @@
                                 {% if verein.mitgliedsbeitrag == null %}
                                     <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
                                 {% else %}
-                                    <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                                    <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}€</p>
                                 {% endif %}
                             </div>
                             <a href="{{ path('join_verein', {'id': verein.id}) }}"
