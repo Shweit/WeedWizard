@@ -30,6 +30,14 @@ class CannabisVereinController extends AbstractController
                 && !$verein->getMitglieder()->contains($this->weedWizardKernel->getUser());
         });
 
+        $lowestPrice = round(min(array_map(function ($verein) {
+            return $verein->getMitgliedsbeitrag();
+        }, $cannabisVereine)) - 1);
+
+        $highestPrice = round(max(array_map(function ($verein) {
+            return $verein->getMitgliedsbeitrag();
+        }, $cannabisVereine)) + 1);
+
         $newVerein = new CannabisVerein();
         $form = $this->createForm(CannabisVereinType::class, $newVerein);
 
@@ -62,6 +70,8 @@ class CannabisVereinController extends AbstractController
 
         return $this->render('cannabis_verein/index.html.twig', [
             'cannabisVereine' => $cannabisVereine,
+            'lowestPrice' => $lowestPrice,
+            'highestPrice' => $highestPrice,
             'form' => $form->createView(),
         ]);
     }

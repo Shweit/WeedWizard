@@ -63,107 +63,74 @@
             </li>
         </ul>
 
-        <div class="m-3 mt-4">
-            <div class="mb-3">
-                <div class="btn-group ">
-                    <button type="button" class="btn btn-primary">Filter</button>
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                    </button>
-                    <ul class="dropdown-menu p-2 mb-1">
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter1
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter2
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter3
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="btn-group" style="margin-left: 10px">
-                    <button type="button" class="btn btn-primary">Sortierung</button>
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                    </button>
-                    <ul class="dropdown-menu p-2 mb-1">
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter1
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter2
-                            </label>
-                        </li>
-                        <li>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                <input class="form-check-input" type="checkbox">
-                                Filter3
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row">
-                {% if cannabisVereine %}
-                    {% for verein in cannabisVereine %}
-                        <div class="col-4 mb-3">
-                            <div class="card">
-                                <h3 class="card-header">{{ verein.name }}</h3>
-                                <div class="card-body">
-                                    <p class="card-text">{{ verein.beschreibung }}</p>
-                                    <hr>
-                                    <p class="card-text">Adresse: {{ verein.adresse }}</p>
-                                    {% if verein.website != null %}
-                                        <p class="card-text">Website: {{ verein.website }}</p>
-                                    {% endif %}
-
-                                    {% if verein.mitgliedsbeitrag == null %}
-                                        <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
-                                    {% else %}
-                                        <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
-                                    {% endif %}
-                                </div>
-                                <a href="{{ path('join_verein', {'id': verein.id}) }}"
-                                   class="btn btn-primary card-footer bg-primary text-light w-100">
-                                    Verein beitreten</a>
-                            </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" class="form-control mb-3" id="searchClub" placeholder="Suche nach Name...">
+                <div class="row mb-4">
+                    <div class="col-4">
+                        <div class="input-group mb-3">
+                            <input type="number" id="entfernung" class="form-control" placeholder="Maximale Entfernung"
+                                   aria-label="Maximale Entfernung" aria-describedby="Maximale Entfernung"
+                                   value="{{ app.request.get('distance') }}">
+                            <span class="input-group-text" id="entfernung_label">km</span>
                         </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="alert alert-warning" role="alert">
-                        Es wurden keine Vereine für die gewählten Filter gefunden.
                     </div>
-                {% endif %}
+
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <div class="w-100" id="priceSlider" data-min-value="{{ lowestPrice }}"
+                                 data-max-value="{{ highestPrice }}"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <select class="form-select" id="sortBy">
+                            <option value="id_ASC">Neuste</option>
+                            <option value="id_DESC">Älteste</option>
+                            <option value="price_ASC">Preis aufsteigend</option>
+                            <option value="price_DESC">Preis absteigend</option>
+                            <option value="participants_ASC">Wenigste Teilnehmer</option>
+                            <option value="participants_DESC">Meiste Teilnehmer</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            {% if cannabisVereine %}
+                {% for verein in cannabisVereine %}
+                    <div class="col-4 mb-3 cannabisClubs" data-name="{{ verein.name|lower }}"
+                         data-coordinates="{{ verein.coordinaten }}" data-price="{{ verein.mitgliedsbeitrag }}"
+                         data-id="{{ verein.id }}" data-count-participants="{{ verein.mitglieder|length }}">
+                        <div class=" card">
+                            <h3 class="card-header">{{ verein.name }}</h3>
+                            <div class="card-body">
+                                <p class="card-text">{{ verein.beschreibung }}</p>
+                                <hr>
+                                <p class="card-text">Adresse: {{ verein.adresse }}</p>
+                                {% if verein.website != null %}
+                                    <p class="card-text">Website: {{ verein.website }}</p>
+                                {% endif %}
+
+                                {% if verein.mitgliedsbeitrag == null %}
+                                    <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                                {% else %}
+                                    <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                                {% endif %}
+                            </div>
+                            <a href="{{ path('join_verein', {'id': verein.id}) }}"
+                               class="btn btn-primary card-footer bg-primary text-light w-100">
+                                Verein beitreten</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Es wurden keine Vereine für die gewählten Filter gefunden.
+                </div>
+            {% endif %}
+        </div>
+    </div>
     </div>
 {% endblock %}

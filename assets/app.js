@@ -22,12 +22,31 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 // It is used to prevent the input event listener from firing too often
 window.debounce = function (func, delay) {
     let debounceTimer;
-    return function() {
+    return function () {
         const context = this;
         const args = arguments;
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
+}
+
+window.calculateDistance = function (lat1, long1, lat2, long2) {
+    const R = 6371; // Radius der Erde in Kilometern
+    const deltaLat = toRadians(lat2 - lat1);
+    const deltaLong = toRadians(long2 - long1);
+    lat1 = toRadians(lat1);
+    lat2 = toRadians(lat2);
+
+    const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(deltaLong / 2) * Math.sin(deltaLong / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+}
+
+function toRadians(degree) {
+    return degree * (Math.PI / 180);
 }
 
 // This will load the toast on page load

@@ -30,10 +30,12 @@ class ClubFixtures extends Fixture
                 )
             );
 
+            $address = explode(' $ ', $this->generateRandomAddres($i));
+
             $club = new CannabisVerein();
             $club->setName('Club-' . $i);
-            $club->setAdresse('Hauptstraße ' . $i . ', 12345 Berlin');
-            $club->setCoordinaten('52.520008, 13.404954');
+            $club->setAdresse($address[0]);
+            $club->setCoordinaten($address[1]);
             $club->setWebsite('dummy-verein.de');
             $club->setMitgliedsbeitrag(strval(rand(100, 10000) / 100));
             $club->setBeschreibung($loremIpsum);
@@ -53,5 +55,22 @@ class ClubFixtures extends Fixture
         $email = rand(100, 100000);
 
         return $email . '@weedwizard.de';
+    }
+
+    private function generateRandomAddres(int $i): string
+    {
+        $addresses = [
+            'Kurfürstendamm ' . $i . ', 10719 Berlin $ 52.5034,13.3323',
+            'Hauptstrasse ' . $i . ', 01067 Dresden $ 51.0493,13.7384',
+            'Königsallee ' . $i . ', 40212 Düsseldorf $ 51.2277,6.7735',
+            'Kaiserstrasse ' . $i . ', 60311 Frankfurt am Main $ 50.1146,8.6797',
+            'Luisenplatz ' . $i . ', 64283 Darmstadt $ 49.8728,8.6512',
+            'Königstrasse ' . $i . ', 70173 Stuttgart $ 48.7784,9.1800',
+            'Königsplatz ' . $i . ', 86150 Augsburg $ 48.3655,10.8944',
+            'Königstrasse ' . $i . ', 90402 Nürnberg $ 49.4521,11.0768',
+            'Königstrasse ' . $i . ', 01097 Dresde $ 51.0736,13.7407'
+        ];
+
+        return $addresses[rand(0, count($addresses) - 1)];
     }
 }
