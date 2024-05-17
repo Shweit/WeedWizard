@@ -51,6 +51,9 @@ class CannabisVereinType extends AbstractType
                         message: 'Bitte gib eine gültige Straße ein.',
                     ),
                 ],
+                'attr' => [
+                    'placeholder' => 'Straße',
+                ],
             ])
             ->add('hausnummer', TextType::class, [
                 'mapped' => false,
@@ -61,6 +64,9 @@ class CannabisVereinType extends AbstractType
                     new NotBlank(
                         message: 'Bitte gib eine gültige Hausnummer ein.',
                     ),
+                ],
+                'attr' => [
+                    'placeholder' => 'Nr',
                 ],
             ])
             ->add('plz', IntegerType::class, [
@@ -79,6 +85,9 @@ class CannabisVereinType extends AbstractType
                         maxMessage: 'Die PLZ muss genau 5 Ziffern lang sein.',
                     ),
                 ],
+                'attr' => [
+                    'placeholder' => 'PLZ',
+                ],
             ])
             ->add('ort', TextType::class, [
                 'mapped' => false,
@@ -89,6 +98,9 @@ class CannabisVereinType extends AbstractType
                     new NotBlank(
                         message: 'Bitte gib einen gültigen Ort ein.',
                     ),
+                ],
+                'attr' => [
+                    'placeholder' => 'Ort',
                 ],
             ])
             ->add('website', UrlType::class, [
@@ -105,7 +117,7 @@ class CannabisVereinType extends AbstractType
                     ),
                 ],
             ])
-            ->add('beschreibung', TextType::class, [
+            ->add('beschreibung', TextareaType::class, [
                 'required' => false,
                 'label' => 'Beschreibung',
             ])
