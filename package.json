@@ -49,5 +49,7 @@
         "nouislider": "^15.7.1",
         "qrcode-generator": "^1.4.4",
         "select2": "^4.1.0-rc.0"
+        "chartjs-plugin-annotation": "^3.0.1",
+        "nouislider": "^15.7.2"
     }
 }

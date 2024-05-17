@@ -1,4 +1,5 @@
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
+import nouislider from "nouislider";
 
 document.addEventListener('DOMContentLoaded', function () {
     let address_input = document.getElementById('cannabis_verein_adresse');
