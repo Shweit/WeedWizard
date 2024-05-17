@@ -68,7 +68,7 @@ class ClubFixtures extends Fixture
             'Königstrasse ' . $i . ', 70173 Stuttgart $ 48.7784,9.1800',
             'Königsplatz ' . $i . ', 86150 Augsburg $ 48.3655,10.8944',
             'Königstrasse ' . $i . ', 90402 Nürnberg $ 49.4521,11.0768',
-            'Königstrasse ' . $i . ', 01097 Dresde $ 51.0736,13.7407'
+            'Königstrasse ' . $i . ', 01097 Dresde $ 51.0736,13.7407',
         ];
 
         return $addresses[rand(0, count($addresses) - 1)];

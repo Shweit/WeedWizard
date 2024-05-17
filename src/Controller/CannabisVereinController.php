@@ -30,11 +30,11 @@ class CannabisVereinController extends AbstractController
                 && !$verein->getMitglieder()->contains($this->weedWizardKernel->getUser());
         });
 
-        $lowestPrice = round(min(array_map(function ($verein) {
+        $lowestPrice = round((int)min(array_map(function ($verein) {
             return $verein->getMitgliedsbeitrag();
         }, $cannabisVereine)) - 1);
 
-        $highestPrice = round(max(array_map(function ($verein) {
+        $highestPrice = round((int)max(array_map(function ($verein) {
             return $verein->getMitgliedsbeitrag();
         }, $cannabisVereine)) + 1);
 
