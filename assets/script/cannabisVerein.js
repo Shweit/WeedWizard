@@ -48,17 +48,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let clubs = document.getElementsByClassName('cannabisClubs');
     let distance = document.getElementById('entfernung');
-    distance.addEventListener('change', function () {
+    distance.addEventListener('keyup', function () {
         applyFilter();
     });
 
     let priceMin = document.getElementById('priceMin');
-    priceMin.addEventListener("change", function () {
+    priceMin.addEventListener("keyup", function () {
         applyFilter();
     })
 
     let priceMax = document.getElementById('priceMax');
-    priceMax.addEventListener("change", function () {
+    priceMax.addEventListener("keyup", function () {
         applyFilter();
     })
 
