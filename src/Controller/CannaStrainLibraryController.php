@@ -34,4 +34,13 @@ class CannaStrainLibraryController extends AbstractController
             'filters' => $this->filters,
         ]);
     }
+
+    #[Route('/cannastrainlibrary/detailview', name: 'weedwizard_cannastrainlibrary_detailview')]
+    public function show(): Response
+    {
+        return $this->render('canna_strain_library/show.html.twig', [
+            'controller_name' => 'CannaStrainLibraryController',
+            'filters' => $this->filters,
+        ]);
+    }
 }

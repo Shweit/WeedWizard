@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cannastrain Library | WeedWizard{% endblock %}
+{% block title %}Cannastrain Library | Detail View{% endblock %}
 
 {% block body %}
     <style>
@@ -21,6 +21,14 @@
             height: 200px;
             overflow: hidden;
             object-fit: cover;
+        }
+        .img-big {
+            height: 300px;
+        }
+        .btn-img {
+            width: 65px;
+            height: 65px;
+            margin-right: 0.5em;
         }
 
     </style>
@@ -126,84 +134,86 @@
                                     <span>Lorem ipsum</span>
                                 </div>
                             </div>
-
                         {% endfor %}
                     </div>
 
                     <div class="flex-grow-1" id="results">
                         <div class="container">
                             <div class="row">
-                                <div class="col p-3">
-                                    <div class="card rounded-3 mb-4" style="width: auto;">
-                                        <div class="cropped-img rounded-top-3">
-                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">White Widow</h5>
-                                            <p class="card-text">Some description text</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Intensität: stark</li>
-                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
-                                        </ul>
-                                        <div class="card-body align-self-end">
-                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
-                                        </div>
+                                <div class="col-6 p-3">
+                                    <div class="cropped-img rounded-3 img-big">
+                                        <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
                                     </div>
+                                </div>
 
-                                    <div class="card rounded-3 mb-4" style="width: auto;">
-                                        <div class="cropped-img rounded-top-3">
-                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">White Widow</h5>
-                                            <p class="card-text">Some description text</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Intensität: stark</li>
-                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
-                                        </ul>
-                                        <div class="card-body align-self-end">
-                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
-                                        </div>
+                                <div class="col p-3 d-flex flex-column justify-content-between">
+                                    <div class="cropped-img rounded-3">
+                                        <img src="https://images.unsplash.com/photo-1589844428386-06bba62381a5?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-img rounded-5"></button>
+                                        <button type="button" class="btn btn-secondary btn-img rounded-5"></button>
                                     </div>
                                 </div>
 
                                 <div class="col p-3">
-                                    <div class="card rounded-3 mb-4" style="width: auto;">
-                                        <div class="cropped-img rounded-top-3">
-                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">White Widow</h5>
-                                            <p class="card-text">Some description text</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Intensität: stark</li>
-                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
-                                        </ul>
-                                        <div class="card-body align-self-end">
-                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
+                                    <div class="cropped-img rounded-3">
+                                        <img src="https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 p-3">
+                                    <div class="d-flex flex-column gap-2 mt-2">
+                                        <h3>White Widow</h3>
+
+                                        <p>White Widow ist eine ikonische Cannabis-Sorte, die für ihre ausgewogene Mischung aus Indica und Sativa sowie ihren hohen THC-Gehalt bekannt ist. Ihre dichten, mit Harz überzogenen Blüten bieten ein intensives, langanhaltendes High mit einem süßen und würzigen Aroma. Ideal für Entspannung und Kreativität gleichermaßen.</p>
+
+                                        <div class="d-flex flex-row justify-content-end gap-4">
+                                            <div>
+                                                <p class="fw-bold pt-3">Durchschnittlicher Preis pro Gramm</p>
+                                            </div>
+
+                                            <div class="input-group" style="width: 150px">
+                                                <span class="input-group-text">€</span>
+                                                <input type="number" min="0" step="0.01" class="form-control fw-bold" aria-label="Amount (to the nearest dollar)" placeholder="9.50" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col p-3">
-                                    <div class="card rounded-3 mb-4" style="width: auto;">
-                                        <div class="cropped-img rounded-top-3">
-                                            <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">White Widow</h5>
-                                            <p class="card-text">Some description text</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Intensität: stark</li>
-                                            <li class="list-group-item">Bewertung: 4 von 5 Sternen</li>
-                                        </ul>
-                                        <div class="card-body align-self-end">
-                                            <a class="btn btn-outline-primary card-link me-2" href="#">Mehr erfahren</a>
-                                        </div>
+                                <div class="col-3 p-3">
+                                    <div class="property border-black border-top p-3">
+                                        <i class="fa-solid fa-sliders filter-icon"></i>
+                                        <span>Intensität</span>
+                                        <span class="d-block fw-semibold fs-5">stark</span>
+                                    </div>
+
+                                    <div class="property border-black border-top border-bottom p-3">
+                                        <i class="fa-solid fa-sliders filter-icon"></i>
+                                        <span>Aufzucht</span>
+                                        <span class="d-block fw-semibold fs-5">Indoor</span>
+                                    </div>
+
+                                    <div class="property border-black border-bottom p-3">
+                                        <i class="fa-solid fa-sliders filter-icon"></i>
+                                        <span>Strain-Typ</span>
+                                        <span class="d-block fw-semibold fs-5">femisiert</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-3 p-3">
+                                    <div class="property border-black border-top border-bottom p-3">
+                                        <i class="fa-solid fa-cannabis"></i>
+                                        <span>Herkunft</span>
+                                        <span class="d-block fw-semibold fs-5">sativa</span>
+                                    </div>
+
+                                    <div class="property border-black border-bottom p-3">
+                                        <i class="fa-solid fa-sliders filter-icon"></i>
+                                        <span>Empfohlen für</span>
+                                        <span class="d-block fw-semibold fs-5">Entspannung</span>
                                     </div>
                                 </div>
                             </div>
