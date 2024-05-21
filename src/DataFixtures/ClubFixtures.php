@@ -40,8 +40,8 @@ class ClubFixtures extends Fixture
             $club->setMitgliedsbeitrag(strval(rand(100, 10000) / 100));
             $club->setBeschreibung($loremIpsum);
             $club->setSonstiges('Sonst gibts nichts.');
-            $club->setErstelltVon($user);
-            $club->addMitglieder($user);
+            $club->setCreatedBy($user);
+            $club->addParticipant($user);
 
             $manager->persist($user);
             $manager->persist($club);

@@ -16,7 +16,7 @@
         </ul>
 
         {% if app.user %}
-            {% set verein = app.user.cannabisVereine.first %}
+            {% set verein = app.user.createdClub %}
             {% if verein == null %}
                 <div class="alert alert-danger">
                     Du bist keinem Verein beigetreten.

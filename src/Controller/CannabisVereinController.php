@@ -26,8 +26,8 @@ class CannabisVereinController extends AbstractController
         $cannabisVereine = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
 
         $cannabisVereine = array_filter($cannabisVereine, function ($verein) {
-            return $verein->getErstelltVon() !== $this->weedWizardKernel->getUser()
-                && !$verein->getMitglieder()->contains($this->weedWizardKernel->getUser());
+            return $verein->getCreatedBy() !== $this->weedWizardKernel->getUser()
+                && !$verein->getParticipants()->contains($this->weedWizardKernel->getUser());
         });
 
         $lowestPrice = round((int)min(array_map(function ($verein) {
@@ -49,14 +49,16 @@ class CannabisVereinController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            if ($this->weedWizardKernel->getUser()->getCannabisVereine()->count() > 0) {
+            if ($this->weedWizardKernel->getUser()->getJoinedClub() !== null) {
                 $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
 
                 return $this->redirectToRoute('cannabis_verein');
             }
 
-            $newVerein->addMitglieder($this->weedWizardKernel->getUser());
-            $newVerein->setErstelltVon($this->weedWizardKernel->getUser());
+            $newVerein->addParticipant($this->weedWizardKernel->getUser());
+            $newVerein->setCreatedBy($this->weedWizardKernel->getUser());
+
+            $this->weedWizardKernel->getUser()->setCreatedClub($newVerein);
 
             $mapbox_id = $form->get('mapbox_id')->getData();
             $coordinates = $this->cannabisVereinService->getClubCoordinates($mapbox_id);
@@ -92,19 +94,20 @@ class CannabisVereinController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if ($this->weedWizardKernel->getUser()->getCannabisVereine()->count() > 0) {
+        if ($this->weedWizardKernel->getUser()->getJoinedClub() !== null) {
             $this->addFlash('danger', 'Du kannst nur Mitglied in einem Verein sein.');
 
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        if ($cannabisVerein->getMitglieder()->contains($this->weedWizardKernel->getUser()) || $cannabisVerein->getErstelltVon() === $this->weedWizardKernel->getUser()) {
+        if ($cannabisVerein->getParticipants()->contains($this->weedWizardKernel->getUser())
+            || $cannabisVerein->getCreatedBy() === $this->weedWizardKernel->getUser()) {
             $this->addFlash('danger', 'Du bist bereits Mitglied in diesem Verein.');
 
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        $cannabisVerein->addMitglieder($this->weedWizardKernel->getUser());
+        $cannabisVerein->addParticipant($this->weedWizardKernel->getUser());
         $this->entityManager->flush();
 
         return $this->redirectToRoute('my_club');
@@ -122,13 +125,13 @@ class CannabisVereinController extends AbstractController
         $verein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
         $user = $this->weedWizardKernel->getUser();
 
-        if ($verein->getMitglieder()->count() === 1) {
-            $user->removeCannabisVereine($verein);
-            $user->removeErstellteVereine($verein);
+        if ($verein->getParticipants()->count() === 1) {
+            $user->setJoinedClub(null);
+            $user->setCreatedClub(null);
             $this->entityManager->remove($verein);
         } else {
-            $verein->removeMitglieder($this->weedWizardKernel->getUser());
-            $user->getCannabisVereine()->first()->removeMitglieder($this->weedWizardKernel->getUser());
+            $verein->removeParticipant($this->weedWizardKernel->getUser());
+            $user->getJoinedClub()->removeParticipant($this->weedWizardKernel->getUser());
         }
         $this->entityManager->flush();
 

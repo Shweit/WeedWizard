@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?CannabisVerein $joinedClub = null;
+
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
@@ -59,11 +62,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
     private Collection $cannabisVereine;
 
-    /**
-     * @var Collection<int, CannabisVerein>
-     */
-    #[ORM\OneToMany(targetEntity: CannabisVerein::class, mappedBy: 'erstelltVon', orphanRemoval: true)]
-    private Collection $erstellteVereine;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?CannabisVerein $createdClub = null;
 
     public function __construct()
     {
@@ -146,6 +146,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getJoinedClub(): ?CannabisVerein
+    {
+        return $this->joinedClub;
+    }
+
+    public function setJoinedClub(?CannabisVerein $joinedClub): static
+    {
+        $this->joinedClub = $joinedClub;
+
+        return $this;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -220,51 +232,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->cannabisVereine;
     }
 
-    public function addCannabisVereine(CannabisVerein $cannabisVereine): static
+    public function getCreatedClub(): ?CannabisVerein
     {
-        if (!$this->cannabisVereine->contains($cannabisVereine)) {
-            $this->cannabisVereine->add($cannabisVereine);
-            $cannabisVereine->addMitglieder($this);
-        }
-
-        return $this;
+        return $this->createdClub;
     }
 
-    public function removeCannabisVereine(CannabisVerein $cannabisVereine): static
+    public function setCreatedClub(?CannabisVerein $createdClub): static
     {
-        if ($this->cannabisVereine->removeElement($cannabisVereine)) {
-            $cannabisVereine->removeMitglieder($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CannabisVerein>
-     */
-    public function getErstellteVereine(): Collection
-    {
-        return $this->erstellteVereine;
-    }
-
-    public function addErstellteVereine(CannabisVerein $erstellteVereine): static
-    {
-        if (!$this->erstellteVereine->contains($erstellteVereine)) {
-            $this->erstellteVereine->add($erstellteVereine);
-            $erstellteVereine->setErstelltVon($this);
-        }
-
-        return $this;
-    }
-
-    public function removeErstellteVereine(CannabisVerein $erstellteVereine): static
-    {
-        if ($this->erstellteVereine->removeElement($erstellteVereine)) {
-            // set the owning side to null (unless already changed)
-            if ($erstellteVereine->getErstelltVon() === $this) {
-                $erstellteVereine->setErstelltVon(null);
-            }
-        }
+        $this->createdClub = $createdClub;
 
         return $this;
     }

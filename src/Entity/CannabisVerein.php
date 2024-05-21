@@ -31,25 +31,24 @@ class CannabisVerein
     #[ORM\Column(length: 1023, nullable: true)]
     private ?string $sonstiges = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'cannabisVereine')]
-    private Collection $mitglieder;
-
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
     private ?string $coordinaten = null;
 
-    #[ORM\ManyToOne(inversedBy: 'erstellteVereine')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $erstelltVon = null;
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'joinedClub')]
+    private Collection $participants;
+
+    #[ORM\OneToOne(inversedBy: 'createdClub')]
+    private ?User $createdBy = null;
 
     public function __construct()
     {
-        $this->mitglieder = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,30 +116,6 @@ class CannabisVerein
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getMitglieder(): Collection
-    {
-        return $this->mitglieder;
-    }
-
-    public function addMitglieder(User $mitglieder): static
-    {
-        if (!$this->mitglieder->contains($mitglieder)) {
-            $this->mitglieder->add($mitglieder);
-        }
-
-        return $this;
-    }
-
-    public function removeMitglieder(User $mitglieder): static
-    {
-        $this->mitglieder->removeElement($mitglieder);
-
-        return $this;
-    }
-
     public function getAdresse(): ?string
     {
         return $this->adresse;
@@ -165,15 +140,43 @@ class CannabisVerein
         return $this;
     }
 
-    public function getErstelltVon(): ?User
+    /**
+     * @return Collection<int, User>
+     */
+    public function getParticipants(): Collection
     {
-        return $this->erstelltVon;
+        return $this->participants;
     }
 
-    public function setErstelltVon(?User $erstelltVon): static
+    public function addParticipant(User $participant): static
     {
-        $this->erstelltVon = $erstelltVon;
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->setJoinedClub($this);
+        }
 
         return $this;
+    }
+
+    public function removeParticipant(User $participant): static
+    {
+        if ($this->participants->removeElement($participant)) {
+            // set the owning side to null (unless already changed)
+            if ($participant->getJoinedClub() === $this) {
+                $participant->setJoinedClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
     }
 }

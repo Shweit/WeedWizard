@@ -108,7 +108,7 @@
                 {% for verein in cannabisVereine %}
                     <div class="col-4 mb-3 cannabisClubs" data-name="{{ verein.name|lower }}"
                          data-coordinates="{{ verein.coordinaten }}" data-price="{{ verein.mitgliedsbeitrag }}"
-                         data-id="{{ verein.id }}" data-count-participants="{{ verein.mitglieder|length }}">
+                         data-id="{{ verein.id }}" data-count-participants="{{ verein.participants|length }}">
                         <div class=" card">
                             <h3 class="card-header">{{ verein.name }}</h3>
                             <div class="card-body">
