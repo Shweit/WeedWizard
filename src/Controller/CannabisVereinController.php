@@ -57,7 +57,6 @@ class CannabisVereinController extends AbstractController
 
             $newVerein->addParticipant($this->weedWizardKernel->getUser());
             $newVerein->setCreatedBy($this->weedWizardKernel->getUser());
-
             $this->weedWizardKernel->getUser()->setCreatedClub($newVerein);
 
             $mapbox_id = $form->get('mapbox_id')->getData();
@@ -67,7 +66,7 @@ class CannabisVereinController extends AbstractController
             $this->entityManager->persist($newVerein);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('cannabis_verein');
+            return $this->redirectToRoute('my_club');
         }
 
         return $this->render('cannabis_verein/index.html.twig', [
@@ -131,7 +130,6 @@ class CannabisVereinController extends AbstractController
             $this->entityManager->remove($verein);
         } else {
             $verein->removeParticipant($this->weedWizardKernel->getUser());
-            $user->getJoinedClub()->removeParticipant($this->weedWizardKernel->getUser());
         }
         $this->entityManager->flush();
 

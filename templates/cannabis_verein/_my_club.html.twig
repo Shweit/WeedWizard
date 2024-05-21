@@ -16,7 +16,7 @@
         </ul>
 
         {% if app.user %}
-            {% set verein = app.user.createdClub %}
+            {% set verein = app.user.createdClub == null ? app.user.joinedClub : app.user.createdClub %}
             {% if verein == null %}
                 <div class="alert alert-danger">
                     Du bist keinem Verein beigetreten.
