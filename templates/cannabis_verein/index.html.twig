@@ -10,6 +10,11 @@
                     <h5 class="modal-title fs-5">Verein erstellen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                 </div>
+                {% if app.user == null %}
+                    <div class="alert alert-warning m-3" role="alert">
+                        Du musst dich einloggen um einen Verein erstellen zu können.
+                    </div>
+                {% endif %}
                 {{ form_start(form) }}
                 <div class="modal-body">
                     {{ form_row(form.name) }}
