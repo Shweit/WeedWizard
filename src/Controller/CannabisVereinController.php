@@ -43,7 +43,7 @@ class CannabisVereinController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->getUser()) {
+            if (!$this->weedWizardKernel->getUser()) {
                 $this->addFlash('danger', 'Um einen Verein zu erstellen, musst du dich einloggen.');
 
                 return $this->redirectToRoute('app_login');
@@ -87,7 +87,7 @@ class CannabisVereinController extends AbstractController
             return $this->redirectToRoute('cannabis_verein');
         }
 
-        if (!$this->getUser()) {
+        if (!$this->weedWizardKernel->getUser()) {
             $this->addFlash('danger', 'Um einem Verein beizutreten, musst du dich einloggen.');
 
             return $this->redirectToRoute('app_login');

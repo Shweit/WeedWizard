@@ -141,19 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let cachedGeoLocation = null;
 
-    function getUserLocation() {
-        return new Promise((resolve, reject) => {
-            if (!navigator.geolocation) {
-                reject(new Error("Geolocation is not supported by this browser."));
-            } else {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {
-                    timeout: 10000,
-                    maximumAge: 60000
-                });
-            }
-        });
-    }
-
     function applyFilter(geoLocation) {
         [...clubs].forEach(club => {
             let name = club.dataset.name.toLowerCase();
@@ -192,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
     distance.addEventListener('change', () => {
         if (parseInt(distance.value) > 0) {
             if (!cachedGeoLocation) {
-                getUserLocation().then(geoLocation => {
+                window.getUserLocation().then(geoLocation => {
                     cachedGeoLocation = geoLocation;
                     applyFilter(cachedGeoLocation);
                 }).catch(error => {

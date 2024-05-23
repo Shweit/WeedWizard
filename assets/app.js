@@ -8,6 +8,7 @@ import * as bootstrap from 'bootstrap';
 import './bootstrap';
 import './styles/app.scss';
 import './script/chartJsConfig';
+
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
@@ -47,6 +48,19 @@ window.calculateDistance = function (lat1, long1, lat2, long2) {
 
 function toRadians(degree) {
     return degree * (Math.PI / 180);
+}
+
+window.getUserLocation = function () {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject(new Error("Geolocation is not supported by this browser."));
+        } else {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                timeout: 10000,
+                maximumAge: 60000
+            });
+        }
+    });
 }
 
 // This will load the toast on page load
