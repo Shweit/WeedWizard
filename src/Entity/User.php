@@ -32,10 +32,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?CannabisVerein $joinedClub = null;
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
@@ -53,8 +56,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     private Collection $notifications;
 
+    /**
+     * @var Collection<int, CannabisVerein>
+     */
+    #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
+    private Collection $cannabisVereine;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?CannabisVerein $createdClub = null;
+
     public function __construct()
     {
+        $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
     }
 
@@ -132,6 +145,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getJoinedClub(): ?CannabisVerein
+    {
+        return $this->joinedClub;
+    }
+
+    public function setJoinedClub(?CannabisVerein $joinedClub): static
+    {
+        $this->joinedClub = $joinedClub;
+
+        return $this;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -194,6 +219,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CannabisVerein>
+     */
+    public function getCannabisVereine(): Collection
+    {
+        return $this->cannabisVereine;
+    }
+
+    public function getCreatedClub(): ?CannabisVerein
+    {
+        return $this->createdClub;
+    }
+
+    public function setCreatedClub(?CannabisVerein $createdClub): static
+    {
+        $this->createdClub = $createdClub;
 
         return $this;
     }

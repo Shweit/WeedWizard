@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cannabis Vereine{% endblock %}
+
+{% block body %}
+    <div class="m-5 mt-0">
+        <h1 class="p-3 pb-0">Mein Cannabis-Verein</h1>
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('cannabis_verein') }}">Verein suchen</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page">Mein Cannabis-Verein</a>
+            </li>
+        </ul>
+
+        {% if app.user %}
+            {% set verein = app.user.createdClub == null ? app.user.joinedClub : app.user.createdClub %}
+            {% if verein == null %}
+                <div class="alert alert-danger">
+                    Du bist keinem Verein beigetreten.
+                </div>
+            {% else %}
+                <div class="card m-4">
+                    <h5 class="card-header">{{ verein.name }}</h5>
+                    <div class="card-body">
+                        <p class="card-text">{{ verein.beschreibung }}</p>
+                        <hr>
+                        <p class="card-text">Adresse: {{ verein.adresse }}</p>
+                        <iframe class="position-relative rounded"
+                                src="https://www.google.com/maps/embed/v1/place?q={{ verein.coordinaten }}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                                allowfullscreen="" aria-hidden="false" tabindex="0"
+                                style="border: 0; width: 100%; height: 150%">
+                        </iframe>
+                        <hr>
+                        {% if verein.website != null %}
+                            <p class="card-text">Website: <a href="http://{{ verein.website }}" target="_blank">{{ verein.website }}</a></p>
+                        {% endif %}
+
+                        {% if verein.mitgliedsbeitrag == null %}
+                            <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                        {% else %}
+                            <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}</p>
+                        {% endif %}
+
+                        {% if verein.sonstiges != null %}
+                            <p class="card-text">Sonstiges: {{ verein.sonstiges }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ path('leave_verein', {'id': verein.id}) }}" class="btn btn-danger">Verein verlassen</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-danger">
+                Du musst dich einloggen, um diese Seite zu sehen.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
