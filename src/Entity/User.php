@@ -69,7 +69,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->erstellteVereine = new ArrayCollection();
     }
 
     public function getId(): ?int
