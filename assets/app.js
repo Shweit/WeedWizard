@@ -8,6 +8,8 @@ import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
+import './script/chartJsConfig';
+
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 require('@fortawesome/fontawesome-free/css/all.min.css');

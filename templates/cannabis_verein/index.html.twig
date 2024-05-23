@@ -7,6 +7,11 @@
     {{ encore_entry_script_tags('cannabis_club') }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cannabis_club') }}
+{% endblock %}
+
 {% block body %}
     <div class="modal fade" id="new_club" tabindex="-1" aria-labelledby="Verein erstellen" aria-hidden="true">
         <div class="modal-dialog">
