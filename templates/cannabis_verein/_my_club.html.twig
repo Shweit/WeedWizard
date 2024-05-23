@@ -35,7 +35,7 @@
                         </iframe>
                         <hr>
                         {% if verein.website != null %}
-                            <p class="card-text">Website: {{ verein.website }}</p>
+                            <p class="card-text">Website: <a href="http://{{ verein.website }}" target="_blank">{{ verein.website }}</a></p>
                         {% endif %}
 
                         {% if verein.mitgliedsbeitrag == null %}

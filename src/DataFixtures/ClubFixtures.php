@@ -22,6 +22,9 @@ class ClubFixtures extends Fixture
         for ($i = 1; $i <= $hausnummer; ++$i) {
             $user = new User();
 
+            $user->setFirstname('User-' . $i);
+            $user->setLastname('User-' . $i);
+            $user->setBirthdate(new \DateTime('now - ' . rand(18, 50) . ' years'));
             $user->setEmail($this->generateRandomEmail());
             $user->setPassword(
                 $this->passwordHasher->hashPassword(
