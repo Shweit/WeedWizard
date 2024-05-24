@@ -2,6 +2,11 @@
 
 {% block title %}CannaDose Calculator{% endblock %}
 
+{% block script %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cannadose_calculator') }}
+{% endblock %}
+
 {% block body %}
     {% include('templates/_header.html.twig') with {
         'title': 'CannaDose Calculator'
@@ -92,8 +97,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-
 {% endblock %}
