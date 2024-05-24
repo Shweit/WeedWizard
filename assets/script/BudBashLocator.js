@@ -84,76 +84,86 @@ document.addEventListener('DOMContentLoaded', function() {
     let sortBy = document.getElementById('sortBy');
     sortBy.addEventListener('change', function() {
         let sortValue = sortBy.value;
+        let sorted = null;
+        let parent = null
 
-        if (sortValue === 'id_ASC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+        switch (sortValue) {
+        case 'id_ASC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return a.dataset.id - b.dataset.id;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'id_DESC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+            break;
+        case 'id_DESC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return b.dataset.id - a.dataset.id;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'price_ASC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+            break;
+        case 'price_ASC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return a.dataset.price - b.dataset.price;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'price_DESC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+            break;
+        case 'price_DESC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return b.dataset.price - a.dataset.price;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'date_ASC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
-                return new Date(a.dataset.date) - new Date(b.dataset.date);
+            break;
+        case 'date_ASC':
+            sorted  = [...budBashPartys].sort((a, b) => {
+                return new Date(a.dataset.start) - new Date(b.dataset.start);
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'date_DESC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
-                return new Date(b.dataset.date) - new Date(a.dataset.date);
+            break;
+        case 'date_DESC':
+            sorted  = [...budBashPartys].sort((a, b) => {
+                return new Date(b.dataset.start) - new Date(a.dataset.start);
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'participants_ASC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+            break;
+        case 'participants_ASC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return a.dataset.countParticipants - b.dataset.countParticipants;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });
-        } else if (sortValue === 'participants_DESC') {
-            let sorted = [...budBashPartys].sort((a, b) => {
+            break;
+        case 'participants_DESC':
+            sorted  = [...budBashPartys].sort((a, b) => {
                 return b.dataset.countParticipants - a.dataset.countParticipants;
             });
 
-            let parent = budBashPartys[0].parentNode;
+            parent  = budBashPartys[0].parentNode;
             sorted.forEach((party) => {
                 parent.appendChild(party);
             });

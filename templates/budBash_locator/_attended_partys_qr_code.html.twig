@@ -12,8 +12,8 @@
 
                 <img id='qrcode'
                      src="https://api.qrserver.com/v1/create-qr-code/?data=/budbash-locator/{{ budBash.id }}/checkAttendance/{{ app.user.id }}/{{ secretStringForAttendance(budBash, app.user) }}"
-                     width="300"
-                     height="300" />
+                     alt="QR Code for {{ budBash.name }}"
+                />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>

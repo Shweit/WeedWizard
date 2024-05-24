@@ -2,6 +2,12 @@
 
 {% block title %}Hello BudBashLocatorController!{% endblock %}
 
+{% block script %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('bud_bash_locator') }}
+{% endblock %}
+
+
 {% block body %}
     {% include 'templates/_header.html.twig' with {
         'title': 'BudBash Locator',
