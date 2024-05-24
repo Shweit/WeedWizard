@@ -40,6 +40,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?CannabisVerein $joinedClub = null;
 
+    /**
+     * @var Collection<int, CannaDoseCalculator>
+     */
+    #[ORM\OneToMany(targetEntity: CannaDoseCalculator::class, mappedBy: 'user')]
+    private Collection $cannaDoseCalculators;
+
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
@@ -69,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->cannaDoseCalculators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +150,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, CannaDoseCalculator>
+     */
+    public function getCannaDoseCalculators(): Collection
+    {
+        return $this->cannaDoseCalculators;
+    }
+
+    public function addCannaDoseCalculator(CannaDoseCalculator $cannaDoseCalculator): static
+    {
+        if (!$this->cannaDoseCalculators->contains($cannaDoseCalculator)) {
+            $this->cannaDoseCalculators->add($cannaDoseCalculator);
+            $cannaDoseCalculator->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCannaDoseCalculator(CannaDoseCalculator $cannaDoseCalculator): static
+    {
+        if ($this->cannaDoseCalculators->removeElement($cannaDoseCalculator)) {
+            // set the owning side to null (unless already changed)
+            if ($cannaDoseCalculator->getUser() === $this) {
+                $cannaDoseCalculator->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getJoinedClub(): ?CannabisVerein

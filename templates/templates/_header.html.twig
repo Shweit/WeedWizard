@@ -1,0 +1,7 @@
+<div class="header-container mb-3 mt-3">
+    <h2 class="h2 me-3">{{ title }}</h2>
+    <div class="vertical-divider"></div>
+    {% if button is defined %}
+        <a class="btn btn-primary ms-3" href="{{ button.path }}">{{ button.label }}</a>
+    {% endif %}
+</div>

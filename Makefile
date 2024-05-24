@@ -10,8 +10,11 @@ php-cs-fixer:
 phpstan:
 	php vendor/bin/phpstan analyse -c phpstan.dist.neon --memory-limit=-1
 
+bearer:
+	./bin/bearer scan ./
+
 webpack-watch:
-	npm build watch
+	npm run watch
 
 reset_db:
 	@echo "$(NC)                                                                  $(NC)"

@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('cannabis_club', './assets/script/cannabisVerein.js')
+    .addEntry('cannadose_calculator', './assets/script/CannaDoseCalculator.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
