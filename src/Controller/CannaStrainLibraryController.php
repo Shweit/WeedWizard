@@ -26,20 +26,21 @@ class CannaStrainLibraryController extends AbstractController
         ],
     ];
 
-    #[Route('/cannastrainlibrary', name: 'weedwizard_cannastrainlibrary')]
+    #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
     public function index(): Response
     {
-        return $this->render('canna_strain_library/index.html.twig', [
-            'controller_name' => 'CannaStrainLibraryController',
+        return $this->render('cannastrain_library/index.html.twig', [
             'filters' => $this->filters,
         ]);
     }
 
-    #[Route('/cannastrainlibrary/detailview', name: 'weedwizard_cannastrainlibrary_detailview')]
-    public function show(): Response
+    #[Route('/cannastrain-library/{id}', name: 'weedwizard_cannastrain-library_detailview')]
+    public function show(int $id): Response
     {
-        return $this->render('canna_strain_library/show.html.twig', [
-            'controller_name' => 'CannaStrainLibraryController',
+        $id = 1;
+
+        return $this->render('cannastrain_library/show.html.twig', [
+            'id' => $id,
             'filters' => $this->filters,
         ]);
     }
