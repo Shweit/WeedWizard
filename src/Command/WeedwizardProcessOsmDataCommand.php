@@ -2,8 +2,12 @@
 
 namespace App\Command;
 
+use Exception;
+use PDO;
+use PDOException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -25,15 +29,18 @@ class WeedwizardProcessOsmDataCommand extends Command
     {
         $this
             ->setDescription('Download and process OSM data for Germany')
-            ->setHelp('This command downloads the latest OSM data for Germany and filters it using Osmium tags-filter.')
-        ;
+            ->setHelp('This command downloads the latest OSM data for Germany and filters it using Osmium tags-filter.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $osmFilePath = 'src/Command/GEOjson/germany-latest.osm.pbf';
+        $filteredOsmFilePath = 'src/Command/GEOjson/germany-latest-with-tags.osm.pbf';
 
-        // Step 0: Ensure Osmium is installed
+        // Step 0: Ensure dependencies are installed
+        exec('brew services start postgresql@14');
+        $io->section('Installing dependencies...');
         if (!$this->isOsmiumInstalled()) {
             $io->section('Osmium is not installed. Installing Osmium...');
             if (!$this->installOsmium()) {
@@ -46,10 +53,45 @@ class WeedwizardProcessOsmDataCommand extends Command
             $io->success('Osmium is already installed.');
         }
 
+        if (!$this->isTippecanoeInstalled()) {
+            $io->section('Tippecanoe is not installed. Installing Tippecanoe...');
+            if (!$this->installTippecanoe()) {
+                $io->error('Failed to install Tippecanoe.');
+
+                return Command::FAILURE;
+            }
+            $io->success('Tippecanoe installed successfully.');
+        } else {
+            $io->success('Tippecanoe is already installed.');
+        }
+
+        if (!$this->isPostGISInstalled()) {
+            $io->section('PostGIS is not installed. Installing PostGIS...');
+            if (!$this->installPostGIS()) {
+                $io->error('Failed to install PostGIS.');
+
+                return Command::FAILURE;
+            }
+            $io->success('PostGIS installed successfully.');
+        } else {
+            $io->success('PostGIS is already installed.');
+        }
+
+        if (!$this->isosm2pgsqlInstalled()) {
+            $io->section('osm2pgsql is not installed. Installing osm2pgsql...');
+            if (!$this->installosm2pgsql()) {
+                $io->error('Failed to install osm2pgsql.');
+
+                return Command::FAILURE;
+            }
+            $io->success('osm2pgsql installed successfully.');
+        } else {
+            $io->success('osm2pgsql is already installed.');
+        }
+
         // Step 1: Download the latest OSM data for Germany
         $io->section('Downloading the latest OSM data for Germany...');
         $url = 'https://download.geofabrik.de/europe/germany-latest.osm.pbf';
-        $osmFilePath = 'germany-latest.osm.pbf';
 
         // Initialize the progress bar
         $fileSize = $this->getRemoteFileSize($url);
@@ -60,8 +102,12 @@ class WeedwizardProcessOsmDataCommand extends Command
         }
 
         $progressBar = $io->createProgressBar($fileSize);
-        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s%');
+        $progressBar->setFormat('%current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %message%');
         $progressBar->start();
+
+        if (file_exists($osmFilePath)) {
+            unlink($osmFilePath);
+        }
 
         // Download the file in chunks
         $readHandle = fopen($url, 'rb');
@@ -75,13 +121,15 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         $downloadedBytes = 0;
         while (!feof($readHandle)) {
-            $chunk = fread($readHandle, 52428800); // Read in 50MB chunks
+            $chunk = fread($readHandle, 70000000); // Read in 70MB chunks
             fwrite($writeHandle, $chunk);
             $downloadedBytes += strlen($chunk);
             $progressBar->setProgress($downloadedBytes);
+
+            // Update progress bar message with formatted bytes
             $formattedDownloaded = $this->formatBytes($downloadedBytes);
             $formattedTotal = $this->formatBytes($fileSize);
-            $progressBar->setMessage("{$formattedDownloaded} / {$formattedTotal}", 'info');
+            $progressBar->setMessage("{$formattedDownloaded} / {$formattedTotal}");
         }
 
         fclose($readHandle);
@@ -89,13 +137,13 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         $progressBar->finish();
         $io->newLine();
+        $io->newLine();
 
         $io->success('OSM data downloaded and saved successfully.');
 
         // Step 2: Run the Osmium tags-filter command
         $io->section('Running Osmium tags-filter...');
 
-        $filteredOsmFilePath = 'germany-latest-with-tags.osm.pbf';
         $tagsFilterCommand = [
             'osmium',
             'tags-filter',
@@ -124,6 +172,7 @@ class WeedwizardProcessOsmDataCommand extends Command
             'nwr/leisure=golf_course',
             'nwr/leisure=indoor_play',
             '-o', $filteredOsmFilePath,
+            '--overwrite',
         ];
 
         $process = new Process($tagsFilterCommand);
@@ -134,28 +183,173 @@ class WeedwizardProcessOsmDataCommand extends Command
             throw new ProcessFailedException($process);
         }
 
-        $io->success('Tags filter applied successfully.');
+        // Step 3: Buffer and merge the filtered OSM data
+        $io->section('Buffering and merging the filtered OSM data...');
 
-        // Step 3: Convert the filtered OSM data to GeoJSON
-        $io->section('Converting filtered OSM data to GeoJSON...');
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Importing data...');
+        putenv('PGPASSWORD=weedwizard');
 
-        $geoJsonFilePath = 'germany-latest-with-tags.geojson';
-        $convertCommand = [
-            'osmtogeojson',
-            $filteredOsmFilePath,
+        $osm2pgsqlCommand = [
+            'osm2pgsql',
+            '-c',
+            '-d', 'weedwizard_geometry',
+            '-U', 'weedwizard',
+            '-p', 'weedwizard_geometry',
+            'src/Command/GEOjson/germany-latest-with-tags.osm.pbf',
         ];
 
-        // Create the process and redirect output to file
-        $process = new Process($convertCommand);
+        $process = new Process($osm2pgsqlCommand);
         $process->setTimeout(3600); // Set timeout to 1 hour
-        $process->run(null, ['OUTPUT' => $geoJsonFilePath]);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $io->error($process->getErrorOutput());
+        }
+        $progressIndicator->finish('Done.');
+
+        $pdo = new PDO('pgsql:host=localhost;dbname=weedwizard_geometry', 'weedwizard', 'weedwizard');
+
+        $query = $pdo->query("SELECT COUNT(*) FROM weedwizard_geometry_point");
+        $count = $query->fetchColumn();
+
+        if ($count > 0) {
+            $io->success("Es gibt $count Einträge in der Tabelle weedwizard_geometry_point.");
+        } else {
+            $io->error("Es gibt keine Einträge in der Tabelle weedwizard_geometry_point.");
+        }
+
+        $tables = ['weedwizard_geometry_point', 'weedwizard_geometry_line', 'weedwizard_geometry_roads', 'weedwizard_geometry_polygon'];
+
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Buffering tables...');
+        foreach ($tables as $table) {
+            $bufferedTable = $table . '_buffered';
+
+            $query = $pdo->query("SELECT to_regclass('$bufferedTable')");
+            $tableExists = $query->fetchColumn() !== false;
+
+            if ($tableExists) {
+                $pdo->exec("DROP TABLE $bufferedTable");
+            }
+
+            // Erstellen Sie die Tabelle
+            $createTableSql = "
+                CREATE TABLE $bufferedTable AS
+                SELECT *, ST_Transform(ST_Buffer(ST_Transform(way, 4326)::geography, 100)::geometry, 3857) AS buffered_way
+                FROM $table;
+            ";
+            $pdo->exec($createTableSql);
+
+            $indexName = $bufferedTable . '_buffered_way_gist';
+            $createIndexSql = "
+                CREATE INDEX $indexName
+                ON $bufferedTable
+                USING gist (buffered_way);
+            ";
+            $pdo->exec($createIndexSql);
+        }
+        $progressIndicator->finish('Done.');
+
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Merging tables...');
+        $unifiedTable = 'weedwizard_geometry_unified';
+        $query = $pdo->query("SELECT to_regclass('$unifiedTable')");
+        $tableExists = $query->fetchColumn() !== false;
+
+        if ($tableExists) {
+            try {
+                $pdo->exec("DROP TABLE $unifiedTable");
+            } catch (PDOException $e) {
+                $io->error("Failed to drop table $unifiedTable: " . $e->getMessage());
+            }
+        }
+
+        $unifiedTable = 'weedwizard_geometry_unified';
+        $createTableSql = "
+            CREATE TABLE $unifiedTable AS
+            SELECT ST_Union(a.buffered_way) AS unified_way
+            FROM (
+                SELECT buffered_way FROM weedwizard_geometry_point_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_line_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_roads_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_polygon_buffered
+            ) AS a,
+            (
+                SELECT buffered_way FROM weedwizard_geometry_point_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_line_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_roads_buffered
+                UNION ALL
+                SELECT buffered_way FROM weedwizard_geometry_polygon_buffered
+            ) AS b
+            WHERE ST_Intersects(a.buffered_way, b.buffered_way);
+        ";
+        $pdo->exec($createTableSql);
+        $io->writeln("Result: $result");
+        $progressIndicator->finish('Done.');
+
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Exporting data...');
+
+        $mergedFilePath = 'src/Command/GEOjson/merged.geojson';
+        if (file_exists($mergedFilePath)) {
+            unlink($mergedFilePath);
+        }
+
+        $fileHandle = fopen($mergedFilePath, 'w');
+        if ($fileHandle === false) {
+            throw new Exception("Failed to open or create file: $mergedFilePath");
+        }
+
+        fclose($fileHandle);
+
+        $geoJsonFilePath = realpath($mergedFilePath);
+        $exportSql = "
+            COPY (
+                SELECT row_to_json(t)
+                FROM (
+                    SELECT 'Feature' as type,
+                           ST_AsGeoJSON(ST_Transform(unified_way, 4326))::json as geometry,
+                           json_build_object('name', 'unified_way') as properties
+                    FROM weedwizard_geometry_unified
+                ) t
+            ) TO '$geoJsonFilePath';
+        ";
+        $pdo->exec($exportSql);
+        $progressIndicator->finish('Done.');
+
+        exec('brew services stop postgresql@14');
+
+        $io->success('Filtered OSM data buffered and merged successfully.');
+
+        // Step 4: Convert the GEOjson data to MBTiles
+        $io->section('Converting the GeoJSON data to MBTiles...');
+        $mbtilesFilePath = 'germany-latest-with-tags.mbtiles';
+
+        $tippecanoeCommand = [
+            'tippecanoe',
+            '-o', $mbtilesFilePath,
+            $geoJsonFilePath,
+            '--force',
+            '--drop-fraction-as-needed',
+        ];
+
+        $process = new Process($tippecanoeCommand);
+        $process->setTimeout(7200); // Set timeout to 2 hour
+        $process->run();
 
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
-        $io->success('Filtered OSM data converted to GeoJSON successfully.');
-        $io->text('GeoJSON file: ' . $geoJsonFilePath);
+        $io->success('MBTiles file created successfully.');
+
+        $io->info('Remember to restart the tile server to see the changes.');
 
         return Command::SUCCESS;
     }
@@ -172,11 +366,53 @@ class WeedwizardProcessOsmDataCommand extends Command
     {
         $process = new Process(['brew', 'install', 'osmium-tool']);
         $process->run();
-        if (!$process->isSuccessful()) {
-            return false;
-        }
 
-        $process = new Process(['npm', 'install', '-g', 'osmtogeojson']);
+        return $process->isSuccessful();
+    }
+
+    private function isTippecanoeInstalled()
+    {
+        $process = new Process(['which', 'tippecanoe']);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    private function installTippecanoe()
+    {
+        $process = new Process(['brew', 'install', 'tippecanoe']);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    private function isPostGISInstalled()
+    {
+        $process = new Process(['which', 'postgis']);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    private function installPostGIS()
+    {
+        $process = new Process(['brew', 'install', 'postgis']);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    private function isosm2pgsqlInstalled()
+    {
+        $process = new Process(['which', 'osm2pgsql']);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    private function installosm2pgsql()
+    {
+        $process = new Process(['brew', 'install', 'osm2pgsql']);
         $process->run();
 
         return $process->isSuccessful();

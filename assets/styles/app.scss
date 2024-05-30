@@ -68,6 +68,10 @@ $navbar-dark-color: #DFDFDF;
   cursor: pointer;
 }
 
+.navbar {
+  z-index: 999;
+}
+
 .header-container {
   display: flex;
   align-items: center;
@@ -108,6 +112,11 @@ $navbar-dark-color: #DFDFDF;
 
 .noUi-connect {
   background-color: $primary;
+}
+
+#map {
+  width: 100%;
+  height: calc(100vh - 111px);
 }
 
 #priceSlider {

@@ -14,8 +14,6 @@
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
@@ -36,5 +34,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 # Maps
-germany-latest.osm.pbf
-germany-latest-with-tags.osm.pbf
+/src/Command/GEOjson/*
+/logfile
