@@ -9,7 +9,12 @@ let userMarkers = [];
 let budBashMarkers = [];
 let publicMarkers = [];
 
-// Initialize the map
+// Load Leaflet and LocateControl CSS
+window.loadCSS([
+    'https://unpkg.com/leaflet/dist/leaflet.css',
+    'https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css',
+]);
+
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
         maxZoom: 18,
