@@ -45,6 +45,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }).addTo(map);
-
-    console.log(layer)
 });

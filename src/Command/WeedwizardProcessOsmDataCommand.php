@@ -210,13 +210,13 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         $pdo = new PDO('pgsql:host=localhost;dbname=weedwizard_geometry', 'weedwizard', 'weedwizard');
 
-        $query = $pdo->query("SELECT COUNT(*) FROM weedwizard_geometry_point");
+        $query = $pdo->query('SELECT COUNT(*) FROM weedwizard_geometry_point');
         $count = $query->fetchColumn();
 
         if ($count > 0) {
-            $io->success("Es gibt $count Einträge in der Tabelle weedwizard_geometry_point.");
+            $io->success("Es gibt {$count} Einträge in der Tabelle weedwizard_geometry_point.");
         } else {
-            $io->error("Es gibt keine Einträge in der Tabelle weedwizard_geometry_point.");
+            $io->error('Es gibt keine Einträge in der Tabelle weedwizard_geometry_point.');
         }
 
         $tables = ['weedwizard_geometry_point', 'weedwizard_geometry_line', 'weedwizard_geometry_roads', 'weedwizard_geometry_polygon'];
@@ -226,25 +226,25 @@ class WeedwizardProcessOsmDataCommand extends Command
         foreach ($tables as $table) {
             $bufferedTable = $table . '_buffered';
 
-            $query = $pdo->query("SELECT to_regclass('$bufferedTable')");
+            $query = $pdo->query("SELECT to_regclass('{$bufferedTable}')");
             $tableExists = $query->fetchColumn() !== false;
 
             if ($tableExists) {
-                $pdo->exec("DROP TABLE $bufferedTable");
+                $pdo->exec("DROP TABLE {$bufferedTable}");
             }
 
             // Erstellen Sie die Tabelle
             $createTableSql = "
-                CREATE TABLE $bufferedTable AS
+                CREATE TABLE {$bufferedTable} AS
                 SELECT *, ST_Transform(ST_Buffer(ST_Transform(way, 4326)::geography, 100)::geometry, 3857) AS buffered_way
-                FROM $table;
+                FROM {$table};
             ";
             $pdo->exec($createTableSql);
 
             $indexName = $bufferedTable . '_buffered_way_gist';
             $createIndexSql = "
-                CREATE INDEX $indexName
-                ON $bufferedTable
+                CREATE INDEX {$indexName}
+                ON {$bufferedTable}
                 USING gist (buffered_way);
             ";
             $pdo->exec($createIndexSql);
@@ -254,20 +254,20 @@ class WeedwizardProcessOsmDataCommand extends Command
         $progressIndicator = new ProgressIndicator($output, 'verbose');
         $progressIndicator->start('Merging tables...');
         $unifiedTable = 'weedwizard_geometry_unified';
-        $query = $pdo->query("SELECT to_regclass('$unifiedTable')");
+        $query = $pdo->query("SELECT to_regclass('{$unifiedTable}')");
         $tableExists = $query->fetchColumn() !== false;
 
         if ($tableExists) {
             try {
-                $pdo->exec("DROP TABLE $unifiedTable");
+                $pdo->exec("DROP TABLE {$unifiedTable}");
             } catch (PDOException $e) {
-                $io->error("Failed to drop table $unifiedTable: " . $e->getMessage());
+                $io->error("Failed to drop table {$unifiedTable}: " . $e->getMessage());
             }
         }
 
         $unifiedTable = 'weedwizard_geometry_unified';
         $createTableSql = "
-            CREATE TABLE $unifiedTable AS
+            CREATE TABLE {$unifiedTable} AS
             SELECT ST_Union(a.buffered_way) AS unified_way
             FROM (
                 SELECT buffered_way FROM weedwizard_geometry_point_buffered
@@ -290,7 +290,6 @@ class WeedwizardProcessOsmDataCommand extends Command
             WHERE ST_Intersects(a.buffered_way, b.buffered_way);
         ";
         $pdo->exec($createTableSql);
-        $io->writeln("Result: $result");
         $progressIndicator->finish('Done.');
 
         $progressIndicator = new ProgressIndicator($output, 'verbose');
@@ -303,7 +302,7 @@ class WeedwizardProcessOsmDataCommand extends Command
 
         $fileHandle = fopen($mergedFilePath, 'w');
         if ($fileHandle === false) {
-            throw new Exception("Failed to open or create file: $mergedFilePath");
+            throw new Exception("Failed to open or create file: {$mergedFilePath}");
         }
 
         fclose($fileHandle);
@@ -318,7 +317,7 @@ class WeedwizardProcessOsmDataCommand extends Command
                            json_build_object('name', 'unified_way') as properties
                     FROM weedwizard_geometry_unified
                 ) t
-            ) TO '$geoJsonFilePath';
+            ) TO '{$geoJsonFilePath}';
         ";
         $pdo->exec($exportSql);
         $progressIndicator->finish('Done.');
