@@ -115,8 +115,13 @@ $navbar-dark-color: #DFDFDF;
 }
 
 #map {
-  width: 100%;
   height: calc(100vh - 111px);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 #priceSlider {
