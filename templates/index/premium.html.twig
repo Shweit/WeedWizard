@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Premium{% endblock %}
+
+{% block body %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Premium'
+    } %}
+
+    {% if is_granted('ROLE_PREMIUM') %}
+        <div class="alert alert-warning mt-3">
+            Du bist bereits ein Premium-User! Was suchst du hier noch?!
+        </div>
+    {% endif %}
+
+    <div class="row mt-3">
+        <h3 class="text-center">Du willst noch mehr Features?</h3>
+        <p class="text-center">Dann upgrade jetzt auf Premium und hole dir diese Features! Alles für den Preis eines Döners 🥙</p>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="badge text-bg-primary float-end">Popular</div>
+                    <h3>Freemium</h3>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="text-center">
+                                <span style="font-size: 2.5rem; font-weight: bold;">0€</span><br>
+                                <span style="font-size: 1rem;">MONTHLY</span>
+                                <hr>
+                                {% if is_granted('ROLE_PREMIUM') %}
+                                    <a href="{{ path('weedwizard_premium_upgrade', {'role': 'freemium'}) }}" class="btn btn-primary w-100">Runter stufen</a>
+                                {% else %}
+                                    <a class="btn btn-secondary w-100"><i class="fa-regular fa-circle-check me-2"></i>Aktueller Plan</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <ul class="list-group">
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Cannabis Consumption Compliance Map</li>
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Cannabis Vereinssuche</li>
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Bud Bash Locator</li>
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Cannastrain Library</li>
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Cannadose Calculator</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Premium</h3>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="text-center">
+                                <span style="font-size: 2.5rem; font-weight: bold;">4,99€</span><br>
+                                <span style="font-size: 1rem;">MONTHLY</span>
+                                <hr>
+                                {% if not is_granted('ROLE_PREMIUM') %}
+                                    <a href="{{ path('weedwizard_premium_upgrade', {'role': 'premium'}) }}" class="btn btn-primary w-100">Upgrade</a>
+                                {% else %}
+                                    <a class="btn btn-secondary w-100"><i class="fa-regular fa-circle-check me-2"></i>Aktueller Plan</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <ul class="list-group">
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Grow Mate</li>
+                                <li class="list-group-item"><i class="fa-regular fa-circle-check text-primary me-2"></i>Canna Consultant</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

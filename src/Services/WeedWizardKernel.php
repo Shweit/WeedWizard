@@ -22,4 +22,3 @@ class WeedWizardKernel
         return $this->user;
     }
 }
-

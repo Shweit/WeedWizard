@@ -19,8 +19,7 @@ class CannaConsultantService
         private WeedWizardKernel $weedWizardKernel,
         private string $apiKey,
         private string $assistentId,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws TransportExceptionInterface
@@ -29,7 +28,7 @@ class CannaConsultantService
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function addMessageToThread(string $message, bool $runThread = true, string $instructions = ""): array
+    public function addMessageToThread(string $message, bool $runThread = true, string $instructions = ''): array
     {
         $thread = $this->getThread();
 
@@ -67,7 +66,7 @@ class CannaConsultantService
         return $responseData;
     }
 
-    public function createRun(string $instructions = ""): array
+    public function createRun(string $instructions = ''): array
     {
         $thread = $this->getThread();
 
@@ -116,34 +115,6 @@ class CannaConsultantService
         return $response->toArray();
     }
 
-    private function waitForRunCompletion(string $threadId, string $runId): void
-    {
-        $url = "https://api.openai.com/v1/threads/{$threadId}/runs/{$runId}";
-        $maxRetries = 30; // Maximale Anzahl von Versuchen
-        $retryDelay = 2; // Wartezeit zwischen den Versuchen in Sekunden
-
-        for ($i = 0; $i < $maxRetries; $i++) {
-            $response = $this->client->request('GET', $url, [
-                'headers' => $this->getHeaders(),
-            ]);
-
-            if ($response->getStatusCode() !== 200) {
-                throw new \Exception('Error fetching run status: ' . $response->getContent(false));
-            }
-
-            $runStatus = $response->toArray();
-
-            dump($runStatus);
-
-            if ($runStatus['status'] === 'completed') {
-                return;
-            }
-            sleep($retryDelay);
-        }
-
-        throw new \Exception('Run did not complete in the expected time');
-    }
-
     public function getRecentMessages()
     {
         $thread = $this->getThread();
@@ -169,6 +140,34 @@ class CannaConsultantService
         }
 
         return $response->toArray();
+    }
+
+    private function waitForRunCompletion(string $threadId, string $runId): void
+    {
+        $url = "https://api.openai.com/v1/threads/{$threadId}/runs/{$runId}";
+        $maxRetries = 30; // Maximale Anzahl von Versuchen
+        $retryDelay = 2; // Wartezeit zwischen den Versuchen in Sekunden
+
+        for ($i = 0; $i < $maxRetries; ++$i) {
+            $response = $this->client->request('GET', $url, [
+                'headers' => $this->getHeaders(),
+            ]);
+
+            if ($response->getStatusCode() !== 200) {
+                throw new \Exception('Error fetching run status: ' . $response->getContent(false));
+            }
+
+            $runStatus = $response->toArray();
+
+            dump($runStatus);
+
+            if ($runStatus['status'] === 'completed') {
+                return;
+            }
+            sleep($retryDelay);
+        }
+
+        throw new \Exception('Run did not complete in the expected time');
     }
 
     private function getHeaders(): array
