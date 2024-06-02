@@ -141,6 +141,16 @@ $navbar-dark-color: #DFDFDF;
   margin-right: auto;
 }
 
+.leaflet-control-geosearch form input {
+  background-color: white;
+  color: #212832;
+}
+
+.leaflet-control-geosearch .results > * {
+  color: #212832;
+}
+
+
 
 #chat::-webkit-scrollbar {
   width: 10px;
