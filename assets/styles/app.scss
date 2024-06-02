@@ -4,6 +4,8 @@ $navbar-dark-color: #DFDFDF;
 
 @import "~bootstrap/scss/bootstrap.scss";
 @import "nouislider/dist/nouislider.css";
+@import "responsive";
+@import "dark";
 
 .dropdown-user-details-name {
   color: #212832;
@@ -91,38 +93,6 @@ $navbar-dark-color: #DFDFDF;
     background-color: #949494;
     flex-grow: 1;
   }
-
-[data-bs-theme="dark"] {
-  .dropdown-user-details-name {
-    color: #DFDFDF;
-  }
-
-  .bd-navbar {
-    background-color: #050910;
-  }
-
-  .nav-link {
-    color: #DFDFDF !important;
-  }
-
-  code {
-    background-color: #1b1e21 !important;
-  }
-
-  .card-header {
-     background-color: #0C4F11;
-     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
- }
-
- .dosage-active {
-   background-color: #3c7441d6;
-   color: white;
- }
-
-  .alert-primary {
-    background-color: #3159345e;
-  }
-}
 
 .header-container {
   display: flex;

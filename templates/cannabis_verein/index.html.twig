@@ -65,10 +65,10 @@
         </div>
 
         <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
+            <li class="nav-item club-nav">
                 <a class="nav-link active" aria-current="page">Verein suchen</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item club-nav">
                 <a class="nav-link" href="{{ path('my_club') }}">Mein Cannabis-Verein</a>
             </li>
         </ul>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-6">
                         <div class="input-group">
                             <input type="number" id="priceMin" class="form-control" placeholder="Min."
                                    aria-label="PreisMin">
@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2 offset-6">
+                    <div class="col-2 offset-2">
                         <select class="form-select" aria-label="sort" id="sortBy">
                             <option value="id_ASC">Neuste</option>
                             <option value="id_DESC">Älteste</option>
@@ -116,7 +116,7 @@
         <div class="row">
             {% if cannabisVereine %}
                 {% for verein in cannabisVereine %}
-                    <div class="col-4 mb-3 cannabisClubs" data-name="{{ verein.name|lower }}"
+                    <div class="col-lg-4 mb-3 cannabisClubs" data-name="{{ verein.name|lower }}"
                          data-coordinates="{{ verein.coordinaten }}" data-price="{{ verein.mitgliedsbeitrag }}"
                          data-id="{{ verein.id }}" data-count-participants="{{ verein.participants|length }}">
                         <div class=" card">
