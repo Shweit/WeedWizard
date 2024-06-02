@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let pElement2 = document.createElement('p');
         pElement2.classList.add('mb-0');
-        pElement2.style.padding = '11px 0';
+        pElement2.style.padding = '12px 0';
         pElement2.style.textAlign = 'center';
         pElement2.textContent = chat.dataset.userinitials;
 
@@ -124,9 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
 
-        let pElement = document.createElement('div'); // Verwende 'div' anstelle von 'p', um HTML zu unterstützen
+        let pElement = document.createElement('div');
         pElement.classList.add('mb-0');
-        pElement.innerHTML = sanitizeHtml(messageHTML);
+        pElement.innerHTML = messageHTML;
 
         let imageDiv = document.createElement('div');
         imageDiv.classList.add('col-1', 'text-center');
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let assistantMessages = document.querySelectorAll('.assistant-message');
 
         [...assistantMessages].forEach(function(message) {
-            message.innerHTML = sanitizeHtml(marked(message.textContent));
+            message.innerHTML = marked(message.textContent);
         });
     }
 });
