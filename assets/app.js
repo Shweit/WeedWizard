@@ -8,7 +8,6 @@ import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
-import './script/chartJsConfig';
 
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
