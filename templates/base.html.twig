@@ -6,6 +6,7 @@
 
         {# We need to load this Script first, to avoid site flickering #}
         {% include 'templates/_bootstrap_darkMode.js.twig' %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -30,6 +31,7 @@
         <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('build/images/favicon/favicon-96x96.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('build/images/favicon/favicon-16x16.png') }}">
         <link rel="manifest" href="{{ asset('build/images/favicon/manifest.json') }}">
+
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('build/images/favicon/ms-icon-144x144.png') }}">
         <meta name="theme-color" content="#ffffff">

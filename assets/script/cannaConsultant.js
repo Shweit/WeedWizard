@@ -1,26 +1,56 @@
+import {marked} from 'marked';
+
 document.addEventListener('DOMContentLoaded', function() {
     let chat = document.getElementById('chat');
     let chatSend = document.getElementById('chat-send');
+    let formChat = document.getElementById('form-chat');
+    let chatInput = document.getElementById('chat-input');
 
-    chatSend.addEventListener('click', function() {
-        let chatInput = document.getElementById('chat-input');
+    formatChatMessages();
+    scrollToBottom();
 
+    formChat.addEventListener('submit', function(event) {
+        event.preventDefault();
+        submitForm();
+    });
+
+    chatInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && e.shiftKey) {
+            e.preventDefault();
+            submitForm();
+        }
+
+        chatInput.style.height = "auto";
+        chatInput.style.height = `${chatInput.scrollHeight}px`;
+
+        if (chatInput.scrollHeight > 150) {
+            chatInput.style.overflowY = "scroll";
+            chatInput.style.height = "150px";
+        } else {
+            chatInput.style.overflowY = "hidden";
+        }
+    });
+
+    function submitForm() {
         if (chatInput.value) {
             const chatInput_value = chatInput.value;
             chatInput.value = '';
             chatSend.disabled = true;
 
             createTextBubbleUser(chatInput_value);
+            createLoadingBubble();
+            scrollToBottom();
 
             fetch('/canna-consultant/add-message?message=' + chatInput_value, {
                 method: 'POST',
             }).then(r => r.json()).then(data => {
+                removeLoadingBubble();
                 createTextBubbleBot(data);
                 scrollToBottom();
                 chatSend.disabled = false;
             });
         }
-    });
+    }
 
     function scrollToBottom() {
         chat.scrollTop = chat.scrollHeight;
@@ -28,10 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createTextBubbleUser(message) {
         let outerDiv = document.createElement('div');
-        outerDiv.classList.add('row');
-        outerDiv.classList.add('d-flex');
-        outerDiv.classList.add('justify-content-end');
-        outerDiv.classList.add('mb-3');
+        outerDiv.classList.add('row', 'd-flex', 'justify-content-end', 'mb-3');
 
         let innerDiv = document.createElement('div');
         innerDiv.classList.add('col-9');
@@ -40,8 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rowDiv.classList.add('row');
 
         let cardDiv = document.createElement('div');
-        cardDiv.classList.add('card');
-        cardDiv.classList.add('mb-2');
+        cardDiv.classList.add('card', 'mb-2');
 
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
@@ -51,8 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pElement.textContent = message;
 
         let imageDiv = document.createElement('div');
-        imageDiv.classList.add('col-1');
-        imageDiv.classList.add('text-center');
+        imageDiv.classList.add('col-1', 'text-center');
 
         let roundedDiv = document.createElement('div');
         roundedDiv.classList.add('rounded-5');
@@ -81,12 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createTextBubbleBot(data) {
         const message = data.run.data[0].content[0].text.value;
+        const messageHTML = marked(message);
 
         let outerDiv = document.createElement('div');
-        outerDiv.classList.add('row');
-        outerDiv.classList.add('d-flex');
-        outerDiv.classList.add('justify-content-start');
-        outerDiv.classList.add('mb-3');
+        outerDiv.classList.add('row', 'd-flex', 'justify-content-start', 'mb-3');
 
         let innerDiv = document.createElement('div');
         innerDiv.classList.add('col-9');
@@ -95,19 +118,17 @@ document.addEventListener('DOMContentLoaded', function() {
         rowDiv.classList.add('row');
 
         let cardDiv = document.createElement('div');
-        cardDiv.classList.add('card');
-        cardDiv.classList.add('mb-2');
+        cardDiv.classList.add('card', 'mb-2');
 
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
 
-        let pElement = document.createElement('p');
+        let pElement = document.createElement('div'); // Verwende 'div' anstelle von 'p', um HTML zu unterstützen
         pElement.classList.add('mb-0');
-        pElement.textContent = message;
+        pElement.innerHTML = messageHTML;
 
         let imageDiv = document.createElement('div');
-        imageDiv.classList.add('col-1');
-        imageDiv.classList.add('text-center');
+        imageDiv.classList.add('col-1', 'text-center');
 
         let image = document.createElement('img');
         image.src = 'build/images/weedwizrad_wizard.jpg';
@@ -125,5 +146,59 @@ document.addEventListener('DOMContentLoaded', function() {
         outerDiv.appendChild(innerDiv);
 
         chat.appendChild(outerDiv);
+    }
+
+    function createLoadingBubble() {
+        let outerDiv = document.createElement('div');
+        outerDiv.classList.add('row', 'd-flex', 'justify-content-start', 'mb-3');
+        outerDiv.id = 'loading';
+
+        let innerDiv = document.createElement('div');
+        innerDiv.classList.add('col-9');
+
+        let rowDiv = document.createElement('div');
+        rowDiv.classList.add('row');
+
+        let cardDiv = document.createElement('div');
+        cardDiv.classList.add('card', 'mb-2', 'border-0');
+
+        let cardBodyDiv = document.createElement('div');
+        cardBodyDiv.classList.add('card-body');
+
+        let pElement = document.createElement('div');
+        pElement.classList.add('mb-0', 'loading');
+
+        let imageDiv = document.createElement('div');
+        imageDiv.classList.add('col-1', 'text-center');
+
+        let image = document.createElement('img');
+        image.src = 'build/images/weedwizrad_wizard.jpg';
+        image.height = 50;
+        image.width = 50;
+        image.classList.add('rounded-5');
+
+        imageDiv.appendChild(image);
+        outerDiv.appendChild(imageDiv);
+
+        cardBodyDiv.appendChild(pElement);
+        cardDiv.appendChild(cardBodyDiv);
+        rowDiv.appendChild(cardDiv);
+        innerDiv.appendChild(rowDiv);
+        outerDiv.appendChild(innerDiv);
+
+        chat.appendChild(outerDiv);
+    }
+
+    function removeLoadingBubble() {
+        let loading = document.getElementById('loading');
+        loading.remove();
+    }
+
+    function formatChatMessages() {
+        let assistantMessages = document.querySelectorAll('.assistant-message');
+
+        [...assistantMessages].forEach(function(message) {
+            message.innerHTML = marked(message.textContent);
+        });
     }
 });

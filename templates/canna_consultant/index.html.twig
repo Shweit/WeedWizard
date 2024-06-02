@@ -12,66 +12,72 @@
         'title': 'Canna Consultant',
     } %}
 
-    <div class="overflow-y-auto overflow-x-hidden mb-3" style="max-height: 75vh; height: 75vh" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}">
-        <div class="row d-flex justify-content-start mb-3">
-            <div class="col-1 text-center">
-                <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" height="50px" width="50px" class="rounded-5">
+    <div class="overflow-y-auto overflow-x-hidden mb-3" style="max-height: 82vh; height: 82vh; zoom:0.9;" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}">
+        {% if app.environment == 'dev' %}
+            <div class="alert alert-warning position-fixed mt-3" style="z-index: 90; left: 50%; transform: translate(-50%, 0);" role="alert">
+                Bitte denkt dran, dass wir jede Anfrage an den Canna-Consultant bezahlen müssen. Bitte nicht so viele Anfragen stellen, bin leider (noch) kein Millionär. Ihr könnt <a href="https://openai.com/api/pricing/" target="_blank">hier</a> nachlesen wie teuer die Anfragen an OpenAI sind. Wir benutzen gerade das Model GPT-4o.
             </div>
+        {% endif %}
 
-            <div class="col-9">
-                <div class="row">
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        {% for message in messages.data|reverse %}
+            {% if message.role == 'user' %}
+                <div class="row d-flex justify-content-end mb-3">
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <p class="mb-0" id="{{ message.id }}">{{ message.content[0].text.value }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam</p>
+                    <div class="col-1 text-center">
+                        <div class="rounded-5" style="height: 50px; width: 50px; background-color: #656003">
+                            <p class="mb-0" style="padding: 11px 0; text-align: center">
+                                {{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            {% endif %}
 
-        <div class="row d-flex justify-content-end mb-3">
-            <div class="col-9">
-                <div class="row">
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        </div>
+            {% if message.role == 'assistant' %}
+                <div class="row d-flex justify-content-start mb-3">
+                    <div class="col-1 text-center">
+                        <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" height="50px" width="50px" class="rounded-5">
                     </div>
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam</p>
+
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <p class="mb-0 assistant-message">{{ message.content[0].text.value }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-1 text-center">
-                <div class="rounded-5" style="height: 50px; width: 50px; background-color: #656003">
-                    <p class="mb-0" style="padding: 11px 0; text-align: center">
-                        {{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}
-                    </p>
-                </div>
-            </div>
-        </div>
+            {% endif %}
+        {% endfor %}
+
+
     </div>
 
     <div class="row">
-        <div class="col-12" style="padding-left: 10em; padding-right: 10em;">
+        <div class="col-1"></div>
+        <div class="col-10">
             <div class="rounded-5 p-2 form-control" style="">
-                <div class="row">
+                <form class="row" id="form-chat">
                     <div class="col-11">
-                        <input type="text" id="chat-input" class="form-control border-0" aria-label="Nachricht eingeben" placeholder="Sende eine Nachricht an den Canna Consultant">
+                        <textarea type="text" id="chat-input" class="form-control border-0" aria-label="Nachricht eingeben" placeholder="Sende eine Nachricht an den Canna Consultant" rows="1" style="resize: none"></textarea>
                     </div>
                     <div class="col-1 d-flex justify-content-end">
-                        <button class="btn btn-primary rounded-5" type="button" id="chat-send"><i class="fa-regular fa-paper-plane"></i></button>
+                        <button class="btn btn-primary rounded-5" type="submit" id="chat-send"><i class="fa-regular fa-paper-plane"></i></button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
+        <div class="col-1"></div>
     </div>
 
 
