@@ -13,6 +13,7 @@ let publicMarkers = [];
 window.loadCSS([
     'https://unpkg.com/leaflet/dist/leaflet.css',
     'https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css',
+    'https://unpkg.com/leaflet-geosearch/dist/geosearch.css',
 ]);
 
 document.addEventListener('DOMContentLoaded', () => {
