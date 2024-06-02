@@ -2,17 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\BudBash;
-use App\Entity\BudBashCheckAttendance;
 use App\Entity\CannaConsultantThreads;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class CannaConsultantFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager): void
     {
         $user = $this->getReference(UserFixtures::USER_REFERENCE_1);
@@ -24,7 +20,7 @@ class CannaConsultantFixtures extends Fixture implements DependentFixtureInterfa
             'object' => 'thread',
             'metadata' => [],
             'created_at' => 1717328430,
-            'tool_resources' => []
+            'tool_resources' => [],
         ]);
 
         $manager->persist($thread);
