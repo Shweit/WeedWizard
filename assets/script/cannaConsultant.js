@@ -1,4 +1,5 @@
 import {marked} from 'marked';
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 document.addEventListener('DOMContentLoaded', function() {
     let chat = document.getElementById('chat');
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let pElement = document.createElement('div'); // Verwende 'div' anstelle von 'p', um HTML zu unterstützen
         pElement.classList.add('mb-0');
-        pElement.innerHTML = messageHTML;
+        pElement.innerHTML = sanitizeHtml(messageHTML);
 
         let imageDiv = document.createElement('div');
         imageDiv.classList.add('col-1', 'text-center');
@@ -198,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let assistantMessages = document.querySelectorAll('.assistant-message');
 
         [...assistantMessages].forEach(function(message) {
-            message.innerHTML = marked(message.textContent);
+            message.innerHTML = sanitizeHtml(marked(message.textContent));
         });
     }
 });
