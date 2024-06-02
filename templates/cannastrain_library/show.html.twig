@@ -33,6 +33,7 @@
 
     </style>
 
+    {# All tabs #}
     <div class="container-fluid">
         <h1 class="text-uppercase mb-4">Datenbank</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -46,99 +47,23 @@
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Sonstiges</button>
             </li>
         </ul>
+
+        {# Strains tab #}
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="d-flex flex-row border-top-4" id="database-container">
-                    <div class="d-flex flex-column border-right" id="filters-container">
 
-                        {% for filter in filters %}
-                            <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
-                                <div class="flex-item">
-                                    <i class="fa-solid fa-sliders filter-icon"></i>
-                                    <span>Filter</span>
-                                </div>
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
+                    {# Filters sidebar #}
+                    {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' with {'foo': 'bar'} %}
 
-                            <div class="flex-item p-3">
-                                <div class="d-flex flex-row justify-content-between mb-3">
-                                    <span class="text-uppercase fw-bold">Herkunft</span>
-                                    <i class="fa-solid fa-caret-down"></i>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
-                                    <span>indica</span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
-                                    <span>sativa</span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
-                                    <span>ruderalis</span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
-                                    <span>unbekannt</span>
-                                </div>
-                            </div>
-
-                            <div class="flex-item p-3">
-                                <div class="d-flex flex-row justify-content-between mb-3">
-                                    <span class="text-uppercase fw-bold">Strain-Typ</span>
-                                    <i class="fa-solid fa-caret-down"></i>
-                                </div>
-                                <div class="mb-2">
-                                    <span>Nur nicht femisierte</span>
-                                </div>
-                                <div class="mb-2">
-                                    <span>nur femisierte</span>
-                                </div>
-                                <div class="mb-2">
-                                    <span>close only strains</span>
-                                </div>
-                            </div>
-
-                            <div class="flex-item p-3">
-                                <div class="d-flex flex-row justify-content-between mb-3">
-                                    <span class="text-uppercase fw-bold">Preisspanne</span>
-                                    <i class="fa-solid fa-caret-down"></i>
-                                </div>
-                                <div class="d-flex flex-row gap-4 mb-2">
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="min">
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="max">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex-item p-3">
-                                <div class="d-flex flex-row justify-content-between mb-3">
-                                    <span class="text-uppercase fw-bold">Aufzucht</span>
-                                    <i class="fa-solid fa-caret-down"></i>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-house fa-sm filter-icon"></i>
-                                    <span>Indoor-Sorten</span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
-                                    <span>Outdoor-Sorten</span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
-                                    <span>Lorem ipsum</span>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
+                    {# Single strain view #}
                     <div class="flex-grow-1" id="results">
                         <div class="container">
+                            <a href="{{ path('weedwizard_cannastrain-library') }}" class="btn btn-secondary mt-3 rounded">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                &nbsp;Zurück zur Übersicht
+                            </a>
+
                             <div class="row">
                                 <div class="col-6 p-3">
                                     <div class="cropped-img rounded-3 img-big">
