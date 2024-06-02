@@ -24,6 +24,8 @@ Encore
     .addEntry('cannabis_club', './assets/script/cannabisVerein.js')
     .addEntry('cannadose_calculator', './assets/script/CannaDoseCalculator.js')
     .addEntry('bud_bash_locator', './assets/script/BudBashLocator.js')
+    .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
+    .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -76,8 +78,6 @@ Encore
         from: './assets/images',
         to: 'images/[path][name].[ext]',
     })
-
-    .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
 ;
 
 module.exports = Encore.getWebpackConfig();
