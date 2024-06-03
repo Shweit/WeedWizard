@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Service\SeedFinderApiService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
 class CannaStrainLibraryController extends AbstractController
 {
@@ -25,12 +30,27 @@ class CannaStrainLibraryController extends AbstractController
                 'Gewächshaus'],
         ],
     ];
+    private SeedFinderApiService $seedfinderApiService;
+
+    public function __construct(SeedFinderApiService $seedfinderApiService)
+    {
+        $this->seedfinderApiService = $seedfinderApiService;
+    }
 
     #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
     public function index(): Response
     {
+        try {
+            $strains = $this->seedfinderApiService->getMostPopularStrains();
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
+            return new Response('Error: ' . $e->getMessage());
+        } catch (Exception $e) {
+            return new Response('Error: ' . $e->getMessage());
+        }
+
         return $this->render('cannastrain_library/index.html.twig', [
             'filters' => $this->filters,
+            'strains' => $strains,
         ]);
     }
 
