@@ -65,15 +65,17 @@
     </div>
 
     <ul class="nav nav-tabs mb-3">
-        <li class="nav-item">
+        <li class="nav-item locator-nav">
             <a class="nav-link active" aria-current="page">Party suchen</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_my_partys') }}">Meine BudBash Partys</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_attended_partys') }}">Beigetretenen BudBash Partys</a>
-        </li>
+        {% if app.user %}
+            <li class="nav-item locator-nav">
+                <a class="nav-link" href="{{ path('weedwizard_budbash_locator_my_partys') }}">Meine BudBash Partys</a>
+            </li>
+            <li class="nav-item locator-nav">
+                <a class="nav-link" href="{{ path('weedwizard_budbash_locator_attended_partys') }}">Beigetretenen BudBash Partys</a>
+            </li>
+        {% endif %}
     </ul>
 
     <div class="row">
@@ -110,7 +112,7 @@
             <div class="row">
                 {% if budBashes %}
                     {% for budBash in budBashes %}
-                        <div class="col-3 mb-3 budBashParty" data-name="{{ budBash.name|lower }}" data-coordinates="{{ budBash.coordinates }}" data-price="{{ budBash.entranceFee }}" data-start="{{ budBash.start|date('Y-m-d\\TH:i:sP') }}" data-id="{{ budBash.id }}" data-count-participants="{{ budBash.participants|length }}">
+                        <div class="col-lg-3 mb-3 budBashParty" data-name="{{ budBash.name|lower }}" data-coordinates="{{ budBash.coordinates }}" data-price="{{ budBash.entranceFee }}" data-start="{{ budBash.start|date('Y-m-d\\TH:i:sP') }}" data-id="{{ budBash.id }}" data-count-participants="{{ budBash.participants|length }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h4>{{ budBash.name }}</h4>
