@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
-use App\Entity\Notification;
 use App\Form\BudBashType;
 use App\Services\BudBashLocatorService;
 use App\Services\NotificationService;
@@ -124,7 +123,7 @@ class BudBashLocatorController extends AbstractController
         $this->entityManager->remove($budBash);
         $this->entityManager->flush();
 
-        $this->addFlash('success', 'Die Party '. $budBash->getName() .' von '. $budBash->getCreatedBy()->getFirstname() .' '. $budBash->getCreatedBy()->getLastname() .' wurde abgesagt.');
+        $this->addFlash('success', 'Die Party ' . $budBash->getName() . ' von ' . $budBash->getCreatedBy()->getFirstname() . ' ' . $budBash->getCreatedBy()->getLastname() . ' wurde abgesagt.');
 
         return $this->redirectToRoute('weedwizard_budbash_locator_my_partys');
     }

@@ -21,11 +21,10 @@ class NotificationService
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly WeedWizardKernel       $weedWizardKernel,
-    ) {
-    }
+        private readonly WeedWizardKernel $weedWizardKernel,
+    ) {}
 
-    public function createNotification(string $type, string $text, User $user = null): void
+    public function createNotification(string $type, string $text, ?User $user = null): void
     {
         $message = new Notification();
         $message->setUser($user ?? $this->weedWizardKernel->getUser());
