@@ -8,8 +8,6 @@ import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
-import './script/chartJsConfig';
-import './script/BudBashLocator'
 
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
