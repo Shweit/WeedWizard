@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BudBashLocatorController!{% endblock %}
+{% block title %}BudBash Locator | Meine Partys{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer btn-group">
-                                    <button class="btn btn-danger">Party absagen</button>
+                                    <a type="button" href="{{ path('weedwizard_budbash_locator_cancel_party', {'id': budBash.id}) }}" class="btn btn-danger">Party absagen</a>
                                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#attendanceModal-{{ budBash.id }}">Anwesenheitsliste</button>
                                     {% if budBash.budBashCheckAttendances.first %}
                                         {% if budBash.start <= date('now') %}

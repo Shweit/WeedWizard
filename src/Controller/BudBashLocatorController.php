@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
+use App\Entity\Notification;
 use App\Form\BudBashType;
 use App\Services\BudBashLocatorService;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +23,7 @@ class BudBashLocatorController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly BudBashLocatorService $budBashLocatorService,
         private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly NotificationService $notificationService,
     ) {}
 
     #[Route('/budbash-locator', name: 'weedwizard_budbash_locator')]
@@ -85,6 +88,45 @@ class BudBashLocatorController extends AbstractController
             'lowestEntranceFee' => $lowestEntranceFee ?? 0,
             'highestEntranceFee' => $highestEntranceFee ?? 0,
         ]);
+    }
+
+    #[Route('/budbash-locator/cancel/{id}', name: 'weedwizard_budbash_locator_cancel_party')]
+    public function cancelParty(int $id): Response
+    {
+        $budBash = $this->entityManager->getRepository(BudBash::class)->find($id);
+
+        if (!$this->weedWizardKernel->getUser()) {
+            $this->addFlash('error', 'Um eine Party abzusagen, musst du dich einloggen.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$budBash) {
+            $this->addFlash('error', 'Diese Party existiert nicht.');
+
+            return $this->redirectToRoute('weedwizard_budbash_locator');
+        }
+
+        if ($budBash->getCreatedBy() !== $this->weedWizardKernel->getUser()) {
+            $this->addFlash('error', 'Du kannst nur deine eigenen Partys absagen.');
+
+            return $this->redirectToRoute('weedwizard_budbash_locator');
+        }
+
+        foreach ($budBash->getParticipants() as $participant) {
+            $this->notificationService->createNotification(
+                NotificationService::BUD_BASH_LOCATOR_TYPE,
+                'Die Party wurde abgesagt.',
+                $participant
+            );
+        }
+
+        $this->entityManager->remove($budBash);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'Die Party '. $budBash->getName() .' von '. $budBash->getCreatedBy()->getFirstname() .' '. $budBash->getCreatedBy()->getLastname() .' wurde abgesagt.');
+
+        return $this->redirectToRoute('weedwizard_budbash_locator_my_partys');
     }
 
     #[Route('/budbash-locator/my-partys', name: 'weedwizard_budbash_locator_my_partys')]
@@ -152,6 +194,14 @@ class BudBashLocatorController extends AbstractController
 
         $this->entityManager->flush();
 
+        $host = $budBash->getCreatedBy();
+
+        $this->notificationService->createNotification(
+            NotificationService::BUD_BASH_LOCATOR_TYPE,
+            $this->weedWizardKernel->getUser()->getFirstname() . ' ' . $this->weedWizardKernel->getUser()->getLastname() . ' nimmt an deiner Party teil.',
+            $host
+        );
+
         $this->addFlash('success', 'Du nimmst an der Party teil!');
 
         if ($request->headers->get('referer')) {
@@ -195,6 +245,13 @@ class BudBashLocatorController extends AbstractController
         $this->entityManager->flush();
 
         $this->addFlash('success', 'Du nimmst nicht mehr an der Party teil!');
+        $host = $budBash->getCreatedBy();
+
+        $this->notificationService->createNotification(
+            NotificationService::BUD_BASH_LOCATOR_TYPE,
+            $this->weedWizardKernel->getUser()->getFirstname() . ' ' . $this->weedWizardKernel->getUser()->getLastname() . ' hat abgesagt.',
+            $host
+        );
 
         if ($request->headers->get('referer')) {
             return new RedirectResponse($request->headers->get('referer'));
