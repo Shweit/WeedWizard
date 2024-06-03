@@ -41,7 +41,7 @@ class BudBash
     /**
      * @var ?Collection<int, BudBashCheckAttendance>
      */
-    #[ORM\OneToMany(targetEntity: BudBashCheckAttendance::class, mappedBy: 'BudBashParty', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: BudBashCheckAttendance::class, mappedBy: 'BudBashParty', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Collection $budBashCheckAttendances = null;
 
