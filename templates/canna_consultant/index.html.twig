@@ -5,6 +5,19 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('cannaConsultant') }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chat = document.getElementById('chat');
+            chat.scrollTop = chat.scrollHeight;
+
+            const form = document.getElementById('form-chat');
+            form.addEventListener('submit', function() {
+                setTimeout(function() {
+                    chat.scrollTop = chat.scrollHeight;
+                }, 100);
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -12,7 +25,7 @@
         'title': 'Canna Consultant',
     } %}
 
-    <div class="overflow-y-auto overflow-x-hidden mb-3" style="max-height: 82vh; height: 82vh; zoom:0.9;" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}">
+    <div class="chat-container overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}">
         {% if app.environment == 'dev' %}
             <div class="alert alert-warning position-fixed mt-3" style="z-index: 90; left: 50%; transform: translate(-50%, 0);" role="alert">
                 Bitte denkt dran, dass wir jede Anfrage an den Canna-Consultant bezahlen müssen. Bitte nicht so viele Anfragen stellen, bin leider (noch) kein Millionär. Ihr könnt <a href="https://openai.com/api/pricing/" target="_blank">hier</a> nachlesen wie teuer die Anfragen an OpenAI sind. Wir benutzen gerade das Model GPT-4o.
@@ -60,13 +73,12 @@
             {% endif %}
         {% endfor %}
 
-
     </div>
 
-    <div class="row">
+    <div class="chat-input-container row mb-2">
         <div class="col-1"></div>
         <div class="col-10">
-            <div class="rounded-5 p-2 form-control" style="">
+            <div class="rounded-5 p-2 form-control">
                 <form class="row" id="form-chat">
                     <div class="col-11">
                         <textarea type="text" id="chat-input" class="form-control border-0" aria-label="Nachricht eingeben" placeholder="Sende eine Nachricht an den Canna Consultant" rows="1" style="resize: none"></textarea>
@@ -80,5 +92,15 @@
         <div class="col-1"></div>
     </div>
 
+{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .chat-container {
+            max-height: 82vh;
+            height: calc(100vh - 175px - 111px);
+            overflow-y: auto;
+        }
+    </style>
 {% endblock %}
