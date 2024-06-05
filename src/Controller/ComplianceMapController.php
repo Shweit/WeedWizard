@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ComplianceMapController extends AbstractController
 {
-    #[Route('/compliance-map', name: 'weedwizard_compliance_map')]
+    #[Route('/', name: 'weedwizard_compliance_map')]
     public function index(): Response
     {
         $addMarkerForm = $this->createForm(AddMarkerFormType::class);
