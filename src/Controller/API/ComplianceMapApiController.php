@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\BudBash;
 use App\Entity\MapMarkers;
 use App\Form\AddMarkerFormType;
 use App\Services\WeedWizardKernel;
@@ -111,6 +112,31 @@ class ComplianceMapApiController extends AbstractController
 
         return new JsonResponse([
             'markers' => $markers,
+        ]);
+    }
+
+    #[Route('/api/compliance-map/get-bud-bashes', name: 'weedwizard_compliance_map_get_bud_bashes', methods: ['GET'])]
+    public function getBudBashes(): Response
+    {
+        $budBashes = $this->entityManager->getRepository(BudBash::class)->findAll();
+
+        $budBashes = array_filter($budBashes, function ($budBash) {
+            return $budBash->getStart() > new \DateTime();
+        });
+
+        $budBashes = array_map(function (BudBash $budBash) {
+            return [
+                'id' => $budBash->getId(),
+                'name' => $budBash->getName(),
+                'start' => $budBash->getStart()->format('d.m.Y H:i:s'),
+                'coordinates' => $budBash->getCoordinates(),
+                'entrance_fee' => $budBash->getEntranceFee(),
+                'extraInfo' => $budBash->getExtraInfo() ?? '',
+            ];
+        }, $budBashes);
+
+        return new JsonResponse([
+            'markers' => $budBashes ,
         ]);
     }
 }

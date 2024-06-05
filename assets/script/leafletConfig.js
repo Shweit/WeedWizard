@@ -1,8 +1,9 @@
-import L, {LatLng} from 'leaflet';
+import L from 'leaflet';
 import 'leaflet.locatecontrol';
 import 'leaflet.vectorgrid';
 import * as GeoSearch from 'leaflet-geosearch';
 import 'leaflet-easybutton';
+import BudBashMarker from '../../public/build/images/party_marker.png'
 
 // Load Leaflet and LocateControl CSS
 window.loadCSS([
@@ -224,4 +225,29 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.show();
     }).addTo(map);
     // END - Legal Notice Modal
+
+    // BEGIN - Bud Bash Marker Layer
+    fetch('/api/compliance-map/get-bud-bashes')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const icon = L.icon({
+                iconUrl: BudBashMarker,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+            });
+
+            for (let [key, marker] of Object.entries(data.markers)) {
+                const coordinates = marker.coordinates.split(',');
+                const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
+                markerLayer.bindPopup(`
+                <h5>${marker.name}</h5>
+                <p>${marker.extraInfo}</p>
+                <hr>
+                <p><b>Start:</b> ${marker.start}</p>
+                <p><b>Einlassgebühr:</b> ${marker.entrance_fee}€</p>
+            `);
+            }
+        });
 });
