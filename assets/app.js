@@ -106,3 +106,35 @@ window.loadJS = function(urls) {
         document.head.appendChild(script);
     });
 }
+
+window.showToast = function (message, type = 'success') {
+    const toastContainer = document.getElementById('toast-container');
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast', type === 'success' ? 'border-success' : 'border-danger');
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    toast.style.opacity = '1';
+    toast.style.marginBottom = '10px';
+
+    const toastHeader = document.createElement('div');
+    toastHeader.classList.add('toast-header', type === 'success' ? 'text-success' : 'text-danger');
+
+    const title = document.createElement('strong');
+    title.textContent = 'WeedWizard';
+
+    toastHeader.appendChild(title);
+
+    const toastBody = document.createElement('div');
+    toastBody.classList.add('toast-body');
+    toastBody.innerHTML = message;
+
+    toast.appendChild(toastHeader);
+    toast.appendChild(toastBody);
+
+    toastContainer.appendChild(toast);
+
+    const toastBootstrap = new bootstrap.Toast(toast);
+    toastBootstrap.show();
+}

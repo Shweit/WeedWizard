@@ -38,6 +38,7 @@
         "chartjs-plugin-annotation": "^3.0.1",
         "jsqr": "^1.4.0",
         "leaflet": "^1.9.4",
+        "leaflet-easybutton": "^2.4.0",
         "leaflet-geosearch": "^4.0.0",
         "leaflet-tilelayer-mbtiles": "^1.4.1",
         "leaflet.locatecontrol": "^0.81.1",
