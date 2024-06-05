@@ -322,13 +322,165 @@ class WeedwizardProcessOsmDataCommand extends Command
         $pdo->exec($exportSql);
         $progressIndicator->finish('Done.');
 
+        $io->success('Filtered OSM data buffered and merged successfully.');
+
+        // Step 4: Convert the GEOjson data to MBTiles
+        $io->section('Converting the GeoJSON data to MBTiles...');
+        $mbtilesFilePath = 'germany-latest-with-tags.mbtiles';
+
+        $tippecanoeCommand = [
+            'tippecanoe',
+            '-o', $mbtilesFilePath,
+            $geoJsonFilePath,
+            '--force',
+            '--drop-fraction-as-needed',
+        ];
+
+        $process = new Process($tippecanoeCommand);
+        $process->setTimeout(7200); // Set timeout to 2 hour
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $io->success('MBTiles file created successfully.');
+
+        // Step 5: Redo procedure for pedestrian Zones
+        $io->section('Running Osmium tags-filter for pedestrian zones...');
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Downloading pedestrian zones...');
+        $tagsFilterCommand = [
+            'osmium',
+            'tags-filter',
+            $osmFilePath,
+            'nwr/highway=pedestrian',
+            '-o', 'src/Command/GEOjson/pedestrian-zones.osm.pbf',
+            '--overwrite',
+        ];
+
+        $process = new Process($tagsFilterCommand);
+        $process->setTimeout(3600); // Set timeout to 1 hour
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+        $progressIndicator->finish('Done.');
+
+        $io->success('Pedestrian zones filtered successfully.');
+
+        $io->section('Merging the pedestrian zones...');
+
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Importing pedestrian zones...');
+        putenv('PGPASSWORD=weedwizard');
+        $osm2pgsqlCommand = [
+            'osm2pgsql',
+            '-c',
+            '-d', 'weedwizard_geometry',
+            '-U', 'weedwizard',
+            '-p', 'weedwizard_geometry',
+            'src/Command/GEOjson/pedestrian-zones.osm.pbf',
+        ];
+
+        $process = new Process($osm2pgsqlCommand);
+        $process->setTimeout(3600); // Set timeout to 1 hour
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $io->error($process->getErrorOutput());
+        }
+        $progressIndicator->finish('Done.');
+
+        $pdo = new PDO('pgsql:host=localhost;dbname=weedwizard_geometry', 'weedwizard', 'weedwizard');
+
+        $query = $pdo->query('SELECT COUNT(*) FROM weedwizard_geometry_point');
+        $count = $query->fetchColumn();
+
+        if ($count > 0) {
+            $io->success("Es gibt {$count} Einträge in der Tabelle weedwizard_geometry_point.");
+        } else {
+            $io->error('Es gibt keine Einträge in der Tabelle weedwizard_geometry_point.');
+        }
+
+        $unifiedTable = 'weedwizard_geometry_unified';
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Merging tables...');
+        $query = $pdo->query("SELECT to_regclass('{$unifiedTable}')");
+        $tableExists = $query->fetchColumn() !== false;
+
+        if ($tableExists) {
+            try {
+                $pdo->exec("DROP TABLE {$unifiedTable}");
+            } catch (PDOException $e) {
+                $io->error("Failed to drop table {$unifiedTable}: " . $e->getMessage());
+            }
+        }
+
+        $createTableSql = "
+            CREATE TABLE {$unifiedTable} AS
+            SELECT ST_Union(a.way) AS unified_way
+            FROM (
+                SELECT way FROM weedwizard_geometry_point
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_line
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_roads
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_polygon
+            ) AS a,
+            (
+                SELECT way FROM weedwizard_geometry_point
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_line
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_roads
+                UNION ALL
+                SELECT way FROM weedwizard_geometry_polygon
+            ) AS b
+            WHERE ST_Intersects(a.way, b.way);
+        ";
+        $pdo->exec($createTableSql);
+        $progressIndicator->finish('Done.');
+
+        $progressIndicator = new ProgressIndicator($output, 'verbose');
+        $progressIndicator->start('Exporting data...');
+
+        $mergedFilePath = 'src/Command/GEOjson/merged_pedestrian.geojson';
+        if (file_exists($mergedFilePath)) {
+            unlink($mergedFilePath);
+        }
+
+        $fileHandle = fopen($mergedFilePath, 'w');
+        if ($fileHandle === false) {
+            throw new Exception("Failed to open or create file: {$mergedFilePath}");
+        }
+
+        fclose($fileHandle);
+
+        $geoJsonFilePath = realpath($mergedFilePath);
+        $exportSql = "
+            COPY (
+                SELECT row_to_json(t)
+                FROM (
+                    SELECT 'Feature' as type,
+                           ST_AsGeoJSON(ST_Transform(unified_way, 4326))::json as geometry,
+                           json_build_object('name', 'unified_way') as properties
+                    FROM weedwizard_geometry_unified
+                ) t
+            ) TO '{$geoJsonFilePath}';
+        ";
+        $pdo->exec($exportSql);
+        $progressIndicator->finish('Done.');
+
         exec('brew services stop postgresql@14');
 
         $io->success('Filtered OSM data buffered and merged successfully.');
 
         // Step 4: Convert the GEOjson data to MBTiles
         $io->section('Converting the GeoJSON data to MBTiles...');
-        $mbtilesFilePath = 'germany-latest-with-tags.mbtiles';
+        $mbtilesFilePath = 'germany-pedestrian-zones.mbtiles';
 
         $tippecanoeCommand = [
             'tippecanoe',
