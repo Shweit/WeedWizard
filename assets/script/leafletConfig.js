@@ -217,4 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }]
     }).addTo(map);
     // END - Add Marker Button
+
+    // BEGIN - Legal Notice Modal
+    L.easyButton('fa-info', function() {
+        const modal = new window.bootstrap.Modal(document.getElementById('legalNoticeModal'));
+        modal.show();
+    }).addTo(map);
 });
