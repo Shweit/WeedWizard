@@ -10,7 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
+<<<<<<<< HEAD:migrations/Version20240613110911.php
 final class Version20240613110911 extends AbstractMigration
+========
+final class Version20240604194809 extends AbstractMigration
+>>>>>>>> 4dd7dbe (give the user the ability to add Markers to the map):migrations/Version20240604194809.php
 {
     public function getDescription(): string
     {
@@ -27,6 +31,7 @@ final class Version20240613110911 extends AbstractMigration
         $this->addSql('CREATE TABLE canna_consultant_threads (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, thread JSON NOT NULL, UNIQUE INDEX UNIQ_3764E92CA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE canna_dose_calculator (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, experience DOUBLE PRECISION NOT NULL, intensity DOUBLE PRECISION NOT NULL, recommended_dosage DOUBLE PRECISION NOT NULL, basis_dosage INT NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_29C64021A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cannabis_verein (id INT AUTO_INCREMENT NOT NULL, created_by_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, website VARCHAR(255) DEFAULT NULL, mitgliedsbeitrag NUMERIC(7, 2) NOT NULL, beschreibung VARCHAR(1023) DEFAULT NULL, sonstiges VARCHAR(1023) DEFAULT NULL, adresse VARCHAR(255) NOT NULL, coordinaten VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_FE486531B03A8386 (created_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE map_markers (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, coordinates VARCHAR(255) NOT NULL, INDEX IDX_6EA2276CA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE notification (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, type VARCHAR(255) NOT NULL, text VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_BF5476CAA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE strain (id INT AUTO_INCREMENT NOT NULL, seedfinder_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, breeder_info LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', parents LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', hybrids LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', medical LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', pics LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', reviews LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, joined_club_id INT DEFAULT NULL, created_club_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) DEFAULT NULL, birthdate DATE NOT NULL, INDEX IDX_8D93D64957B9E303 (joined_club_id), UNIQUE INDEX UNIQ_8D93D64927731874 (created_club_id), UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -39,6 +44,7 @@ final class Version20240613110911 extends AbstractMigration
         $this->addSql('ALTER TABLE canna_consultant_threads ADD CONSTRAINT FK_3764E92CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE canna_dose_calculator ADD CONSTRAINT FK_29C64021A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE cannabis_verein ADD CONSTRAINT FK_FE486531B03A8386 FOREIGN KEY (created_by_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE map_markers ADD CONSTRAINT FK_6EA2276CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CAA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D64957B9E303 FOREIGN KEY (joined_club_id) REFERENCES cannabis_verein (id)');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D64927731874 FOREIGN KEY (created_club_id) REFERENCES cannabis_verein (id)');
@@ -55,6 +61,7 @@ final class Version20240613110911 extends AbstractMigration
         $this->addSql('ALTER TABLE canna_consultant_threads DROP FOREIGN KEY FK_3764E92CA76ED395');
         $this->addSql('ALTER TABLE canna_dose_calculator DROP FOREIGN KEY FK_29C64021A76ED395');
         $this->addSql('ALTER TABLE cannabis_verein DROP FOREIGN KEY FK_FE486531B03A8386');
+        $this->addSql('ALTER TABLE map_markers DROP FOREIGN KEY FK_6EA2276CA76ED395');
         $this->addSql('ALTER TABLE notification DROP FOREIGN KEY FK_BF5476CAA76ED395');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64957B9E303');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D64927731874');
@@ -65,6 +72,7 @@ final class Version20240613110911 extends AbstractMigration
         $this->addSql('DROP TABLE canna_consultant_threads');
         $this->addSql('DROP TABLE canna_dose_calculator');
         $this->addSql('DROP TABLE cannabis_verein');
+        $this->addSql('DROP TABLE map_markers');
         $this->addSql('DROP TABLE notification');
         $this->addSql('DROP TABLE strain');
         $this->addSql('DROP TABLE user');

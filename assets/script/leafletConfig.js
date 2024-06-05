@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import L, {LatLng} from 'leaflet';
 import 'leaflet.locatecontrol';
 import 'leaflet.vectorgrid';
 import * as GeoSearch from 'leaflet-geosearch';
@@ -14,6 +14,7 @@ window.loadCSS([
     'https://unpkg.com/leaflet/dist/leaflet.css',
     'https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css',
     'https://unpkg.com/leaflet-geosearch/dist/geosearch.css',
+    'https://unpkg.com/leaflet-easybutton/src/easy-button.css',
 ]);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }).addTo(map);
+    // END - No Smoke Tile Layer
 
     const pedestrainZones = L.vectorGrid.protobuf('http://localhost:8080/data/germany-pedestrian-zones/{z}/{x}/{y}.pbf', {
         maxNativeZoom: 14,
