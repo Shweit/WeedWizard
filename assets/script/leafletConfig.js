@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const markerLink = document.getElementById(`marker-${marker.id}`);
                     const markerLink_id = markerLink.dataset.id;
 
-                    console.log(markerLink_id, markerLink.dataset)
-
                     markerLink.addEventListener('click', function() {
                         fetch(`/compliance-map/del-marker/${markerLink_id}`)
                             .then(response => {
@@ -182,8 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 return;
                             }
                             window.showToast('Marker erfolgreich hinzugefügt', 'success');
-
-                            console.log(data.marker);
 
                             const coordinates = data.marker.coordinates.split(',').map(Number);
 

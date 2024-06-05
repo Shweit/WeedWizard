@@ -9,7 +9,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class MapMarkersFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager)
     {
         $user = $this->getReference('USER_REFERENCE_1');
@@ -28,7 +27,7 @@ class MapMarkersFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            UserFixtures::class
+            UserFixtures::class,
         ];
     }
 }

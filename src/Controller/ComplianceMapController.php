@@ -17,8 +17,7 @@ class ComplianceMapController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-    ){
-    }
+    ) {}
 
     #[Route('/compliance-map', name: 'weedwizard_compliance_map')]
     public function index(): Response
@@ -112,7 +111,7 @@ class ComplianceMapController extends AbstractController
             'user' => $this->weedWizardKernel->getUser(),
         ]);
 
-        $markers = array_map(function(MapMarkers $marker) {
+        $markers = array_map(function (MapMarkers $marker) {
             return [
                 'id' => $marker->getId(),
                 'title' => $marker->getTitle(),

@@ -8,6 +8,7 @@ import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
@@ -128,7 +129,7 @@ window.showToast = function (message, type = 'success') {
 
     const toastBody = document.createElement('div');
     toastBody.classList.add('toast-body');
-    toastBody.innerHTML = message;
+    toastBody.innerHTML = sanitizeHtml(message);
 
     toast.appendChild(toastHeader);
     toast.appendChild(toastBody);
