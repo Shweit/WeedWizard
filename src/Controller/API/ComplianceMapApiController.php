@@ -17,8 +17,7 @@ class ComplianceMapApiController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     #[Route('/api/compliance-map/add-marker', name: 'weedwizard_compliance_map_add_marker', methods: ['POST'])]
     public function addMarker(Request $request): Response
