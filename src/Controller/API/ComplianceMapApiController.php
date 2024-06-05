@@ -136,7 +136,7 @@ class ComplianceMapApiController extends AbstractController
         }, $budBashes);
 
         return new JsonResponse([
-            'markers' => $budBashes ,
+            'markers' => $budBashes,
         ]);
     }
 }
