@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // END - GeoSearch Control
 
     // BEGIN - Marker Layer (user Markers)
-    fetch('/compliance-map/get-markers')
+    fetch('/api/compliance-map/get-markers')
         .then(response => {
             return response.json();
         })
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const markerLink_id = markerLink.dataset.id;
 
                     markerLink.addEventListener('click', function() {
-                        fetch(`/compliance-map/del-marker/${markerLink_id}`)
+                        fetch(`/api/compliance-map/del-marker/${markerLink_id}`)
                             .then(response => {
                                 return response.json();
                             })
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
-// END - Marker Layer (user Markers)
+    // END - Marker Layer (user Markers)
 
     // BEGIN - Add Marker Button
     L.easyButton({
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const urlEncodedData = new URLSearchParams(data).toString();
 
-                        fetch('/compliance-map/add-marker', {
+                        fetch('/api/compliance-map/add-marker', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 `<h5>${data.marker.title}</h5>
                                 <p>${data.marker.description}</p>
                                 <br>
-                                <a href="/compliance-map/del-marker/${data.marker.id}" class="text-danger">Löschen</a>`
+                                <a href="/api/compliance-map/del-marker/${data.marker.id}" class="text-danger">Löschen</a>`
                             ).addTo(map);
                         });
 
@@ -223,4 +223,5 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = new window.bootstrap.Modal(document.getElementById('legalNoticeModal'));
         modal.show();
     }).addTo(map);
+    // END - Legal Notice Modal
 });
