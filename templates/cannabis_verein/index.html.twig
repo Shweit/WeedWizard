@@ -17,7 +17,7 @@
                 </div>
                 {% if app.user == null %}
                     <div class="alert alert-warning m-3" role="alert">
-                        Du musst dich einloggen um einen Verein erstellen zu können.
+                        Du musst dich <a href="{{ path('app_login') }}">einloggen</a> um einen Verein erstellen zu können.
                     </div>
                 {% endif %}
                 {{ form_start(form) }}
