@@ -3,31 +3,48 @@
 {% block title %}Anmelden{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div class="pt-5 container row justify-content-center">
+        <form class="col-6 pe-0 login_form" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                Du bist angemeldet als {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            {% if app.user %}
+                <div class="mb-3">
+                    Du bist angemeldet als {{ app.user.userIdentifier }}, <a
+                            href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="card p-3">
+                <div class="ms-4 me-4">
+                    <div class="row">
+                        <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px; width: auto;"
+                             class="rounded-circle col-5">
+                        <h1 class="mb-3 col offset-md-1 align-self-center">Einloggen</h1>
+                    </div>
+                    <hr>
+                </div>
+                <br>
+                <div class="ps-5 pe-5">
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                           class="form-control rounded-5"
+                           autocomplete="email" placeholder="Email" aria-label="email" required autofocus>
+                    <br>
+                    <input type="password" name="password" id="inputPassword" class="form-control rounded-5"
+                           autocomplete="current-password" placeholder="Passwort" aria-label="password" required>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                </div>
+                <div class="row justify-content-center mt-5 mb-4">
+                    <a href="{{ path('app_login') }}" type="submit" class="btn btn-primary col-5">Einloggen</a>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <a href="{{ path('app_register') }}" type="submit" class="btn col-5">Registrieren</a>
+                </div>
             </div>
-        {% endif %}
-
-        <div class="card m-3 p-3">
-            <h1 class="h3 mb-3 font-weight-normal">Bitte anmelden</h1>
-            <br>
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                   autocomplete="email" required autofocus>
-            <br>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control"
-                   autocomplete="current-password" required>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <br>
-            <button type="submit" class="btn btn-primary" style="width: fit-content">Einloggen</button>
+        </form>
+        <div class="col-4 ps-0">
+            <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" alt="wizard_img" style="height: 440px; width: auto">
         </div>
-    </form>
+    </div>
 {% endblock %}
