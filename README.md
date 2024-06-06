@@ -36,6 +36,12 @@ npm install
 npm run watch
 ```
 
+## Ngrok installieren
+```bash
+brew install ngrok
+ngrok config add-authtoken 2hV09nRaHivW0bf0az37u6tQkzW_KXEtEpHuCqVyoo7TLYCr
+ngrok http --domain=fleet-inherently-sailfish.ngrok-free.app 8000
+```
 
 ## Symfony server starten
 ```bash
