@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pflanzendetails{% endblock %}
+
+{% block body %}
+    <h1>Pflanzendetails</h1>
+
+    <p>Name: {{ plant.name }}</p>
+    <p>Typ: {{ plant.type }}</p>
+    <p>Anbaudatum: {{ plant.date|date('d.m.Y') }}</p>
+
+    <a href="{{ path('growmate') }}" class="btn btn-primary">Zurück zur Liste</a>
+{% endblock %}

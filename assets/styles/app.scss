@@ -82,3 +82,19 @@ $navbar-dark-color: #DFDFDF;
     background-color: #1b1e21 !important;
   }
 }
+
+.card-footer-button {
+  background-color: #0C4F11;
+  color: white;
+  text-align: center;
+  border-bottom-right-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card-footer-button:hover {
+  background-color: #065A1E; /* Dunklere Farbe auf Hover */
+  color: #FFFFFF; /* Textfarbe auf Hover */
+}
