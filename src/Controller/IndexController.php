@@ -15,16 +15,26 @@ class IndexController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly string $apikey,
     ) {}
 
     #[Route('/', name: 'weedwizard_index')]
     public function index(): Response
     {
-        // Send a curl to the Seedfinder API
-        $curl = curl_init();
+        $url = "https://de.seedfinder.eu/api/json/ids.json?br=Serious_Seeds|Cannabiogen&strains=1&ac=".$this->apikey;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+        ));
+        $response = curl_exec($ch);
+        curl_close($ch);
 
+        $json = json_decode($response);
 
+        dd($json);
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
         ]);
