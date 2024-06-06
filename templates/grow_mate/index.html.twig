@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GrowMate - Cannabis Anbau{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+    <div class="d-flex justify-content-between mb-3" style="margin-left: 3rem; margin-right: 3rem">
+        <h1>GrowMate</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlantModal"><b>Pflanze hinzufügen</b></button>
+    </div>
+
+    <!-- Modal zum Hinzufügen einer Pflanze -->
+    <div class="modal fade" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPlantModalLabel">Neue Pflanze hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form, {'attr': {'id': 'addPlantForm'}}) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.date) }}
+                    {{ form_row(form.state) }}
+                    {{ form_row(form.placeOfCultivation) }}
+                    {{ form_row(form.lighting) }}
+                    <div style="float: right">{{ form_row(form.submit) }}</div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Pflanzen Karten -->
+    <div id="plantsContainer" class="row mt-4" style="margin: 8rem">
+        {% for plant in plants %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body" style="margin: 0rem">
+                        <h5 class="card-title">{{ plant.name }}</h5>
+                        <p class="card-text">Typ: {{ plant.type }}  Datum: {{ plant.date|date('d.m.Y') }}</p>
+{#                        <p class="card-text"> </p>#}
+                        <img src="{{ asset('build/images/plant-' ~ plant.type ~ '.png') }}" class="card-img-top" alt="Bild der Pflanze">
+                        <p class="card-text">Prognose: </p>
+                    </div>
+                    <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="modal" data-bs-target="#detailsModal-{{ plant.id }}" style="color: #ffffff">
+                        Informationen
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Details Modal -->
+            <div class="modal fade modal-bottom-sheet" id="detailsModal-{{ plant.id }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel-{{ plant.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailsModalLabel-{{ plant.id }}">Pflanzendetails</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Name: {{ plant.name }}</p>
+                            <p>Typ: {{ plant.type }}</p>
+                            <p>Datum: {{ plant.date|date('d.m.Y') }}</p>
+                            <p>Status: {{ plant.state }}</p>
+                            <p>Ort: {{ plant.placeOfCultivation }}</p>
+                            <p>Beleuchtung: {{ plant.lighting }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form method="post" action="{{ path('delete_plant', {'id': plant.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diese Pflanze löschen möchtest?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ plant.id) }}">
+                                <button class="btn btn-danger">Löschen</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
