@@ -17,9 +17,9 @@ class ClubFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $loremIpsum = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
-        $hausnummer = 10;
+        $amount = 10;
 
-        for ($i = 1; $i <= $hausnummer; ++$i) {
+        for ($i = 1; $i <= $amount; ++$i) {
             $user = new User();
 
             $user->setFirstname('User-' . $i);
@@ -72,6 +72,7 @@ class ClubFixtures extends Fixture
             'Königsplatz ' . $i . ', 86150 Augsburg $ 48.3655,10.8944',
             'Königstrasse ' . $i . ', 90402 Nürnberg $ 49.4521,11.0768',
             'Königstrasse ' . $i . ', 01097 Dresde $ 51.0736,13.7407',
+            'Im Schlank 41, 40472 Düsseldorf $ 51.2799677,6.79273',
         ];
 
         return $addresses[rand(0, count($addresses) - 1)];
