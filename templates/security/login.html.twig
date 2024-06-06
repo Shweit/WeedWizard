@@ -3,7 +3,7 @@
 {% block title %}Anmelden{% endblock %}
 
 {% block body %}
-    <div class="pt-5 container row justify-content-center">
+    <div class="pt-5 row justify-content-center">
         <form class="col-6 pe-0 login_form" method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -17,7 +17,7 @@
             {% endif %}
 
             <div class="card p-3">
-                <div class="ms-4 me-4">
+                <div class="m-4 mb-0">
                     <div class="row">
                         <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px; width: auto;"
                              class="rounded-circle col-5">
@@ -44,7 +44,7 @@
             </div>
         </form>
         <div class="col-4 ps-0">
-            <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" alt="wizard_img" style="height: 440px; width: auto">
+            <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" alt="wizard_img" style="height: 464px; width: auto">
         </div>
     </div>
 {% endblock %}
