@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const originalFetch = window.fetch;
 
-    window.fetch = function() {
+    window.fetch = function () {
         return originalFetch.apply(this, arguments)
             .catch(error => {
                 if (!alertShown) {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     L.vectorGrid.protobuf('http://localhost:8080/data/germany-latest-with-tags/{z}/{x}/{y}.pbf', {
         maxNativeZoom: 14,
         vectorTileLayerStyles: {
-            'merged': function(properties, zoom) {
+            'merged': function (properties, zoom) {
                 return {
                     fillColor: 'rgba(255, 0, 0, 0.5)',
                     color: 'transparent',
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pedestrainZones = L.vectorGrid.protobuf('http://localhost:8080/data/germany-pedestrian-zones/{z}/{x}/{y}.pbf', {
         maxNativeZoom: 14,
         vectorTileLayerStyles: {
-            'merged_pedestrian': function(properties, zoom) {
+            'merged_pedestrian': function (properties, zoom) {
                 return {
                     fillColor: 'rgba(255, 0, 0, 0.5)',
                     color: 'transparent',
@@ -132,11 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a id="marker-${marker.id}" href="#" data-id="${marker.id}" class="text-danger">Löschen</a>
                 `);
 
-                markerLayer.on('popupopen', function() {
+                markerLayer.on('popupopen', function () {
                     const markerLink = document.getElementById(`marker-${marker.id}`);
                     const markerLink_id = markerLink.dataset.id;
 
-                    markerLink.addEventListener('click', function() {
+                    markerLink.addEventListener('click', function () {
                         fetch(`/api/compliance-map/del-marker/${markerLink_id}`)
                             .then(response => {
                                 return response.json();
@@ -165,12 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
         leafletClasses: true,
         states: [{
             stateName: 'addMarker',
-            onClick: function(btn, map) {
+            onClick: function (btn, map) {
                 btn.state('addingMarker');
                 let addMarkerModal = document.getElementById('addMarkerModal');
                 const modal = new window.bootstrap.Modal(addMarkerModal);
 
-                map.on('click', function(e) {
+                map.on('click', function (e) {
                     map.off('click');
                     modal.show();
 
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const addMarkerFormCoords = document.getElementById('add_marker_form_coordinates');
                     addMarkerFormCoords.value = `${e.latlng.lat},${e.latlng.lng}`;
 
-                    addMarkerForm.addEventListener('submit', function(formevent) {
+                    addMarkerForm.addEventListener('submit', function (formevent) {
                         formevent.preventDefault();
                         const formData = new FormData(addMarkerForm);
                         formData.append('add_marker_form[coordinates]', addMarkerFormCoords.value);
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         addMarkerForm.reset();
                     });
 
-                    addMarkerModal.addEventListener('hidden.bs.modal', function() {
+                    addMarkerModal.addEventListener('hidden.bs.modal', function () {
                         marker.remove();
                         btn.state('addMarker');
                         addMarkerForm.reset();
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fa-location-dot'
         }, {
             stateName: 'addingMarker',
-            onClick: function(btn, map) {
+            onClick: function (btn, map) {
                 map.off('click');
                 btn.state('addMarker');
             },
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // END - Add Marker Button
 
     // BEGIN - Legal Notice Modal
-    L.easyButton('fa-info', function() {
+    L.easyButton('fa-info', function () {
         const modal = new window.bootstrap.Modal(document.getElementById('legalNoticeModal'));
         modal.show();
     }).addTo(map);
@@ -391,6 +391,29 @@ document.addEventListener('DOMContentLoaded', () => {
             applyMapSettings(map);
         });
     // END - Public Marker Layer
+
+    fetch('/api/compliance-map/get-clubs')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            const icon = L.icon({
+                iconUrl: BudBashMarker,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+            });
+
+            for (let [key, marker] of Object.entries(data.markers)) {
+                const coordinates = marker.coordinates.split(',');
+                const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
+                markerLayer.bindPopup(`
+                <h5>${marker.name}</h5>
+                <hr>
+                <p><b>Start:</b> ${marker.fee}</p>
+            `);
+            }
+        });
 });
 
 function applyMapSettings(map) {
