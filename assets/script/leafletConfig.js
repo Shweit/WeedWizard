@@ -397,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            console.log(data)
             const icon = L.icon({
                 iconUrl: BudBashMarker,
                 iconSize: [40, 40],
