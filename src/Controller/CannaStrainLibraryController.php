@@ -40,6 +40,8 @@ class CannaStrainLibraryController extends AbstractController
     #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
     public function index(): Response
     {
+        $this->seedfinderApiService->getJsonTestData();
+
         try {
             $strains = $this->seedfinderApiService->getMostPopularStrains();
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {

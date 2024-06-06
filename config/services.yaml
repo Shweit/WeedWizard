@@ -28,7 +28,7 @@ services:
         tags:
             - { name: twig.extension }
 
-    App\Controller\IndexController:
+    App\Service\SeedFinderApiService:
         arguments:
             $apikey: '%env(SEEDFINDER_API_KEY)%'
 

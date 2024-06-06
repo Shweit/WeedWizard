@@ -14,7 +14,7 @@ class SeedFinderApiService
 {
     private HttpClientInterface $client;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(HttpClientInterface $client, private readonly string $apikey)
     {
         $this->client = $client;
     }
@@ -44,5 +44,22 @@ class SeedFinderApiService
         } catch (ClientExceptionInterface|DecodingExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
             throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function getJsonTestData()
+    {
+        $url = "https://de.seedfinder.eu/api/json/ids.json?br=Serious_Seeds|Cannabiogen&strains=1&ac=".$this->apikey;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+        ));
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $json = json_decode($response);
+
+        dd($json);
     }
 }
