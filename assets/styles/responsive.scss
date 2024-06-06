@@ -64,10 +64,4 @@
   .navbar-nav .dropdown-menu {
     position: absolute !important;
   }
-
-  .chat-container {
-    max-height: 82vh;
-    height: calc(100vh - 175px - 111px);
-    overflow-y: auto;
-  }
 }

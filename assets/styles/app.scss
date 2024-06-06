@@ -169,3 +169,10 @@ $navbar-dark-color: #DFDFDF;
       transform: scale(1);
   }
 }
+
+
+.chat-container {
+  max-height: 82vh;
+  height: calc(100vh - 175px - 111px) !important;
+  overflow-y: auto;
+}
