@@ -21,6 +21,10 @@ class IndexController extends AbstractController
     #[Route('/', name: 'weedwizard_index')]
     public function index(): Response
     {
+        // Send a curl to the Seedfinder API
+        $curl = curl_init();
+
+
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
         ]);
