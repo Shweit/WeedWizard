@@ -284,12 +284,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coordinates = marker.coordinates.split(',');
                 const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
                 markerLayer.bindPopup(`
-                <h5>${marker.name}</h5>
-                <p>${marker.extraInfo}</p>
-                <hr>
-                <p><b>Start:</b> ${marker.start}</p>
-                <p><b>Einlassgebühr:</b> ${marker.entrance_fee}€</p>
-            `);
+                    <h5>${marker.name}</h5>
+                    <p>${marker.extraInfo}</p>
+                    <hr>
+                    <p>
+                        <b>Start:</b> ${marker.start}<br>
+                        <b>Einlassgebühr:</b> ${marker.entrance_fee}€<br>
+                        <b>Adresse:</b> ${marker.address}€<br>
+                    </p>
+                    <br>
+                    <a id="party-${marker.id}" href="#">Anschauen</a>
+                `);
+
+                markerLayer.on('popupopen', function() {
+                    const partyLink = document.getElementById(`party-${marker.id}`);
+                    partyLink.addEventListener('click', function() {
+                        sessionStorage.setItem('budBashFilter', JSON.stringify({
+                            name: marker.name,
+                            price: [marker.entrance_fee],
+                        }));
+                        window.location.href = `/budbash-locator`;
+                    });
+                });
             }
         });
 });

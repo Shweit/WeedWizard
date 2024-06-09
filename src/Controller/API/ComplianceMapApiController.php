@@ -132,6 +132,7 @@ class ComplianceMapApiController extends AbstractController
                 'coordinates' => $budBash->getCoordinates(),
                 'entrance_fee' => $budBash->getEntranceFee(),
                 'extraInfo' => $budBash->getExtraInfo() ?? '',
+                'address' => $budBash->getAddress() ?? '',
             ];
         }, $budBashes);
 

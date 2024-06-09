@@ -187,6 +187,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    if (sessionStorage.getItem('budBashFilter')) {
+        let filter = JSON.parse(sessionStorage.getItem('budBashFilter'));
+
+        if (filter.name) {
+            document.getElementById('searchBudBash').value = filter.name;
+        }
+
+        if (filter.price) {
+            priceSlider.noUiSlider.set(filter.price);
+        }
+
+        sessionStorage.removeItem('budBashFilter');
+
+        applyFilter();
+    }
+
     function applyFilter(geoLocation) {
         [...budBashPartys].forEach(budBash => {
             let name = budBash.dataset.name.toLowerCase();
