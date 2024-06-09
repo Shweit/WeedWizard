@@ -197,4 +197,32 @@ class ComplianceMapApiController extends AbstractController
             'clubs' => $club,
         ]);
     }
+
+    #[Route('/api/compliance-map/get-public-markers', name: 'weedwizard_compliance_map_get_public_markers', methods: ['GET'])]
+    public function getPublicMarkers(): Response
+    {
+        $markers = $this->entityManager->getRepository(MapMarkers::class)->findBy([
+            'public' => true,
+        ]);
+
+        if ($this->weedWizardKernel->getUser()) {
+            $markers = array_filter($markers, function (MapMarkers $marker) {
+                return $marker->getUser() !== $this->weedWizardKernel->getUser();
+            });
+        }
+
+        $markers = array_map(function (MapMarkers $marker) {
+            return [
+                'id' => $marker->getId(),
+                'title' => $marker->getTitle(),
+                'description' => $marker->getDescription(),
+                'coordinates' => $marker->getCoordinates(),
+                'name' => $marker->getUser()->getFirstname() . ' ' . $marker->getUser()->getLastname(),
+            ];
+        }, $markers);
+
+        return new JsonResponse([
+            'markers' => $markers,
+        ]);
+    }
 }

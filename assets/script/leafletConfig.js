@@ -413,6 +413,34 @@ document.addEventListener('DOMContentLoaded', () => {
             `);
             }
         });
+
+    // BEGIN - Public Marker Layer
+    fetch('/api/compliance-map/get-public-markers')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const icon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                iconSize: [25, 41],
+                iconAnchor: [12.5, 41],
+            });
+
+            data.markers.forEach(marker => {
+                const coordinates = marker.coordinates.split(',').map(Number);
+                const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
+                markerLayer.bindPopup(`
+                    <h5>${marker.title}</h5>
+                    <p>${marker.description}</p>
+                    <small>Öffentlicher Marker von: ${marker.name}</small>
+                `);
+
+                publicMarkers.push(markerLayer);
+            });
+
+            applyMapSettings(map);
+        });
+    // END - Public Marker Layer
 });
 
 function applyMapSettings(map) {
