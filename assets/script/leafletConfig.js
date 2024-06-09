@@ -17,6 +17,9 @@ window.loadCSS([
     'https://unpkg.com/leaflet-easybutton/src/easy-button.css',
 ]);
 
+let userMarkers = [];
+let budBashMarkers = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
         maxZoom: 18,
