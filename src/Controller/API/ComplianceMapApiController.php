@@ -131,8 +131,8 @@ class ComplianceMapApiController extends AbstractController
                 'start' => $budBash->getStart()->format('d.m.Y H:i:s'),
                 'coordinates' => $budBash->getCoordinates(),
                 'entrance_fee' => $budBash->getEntranceFee(),
-                'extraInfo' => $budBash->getExtraInfo() ?? '',
-                'address' => $budBash->getAddress() ?? '',
+                'extraInfo' => $budBash->getExtraInfo() ?? 'Der ersteller der Party hat keine Informationen angegeben.',
+                'address' => $budBash->getAddress(),
             ];
         }, $budBashes);
 

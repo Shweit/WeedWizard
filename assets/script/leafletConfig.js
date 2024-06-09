@@ -5,14 +5,6 @@ import * as GeoSearch from 'leaflet-geosearch';
 import 'leaflet-easybutton';
 import BudBashMarker from '../../public/build/images/party_marker.png'
 
-// Load Leaflet and LocateControl CSS
-window.loadCSS([
-    'https://unpkg.com/leaflet/dist/leaflet.css',
-    'https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css',
-    'https://unpkg.com/leaflet-geosearch/dist/geosearch.css',
-    'https://unpkg.com/leaflet-easybutton/src/easy-button.css',
-]);
-
 let userMarkers = [];
 let budBashMarkers = [];
 
@@ -297,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>
                         <b>Start:</b> ${marker.start}<br>
                         <b>Einlassgebühr:</b> ${marker.entrance_fee}€<br>
-                        <b>Adresse:</b> ${marker.address}€<br>
+                        <b>Adresse:</b> ${marker.address}<br>
                     </p>
                     <br>
                     <a id="party-${marker.id}" href="#">Anschauen</a>
