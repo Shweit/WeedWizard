@@ -211,8 +211,28 @@ document.addEventListener('DOMContentLoaded', () => {
                                 `<h5>${data.marker.title}</h5>
                                 <p>${data.marker.description}</p>
                                 <br>
-                                <a href="/api/compliance-map/del-marker/${data.marker.id}" class="text-danger">Löschen</a>`
+                                <a id="marker-${data.marker.id}" href="#" data-id="${data.marker.id}" class="text-danger">Löschen</a>`
                             ).addTo(map);
+
+                            marker.on('popupopen', function() {
+                                const markerLink = document.getElementById(`marker-${data.marker.id}`);
+                                const markerLink_id = markerLink.dataset.id;
+
+                                markerLink.addEventListener('click', function() {
+                                    fetch(`/api/compliance-map/del-marker/${markerLink_id}`)
+                                        .then(response => {
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            if (data.error) {
+                                                window.showToast(data.error, 'danger');
+                                            } else {
+                                                marker.remove();
+                                                window.showToast('Marker erfolgreich gelöscht', 'success');
+                                            }
+                                        });
+                                });
+                            });
                         });
 
                         modal.hide();
