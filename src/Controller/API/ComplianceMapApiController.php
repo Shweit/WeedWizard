@@ -142,7 +142,7 @@ class ComplianceMapApiController extends AbstractController
                 'coordinates' => $budBash->getCoordinates(),
                 'entrance_fee' => $budBash->getEntranceFee(),
                 'extraInfo' => $budBash->getExtraInfo() ?? 'Der ersteller der Party hat keine Informationen angegeben.',
-                'address' => $budBash->getAddress(),
+                'address' => $budBash->getAddress() ?? '',
             ];
         }, $budBashes);
 
