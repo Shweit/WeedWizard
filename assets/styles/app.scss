@@ -82,3 +82,20 @@ $navbar-dark-color: #DFDFDF;
     background-color: #1b1e21 !important;
   }
 }
+
+.form-control {
+  margin-bottom: 0.5rem; // Kleinere Abstände zwischen den Feldern
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label {
+  margin-left: 0.5rem; // Abstand zum Checkbox-Label
+}
+
+button.btn {
+  margin-top: 1rem; // Reduzierter Abstand über dem Button
+}
