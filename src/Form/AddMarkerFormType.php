@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\MapMarkers;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,6 +36,10 @@ class AddMarkerFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'Bitte gebe die Koordinaten ein.'),
                 ],
+            ])
+            ->add('public', CheckboxType::class, [
+                'label' => 'Öffentlich sichtbar',
+                'help' => 'Wenn du den Marker öffentlich sichtbar machst, können andere Benutzer deinen Marker sehen.',
             ])
         ;
     }

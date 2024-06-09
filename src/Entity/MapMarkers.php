@@ -26,6 +26,9 @@ class MapMarkers
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private bool $public = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class MapMarkers
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): static
+    {
+        $this->public = $public;
 
         return $this;
     }

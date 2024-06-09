@@ -7,6 +7,7 @@ import BudBashMarker from '../../public/build/images/party_marker.png'
 
 let userMarkers = [];
 let budBashMarkers = [];
+let publicMarkers = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
@@ -350,6 +351,34 @@ document.addEventListener('DOMContentLoaded', () => {
         applyMapSettings(map);
     });
     // END - Compliance Map Settings
+
+    // BEGIN - Public Marker Layer
+    fetch('/api/compliance-map/get-public-markers')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const icon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                iconSize: [25, 41],
+                iconAnchor: [12.5, 41],
+            });
+
+            data.markers.forEach(marker => {
+                const coordinates = marker.coordinates.split(',').map(Number);
+                const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
+                markerLayer.bindPopup(`
+                    <h5>${marker.title}</h5>
+                    <p>${marker.description}</p>
+                    <small>Öffentlicher Marker von: ${marker.name}</small>
+                `);
+
+                publicMarkers.push(markerLayer);
+            });
+
+            applyMapSettings(map);
+        });
+    // END - Public Marker Layer
 });
 
 function applyMapSettings(map) {
@@ -372,6 +401,15 @@ function applyMapSettings(map) {
         } else if (settings['showBudBashMarker'] === "true") {
             settingBudBashMarker.checked = true;
             budBashMarkers.forEach(marker => map.addLayer(marker));
+        }
+
+        let settingPublicMarker = document.getElementById('showPublicMarker');
+        if (!settings['showPublicMarker']) {
+            settingPublicMarker.checked = false;
+            publicMarkers.forEach(marker => map.removeLayer(marker));
+        } else if (settings['showPublicMarker'] === "true") {
+            settingPublicMarker.checked = true;
+            publicMarkers.forEach(marker => map.addLayer(marker));
         }
     }
 }
