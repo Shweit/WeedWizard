@@ -27,7 +27,7 @@
                     <a class="nav-link text-uppercase text-center" href="#" >Grow<br class="nav-br"> Mate</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Canna<br class="nav-br"> Consultant</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_canna_consultant') }}" >Canna<br class="nav-br"> Consultant</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -89,9 +89,14 @@
                                 <div class="dropdown-user-details">
                                     <div class="dropdown-user-details-name">{{ app.user.firstName }} {{ app.user.lastName }}</div>
                                     <div class="dropdown-user-details-email">{{ app.user.email }}</div>
+                                    {% if is_granted('ROLE_PREMIUM') %}<div class="dropdown-user-details-email">Premium</div>{% endif %}
                                 </div>
                             </h6>
                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_premium') }}">
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-dollar-sign me-2"></i></div>
+                                Abonnement
+                            </a>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
                                 Logout

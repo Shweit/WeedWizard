@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\Services\CannaConsultantService:
+        arguments:
+            $apiKey: '%env(OPENAI_API_KEY)%'
+            $assistentId: '%env(OPENAI_ASSISTENT_ID)%'
 
     App\Twig\Extension\WeedWizardBudBashLocatorExtensionExtension:
         tags:
