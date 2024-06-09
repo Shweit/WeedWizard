@@ -13,6 +13,9 @@ window.loadCSS([
     'https://unpkg.com/leaflet-easybutton/src/easy-button.css',
 ]);
 
+let userMarkers = [];
+let budBashMarkers = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
         maxZoom: 18,
@@ -129,12 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
             data.markers.forEach(marker => {
                 const coordinates = marker.coordinates.split(',').map(Number);
                 const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
-                markerLayer.bindPopup(
-                    `<h5>${marker.title}</h5>
-                <p>${marker.description}</p>
-                <br>
-                <a id="marker-${marker.id}" href="#" data-id="${marker.id}" class="text-danger">Löschen</a>`
-                );
+                markerLayer.bindPopup(`
+                    <h5>${marker.title}</h5>
+                    <p>${marker.description}</p>
+                    <br>
+                    <a id="marker-${marker.id}" href="#" data-id="${marker.id}" class="text-danger">Löschen</a>
+                `);
 
                 markerLayer.on('popupopen', function() {
                     const markerLink = document.getElementById(`marker-${marker.id}`);
@@ -155,7 +158,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                     });
                 });
+
+                userMarkers.push(markerLayer);
             });
+
+            applyMapSettings(map);
         });
     // END - Marker Layer (user Markers)
 
@@ -306,6 +313,73 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = `/budbash-locator`;
                     });
                 });
+
+                budBashMarkers.push(markerLayer);
             }
+
+            applyMapSettings(map);
         });
+    // END - Bud Bash Marker Layer
+
+    // BEGIN - Compliance Map Settings
+    L.easyButton({
+        position: 'topright',
+        leafletClasses: true,
+        states: [{
+            stateName: 'complianceMapSettings',
+            onClick: function(btn, map) {
+                btn.state('complianceMapSettingsActive');
+                let complianceMapSettingsModal = document.getElementById('mapSettingsModal');
+                const modal = new window.bootstrap.Modal(complianceMapSettingsModal);
+
+                modal.show();
+
+                complianceMapSettingsModal.addEventListener('hidden.bs.modal', function() {
+                    btn.state('complianceMapSettings');
+                });
+            },
+            title: 'Einstellungen',
+            icon: 'fa-cog'
+        }, {
+            stateName: 'complianceMapSettingsActive',
+            onClick: function(btn, map) {
+                btn.state('complianceMapSettings');
+            },
+            title: 'Einstellungen schließen',
+            icon: 'fa-times'
+        }]
+    }).addTo(map);
+
+    const settingsForm = document.getElementById('mapSettingsForm');
+
+    settingsForm.addEventListener('submit', function(formevent) {
+        formevent.preventDefault();
+        sessionStorage.setItem('mapSettings', JSON.stringify(Object.fromEntries(new FormData(settingsForm).entries())));
+        applyMapSettings(map);
+    });
+    // END - Compliance Map Settings
 });
+
+function applyMapSettings(map) {
+    if (sessionStorage.getItem('mapSettings')) {
+        const settings = JSON.parse(sessionStorage.getItem('mapSettings'));
+
+        let settingUserMarker = document.getElementById('showUserMarker');
+        if (!settings['showUserMarker']) {
+            settingUserMarker.checked = false;
+            userMarkers.forEach(marker => map.removeLayer(marker));
+        } else if (settings['showUserMarker'] === "true") {
+            settingUserMarker.checked = true;
+            userMarkers.forEach(marker => map.addLayer(marker));
+        }
+
+        let settingBudBashMarker = document.getElementById('showBudBashMarker');
+        if (!settings['showBudBashMarker']) {
+            settingBudBashMarker.checked = false;
+            budBashMarkers.forEach(marker => map.removeLayer(marker));
+        } else if (settings['showBudBashMarker'] === "true") {
+            settingBudBashMarker.checked = true;
+            budBashMarkers.forEach(marker => map.addLayer(marker));
+        }
+    }
+}
