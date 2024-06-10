@@ -11,6 +11,7 @@ class CannaConsultantFunctions
     protected function __construct(
         private EntityManagerInterface $entityManager,
         private WeedWizardKernel $weedWizardKernel,
+        private string $seedFinderApiKey,
     ) {
 
     }
@@ -105,6 +106,57 @@ class CannaConsultantFunctions
             }, $budbashes);
 
             return $budbashes;
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_all_breeders_and_strains(): array
+    {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=all&strains=1&ac='.$this->seedFinderApiKey);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_cannabis_breeder_info(string $breeder_id): array
+    {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br='.$breeder_id.'&strains=1&ac='.$this->seedFinderApiKey);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_cannabis_strain_info(string $breeder_id, string $strain_id): array
+    {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br='.$breeder_id.'&str='.$strain_id.'&comments=10&parents=1&hybrids=1&medical=1&pics=1&reviews=1&tasting=1&ac='.$this->seedFinderApiKey);
+            $result = json_decode($response->getBody()->getContents(), true);
+            unset($result['links']);
+            unset($result['licence']);
+
+            return $result;
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function search_cannabis_strain(string $search): array
+    {
+        try {
+            $guzzleClient = new \GuzzleHttp\Client();
+
+            //url encode the search string
+            $search = urlencode($search);
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/search.json?q='.$search.'&ac='.$this->seedFinderApiKey);
+            return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }

@@ -27,6 +27,7 @@ services:
         arguments:
             $apiKey: '%env(OPENAI_API_KEY)%'
             $assistantId: '%env(OPENAI_ASSISTENT_ID)%'
+            $seedFinderApiKey: '%env(SEEDFINDER_API_KEY)%'
 
     App\Twig\Extension\WeedWizardBudBashLocatorExtensionExtension:
         tags:

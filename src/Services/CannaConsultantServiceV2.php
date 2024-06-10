@@ -13,10 +13,11 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
     public function __construct(
         private readonly string $apiKey,
         private readonly string $assistantId,
+        private readonly string $seedFinderApiKey,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
     ) {
-        parent::__construct($entityManager, $weedWizardKernel);
+        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiKey);
         $this->client = OpenAI::client($this->apiKey);
     }
 
@@ -28,9 +29,10 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
 
     public function addMessageToThread(string $message, bool $runThread = true, string $instructions = ''): array
     {
-        try {$thread = $this->getThread();
+        try {
+            $thread = $this->getThread();
 
-//        $this->client->threads()->runs()->cancel($thread['id'], 'run_xmKF5U6QtrT8FJvfKPOa9CBE');
+//            $this->client->threads()->runs()->cancel($thread['id'], 'run_F9NPDOdlRVwSuYKS3wVmpaG1');
             $response = $this->client->threads()->messages()->create($thread['id'], [
                 'role' => 'user',
                 'content' => $message,
@@ -58,7 +60,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
                 ],
             );
 
-            $maxRetries = 10;
+            $maxRetries = 30;
             $retryDelay = 2;
 
             for ($i = 0; $i < $maxRetries; $i++) {
