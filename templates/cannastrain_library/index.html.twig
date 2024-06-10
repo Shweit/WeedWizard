@@ -10,7 +10,7 @@
         }
 
         #filters-container {
-            width: 20%;
+            min-width: 20%;
         }
 
         .filter-icon {
@@ -28,62 +28,91 @@
             object-fit: cover;
         }
 
+        .breeder-logo {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 75%;
+            background-color: #f0f0f0;
+        }
+
+        .breeder-logo-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
+            filter: grayscale(100%) sepia(50%) contrast(90%);
+        }
+
     </style>
 
-    <div class="container-fluid">
-        <h1 class="text-uppercase mb-4">Datenbank</h1>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="true">Sorten
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Zubehör
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="false">Sonstiges
-                </button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="d-flex flex-row border-top-4" id="database-container">
+    {% block container_class %}
+        <div class="container-fluid">
+    {% endblock %}
 
-                    {# Filters sidebar #}
-                    {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
+    {# Header #}
+    <div class="mb-4">
+        <h1 class="text-uppercase">Datenbank</h1>
+        <h5>1. Wähle einen Züchter aus.</h5>
+    </div>
 
-                    {# Breeders overview #}
-                    <div class="flex-grow-1" id="results">
-                        <div class="container">
-                            <div class="row">
-                                {% for breeder in breeders %}
-                                    {% include 'cannastrain_library/partials/_breeder_card.html.twig' with {
-                                        'id': 1,
-                                        'image': breeder.logo,
-                                        'name': breeder.name,
-                                        'description': 'Keine Beschreibung verfügbar',
-                                        'strains_count': 10,
-                                        'rating': 'Noch nicht bewertet',
-                                        'source': 'SeedFinder',
-                                    } %}
-                                {% endfor %}
-                            </div>
+    {# Tabs #}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="true">Sorten
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Zubehör
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">Sonstiges
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="d-flex flex-row border-top-4" id="database-container">
+
+                {# Filters sidebar #}
+                {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
+
+                {# Breeders overview #}
+                <div class="flex-grow-1" id="results">
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% for breeder in breeders %}
+                                {% include 'cannastrain_library/partials/_breeder_card.html.twig' with {
+                                    'id': loop.index,
+                                    'image': breeder.logo,
+                                    'name': breeder.name,
+                                    'description': 'Keine Beschreibung verfügbar',
+                                    'strains_count': 10,
+                                    'rating': 'Noch nicht bewertet',
+                                    'source': 'SeedFinder',
+                                } %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                Platzhalter Zubehör
-            </div>
-
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                Platzhalter Sonstiges
-            </div>
         </div>
+
+        {# Additional tabs #}
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            Platzhalter Zubehör
+        </div>
+
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            Platzhalter Sonstiges
+        </div>
+    </div>
     </div>
 {% endblock %}
