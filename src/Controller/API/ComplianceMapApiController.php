@@ -190,6 +190,7 @@ class ComplianceMapApiController extends AbstractController
                 'name' => $club->getName(),
                 'coordinates' => $club->getCoordinaten(),
                 'fee' => $club->getMitgliedsbeitrag(),
+                'address' => $club->getAdresse(),
             ];
         }, $club);
 
