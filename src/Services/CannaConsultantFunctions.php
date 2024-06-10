@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Services;
+
+use App\Entity\BudBash;
+use App\Entity\BudBashCheckAttendance;
+use Doctrine\ORM\EntityManagerInterface;
+
+class CannaConsultantFunctions
+{
+    protected function __construct(
+        private EntityManagerInterface $entityManager,
+        private WeedWizardKernel $weedWizardKernel,
+    ) {
+
+    }
+
+    protected function get_bud_bash_partys(): array
+    {
+        try {$budBashes = $this->entityManager->getRepository(BudBash::class)->findAll();
+
+            $budBashes = array_filter($budBashes, function ($budBash) {
+                return $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser() && $budBash->getStart() > new \DateTime() && !$budBash->getParticipants()->contains($this->weedWizardKernel->getUser());
+            });
+
+            $budBashes = array_map(function (BudBash $budBash) {
+                return [
+                    'id' => $budBash->getId(),
+                    'name' => $budBash->getName(),
+                    'description' => $budBash->getExtraInfo(),
+                    'start' => $budBash->getStart()->format('d.m.Y H:i:s'),
+                    'location' => $budBash->getAddress(),
+                    'participants' => $budBash->getParticipants()->count(),
+                ];
+            }, $budBashes);
+
+            return $budBashes;
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function add_user_to_party(int $budBash_id): string
+    {
+        try {
+            $budBash = $this->entityManager->getRepository(BudBash::class)->find($budBash_id);
+
+            if (!$budBash) {
+                return 'Party not found';
+            }
+
+            if ($budBash->getCreatedBy() === $this->weedWizardKernel->getUser()) {
+                return 'You can\'t join your own party';
+            }
+
+            if ($budBash->getStart() < new \DateTime()) {
+                return 'Party already started';
+            }
+
+            if ($budBash->getParticipants()->contains($this->weedWizardKernel->getUser())) {
+                return 'You are already participating in this party';
+            }
+
+            $budBash->addParticipant($this->weedWizardKernel->getUser());
+
+            if ($budBash->getBudBashCheckAttendances()[0]) {
+                $budBashCheckAttendance = new BudBashCheckAttendance();
+                $budBashCheckAttendance->setParticipant($this->weedWizardKernel->getUser());
+                $budBashCheckAttendance->setBudBashParty($budBash);
+                $budBashCheckAttendance->setCheckedAttendance(false);
+                $budBashCheckAttendance->setSecretString($this->weedWizardKernel->generateRandomString(20));
+
+                $budBash->addBudBashCheckAttendance($budBashCheckAttendance);
+            }
+
+            $this->entityManager->flush();
+
+            return 'You have successfully joined the party';
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+    }
+
+    protected function get_attended_party():array
+    {
+        try {
+            $budbashes = $this->entityManager->getRepository(BudBash::class)->findAll();
+
+            // find every party, where the user is a participant and which is NOT in the past
+            // and where the user is NOT the creator of the party
+            $budbashes = array_filter($budbashes, function ($budBash) {
+                return $budBash->getParticipants()->contains($this->weedWizardKernel->getUser()) && $budBash->getStart() > new \DateTime('yesterday') && $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser();
+            });
+
+            $budbashes = array_map(function (BudBash $attendedParty) {
+                return [
+                    'id' => $attendedParty->getId(),
+                    'name' => $attendedParty->getName(),
+                    'description' => $attendedParty->getExtraInfo(),
+                    'start' => $attendedParty->getStart()->format('d.m.Y H:i:s'),
+                    'location' => $attendedParty->getAddress(),
+                    'participants' => $attendedParty->getParticipants()->count(),
+                ];
+            }, $budbashes);
+
+            return $budbashes;
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+}

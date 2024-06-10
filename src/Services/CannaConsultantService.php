@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\BudBash;
 use App\Entity\CannaConsultantThreads;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -159,15 +160,35 @@ class CannaConsultantService
 
             $runStatus = $response->toArray();
 
-            dump($runStatus);
-
             if ($runStatus['status'] === 'completed') {
                 return;
             }
+
+            if ($runStatus['status'] === 'requires_action') {
+                $this->handleRequiredAction($threadId, $runId, $runStatus);
+            }
+
             sleep($retryDelay);
         }
 
         throw new \Exception('Run did not complete in the expected time');
+    }
+
+    public function handleRequiredAction(string $threadId, string $runId, $input)
+    {
+        $toolOutputs = [];
+        $functionArray = $input['required_action']['submit_tool_outputs']['tool_calls'];
+        foreach ($functionArray as $function) {
+            $functionName = $function['function']['name'];
+            $return = $this->$functionName();
+
+            $toolOutputs[] = [
+                'tool_call_id' => $function['id'],
+                'output' => $return,
+            ];
+            dump($return);
+        }
+        dd($threadId, $runId, $input);
     }
 
     private function getHeaders(): array
@@ -208,5 +229,28 @@ class CannaConsultantService
         $this->entityManager->flush();
 
         return $threadData;
+    }
+
+    private function get_bud_bash_partys(): array
+    {
+        $budBashes = $this->entityManager->getRepository(BudBash::class)->findAll();
+
+        $budBashes = array_filter($budBashes, function ($budBash) {
+            return $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser() && $budBash->getStart() > new \DateTime() && !$budBash->getParticipants()->contains($this->weedWizardKernel->getUser());
+        });
+
+        $budBashes = array_map(function (BudBash $budBash) {
+            return [
+                'id' => $budBash->getId(),
+                'name' => $budBash->getName(),
+                'start' => $budBash->getStart()->format('d.m.Y H:i:s'),
+                'coordinates' => $budBash->getCoordinates(),
+                'entrance_fee' => $budBash->getEntranceFee(),
+                'extraInfo' => $budBash->getExtraInfo() ?? 'Der ersteller der Party hat keine Informationen angegeben.',
+                'address' => $budBash->getAddress(),
+            ];
+        }, $budBashes);
+
+        return $budBashes;
     }
 }
