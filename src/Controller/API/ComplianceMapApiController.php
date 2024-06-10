@@ -150,6 +150,26 @@ class ComplianceMapApiController extends AbstractController
         ]);
     }
 
+    #[Route('/api/compliance-map/get-clubs', name: 'weedwizard_compliance_map_get_clubs', methods: ['GET'])]
+    public function getClubs(): Response
+    {
+        $club = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
+
+        $club = array_map(function (CannabisVerein $club) {
+            return [
+                'id' => $club->getId(),
+                'name' => $club->getName(),
+                'coordinates' => $club->getCoordinaten(),
+                'fee' => $club->getMitgliedsbeitrag(),
+                'address' => $club->getAdresse(),
+            ];
+        }, $club);
+
+        return new JsonResponse([
+            'clubs' => $club,
+        ]);
+    }
+
     #[Route('/api/compliance-map/get-public-markers', name: 'weedwizard_compliance_map_get_public_markers', methods: ['GET'])]
     public function getPublicMarkers(): Response
     {

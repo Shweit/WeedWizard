@@ -4,9 +4,11 @@ import 'leaflet.vectorgrid';
 import * as GeoSearch from 'leaflet-geosearch';
 import 'leaflet-easybutton';
 import BudBashMarker from '../../public/build/images/party_marker.png'
+import ClubMarker from '../../public/build/images/club_marker.png'
 
 let userMarkers = [];
 let budBashMarkers = [];
+let clubMarkers = [];
 let publicMarkers = [];
 
 // Load Leaflet and LocateControl CSS
@@ -257,11 +259,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <a id="marker-${data.marker.id}" href="#" data-id="${data.marker.id}" class="text-danger">Löschen</a>`
                             ).addTo(map);
 
-                            marker.on('popupopen', function() {
+                            marker.on('popupopen', function () {
                                 const markerLink = document.getElementById(`marker-${data.marker.id}`);
                                 const markerLink_id = markerLink.dataset.id;
 
-                                markerLink.addEventListener('click', function() {
+                                markerLink.addEventListener('click', function () {
                                     fetch(`/api/compliance-map/del-marker/${markerLink_id}`)
                                         .then(response => {
                                             return response.json();
@@ -339,9 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a id="party-${marker.id}" href="#">Anschauen</a>
                 `);
 
-                markerLayer.on('popupopen', function() {
+                markerLayer.on('popupopen', function () {
                     const partyLink = document.getElementById(`party-${marker.id}`);
-                    partyLink.addEventListener('click', function() {
+                    partyLink.addEventListener('click', function () {
                         sessionStorage.setItem('budBashFilter', JSON.stringify({
                             name: marker.name,
                             price: [marker.entrance_fee],
@@ -357,20 +359,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     // END - Bud Bash Marker Layer
 
+    // BEGIN - Club Marker Layer
+    fetch('/api/compliance-map/get-clubs')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const icon = L.icon({
+                iconUrl: ClubMarker,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+            });
+
+            for (let [key, marker] of Object.entries(data.markers)) {
+                const coordinates = marker.coordinates.split(',');
+                const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
+                markerLayer.bindPopup(`
+                    <h5>${marker.name}</h5>
+                    <hr>
+                    <p>
+                        <b>Mitgliedsbeitrag:</b> ${marker.fee}€<br>
+                        <b>Adresse:</b> ${marker.address}<br>
+                    </p>
+                    <br>
+                    <a id="club-${marker.id}" href="#">Anschauen</a>
+                `);
+
+                markerLayer.on('popupopen', function () {
+                    const clubLink = document.getElementById(`club-${marker.id}`);
+                    clubLink.addEventListener('click', function () {
+                        sessionStorage.setItem('clubFilter', JSON.stringify({
+                            name: marker.name,
+                            price: [marker.fee],
+                        }));
+                        window.location.href = `/cannabis-verein`;
+                    });
+                });
+
+                budBashMarkers.push(markerLayer);
+            }
+
+            applyMapSettings(map)
+        });
+    // END - Club Marker Layer
+
     // BEGIN - Compliance Map Settings
     L.easyButton({
         position: 'topright',
         leafletClasses: true,
         states: [{
             stateName: 'complianceMapSettings',
-            onClick: function(btn, map) {
+            onClick: function (btn, map) {
                 btn.state('complianceMapSettingsActive');
                 let complianceMapSettingsModal = document.getElementById('mapSettingsModal');
                 const modal = new window.bootstrap.Modal(complianceMapSettingsModal);
 
                 modal.show();
 
-                complianceMapSettingsModal.addEventListener('hidden.bs.modal', function() {
+                complianceMapSettingsModal.addEventListener('hidden.bs.modal', function () {
                     btn.state('complianceMapSettings');
                 });
             },
@@ -378,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fa-cog'
         }, {
             stateName: 'complianceMapSettingsActive',
-            onClick: function(btn, map) {
+            onClick: function (btn, map) {
                 btn.state('complianceMapSettings');
             },
             title: 'Einstellungen schließen',
@@ -388,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const settingsForm = document.getElementById('mapSettingsForm');
 
-    settingsForm.addEventListener('submit', function(formevent) {
+    settingsForm.addEventListener('submit', function (formevent) {
         formevent.preventDefault();
         sessionStorage.setItem('mapSettings', JSON.stringify(Object.fromEntries(new FormData(settingsForm).entries())));
         applyMapSettings(map);
@@ -444,6 +490,15 @@ function applyMapSettings(map) {
         } else if (settings['showBudBashMarker'] === "true") {
             settingBudBashMarker.checked = true;
             budBashMarkers.forEach(marker => map.addLayer(marker));
+        }
+
+        let settingClubsMarker = document.getElementById('showClubsMarker');
+        if (!settings['showClubsMarker']) {
+            settingClubsMarker.checked = false;
+            clubMarkers.forEach(marker => map.removeLayer(marker));
+        } else if (settings['showClubsMarker'] === "true") {
+            settingClubsMarker.checked = true;
+            clubMarkers.forEach(marker => map.addLayer(marker));
         }
 
         let settingPublicMarker = document.getElementById('showPublicMarker');
