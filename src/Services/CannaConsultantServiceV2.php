@@ -13,7 +13,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
     public function __construct(
         private readonly string $apiKey,
         private readonly string $assistantId,
-        private readonly string $seedFinderApiKey,
+        private string $seedFinderApiKey,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -24,6 +24,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
     public function getRecentMessages(): ?array
     {
         $thread = $this->getThread();
+
         return $this->client->threads()->messages()->list($thread['id'])->toArray();
     }
 
@@ -32,7 +33,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         try {
             $thread = $this->getThread();
 
-//            $this->client->threads()->runs()->cancel($thread['id'], 'run_F9NPDOdlRVwSuYKS3wVmpaG1');
+            //            $this->client->threads()->runs()->cancel($thread['id'], 'run_F9NPDOdlRVwSuYKS3wVmpaG1');
             $response = $this->client->threads()->messages()->create($thread['id'], [
                 'role' => 'user',
                 'content' => $message,
@@ -63,7 +64,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
             $maxRetries = 30;
             $retryDelay = 2;
 
-            for ($i = 0; $i < $maxRetries; $i++) {
+            for ($i = 0; $i < $maxRetries; ++$i) {
                 $response = $this->client->threads()->runs()->retrieve(
                     $this->getThread()['id'],
                     $response->toArray()['id']
@@ -96,6 +97,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
                                 } catch (\Exception $e) {
                                     // Hier können Sie den Fehler behandeln, z.B. den Lauf löschen und den Fehler zurückgeben
                                     $this->client->threads()->runs()->cancel($this->getThread()['id'], $response->toArray()['id']);
+
                                     return ['error' => $e->getMessage()];
                                 }
                             }
@@ -108,6 +110,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
                                 'tool_outputs' => $toolOutputs,
                             ]
                         );
+                        // no break
                     default:
                         sleep($retryDelay);
                 }
@@ -116,8 +119,14 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
             throw new \Exception('Run did not complete in the expected time');
         } catch (\Exception $e) {
             $this->client->threads()->runs()->cancel($this->getThread()['id'], $response->toArray()['id']);
+
             return ['error' => $e->getMessage()];
         }
+    }
+
+    public function getSeedFinderApiKey(): string
+    {
+        return $this->seedFinderApiKey;
     }
 
     private function getThread(): array

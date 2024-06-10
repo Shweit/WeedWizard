@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Services\CannaConsultantService;
 use App\Services\CannaConsultantServiceV2;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

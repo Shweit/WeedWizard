@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 
 class CannaConsultantFunctions
 {
@@ -12,19 +13,18 @@ class CannaConsultantFunctions
         private EntityManagerInterface $entityManager,
         private WeedWizardKernel $weedWizardKernel,
         private string $seedFinderApiKey,
-    ) {
-
-    }
+    ) {}
 
     protected function get_bud_bash_partys(): array
     {
-        try {$budBashes = $this->entityManager->getRepository(BudBash::class)->findAll();
+        try {
+            $budBashes = $this->entityManager->getRepository(BudBash::class)->findAll();
 
             $budBashes = array_filter($budBashes, function ($budBash) {
                 return $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser() && $budBash->getStart() > new \DateTime() && !$budBash->getParticipants()->contains($this->weedWizardKernel->getUser());
             });
 
-            $budBashes = array_map(function (BudBash $budBash) {
+            return array_map(function (BudBash $budBash) {
                 return [
                     'id' => $budBash->getId(),
                     'name' => $budBash->getName(),
@@ -34,8 +34,6 @@ class CannaConsultantFunctions
                     'participants' => $budBash->getParticipants()->count(),
                 ];
             }, $budBashes);
-
-            return $budBashes;
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
@@ -80,10 +78,9 @@ class CannaConsultantFunctions
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 
-    protected function get_attended_party():array
+    protected function get_attended_party(): array
     {
         try {
             $budbashes = $this->entityManager->getRepository(BudBash::class)->findAll();
@@ -94,7 +91,7 @@ class CannaConsultantFunctions
                 return $budBash->getParticipants()->contains($this->weedWizardKernel->getUser()) && $budBash->getStart() > new \DateTime('yesterday') && $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser();
             });
 
-            $budbashes = array_map(function (BudBash $attendedParty) {
+            return array_map(function (BudBash $attendedParty) {
                 return [
                     'id' => $attendedParty->getId(),
                     'name' => $attendedParty->getName(),
@@ -104,8 +101,6 @@ class CannaConsultantFunctions
                     'participants' => $attendedParty->getParticipants()->count(),
                 ];
             }, $budbashes);
-
-            return $budbashes;
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
@@ -114,8 +109,9 @@ class CannaConsultantFunctions
     protected function get_all_breeders_and_strains(): array
     {
         try {
-            $guzzleClient = new \GuzzleHttp\Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=all&strains=1&ac='.$this->seedFinderApiKey);
+            $guzzleClient = new Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=all&strains=1&ac=' . $this->seedFinderApiKey);
+
             return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
@@ -125,8 +121,9 @@ class CannaConsultantFunctions
     protected function get_cannabis_breeder_info(string $breeder_id): array
     {
         try {
-            $guzzleClient = new \GuzzleHttp\Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br='.$breeder_id.'&strains=1&ac='.$this->seedFinderApiKey);
+            $guzzleClient = new Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=' . $breeder_id . '&strains=1&ac=' . $this->seedFinderApiKey);
+
             return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
@@ -136,11 +133,10 @@ class CannaConsultantFunctions
     protected function get_cannabis_strain_info(string $breeder_id, string $strain_id): array
     {
         try {
-            $guzzleClient = new \GuzzleHttp\Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br='.$breeder_id.'&str='.$strain_id.'&comments=10&parents=1&hybrids=1&medical=1&pics=1&reviews=1&tasting=1&ac='.$this->seedFinderApiKey);
+            $guzzleClient = new Client();
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br=' . $breeder_id . '&str=' . $strain_id . '&comments=10&parents=1&hybrids=1&medical=1&pics=1&reviews=1&tasting=1&ac=' . $this->seedFinderApiKey);
             $result = json_decode($response->getBody()->getContents(), true);
-            unset($result['links']);
-            unset($result['licence']);
+            unset($result['links'], $result['licence']);
 
             return $result;
         } catch (\Exception $e) {
@@ -151,11 +147,12 @@ class CannaConsultantFunctions
     protected function search_cannabis_strain(string $search): array
     {
         try {
-            $guzzleClient = new \GuzzleHttp\Client();
+            $guzzleClient = new Client();
 
-            //url encode the search string
+            // url encode the search string
             $search = urlencode($search);
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/search.json?q='.$search.'&ac='.$this->seedFinderApiKey);
+            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/search.json?q=' . $search . '&ac=' . $this->seedFinderApiKey);
+
             return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];

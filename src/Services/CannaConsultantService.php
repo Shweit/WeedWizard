@@ -143,6 +143,23 @@ class CannaConsultantService
         return $response->toArray();
     }
 
+    public function handleRequiredAction(string $threadId, string $runId, $input)
+    {
+        $toolOutputs = [];
+        $functionArray = $input['required_action']['submit_tool_outputs']['tool_calls'];
+        foreach ($functionArray as $function) {
+            $functionName = $function['function']['name'];
+            $return = $this->{$functionName}();
+
+            $toolOutputs[] = [
+                'tool_call_id' => $function['id'],
+                'output' => $return,
+            ];
+            dump($return);
+        }
+        dd($threadId, $runId, $input);
+    }
+
     private function waitForRunCompletion(string $threadId, string $runId): void
     {
         $url = "https://api.openai.com/v1/threads/{$threadId}/runs/{$runId}";
@@ -172,23 +189,6 @@ class CannaConsultantService
         }
 
         throw new \Exception('Run did not complete in the expected time');
-    }
-
-    public function handleRequiredAction(string $threadId, string $runId, $input)
-    {
-        $toolOutputs = [];
-        $functionArray = $input['required_action']['submit_tool_outputs']['tool_calls'];
-        foreach ($functionArray as $function) {
-            $functionName = $function['function']['name'];
-            $return = $this->$functionName();
-
-            $toolOutputs[] = [
-                'tool_call_id' => $function['id'],
-                'output' => $return,
-            ];
-            dump($return);
-        }
-        dd($threadId, $runId, $input);
     }
 
     private function getHeaders(): array
@@ -239,7 +239,7 @@ class CannaConsultantService
             return $budBash->getCreatedBy() !== $this->weedWizardKernel->getUser() && $budBash->getStart() > new \DateTime() && !$budBash->getParticipants()->contains($this->weedWizardKernel->getUser());
         });
 
-        $budBashes = array_map(function (BudBash $budBash) {
+        return array_map(function (BudBash $budBash) {
             return [
                 'id' => $budBash->getId(),
                 'name' => $budBash->getName(),
@@ -250,7 +250,5 @@ class CannaConsultantService
                 'address' => $budBash->getAddress(),
             ];
         }, $budBashes);
-
-        return $budBashes;
     }
 }
