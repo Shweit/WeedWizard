@@ -6,16 +6,21 @@
     <style>
         .container-fluid {
             margin: 1em;
-            width: 98%}
+            width: 98%
+        }
+
         #filters-container {
             width: 20%;
         }
+
         .filter-icon {
             margin-right: 0.5em;
         }
+
         #myTabContent {
             height: 400px;
         }
+
         .cropped-img {
             width: auto;
             height: 200px;
@@ -29,70 +34,53 @@
         <h1 class="text-uppercase mb-4">Datenbank</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Sorten</button>
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                        role="tab" aria-controls="home" aria-selected="true">Sorten
+                </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Zubehör</button>
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                        role="tab" aria-controls="profile" aria-selected="false">Zubehör
+                </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Sonstiges</button>
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                        role="tab" aria-controls="contact" aria-selected="false">Sonstiges
+                </button>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="d-flex flex-row border-top-4" id="database-container">
 
-
                     {# Filters sidebar #}
                     {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
 
-                    {# Strains overview #}
+                    {# Breeders overview #}
                     <div class="flex-grow-1" id="results">
                         <div class="container">
                             <div class="row">
-                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                    'id': 1,
-                                    'name': 'White Widow',
-                                    'description': 'Some description text',
-                                    'intensity': 'stark',
-                                    'rating': '4 von 5 Sternen',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                                } %}
-
-                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                    'id': 2,
-                                    'name': 'White Widow',
-                                    'description': 'Some description text',
-                                    'intensity': 'stark',
-                                    'rating': '4 von 5 Sternen',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                                } %}
-
-                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                    'id': 3,
-                                    'name': 'White Widow',
-                                    'description': 'Some description text',
-                                    'intensity': 'stark',
-                                    'rating': '4 von 5 Sternen',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                                } %}
-
-                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                    'id': 4,
-                                    'name': 'White Widow',
-                                    'description': 'Some description text',
-                                    'intensity': 'stark',
-                                    'rating': '4 von 5 Sternen',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                                } %}
+                                {% for breeder in breeders %}
+                                    {% include 'cannastrain_library/partials/_breeder_card.html.twig' with {
+                                        'id': 1,
+                                        'image': breeder.logo,
+                                        'name': breeder.name,
+                                        'description': 'Keine Beschreibung verfügbar',
+                                        'strains_count': 10,
+                                        'rating': 'Noch nicht bewertet',
+                                        'source': 'SeedFinder',
+                                    } %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 Platzhalter Zubehör
             </div>
+
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 Platzhalter Sonstiges
             </div>
