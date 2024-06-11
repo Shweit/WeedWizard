@@ -14,6 +14,26 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 class CannaStrainLibraryController extends AbstractController
 {
     private SeedFinderApiService $seedfinderApiService;
+    private $breeders;
+    private array $breederFilters = [];
+    private $strains;
+    private array $strainFilters = [
+        'filter' => [
+            'Herkunft' => [
+                'indica',
+                'sativa',
+                'ruderalis',
+                'unbekannt'],
+            'Strain-Typ' => [
+                'nur nicht femisierte',
+                'femisierte',
+                'close-only strains'],
+            'Location' => [
+                'Indoor',
+                'Outdoor',
+                'Gewächshaus'],
+        ],
+    ];
 
     public function __construct(SeedFinderApiService $seedfinderApiService)
     {
@@ -24,7 +44,7 @@ class CannaStrainLibraryController extends AbstractController
     public function index(): Response
     {
         try {
-            $breeders = $this->seedfinderApiService->getBreederInfo(false);
+            $this->breeders = $this->seedfinderApiService->getBreederInfo(false);
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             return new Response('Error: ' . $e->getMessage());
         } catch (Exception $e) {
@@ -32,29 +52,31 @@ class CannaStrainLibraryController extends AbstractController
         }
 
         return $this->render('cannastrain_library/index.html.twig', [
-            'filters' => [
-                'filter' => [
-                    'Herkunft' => [
-                        'indica',
-                        'sativa',
-                        'ruderalis',
-                        'unbekannt'],
-                    'Strain-Typ' => [
-                        'nur nicht femisierte',
-                        'femisierte',
-                        'close-only strains'],
-                    'Location' => [
-                        'Indoor',
-                        'Outdoor',
-                        'Gewächshaus'],
-                ],
-            ],
-            'breeders' => $breeders,
+            'breeders' => $this->breeders,
+            'filters' => $this->breederFilters,
         ]);
     }
 
-    #[Route('/cannastrain-library/{id}', name: 'weedwizard_cannastrain-library_detailview')]
-    public function show(int $id): Response
+    #[Route('/cannastrain-library/breeder/{breederName}', name: 'weedwizard_cannastrain-library_breeder_view')]
+    public function showBreeder(string $breederName): Response
+    {
+        try {
+            $this->strains = $this->seedfinderApiService->getStrainsByBreeder($breederName);
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
+            return new Response('Error: ' . $e->getMessage());
+        } catch (Exception $e) {
+            return new Response('Error: ' . $e->getMessage());
+        }
+
+        return $this->render('cannastrain_library/breeder/index.html.twig', [
+            'breederName' => $breederName,
+            'filters' => $this->strainFilters,
+            'strains' => $this->strains,
+        ]);
+    }
+
+    #[Route('/cannastrain-library/strain/{id}', name: 'weedwizard_cannastrain-library_strain_view')]
+    public function showStrain(int $id): Response
     {
         $id = 1; // TODO: Dynamize parameter
 

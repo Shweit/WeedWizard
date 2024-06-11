@@ -28,19 +28,48 @@ class SeedFinderApiService
             $this->apikey;
 
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-            ]);
-            $response = curl_exec($ch);
-            curl_close($ch);
-
+            $response = $this->fetchApiDataViaCurl($url);
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
         }
 
+        return $this->decodeAndSliceJson($response, $limit);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getStrainsByBreeder(string $breederName, int $limit = 8)
+    {
+        $url = 'https://de.seedfinder.eu/api/json/ids.json?br=' .
+            $breederName . 'ac=' .
+            $this->apikey;
+
+        try {
+            $response = $this->fetchApiDataViaCurl($url);
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
+            throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $this->decodeAndSliceJson($response, $limit);
+    }
+
+    private function fetchApiDataViaCurl($url): bool|string
+    {
+        $curlHandle = curl_init();
+        curl_setopt($curlHandle, CURLOPT_URL, $url);
+        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curlHandle, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+        ]);
+        $response = curl_exec($curlHandle);
+        curl_close($curlHandle);
+
+        return $response;
+    }
+
+    private function decodeAndSliceJson(bool|string $response, int $limit)
+    {
         $json = json_decode($response, true);
 
         if (is_array($json)) {
@@ -48,7 +77,6 @@ class SeedFinderApiService
         } else {
             $json = ['error' => 'Failed to decode JSON'];
         }
-
         return $json;
     }
 }

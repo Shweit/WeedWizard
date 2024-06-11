@@ -1,4 +1,4 @@
-{% extends '../../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Cannastrain Library | WeedWizard{% endblock %}
 
@@ -44,13 +44,13 @@
 
 
                     {# Filters sidebar #}
-                    {% include '../partials/_filters_sidebar.html.twig' %}
+                    {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
 
                     {# Strains overview #}
                     <div class="flex-grow-1" id="results">
                         <div class="container">
                             <div class="row">
-                                {% include '../partials/_strain_card.html.twig' with {
+                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': 1,
                                     'name': 'White Widow',
                                     'description': 'Some description text',
@@ -59,7 +59,7 @@
                                     'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
                                 } %}
 
-                                {% include '../partials/_strain_card.html.twig' with {
+                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': 2,
                                     'name': 'White Widow',
                                     'description': 'Some description text',
@@ -68,7 +68,7 @@
                                     'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
                                 } %}
 
-                                {% include '../partials/_strain_card.html.twig' with {
+                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': 3,
                                     'name': 'White Widow',
                                     'description': 'Some description text',
@@ -77,7 +77,7 @@
                                     'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
                                 } %}
 
-                                {% include '../partials/_strain_card.html.twig' with {
+                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': 4,
                                     'name': 'White Widow',
                                     'description': 'Some description text',

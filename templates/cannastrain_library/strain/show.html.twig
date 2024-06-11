@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '../../base.html.twig' %}
 
 {% block title %}Cannastrain Library | Detail View{% endblock %}
 
@@ -54,7 +54,7 @@
                 <div class="d-flex flex-row border-top-4" id="database-container">
 
                     {# Filters sidebar #}
-                    {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' with {'foo': 'bar'} %}
+                    {% include '../partials/_filters_sidebar.html.twig' with {'foo': 'bar'} %}
 
                     {# Single strain view #}
                     <div class="flex-grow-1" id="results">

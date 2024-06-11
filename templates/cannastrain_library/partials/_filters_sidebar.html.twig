@@ -1,14 +1,22 @@
 <div class="d-flex flex-column border-end" id="filters-container">
 
-    {% for filter in filters %}
-        <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
-            <div class="flex-item">
-                <i class="fa-solid fa-sliders filter-icon"></i>
-                <span>Filter</span>
-            </div>
-            <i class="fa-solid fa-xmark"></i>
+    <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
+        <div class="flex-item">
+            <i class="fa-solid fa-sliders filter-icon"></i>
+            <span>Filter</span>
         </div>
+        <i class="fa-solid fa-xmark" id="close-sidebar"></i>
+    </div>
 
+    {% if filters is empty %}
+        <div class="flex-item p-3">
+            <div class="d-flex flex-row justify-content-between mb-3">
+                <span class="fw-bold">Keine Filter verfügbar</span>
+            </div>
+        </div>
+    {% endif %}
+
+    {% for filter in filters %}
         <div class="flex-item p-3">
             <div class="d-flex flex-row justify-content-between mb-3">
                 <span class="text-uppercase fw-bold">Herkunft</span>
@@ -56,11 +64,13 @@
             <div class="d-flex flex-row gap-4 mb-2">
                 <div class="input-group">
                     <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="min">
+                    <input type="number" min="0" step="0.01" class="form-control"
+                           aria-label="Amount (to the nearest dollar)" placeholder="min">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="max">
+                    <input type="number" min="0" step="0.01" class="form-control"
+                           aria-label="Amount (to the nearest dollar)" placeholder="max">
                 </div>
             </div>
         </div>
@@ -84,4 +94,5 @@
             </div>
         </div>
     {% endfor %}
+
 </div>
