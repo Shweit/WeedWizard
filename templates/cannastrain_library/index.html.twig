@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('cannastrain_library') }}
 {% endblock %}
 
 {% block body %}
@@ -51,6 +52,13 @@
             filter: grayscale(100%) sepia(50%) contrast(90%);
         }
 
+        #close-sidebar:hover {
+            color: #0C4F11;
+            cursor: pointer;
+            transform: scale(1.4) translateY(2px);
+            transition: transform 0.2s, color 0.2s;
+        }
+
     </style>
 
     {% block container_class %}
@@ -58,29 +66,12 @@
     {% endblock %}
 
     {# Header #}
-    <div class="mb-4">
-        <h1 class="text-uppercase">Datenbank</h1>
-        <h5>1. Wähle einen Züchter aus.</h5>
-    </div>
+    {% include 'cannastrain_library/partials/_header.html.twig' with {'callToAction': '1. Wähle einen Züchter aus.'} %}
 
-    {# Tabs #}
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Sorten
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                    role="tab" aria-controls="profile" aria-selected="false">Zubehör
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                    role="tab" aria-controls="contact" aria-selected="false">Sonstiges
-            </button>
-        </li>
-    </ul>
+    {# Tabs list #}
+    {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
+
+    {# Tabs content #}
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="d-flex flex-row border-top-4" id="database-container">
@@ -99,7 +90,7 @@
                                     'name': breeder.name,
                                     'description': 'Keine Beschreibung verfügbar',
                                     'strains_count': 10,
-                                    'rating': 'Noch nicht bewertet',
+                                    'rating': 'Keine Wertung verfügbar',
                                     'source': 'SeedFinder',
                                 } %}
                             {% endfor %}

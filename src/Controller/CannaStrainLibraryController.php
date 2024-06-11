@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
 class CannaStrainLibraryController extends AbstractController
 {
-    private SeedFinderApiService $seedfinderApiService;
+    private SeedFinderApiService $seedFinderApiService;
     private $breeders;
     private array $breederFilters = [];
     private $strains;
@@ -35,16 +35,16 @@ class CannaStrainLibraryController extends AbstractController
         ],
     ];
 
-    public function __construct(SeedFinderApiService $seedfinderApiService)
+    public function __construct(SeedFinderApiService $seedFinderApiService)
     {
-        $this->seedfinderApiService = $seedfinderApiService;
+        $this->seedFinderApiService = $seedFinderApiService;
     }
 
     #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
     public function index(): Response
     {
         try {
-            $this->breeders = $this->seedfinderApiService->getBreederInfo(false);
+            $this->breeders = $this->seedFinderApiService->getBreederInfo(false);
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             return new Response('Error: ' . $e->getMessage());
         } catch (Exception $e) {
@@ -57,30 +57,32 @@ class CannaStrainLibraryController extends AbstractController
         ]);
     }
 
-    #[Route('/cannastrain-library/breeder/{breederName}', name: 'weedwizard_cannastrain-library_breeder_view')]
+    #[Route('/cannastrain-library/breeder/{breederName}', name: 'weedwizard_cannastrain-library_breeder-view')]
     public function showBreeder(string $breederName): Response
     {
         try {
-            $this->strains = $this->seedfinderApiService->getStrainsByBreeder($breederName);
+            $this->strains = $this->seedFinderApiService->getStrainsByBreeder($breederName);
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             return new Response('Error: ' . $e->getMessage());
         } catch (Exception $e) {
             return new Response('Error: ' . $e->getMessage());
         }
 
-        return $this->render('cannastrain_library/breeder/index.html.twig', [
+        dd($this->strains); // TODO: Remove when testing done
+
+        return $this->render('cannastrain_library/breeder/showBreeder.html.twig', [
             'breederName' => $breederName,
             'filters' => $this->strainFilters,
             'strains' => $this->strains,
         ]);
     }
 
-    #[Route('/cannastrain-library/strain/{id}', name: 'weedwizard_cannastrain-library_strain_view')]
+    #[Route('/cannastrain-library/strain/{id}', name: 'weedwizard_cannastrain-library_strain-view')]
     public function showStrain(int $id): Response
     {
         $id = 1; // TODO: Dynamize parameter
 
-        return $this->render('cannastrain_library/show.html.twig', [
+        return $this->render('cannastrain_library/strain/showStrain.html.twig', [
             'id' => $id,
         ]);
     }

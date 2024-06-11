@@ -42,7 +42,7 @@ class SeedFinderApiService
     public function getStrainsByBreeder(string $breederName, int $limit = 8)
     {
         $url = 'https://de.seedfinder.eu/api/json/ids.json?br=' .
-            $breederName . 'ac=' .
+            (str_replace(' ', '_', $breederName)) . '&strains=1&ac=' .
             $this->apikey;
 
         try {
@@ -50,6 +50,8 @@ class SeedFinderApiService
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
         }
+
+        // TODO: Next - Extract strains for showing strains.
 
         return $this->decodeAndSliceJson($response, $limit);
     }
