@@ -14,6 +14,7 @@ bearer:
 	./bin/bearer scan ./
 
 webpack-watch:
+	npm install
 	npm run watch
 
 test:
