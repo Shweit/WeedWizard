@@ -6,7 +6,6 @@
 
         {# We need to load this Script first, to avoid site flickering #}
         {% include 'templates/_bootstrap_darkMode.js.twig' %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -43,6 +42,8 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+
+        {% block noContainerBody %}{% endblock %}
     </body>
 
     {% block script %}{% endblock %}
