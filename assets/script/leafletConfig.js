@@ -175,7 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     modal.show();
 
                     map.setView(e.latlng, 18);
-                    const marker = L.marker(e.latlng).addTo(map);
+
+                    const icon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12.5, 41],
+                    });
+                    const marker = L.marker(e.latlng, {icon: icon}).addTo(map);
 
                     const addMarkerForm = document.getElementById('add_marker_form');
                     const addMarkerFormCoords = document.getElementById('add_marker_form_coordinates');
@@ -206,7 +212,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             const coordinates = data.marker.coordinates.split(',').map(Number);
 
-                            const marker = L.marker(coordinates);
+                            const icon = L.icon({
+                                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12.5, 41],
+                            });
+
+                            const marker = L.marker(coordinates, {icon: icon});
                             marker.bindPopup(
                                 `<h5>${data.marker.title}</h5>
                                 <p>${data.marker.description}</p>

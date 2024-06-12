@@ -30,6 +30,15 @@ class ComplianceMapApiController extends AbstractController
         }
 
         // TODO: Add limit for not Premium users
+        $markers = $this->entityManager->getRepository(MapMarkers::class)->findBy([
+            'user' => $this->weedWizardKernel->getUser(),
+        ]);
+
+        if (count($markers) >= 3 && !$this->weedWizardKernel->isUserPremium()) {
+            return new JsonResponse([
+                'error' => 'Du hast bereits 3 Marker hinzugefügt. Das ist das Limit für nicht Premium Nutzer.',
+            ], Response::HTTP_FORBIDDEN);
+        }
 
         $addMarkerForm = $this->createForm(AddMarkerFormType::class);
         $addMarkerForm->handleRequest($request);

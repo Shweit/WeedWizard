@@ -40,6 +40,7 @@ class AddMarkerFormType extends AbstractType
             ->add('public', CheckboxType::class, [
                 'label' => 'Öffentlich sichtbar',
                 'help' => 'Wenn du den Marker öffentlich sichtbar machst, können andere Benutzer deinen Marker sehen.',
+                'required' => false,
             ])
         ;
     }
