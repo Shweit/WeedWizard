@@ -15,8 +15,7 @@ class KnowledgeBaseController extends AbstractController
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     #[Route('/knowledge-base', name: 'weedwizard_knowledge_base')]
     public function knowledge_base_index(): Response
