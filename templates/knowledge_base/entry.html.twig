@@ -43,7 +43,7 @@
                     </h2>
                     <div id="accordion-{{ category }}-{{ entry.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ category }}-{{ entry.id }}">
                         <div class="accordion-body">
-                            {{ entry.articleContent }}
+                            {{ entry.articleContent|raw }}
                         </div>
                     </div>
                 </div>
