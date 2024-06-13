@@ -1,0 +1,23 @@
+<div class="modal fade checkAttendanceModal" id="checkAttendanceModal-{{ budBash.id }}" data-id="{{ budBash.id }}" tabindex="-1" aria-labelledby="checkAttendanceModal-{{ budBash.name }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Anwesenheit kontrollieren</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" id="checkAttendanceModal-errorAlert-{{ budBash.id }}" style="display: none"></div>
+
+                <div id="qrCodeScanner" class="text-center">
+                    <video id="video-{{ budBash.id }}" style="width: 100%" autoplay hidden></video>
+                    <button class="btn btn-primary" id="startScanBtn-{{ budBash.id }}">Start Scanning</button>
+                    <button class="btn btn-danger" id="stopScanBtn-{{ budBash.id }}" style="display:none;">Stop Scanning</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>

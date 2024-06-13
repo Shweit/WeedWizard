@@ -32,10 +32,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?CannabisVerein $joinedClub = null;
+
+    /**
+     * @var Collection<int, CannaDoseCalculator>
+     */
+    #[ORM\OneToMany(targetEntity: CannaDoseCalculator::class, mappedBy: 'user')]
+    private Collection $cannaDoseCalculators;
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
@@ -48,14 +57,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $birthdate = null;
 
     /**
+     * @var Collection<int, BudBash>
+     */
+    #[ORM\ManyToMany(targetEntity: BudBash::class, mappedBy: 'participants')]
+    private Collection $attendedBudBashes;
+
+    /**
+     * @var Collection<int, BudBash>
+     */
+    #[ORM\OneToMany(targetEntity: BudBash::class, mappedBy: 'createdBy')]
+    private Collection $hostedBudBashes;
+
+    /**
      * @var Collection<int, Notification>
      */
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     private Collection $notifications;
 
+    /**
+     * @var Collection<int, CannabisVerein>
+     */
+    #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
+    private Collection $cannabisVereine;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?CannabisVerein $createdClub = null;
+
     public function __construct()
     {
+        $this->attendedBudBashes = new ArrayCollection();
+        $this->hostedBudBashes = new ArrayCollection();
+        $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->cannaDoseCalculators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +166,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return Collection<int, CannaDoseCalculator>
+     */
+    public function getCannaDoseCalculators(): Collection
+    {
+        return $this->cannaDoseCalculators;
+    }
+
+    public function addCannaDoseCalculator(CannaDoseCalculator $cannaDoseCalculator): static
+    {
+        if (!$this->cannaDoseCalculators->contains($cannaDoseCalculator)) {
+            $this->cannaDoseCalculators->add($cannaDoseCalculator);
+            $cannaDoseCalculator->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCannaDoseCalculator(CannaDoseCalculator $cannaDoseCalculator): static
+    {
+        if ($this->cannaDoseCalculators->removeElement($cannaDoseCalculator)) {
+            // set the owning side to null (unless already changed)
+            if ($cannaDoseCalculator->getUser() === $this) {
+                $cannaDoseCalculator->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getJoinedClub(): ?CannabisVerein
+    {
+        return $this->joinedClub;
+    }
+
+    public function setJoinedClub(?CannabisVerein $joinedClub): static
+    {
+        $this->joinedClub = $joinedClub;
+
+        return $this;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -169,6 +245,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<int, BudBash>
+     */
+    public function getAttendedBudBashes(): Collection
+    {
+        return $this->attendedBudBashes;
+    }
+
+    public function addAttendedBudBash(BudBash $attendedBudBash): static
+    {
+        if (!$this->attendedBudBashes->contains($attendedBudBash)) {
+            $this->attendedBudBashes->add($attendedBudBash);
+            $attendedBudBash->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttendedBudBash(BudBash $attendedBudBash): static
+    {
+        if ($this->attendedBudBashes->removeElement($attendedBudBash)) {
+            $attendedBudBash->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BudBash>
+     */
+    public function getHostedBudBashes(): Collection
+    {
+        return $this->hostedBudBashes;
+    }
+
+    public function addHostedBudBash(BudBash $hostedBudBash): static
+    {
+        if (!$this->hostedBudBashes->contains($hostedBudBash)) {
+            $this->hostedBudBashes->add($hostedBudBash);
+            $hostedBudBash->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHostedBudBash(BudBash $hostedBudBash): static
+    {
+        if ($this->hostedBudBashes->removeElement($hostedBudBash)) {
+            // set the owning side to null (unless already changed)
+            if ($hostedBudBash->getCreatedBy() === $this) {
+                $hostedBudBash->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Notification>
      */
     public function getNotifications(): Collection
@@ -194,6 +327,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CannabisVerein>
+     */
+    public function getCannabisVereine(): Collection
+    {
+        return $this->cannabisVereine;
+    }
+
+    public function getCreatedClub(): ?CannabisVerein
+    {
+        return $this->createdClub;
+    }
+
+    public function setCreatedClub(?CannabisVerein $createdClub): static
+    {
+        $this->createdClub = $createdClub;
 
         return $this;
     }

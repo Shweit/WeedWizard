@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cannabis Vereine{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cannabis_club') }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal fade" id="new_club" tabindex="-1" aria-labelledby="Verein erstellen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5">Verein erstellen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                {% if app.user == null %}
+                    <div class="alert alert-warning m-3" role="alert">
+                        Du musst dich <a href="{{ path('app_login') }}">einloggen</a> um einen Verein erstellen zu können.
+                    </div>
+                {% endif %}
+                {{ form_start(form) }}
+                <div class="modal-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.beschreibung) }}
+                    {{ form_row(form.adresse) }}
+                    <div id="suggestions-list" class="mb-3" style="display: none"></div>
+                    <div class="row">
+                        <div class="col-9 mb-3" aria-placeholder="Straße">
+                            {{ form_widget(form.strasse) }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form_widget(form.hausnummer) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-3">
+                            {{ form_widget(form.plz) }}
+                        </div>
+                        <div class="col-8 mb-3">
+                            {{ form_widget(form.ort) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.mitgliedsbeitrag) }}
+                    {{ form_row(form.website) }}
+                    {{ form_row(form.sonstiges) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    {{ form_widget(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="m-5 mt-0">
+        <div class="d-flex justify-content-between p-3 pb-0">
+            <div class="block">
+                <h1>Cannabis-Vereine</h1>
+            </div>
+            <a data-bs-toggle="modal" data-bs-target="#new_club"
+               class="btn btn-primary align-self-center">Verein erstellen</a>
+        </div>
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item club-nav">
+                <a class="nav-link active" aria-current="page">Verein suchen</a>
+            </li>
+            <li class="nav-item club-nav">
+                <a class="nav-link" href="{{ path('my_club') }}">Mein Cannabis-Verein</a>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" class="form-control mb-3" aria-label="Suche" id="searchClub"
+                       placeholder="Suche nach Name...">
+                <div class="row mb-4">
+                    <div class="col-2">
+                        <div class="input-group">
+                            <input type="number" id="entfernung" class="form-control" placeholder="Maximale Entfernung"
+                                   aria-label="Maximale Entfernung" aria-describedby="Maximale Entfernung">
+                            <span class="input-group-text"
+                                  id="entfernung_label">km</span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" id="priceMin" class="form-control" placeholder="Min."
+                                   aria-label="PreisMin">
+                            <span class="input-group-text">€</span>
+                            <span class="input-group-text"> - </span>
+                            <input type="number" id="priceMax" class="form-control" placeholder="Max."
+                                   aria-label="PreisMax">
+                            <span class="input-group-text">€</span>
+                        </div>
+                    </div>
+
+                    <div class="col-2 offset-2">
+                        <select class="form-select" aria-label="sort" id="sortBy">
+                            <option value="id_ASC">Neuste</option>
+                            <option value="id_DESC">Älteste</option>
+                            <option value="price_ASC">Preis aufsteigend</option>
+                            <option value="price_DESC">Preis absteigend</option>
+                            <option value="participants_ASC">Wenigste Teilnehmer</option>
+                            <option value="participants_DESC">Meiste Teilnehmer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% if cannabisVereine %}
+                {% for verein in cannabisVereine %}
+                    <div class="col-lg-4 mb-3 cannabisClubs" data-name="{{ verein.name|lower }}"
+                         data-coordinates="{{ verein.coordinaten }}" data-price="{{ verein.mitgliedsbeitrag }}"
+                         data-id="{{ verein.id }}" data-count-participants="{{ verein.participants|length }}">
+                        <div class=" card">
+                            <h3 class="card-header">{{ verein.name }}</h3>
+                            <div class="card-body">
+                                <p class="card-text">{{ verein.beschreibung }}</p>
+                                <hr>
+                                <p class="card-text">Adresse: {{ verein.adresse }}</p>
+                                {% if verein.website != null %}
+                                    <p class="card-text">Website: <a href="http://{{ verein.website }}" target="_blank">{{ verein.website }}</a></p>
+                                {% endif %}
+
+                                {% if verein.mitgliedsbeitrag == null %}
+                                    <p class="card-text">Mitgliedsbeitrag: Kostenlos</p>
+                                {% else %}
+                                    <p class="card-text">Mitgliedsbeitrag: {{ verein.mitgliedsbeitrag }}€</p>
+                                {% endif %}
+                            </div>
+                            <a href="{{ path('join_verein', {'id': verein.id}) }}"
+                               class="btn btn-primary card-footer bg-primary text-light w-100">
+                                Verein beitreten</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Es wurden keine Vereine für die gewählten Filter gefunden.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
