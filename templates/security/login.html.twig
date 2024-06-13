@@ -11,15 +11,14 @@
 
             {% if app.user %}
                 <div class="mb-3">
-                    Du bist angemeldet als {{ app.user.userIdentifier }}, <a
-                            href="{{ path('app_logout') }}">Logout</a>
+                    Du bist angemeldet als {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
                 </div>
             {% endif %}
 
             <div class="card border-3 rounded-end-0 border-end-0 p-3" style="border-color: #888888">
                 <div class="m-4 mb-0">
                     <div class="row">
-                        <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style=""
+                        <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px; width: auto;"
                              class="rounded-circle col-5">
                         <h1 class="mb-3 col offset-md-1 align-self-center">Einloggen</h1>
                     </div>
@@ -27,10 +26,8 @@
                 </div>
                 <br>
                 <div class="ps-5 pe-5">
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                           class="form-control rounded-5"
-                           autocomplete="email" placeholder="Email" aria-label="email" required autofocus>
-                    <br>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email"
+                           class="form-control rounded-5" placeholder="Email" aria-label="email" required autofocus>
                     <input type="password" name="password" id="inputPassword" class="form-control rounded-5"
                            autocomplete="current-password" placeholder="Passwort" aria-label="password" required>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -43,8 +40,7 @@
                 </div>
             </div>
         </form>
-        <div class="col-4 ps-0 pe-0 border-3 card rounded-start-0 border-start-0" style="border-color: #888888">
-            <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" class="rounded-end" alt="wizard_img" style="height: 478px; width: auto">
-        </div>
+        <div class="col-3 ps-0 pe-0 border-3 card rounded-start-0 border-start-0"
+             style="border-color: #888888; background-image: url({{ asset('build/images/weedwizrad_wizard.jpg') }}); background-size: cover; background-position: center"></div>
     </div>
 {% endblock %}
