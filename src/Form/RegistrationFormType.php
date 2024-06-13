@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Vorname',
                 'attr' => [
                     'autocomplete' => 'firstname',
-                    'class' => 'form-control rounded-5',
+                    'class' => 'form-control lr-form rounded-5',
                     'placeholder' => 'Vorname',
                 ],
                 'required' => true,
@@ -41,7 +41,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Nachname',
                 'attr' => [
                     'autocomplete' => 'lastname',
-                    'class' => 'form-control rounded-5',
+                    'class' => 'form-control lr-form rounded-5',
                     'placeholder' => 'Nachname',
                 ],
                 'required' => false,
@@ -50,7 +50,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Geburtstag',
                 'attr' => [
                     'autocomplete' => 'birthdate',
-                    'class' => 'form-control rounded-5',
+                    'class' => 'form-control lr-form rounded-5',
                     'placeholder' => 'Geburtsdatum',
                 ],
                 'constraints' => [
@@ -65,7 +65,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'E-Mail Adresse',
                 'attr' => [
                     'autocomplete' => 'email',
-                    'class' => 'form-control rounded-5',
+                    'class' => 'form-control lr-form rounded-5',
                     'placeholder' => 'Email',
                 ],
                 'constraints' => [
@@ -97,7 +97,7 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Passwort',
                     'attr' => [
                         'autocomplete' => 'password',
-                        'class' => 'form-control rounded-5',
+                        'class' => 'form-control lr-form rounded-5',
                         'placeholder' => 'Passwort',
                     ],
                 ],
@@ -105,7 +105,7 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Passwort wiederholen',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'class' => 'form-control rounded-5',
+                        'class' => 'form-control lr-form rounded-5',
                         'placeholder' => 'Passwort wiederholen',
                     ],
                 ],
