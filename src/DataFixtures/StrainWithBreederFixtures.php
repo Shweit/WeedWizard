@@ -2,11 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Breeder;
-use App\Entity\CannaConsultantThreads;
-use App\Entity\Strain;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Finder\Finder;
@@ -16,7 +12,7 @@ class StrainWithBreederFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $finder = new Finder();
-        $finder->in(__DIR__.'/StrainFixtures');
+        $finder->in(__DIR__ . '/StrainFixtures');
         $finder->name('*.sql');
         $finder->files();
         $finder->sortByName();

@@ -48,6 +48,7 @@ class WeedwizardUpdateStrainsCommand extends Command
 
         if ($strainID && !$breederID) {
             $io->error('You need to provide the breeder id and strain id to update the one single strain.');
+
             return Command::FAILURE;
         }
 
@@ -70,11 +71,12 @@ class WeedwizardUpdateStrainsCommand extends Command
     private function updateStrain($breederID, $strainID): void
     {
         $client = new Client();
-        $response = $client->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br='. $breederID .'&str='. $strainID . '&lng=de&parents=1&hybrids=1&medical=1&reviews=1&tasting=1&taste=1&smell=1&effect=1&pics=1&ac=92f2e8788330eed9b2a7519ee7c71737');
+        $response = $client->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br=' . $breederID . '&str=' . $strainID . '&lng=de&parents=1&hybrids=1&medical=1&reviews=1&tasting=1&taste=1&smell=1&effect=1&pics=1&ac=92f2e8788330eed9b2a7519ee7c71737');
         $data = json_decode($response->getBody()->getContents(), true);
 
         if ($data['error'] !== false) {
-            $this->io->error("Fehler beim aktualisieren der Sorte ". $strainID .": " . $data['error']);
+            $this->io->error('Fehler beim aktualisieren der Sorte ' . $strainID . ': ' . $data['error']);
+
             return;
         }
 
@@ -110,11 +112,12 @@ class WeedwizardUpdateStrainsCommand extends Command
     private function updateBreeder($breederID): void
     {
         $client = new Client();
-        $response = $client->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br='. $breederID .'&strains=1&ac=92f2e8788330eed9b2a7519ee7c71737');
+        $response = $client->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=' . $breederID . '&strains=1&ac=92f2e8788330eed9b2a7519ee7c71737');
         $data = json_decode($response->getBody()->getContents(), true);
 
         if (isset($data['error'])) {
             $this->io->error('Fehler beim aktualisieren des Züchters: ' . $data['error']);
+
             return;
         }
 
@@ -153,6 +156,7 @@ class WeedwizardUpdateStrainsCommand extends Command
 
         if (isset($data['error'])) {
             $this->io->error('Fehler beim aktualisieren aller Züchter: ' . $data['error']);
+
             return;
         }
 
