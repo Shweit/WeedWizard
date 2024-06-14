@@ -6,6 +6,7 @@ use App\Entity\Breeder;
 use App\Entity\Strain;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -24,7 +25,7 @@ class WeedwizardUpdateStrainsCommand extends Command
     private OutputInterface $output;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
     }
@@ -37,6 +38,9 @@ class WeedwizardUpdateStrainsCommand extends Command
         ;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -68,6 +72,9 @@ class WeedwizardUpdateStrainsCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function updateStrain($breederID, $strainID): void
     {
         $client = new Client();
@@ -109,6 +116,9 @@ class WeedwizardUpdateStrainsCommand extends Command
         $this->entityManager->flush();
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function updateBreeder($breederID): void
     {
         $client = new Client();
@@ -148,6 +158,9 @@ class WeedwizardUpdateStrainsCommand extends Command
         $this->io->newLine();
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function updateAll(): void
     {
         $client = new Client();
