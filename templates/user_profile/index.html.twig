@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserProfileController!{% endblock %}
+{% block title %}{{ userProfile.username }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('blog') }}
+{% endblock %}
 
 {% block body %}
+    {% include 'user_profile/_add_blog_entry.html.twig' %}
+
     <div class="card mt-5 mb-5">
-        <img src="{{ userProfile.banner|default(asset('build/images/gradient.svg')) }}" alt="" class="card-img-top">
+        <div style="background: url('{{ userProfile.banner|default(asset('build/images/gradient.svg')) }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top"></div>
         <div class="card-body">
             <div class="row align-items-center">
-                <div class="col-2">
+                <div class="col-2" style="margin-top: -5em;">
                     <div class="p-0 bg-dark rounded-circle" >
-                        <img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" alt="" class="img-fluid rounded-circle">
+                        <img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" alt="" class="img-fluid rounded-circle" height="250">
                     </div>
                 </div>
                 <div class="col-5">
@@ -17,18 +24,29 @@
                     <p class="text-muted text-truncate" data-bs-toggle="tooltip" data-bs-title="{{ userProfile.bio }}">
                         {{ userProfile.bio }}
                     </p>
-                    <button class="btn btn-primary"><i class="fa-solid fa-user-plus me-2"></i>Folgen</button>
+                    {% if app.user != userProfile %}
+                        {% if isUserFollowingUser(app.user, userProfile) %}
+                            <button class="btn btn-outline-primary"><i class="fa-solid fa-user-minus me-2"></i>Entfolgen</button>
+                        {% else %}
+                            <button class="btn btn-primary"><i class="fa-solid fa-user-plus me-2"></i>Folgen</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="" class="btn btn-primary">Profil bearbeiten</a>
+                    {% endif %}
                 </div>
                 <div class="col-5">
                     <div class="row text-center">
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-3 col-md-3">
                             <h3 class="m-b-0 font-light">{{ userProfile.blogs.count }}</h3><small>Beiträge</small>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-3 col-md-3">
                             <h3 class="m-b-0 font-light">{{ userProfile.followers.count }}</h3><small>Follower</small>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-3 col-md-3">
                             <h3 class="m-b-0 font-light">{{ userProfile.following.count }}</h3><small>Gefolgt</small>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <h3 class="m-b-0 font-light">{{ getAllBlogLikesFromUser(userProfile) }}</h3><small>Likes</small>
                         </div>
                     </div>
                 </div>
@@ -36,13 +54,36 @@
         </div>
     </div>
 
-    {% include 'templates/_header.html.twig' with {
-        'title': 'Beiträge',
-    } %}
+    {% if app.user == userProfile %}
+        {% include 'templates/_header.html.twig' with {
+            'title': 'Beiträge',
+            'button': {
+                'label': 'Beitrag erstellen',
+                'attr': 'data-bs-toggle=modal data-bs-target=#addBlogEntry'
+            },
+        } %}
+    {% else %}
+        {% include 'templates/_header.html.twig' with {
+            'title': 'Beiträge',
+        } %}
+    {% endif %}
 
     <div class="row">
-        {% for blog in userProfile.blogs %}
-            <div class="col-12">
+        <div class="col-9 mt-5"></div>
+        <div class="col-3">
+            <select class="form-select" id="sortBy">
+                <option value="id_ASC">Neuste</option>
+                <option value="id_DESC">Älteste</option>
+                <option value="likes_DESC">Beliebteste</option>
+                <option value="likes_ASC">Unbeliebteste</option>
+                <option value="comments_DESC">Meiste Kommentare</option>
+                <option value="comments_ASC">Wenigste Kommentare</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        {% for blog in getUserBlogPosts(userProfile) %}
+            <div class="col-12 blogEntry" data-created-at="{{ blog.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ blog.likes.count }}" data-comment-count="{{ blog.comments.count }}">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title"><img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.user.username }} <small class="text-muted h6">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
@@ -51,10 +92,14 @@
                     <div class="card-footer">
                         <div class="row d-flex">
                             <div class="col-1">
-                                <a><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                                {% if hasUserLikedPost(app.user, blog) %}
+                                    <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                                {% else %}
+                                    <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                                {% endif %}
                             </div>
                             <div class="col-1">
-                                <a><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
+                                <a href="{{ path('app_blog_entry', {'id': blog.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
                             </div>
                         </div>
                     </div>

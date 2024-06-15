@@ -8,6 +8,7 @@ import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
+import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
@@ -81,3 +82,75 @@ window.addEventListener('load', function () {
         toastBootstrap.show()
     });
 });
+
+window.showToast = function (message, type = 'success') {
+    const toastContainer = document.getElementById('toast-container');
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast', type === 'success' ? 'border-success' : 'border-danger');
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    toast.style.opacity = '1';
+    toast.style.marginBottom = '10px';
+
+    const toastHeader = document.createElement('div');
+    toastHeader.classList.add('toast-header', type === 'success' ? 'text-success' : 'text-danger');
+
+    const title = document.createElement('strong');
+    title.textContent = 'WeedWizard';
+
+    toastHeader.appendChild(title);
+
+    const toastBody = document.createElement('div');
+    toastBody.classList.add('toast-body');
+    toastBody.innerHTML = sanitizeHtml(message);
+
+    toast.appendChild(toastHeader);
+    toast.appendChild(toastBody);
+
+    toastContainer.appendChild(toast);
+
+    const toastBootstrap = new bootstrap.Toast(toast);
+    toastBootstrap.show();
+}
+
+window.toggleLikeBlogEntry = function (blogEntryId, action, link) {
+    if (action === 'like') {
+        fetch('/blog/like/' + blogEntryId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                if (data.error) {
+                    window.showToast(data.error, 'error');
+                } else {
+                    link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'unlike', this)`);
+                    link.innerHTML = '<i class="fa-solid fa-heart me-2"></i> '+data.likes;
+                }
+            })
+    } else {
+        fetch('/blog/unlike/' + blogEntryId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                if (data.error) {
+                    window.showToast(data.error, 'error');
+                } else {
+                    link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'like', this)`);
+                    link.innerHTML = '<i class="fa-regular fa-heart me-2"></i> '+data.likes;
+                }
+            })
+    }
+}

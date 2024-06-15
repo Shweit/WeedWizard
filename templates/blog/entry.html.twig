@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ blog.user.username }}'s Beitrag{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('blogEntry') }}
+{% endblock %}
+
+{% block body %}
+    {% include 'blog/_blog_comment.html.twig' with {
+        'username': blog.user.username,
+        'parentID': blog.id
+    } %}
+
+    {% if blog.parent != null %}
+        <div class="card mt-5 mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': blog.parent.user.username}) }}"><img src="{{ blog.parent.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.parent.user.username }}</a> <small class="text-muted h6">- {{ blog.parent.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                <p class="card-text">{{ blog.parent.content }}</p>
+            </div>
+            <div class="card-footer">
+                <div class="row d-flex">
+                    <div class="col-1">
+                        {% if hasUserLikedPost(app.user, blog.parent) %}
+                            <a onclick="window.toggleLikeBlogEntry({{ blog.parent.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.parent.likes.count }}</a>
+                        {% else %}
+                            <a onclick="window.toggleLikeBlogEntry({{ blog.parent.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.parent.likes.count }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-1">
+                        <a href="{{ path('app_blog_entry', {'id': blog.parent.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.parent.comments.count }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="col-12 {% if blog.parent != null %} ms-5" style="padding-right: 3rem" {% else %} mt-5 {% endif %}">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': blog.user.username}) }}"><img src="{{ blog.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.user.username }}</a> <small class="text-muted h6">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                <p class="card-text">{{ blog.content }}</p>
+            </div>
+            <div class="card-footer">
+                <div class="row d-flex">
+                    <div class="col-1">
+                        {% if hasUserLikedPost(app.user, blog) %}
+                            <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                        {% else %}
+                            <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-1">
+                        <a href="{{ path('app_blog_entry', {'id': blog.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Kommentare' ~ (blog.comments.count > 0 ? ' (' ~ blog.comments.count ~ ')' : ''),
+        'button': {
+            'label': 'Kommentar verfassen',
+            'attr': 'data-bs-toggle=modal data-bs-target=#addBlogComment'
+        },
+    } %}
+
+    <div class="row">
+        <div class="col-9 mt-5"></div>
+        <div class="col-3">
+            <select class="form-select" id="sortBy">
+                <option value="id_ASC">Neuste</option>
+                <option value="id_DESC">Älteste</option>
+                <option value="likes_DESC">Beliebteste</option>
+                <option value="likes_ASC">Unbeliebteste</option>
+                <option value="comments_DESC">Meiste Kommentare</option>
+                <option value="comments_ASC">Wenigste Kommentare</option>
+            </select>
+        </div>
+    </div>
+    {% set comments = blog.comments %}
+    {% set comments = comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+    {% for comment in comments %}
+        <div class="col-12 commentEntry {% if comment.parent != null %} ms-5" style="padding-right: 3rem" {% endif %} data-created-at="{{ comment.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ comment.likes.count }}" data-comment-count="{{ comment.comments.count }}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}"><img src="{{ comment.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ comment.user.username }}</a> <small class="text-muted h6">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row d-flex">
+                        <div class="col-1">
+                            {% if hasUserLikedPost(app.user, comment) %}
+                                <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                            {% else %}
+                                <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-1">
+                            <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if comment.comments.count > 0 %}
+            {% set comments = comment.comments %}
+            {% set comments = comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+            {% for comment in comments|slice(0, 5) %}
+                <div class="col-12" style="margin-left: 12rem; padding-right: 12rem">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}"><img src="{{ comment.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ comment.user.username }}</a> <small class="text-muted h6">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                            <p class="card-text">{{ comment.content }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row d-flex">
+                                <div class="col-1">
+                                    {% if hasUserLikedPost(app.user, comment) %}
+                                        <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                    {% else %}
+                                        <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-1">
+                                    <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Blog;
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
 use App\Entity\User;
@@ -40,5 +41,54 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
         ]);
 
         return $budBashCheckAttendance->getSecretString();
+    }
+
+    public function getUserBlogPosts(User $user, bool $sorted = true): array
+    {
+        if ($sorted) {
+            return $this->entityManager->getRepository(Blog::class)->findBy([
+                'user' => $user,
+                'parent' => null,
+            ], ['createdAt' => 'DESC']);
+        } else {
+            return $this->entityManager->getRepository(Blog::class)->findBy([
+                'user' => $user,
+                'parent' => null,
+            ]);
+        }
+    }
+
+    public function isUserFollowingUser($user, $following): bool
+    {
+        if ($user == null || $following == null) {
+            return false;
+        }
+
+        /** @var User $user */
+        return $user->getfollowing()->contains($following);
+    }
+
+    public function hasUserLikedPost($user, $post): bool
+    {
+        if ($user == null || $post == null) {
+            return false;
+        }
+
+        /** @var Blog $post */
+        return $post->getLikes()->contains($user);
+    }
+
+    public function getAllBlogLikesFromUser(User $user): int
+    {
+        $blogs = $this->entityManager->getRepository(Blog::class)->findBy([
+            'user' => $user,
+        ]);
+
+        $likes = 0;
+        foreach ($blogs as $blog) {
+            $likes += $blog->getLikes()->count();
+        }
+
+        return $likes;
     }
 }

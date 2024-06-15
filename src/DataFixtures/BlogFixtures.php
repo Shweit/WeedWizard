@@ -49,26 +49,30 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
             $blog->setCreatedAt(new DateTimeImmutable('now - ' . rand(1, 100) . ' days'));
             $blog->setUser($user);
 
-            $this->generateComments($blog, $user, rand(1, 10));
-            $this->generateLikes($blog, $user, rand(1, 10));
-
             $this->manager->persist($blog);
+
+            $this->generateComments($blog, rand(1, 10));
+            $this->generateLikes($blog, rand(1, 10));
         }
         $this->manager->flush();
     }
 
-    private function generateComments(Blog $blog, User $user, int $count): void
+    private function generateComments(Blog $blog, int $count): void
     {
         for ($i = 1; $i <= $count; ++$i) {
             $comment = new Blog();
             $comment->setContent('Comment-' . $i);
             $comment->setCreatedAt(new DateTimeImmutable('now - ' . rand(1, 100) . ' days'));
+
+            $user = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);
             $comment->setUser($user);
             $comment->setParent($blog);
+
+            $this->manager->persist($comment);
         }
     }
 
-    private function generateLikes(Blog $blog, User $user, int $count): void
+    private function generateLikes(Blog $blog, int $count): void
     {
         for ($i = 1; $i <= $count; ++$i) {
             $liker = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);

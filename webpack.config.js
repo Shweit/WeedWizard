@@ -27,6 +27,8 @@ Encore
     .addEntry('cannaConsultant', './assets/script/cannaConsultant.js')
     .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
     .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
+    .addEntry('blog', './assets/script/blog.js')
+    .addEntry('blogEntry', './assets/script/blogEntry.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

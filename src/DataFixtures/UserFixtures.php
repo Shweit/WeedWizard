@@ -33,6 +33,7 @@ class UserFixtures extends Fixture
         $user->setFirstname('Developer');
         $user->setLastname('Account');
         $user->setUsername('dev.account');
+        $user->setBio('I am a developer account. I am used for testing purposes only.');
 
         $manager->persist($user);
         $manager->flush();
