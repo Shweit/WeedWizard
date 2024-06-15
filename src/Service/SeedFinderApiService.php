@@ -39,7 +39,7 @@ class SeedFinderApiService
     /**
      * @throws Exception
      */
-    public function getStrainsByBreeder(string $breederName, int $limit = 8)
+    public function getStrainsByBreeder(string $breederName, int $limit = 8) // TODO: Remove limit (only valid for breeders at this point)
     {
         $url = 'https://de.seedfinder.eu/api/json/ids.json?br=' .
             (str_replace(' ', '_', $breederName)) . '&strains=1&ac=' .
@@ -52,6 +52,23 @@ class SeedFinderApiService
         }
 
         return $this->decodeAndSliceJson($response, $limit);
+    }
+
+    public function getStrainInfo(string $breederName, string $strainName)
+    {
+        $url = 'https://de.seedfinder.eu/api/json/strain.json?br=' .
+            (str_replace(' ', '_', $breederName)) .
+            '&str=' . (str_replace(' ', '_', $strainName)) .
+            '&medical=1' .
+            '&ac=' . $this->apikey;
+
+        try {
+            $response = $this->fetchApiDataViaCurl($url);
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
+            throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $this->decodeAndSliceJson($response);
     }
 
     private function fetchApiDataViaCurl($url): bool|string
@@ -68,7 +85,7 @@ class SeedFinderApiService
         return $response;
     }
 
-    private function decodeAndSliceJson(bool|string $response, int $limit)
+    private function decodeAndSliceJson(bool|string $response, int $limit = 100) // TODO: Set good limit
     {
         $json = json_decode($response, true);
 

@@ -71,47 +71,10 @@
                                     'description': 'Keine Beschreibung verfügbar',
                                     'intensity': 'Keine Intensität verfügbar',
                                     'rating': 'Keine Wertung verfügbar',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                    'btnLink': path('weedwizard_cannastrain-library_strain-view', {'breederName': breederName, 'strainName': strain_name})
                                 } %}
                             {% endfor %}
-
-                            {# TODO: Correct loop #}
-
-                            {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                'id': 1,
-                                'name': 'White Widow',
-                                'description': 'Some description text',
-                                'intensity': 'stark',
-                                'rating': '4 von 5 Sternen',
-                                'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                            } %}
-
-                            {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                'id': 2,
-                                'name': 'White Widow',
-                                'description': 'Some description text',
-                                'intensity': 'stark',
-                                'rating': '4 von 5 Sternen',
-                                'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                            } %}
-
-                            {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                'id': 3,
-                                'name': 'White Widow',
-                                'description': 'Some description text',
-                                'intensity': 'stark',
-                                'rating': '4 von 5 Sternen',
-                                'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                            } %}
-
-                            {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
-                                'id': 4,
-                                'name': 'White Widow',
-                                'description': 'Some description text',
-                                'intensity': 'stark',
-                                'rating': '4 von 5 Sternen',
-                                'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                            } %}
                         </div>
                     </div>
                 </div>

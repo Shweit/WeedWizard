@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use function Symfony\Component\String\s;
 
 class CannaStrainLibraryController extends AbstractController
 {
@@ -77,13 +78,20 @@ class CannaStrainLibraryController extends AbstractController
         ]);
     }
 
-    #[Route('/cannastrain-library/strain/{id}', name: 'weedwizard_cannastrain-library_strain-view')]
-    public function showStrain(int $id): Response
+    #[Route('/cannastrain-library/strain/{breederName}/{strainName}', name: 'weedwizard_cannastrain-library_strain-view')]
+    public function showStrain(string $breederName, string $strainName): Response
     {
-        $id = 1; // TODO: Dynamize parameter
+        $strain = $this->seedFinderApiService->getStrainInfo($breederName, $strainName);
+
+        $strainName = $strain['name'];
+        $strainInfo = $strain['brinfo'];
+        $strainMedicalInfo = $strain['medical'];
 
         return $this->render('cannastrain_library/strain/showStrain.html.twig', [
-            'id' => $id,
+            'filters' => [],
+            'strainInfo' => $strainInfo,
+            'strainName' => $strainName,
+            'strainMedicalInfo' => $strainMedicalInfo,
         ]);
     }
 }
