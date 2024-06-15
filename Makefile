@@ -62,8 +62,8 @@ load-fixtures: reset_db
 	@echo "$(BG_BLUE)     (Ja, dass kann was länger dauern :) )                        $(NC)"
 	@echo "$(BG_BLUE)                                                                  $(NC)"
 	@echo "$(NC)                                                                  $(NC)"
-	@php bin/console doctrine:fixtures:load -q --env=dev --no-interaction || true
-	@php bin/console doctrine:fixtures:load -q --env=test --no-interaction || true
+	php bin/console doctrine:fixtures:load -q --env=dev --no-interaction || true
+	php bin/console doctrine:fixtures:load -q --env=test --no-interaction || true
 
 
 	@echo "$(NC)                                                                  $(NC)"

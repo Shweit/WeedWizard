@@ -32,6 +32,7 @@ class ClubFixtures extends Fixture
                     'SicheresPasswort'
                 )
             );
+            $user->setUsername('user-' . $i);
 
             $address = explode(' $ ', $this->generateRandomAddres($i));
 

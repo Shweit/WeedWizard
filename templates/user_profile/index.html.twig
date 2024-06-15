@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserProfileController!{% endblock %}
+
+{% block body %}
+    <div class="card mt-5 mb-5">
+        <img src="{{ userProfile.banner|default(asset('build/images/gradient.svg')) }}" alt="" class="card-img-top">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <div class="p-0 bg-dark rounded-circle" >
+                        <img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" alt="" class="img-fluid rounded-circle">
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h3 class="m-b-0">{{ userProfile.firstname }} {{ userProfile.lastname }} <small class="text-muted h6">{{ userProfile.username }}</small></h3>
+                    <p class="text-muted text-truncate" data-bs-toggle="tooltip" data-bs-title="{{ userProfile.bio }}">
+                        {{ userProfile.bio }}
+                    </p>
+                    <button class="btn btn-primary"><i class="fa-solid fa-user-plus me-2"></i>Folgen</button>
+                </div>
+                <div class="col-5">
+                    <div class="row text-center">
+                        <div class="col-lg-4 col-md-4">
+                            <h3 class="m-b-0 font-light">{{ userProfile.blogs.count }}</h3><small>Beiträge</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h3 class="m-b-0 font-light">{{ userProfile.followers.count }}</h3><small>Follower</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h3 class="m-b-0 font-light">{{ userProfile.following.count }}</h3><small>Gefolgt</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Beiträge',
+    } %}
+
+    <div class="row">
+        {% for blog in userProfile.blogs %}
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title"><img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.user.username }} <small class="text-muted h6">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                        <p class="card-text">{{ blog.content }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row d-flex">
+                            <div class="col-1">
+                                <a><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                            </div>
+                            <div class="col-1">
+                                <a><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
