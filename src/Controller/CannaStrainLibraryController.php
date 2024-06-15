@@ -68,7 +68,7 @@ class CannaStrainLibraryController extends AbstractController
             return new Response('Error: ' . $e->getMessage());
         }
 
-        dd($this->strains); // TODO: Remove when testing done
+        $this->strains = $this->strains[str_replace(' ', '_', $breederName)]['strains'];
 
         return $this->render('cannastrain_library/breeder/showBreeder.html.twig', [
             'breederName' => $breederName,

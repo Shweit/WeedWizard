@@ -64,10 +64,10 @@
                 <div class="flex-grow-1" id="results">
                     <div class="container-fluid">
                         <div class="row">
-                            {% for strain in strains %}
+                            {% for strain_key, strain_name in strains %}
                                 {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': loop.index,
-                                    'name': strain.name,
+                                    'name': strain_name,
                                     'description': 'Keine Beschreibung verfügbar',
                                     'intensity': 'Keine Intensität verfügbar',
                                     'rating': 'Keine Wertung verfügbar',

@@ -51,8 +51,6 @@ class SeedFinderApiService
             throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
         }
 
-        // TODO: Next - Extract strains for showing strains.
-
         return $this->decodeAndSliceJson($response, $limit);
     }
 
