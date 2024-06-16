@@ -61,7 +61,9 @@ class UserProfileController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
 
                 if ($newFilename != $userProfile->getProfilePicture()) {
-                    unlink('uploads/profile_pictures/' . $userProfile->getProfilePicture());
+                    if ($userProfile->getProfilePicture()){
+                        unlink('uploads/profile_pictures/' . $userProfile->getProfilePicture());
+                    }
 
                     $profilePicture->move(
                         'uploads/profile_pictures/',
@@ -80,7 +82,9 @@ class UserProfileController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
 
                 if ($newFilename != $userProfile->getBanner()) {
-                    unlink('uploads/banners/' . $userProfile->getBanner());
+                    if ($userProfile->getBanner()){
+                        unlink('uploads/banners/' . $userProfile->getBanner());
+                    }
 
                     $banner->move(
                         'uploads/banners/',

@@ -18,12 +18,12 @@
         {% endif %}
         <div class="card-body">
             <div class="row align-items-center">
-                <div class="col-2" style="margin-top: -5em;">
-                    <div class="p-0 bg-dark rounded-circle" >
+                <div class="col-2 d-flex justify-content-center" style="margin-top: -5em;">
+                    <div class="p-0 bg-dark rounded-circle" style="height: 160px; width: 160px;">
                         {% if userProfile.profilePicture %}
-                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
+                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 160px; width: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
                         {% else %}
-                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
+                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 160px; width: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
                         {% endif %}
                     </div>
                 </div>

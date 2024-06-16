@@ -10,13 +10,21 @@
 {% block body %}
     {{ form_start(userProfileForm) }}
         <div class="card mt-5 mb-5">
-            <div id="bannerPreview" style="background: url('{{ '/uploads/banners/' ~ userProfile.banner|default(asset('build/images/gradient.svg')) }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Banners" onclick="document.getElementById('user_profile_form_banner').click()"></div>
+            {% if userProfile.banner %}
+                <div id="bannerPreview" style="background: url('{{ '/uploads/banners/' ~ userProfile.banner }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Banners" onclick="document.getElementById('user_profile_form_banner').click()"></div>
+            {% else %}
+                <div id="bannerPreview" style="background: url('{{ asset('build/images/gradient.svg') }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Banners" onclick="document.getElementById('user_profile_form_banner').click()"></div>
+            {% endif %}
             {{ form_row(userProfileForm.banner) }}
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-2">
+                    <div class="col-2 d-flex justify-content-center">
                         <div class="p-0 bg-dark rounded-circle" >
-                            <div id="profilePicturePreview" style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}'); height: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Profilfotos" onclick="document.getElementById('user_profile_form_profilePicture').click()"></div>
+                            {% if userProfile.profilePicture %}
+                                <div id="profilePicturePreview" style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 160px; width: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Profilfotos" onclick="document.getElementById('user_profile_form_profilePicture').click()"></div>
+                            {% else %}
+                                <div id="profilePicturePreview" style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 160px; width: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle" data-bs-toggle="tooltip" data-bs-title="Klicken zum ändern des Profilfotos" onclick="document.getElementById('user_profile_form_profilePicture').click()"></div>
+                            {% endif %}
                             {{ form_row(userProfileForm.profilePicture) }}
                         </div>
                     </div>
