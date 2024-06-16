@@ -1,0 +1,14 @@
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('00_Seeds_Bank', '00 Seeds Bank', '00seeds.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('0siris_Genetics', '0siris Genetics', '0siris.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('11s_Genetics', '11s Genetics', '11s_Genetics.png');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('13_Hills', '13 Hills', '13_Hills.png');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('1522_Genetics', '1522 Genetics', '1522genetics.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('1904_Genetics', '1904 Genetics', '1904_Genetics.png');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('2_Guns_and_a_Guy_Seed_Company', '2 Guns and a Guy Seed Company', '2guns.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('207_Genetics', '207 Genetics', '207gene.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('207_Seeds', '207 Seeds', '207seeds.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('210Beans', '210Beans', '210beans.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('2Buds_Genetics', '2Buds Genetics', '2buds.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('303_Seeds', '303 Seeds', '303seeds.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('34_Street_Seed_Company', '34 Street Seed Company', '34street.jpg');
+INSERT INTO WeedWizard.breeder (seedfinder_id, name, logo) VALUES ('360grow420_Genetics', '360grow420 Genetics', '360grow420_Genetics.jpg');
