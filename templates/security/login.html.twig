@@ -2,6 +2,11 @@
 
 {% block title %}Anmelden{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('login') }}
+{% endblock %}
+
 {% block body %}
     <div class="pt-5 row justify-content-center">
         <form class="col-6 pe-0 login_form" method="post">
@@ -27,9 +32,16 @@
                 <br>
                 <div class="ps-5 pe-5">
                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email"
-                           class="form-control lr-form rounded-5" placeholder="Email" aria-label="email" required autofocus>
-                    <input type="password" name="password" id="inputPassword" class="form-control lr-form rounded-5"
-                           autocomplete="current-password" placeholder="Passwort" aria-label="password" required>
+                           class="form-control lr-form rounded-5" placeholder="Email" aria-label="email" required
+                           autofocus>
+                    <div class="position-relative">
+                        <input type="password" name="password" id="password" class="form-control lr-form rounded-5"
+                               autocomplete="current-password" placeholder="Passwort" aria-label="password" required>
+                        <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                            <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 </div>
                 <div class="row justify-content-center mt-5">

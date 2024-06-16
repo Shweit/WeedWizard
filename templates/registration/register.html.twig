@@ -2,6 +2,11 @@
 
 {% block title %}Registrierung{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('register') }}
+{% endblock %}
+
 {% block body %}
     <div class="pt-5 row justify-content-center">
         <form class="col-6 pe-0 login_form" method="post">
@@ -40,11 +45,19 @@
                         {{ form_widget(registrationForm.email) }}
                         <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.email) }}</div>
                     </div>
-                    <div class="lr-form">
+                    <div class="lr-form position-relative">
                         {{ form_widget(registrationForm.password.first) }}
                         <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.password.first) }}</div>
+                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                            <i class="bi bi-eye" id="togglePasswordIconFirst"></i>
+                        </button>
                     </div>
-                    {{ form_widget(registrationForm.password.second) }}
+                    <div class="lr-form position-relative">
+                        {{ form_widget(registrationForm.password.second) }}
+                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                            <i class="bi bi-eye" id="togglePasswordIconSecond"></i>
+                        </button>
+                    </div>
                     <div class="form-check mb-0">
                         {{ form_widget(registrationForm.agreeTerms) }}
                     </div>

@@ -34,9 +34,10 @@
         "@fortawesome/fontawesome-free": "^6.5.2",
         "@hotwired/stimulus": "^3.2.2",
         "@symfony/stimulus-bridge": "^3.2.2",
+        "bootstrap-icons": "^1.11.3",
         "chartjs-plugin-annotation": "^3.0.1",
-        "marked": "^12.0.2",
         "jsqr": "^1.4.0",
+        "marked": "^12.0.2",
         "nouislider": "^15.7.1",
         "qrcode-generator": "^1.4.4"
     }
