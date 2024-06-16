@@ -6,15 +6,12 @@ use Exception;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SeedFinderApiService
 {
-
     public function __construct(
         private readonly string $apikey
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception
