@@ -1,6 +1,7 @@
 <?php
 
 // src/Controller/GrowMateController.php
+
 namespace App\Controller;
 
 use App\Entity\Breeder;
@@ -24,7 +25,7 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
     {
-        $user = $this->getUser();
+        $user = $this->weedWizardKernel->getUser();
         $plants = $entityManager->getRepository(Plant::class)->findBy(['user' => $user]);
 
         $form = $this->createForm(PlantType::class);
@@ -34,11 +35,13 @@ class GrowMateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->weedWizardKernel->getUser()) {
                 $this->addFlash('error', 'Du musst eingeloggt sein um eine Pflanze erstellen zu können.');
+
                 return $this->redirectToRoute('growMate');
             }
 
             if (count($plants) >= 3) {
                 $this->addFlash('error', 'Du kannst nur bis zu 3 Pflanzen hinzufügen.');
+
                 return $this->redirectToRoute('growMate');
             }
 
@@ -51,9 +54,11 @@ class GrowMateController extends AbstractController
             switch ($plant->getPlaceOfCultivation()) {
                 case 'indoor':
                     $plant->setLighting('lamp');
+
                     break;
                 case 'outdoor':
                     $plant->setLighting('sunlight');
+
                     break;
                 default:
                     $plant->setLighting('unknown');
@@ -68,7 +73,6 @@ class GrowMateController extends AbstractController
 
             return $this->redirectToRoute('growMate');
         }
-
 
         return $this->render('grow_mate/index.html.twig', [
             'plants' => $plants,

@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Plant;
 use App\Services\WeedWizardKernel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,7 +19,6 @@ class PlantType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('name', TextType::class, ['label' => 'Name der Pflanze'])
             ->add('breeder', ChoiceType::class, [
@@ -32,7 +30,7 @@ class PlantType extends AbstractType
 
             ->add('date', DateType::class, [
                 'label' => 'Anbaudatum',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('state', ChoiceType::class, [
                 'label' => 'Wachstumsstatus',
@@ -41,22 +39,19 @@ class PlantType extends AbstractType
                     'Sämling' => 'seedling',
                     'Vegetativ' => 'vegetative',
                     'Blüte' => 'flowering',
-                    'Ernte' => 'harvest'
-                ]
+                    'Ernte' => 'harvest',
+                ],
             ])
             ->add('placeOfCultivation', ChoiceType::class, [
                 'label' => 'Ort der Anpflanzung',
                 'choices' => [
                     '' => null,
                     'Innen' => 'indoor',
-                    'Außen' => 'outdoor'
-                ]
+                    'Außen' => 'outdoor',
+                ],
             ])
             ->add('submit', SubmitType::class, ['label' => 'Speichern']);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-    }
+    public function configureOptions(OptionsResolver $resolver): void {}
 }
-

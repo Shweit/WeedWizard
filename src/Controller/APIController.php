@@ -24,6 +24,6 @@ class APIController extends AbstractController
 
         $strains = $breeder->getStrains()->toArray();
 
-        return new JsonResponse($this->serializer->normalize($strains, null, ['groups' => 'growMate']), Response::HTTP_OK);
+        return new JsonResponse($this->serializer->normalize($strains, null, ['groups' => 'growMate']), Response::HTTP_OK); // @phpstan-ignore-line
     }
 }

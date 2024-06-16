@@ -45,6 +45,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
     public function arrayKeyFirst(array $array)
     {
         reset($array);
+
         return key($array);
     }
 }

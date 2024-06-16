@@ -33,6 +33,7 @@ class WeedWizardKernel
         foreach ($breeders as $breeder) {
             $choices[$breeder->getName()] = $breeder->getSeedfinderId();
         }
+
         return $choices;
     }
 
@@ -43,6 +44,7 @@ class WeedWizardKernel
         foreach ($strains as $strain) {
             $choices[$strain->getName()] = $strain->getSeedfinderId();
         }
+
         return $choices;
     }
 }
