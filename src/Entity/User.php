@@ -53,9 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     private Collection $notifications;
 
+    /**
+     * @var Collection<int, Plant>
+     */
+    #[ORM\OneToMany(targetEntity: Plant::class, mappedBy: 'user')]
+    private Collection $plants;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
+        $this->plants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +199,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Plant>
+     */
+    public function getPlants(): Collection
+    {
+        return $this->plants;
+    }
+
+    public function addPlant(Plant $plant): static
+    {
+        if (!$this->plants->contains($plant)) {
+            $this->plants->add($plant);
+            $plant->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlant(Plant $plant): static
+    {
+        if ($this->plants->removeElement($plant)) {
+            // set the owning side to null (unless already changed)
+            if ($plant->getUser() === $this) {
+                $plant->setUser(null);
             }
         }
 

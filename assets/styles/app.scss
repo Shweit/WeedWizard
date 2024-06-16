@@ -1,7 +1,7 @@
 $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
-
+@import "~select2/dist/css/select2.min.css";
 @import "~bootstrap/scss/bootstrap.scss";
 
 .dropdown-user-details-name {
