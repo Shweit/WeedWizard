@@ -6,11 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
        const content = document.getElementById('addBlogEntry_content').value;
 
-       fetch('/blog/add?content='+content, {
+       fetch('/blog/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+           body: JSON.stringify({
+                content: content
+          })
        })
        .then(response =>  {
            return response.json()

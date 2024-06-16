@@ -31,6 +31,9 @@
                     <div class="col-1">
                         <a href="{{ path('app_blog_entry', {'id': blog.parent.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.parent.comments.count }}</a>
                     </div>
+                    <div class="col-1">
+                        <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ blog.parent.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,6 +55,9 @@
                     </div>
                     <div class="col-1">
                         <a href="{{ path('app_blog_entry', {'id': blog.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
+                    </div>
+                    <div class="col-1">
+                        <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ blog.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
                     </div>
                 </div>
             </div>
@@ -100,6 +106,9 @@
                         <div class="col-1">
                             <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
                         </div>
+                        <div class="col-1">
+                            <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,6 +135,9 @@
                                 </div>
                                 <div class="col-1">
                                     <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
+                                </div>
+                                <div class="col-1">
+                                    <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
                                 </div>
                             </div>
                         </div>

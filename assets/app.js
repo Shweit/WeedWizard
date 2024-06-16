@@ -154,3 +154,10 @@ window.toggleLikeBlogEntry = function (blogEntryId, action, link) {
             })
     }
 }
+
+window.copyToClipboard = function (content, toastMessage) {
+    navigator.clipboard.writeText(content)
+        .then(() => {
+            window.showToast(toastMessage, 'success')
+        });
+}
