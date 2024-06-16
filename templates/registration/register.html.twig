@@ -23,13 +23,27 @@
                 <br>
                 <div class="ps-5 pe-5">
                     {{ form_start(registrationForm) }}
-                    <div class="d-flex mb-0 gap-3">
-                        {{ form_widget(registrationForm.firstname) }}
-                        {{ form_widget(registrationForm.lastname) }}
+                    <div class="row mb-0">
+                        <div class="col-6 lr-form">
+                            {{ form_widget(registrationForm.firstname) }}
+                            <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.birthdate) }}</div>
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(registrationForm.lastname) }}
+                        </div>
                     </div>
-                    {{ form_widget(registrationForm.birthdate) }}
-                    {{ form_widget(registrationForm.email) }}
-                    {{ form_widget(registrationForm.password.first) }}
+                    <div class="lr-form">
+                        {{ form_widget(registrationForm.birthdate) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.birthdate) }}</div>
+                    </div>
+                    <div class="lr-form">
+                        {{ form_widget(registrationForm.email) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.email) }}</div>
+                    </div>
+                    <div class="lr-form">
+                        {{ form_widget(registrationForm.password.first) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.password.first) }}</div>
+                    </div>
                     {{ form_widget(registrationForm.password.second) }}
                     <div class="form-check mb-0">
                         {{ form_widget(registrationForm.agreeTerms) }}
@@ -45,7 +59,7 @@
                 </div>
             </div>
         </form>
-        <div class="col-3 ps-0 pe-0 border-3 card rounded-start-0 border-start-0"
+        <div class="col-4 ps-0 pe-0 border-3 card rounded-start-0 border-start-0"
              style="border-color: #888888; background-image: url({{ asset('build/images/weedwizrad_wizard.jpg') }}); background-size: cover; background-position: center"></div>
     </div>
 {% endblock %}

@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Vorname',
                 'attr' => [
                     'autocomplete' => 'firstname',
-                    'class' => 'form-control lr-form rounded-5',
+                    'class' => 'form-control rounded-5',
                     'placeholder' => 'Vorname',
                 ],
                 'required' => true,
@@ -50,7 +50,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Geburtstag',
                 'attr' => [
                     'autocomplete' => 'birthdate',
-                    'class' => 'form-control lr-form rounded-5',
+                    'class' => 'form-control rounded-5',
                     'placeholder' => 'Geburtsdatum',
                 ],
                 'constraints' => [
@@ -65,7 +65,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'E-Mail Adresse',
                 'attr' => [
                     'autocomplete' => 'email',
-                    'class' => 'form-control lr-form rounded-5',
+                    'class' => 'form-control rounded-5',
                     'placeholder' => 'Email',
                 ],
                 'constraints' => [
@@ -97,8 +97,18 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Passwort',
                     'attr' => [
                         'autocomplete' => 'password',
-                        'class' => 'form-control lr-form rounded-5',
+                        'class' => 'form-control rounded-5',
                         'placeholder' => 'Passwort',
+                    ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please enter a password',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'max' => 4096,
+                        ]),
                     ],
                 ],
                 'second_options' => [
@@ -108,16 +118,6 @@ class RegistrationFormType extends AbstractType
                         'class' => 'form-control lr-form rounded-5',
                         'placeholder' => 'Passwort wiederholen',
                     ],
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
-                    ]),
                 ],
             ]);
     }
