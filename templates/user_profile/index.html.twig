@@ -11,12 +11,20 @@
     {% include 'user_profile/_add_blog_entry.html.twig' %}
 
     <div class="card mt-5 mb-5">
-        <div style="background: url('{{ userProfile.banner|default(asset('build/images/gradient.svg')) }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top"></div>
+        {% if userProfile.banner %}
+            <div style="background: url('{{ '/uploads/banners/' ~ userProfile.banner }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top"></div>
+        {% else %}
+            <div style="background: url('{{ asset('build/images/gradient.svg') }}'); height: 250px; background-repeat: no-repeat; background-size: cover" class="card-img-top"></div>
+        {% endif %}
         <div class="card-body">
             <div class="row align-items-center">
                 <div class="col-2" style="margin-top: -5em;">
                     <div class="p-0 bg-dark rounded-circle" >
-                        <img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" alt="" class="img-fluid rounded-circle" height="250">
+                        {% if userProfile.profilePicture %}
+                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
+                        {% else %}
+                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 160px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-5">
@@ -31,7 +39,7 @@
                             <button class="btn btn-primary"><i class="fa-solid fa-user-plus me-2"></i>Folgen</button>
                         {% endif %}
                     {% else %}
-                        <a href="" class="btn btn-primary">Profil bearbeiten</a>
+                        <a href="{{ path('weedwizard_user_profile_edit', {'username': userProfile.username}) }}" class="btn btn-primary">Profil bearbeiten</a>
                     {% endif %}
                 </div>
                 <div class="col-5">
@@ -86,7 +94,14 @@
             <div class="col-12 blogEntry" data-created-at="{{ blog.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ blog.likes.count }}" data-comment-count="{{ blog.comments.count }}">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title"><img src="{{ userProfile.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.user.username }} <small class="text-muted h6">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                        <h5 class="card-title d-flex align-items-center">
+                            {% if userProfile.profilePicture %}
+                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% else %}
+                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% endif %}
+                            {{ blog.user.username }} <small class="text-muted h6 mb-0">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                        </h5>
                         <p class="card-text">{{ blog.content }}</p>
                     </div>
                     <div class="card-footer">

@@ -16,7 +16,17 @@
     {% if blog.parent != null %}
         <div class="card mt-5 mb-2">
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': blog.parent.user.username}) }}"><img src="{{ blog.parent.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.parent.user.username }}</a> <small class="text-muted h6">- {{ blog.parent.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                <h5 class="card-title d-flex align-items-center">
+                    <a href="{{ path('weedwizard_user_profile', {'username': blog.parent.user.username}) }}" class="d-flex align-items-center">
+                        {% if blog.parent.user.profilePicture %}
+                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ blog.parent.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                        {% else %}
+                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                        {% endif %}
+                        {{ blog.parent.user.username }}
+                    </a>
+                    <small class="text-muted h6 mb-0">- {{ blog.parent.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                </h5>
                 <p class="card-text">{{ blog.parent.content }}</p>
             </div>
             <div class="card-footer">
@@ -41,7 +51,17 @@
     <div class="col-12 {% if blog.parent != null %} ms-5" style="padding-right: 3rem" {% else %} mt-5 {% endif %}">
         <div class="card mb-2">
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': blog.user.username}) }}"><img src="{{ blog.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ blog.user.username }}</a> <small class="text-muted h6">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                <h5 class="card-title d-flex align-items-center">
+                    <a href="{{ path('weedwizard_user_profile', {'username': blog.user.username}) }}" class="d-flex align-items-center">
+                        {% if blog.user.profilePicture %}
+                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ blog.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                        {% else %}
+                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                        {% endif %}
+                        {{ blog.user.username }}
+                    </a>
+                    <small class="text-muted h6 mb-0">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                </h5>
                 <p class="card-text">{{ blog.content }}</p>
             </div>
             <div class="card-footer">
@@ -91,7 +111,17 @@
         <div class="col-12 commentEntry {% if comment.parent != null %} ms-5" style="padding-right: 3rem" {% endif %} data-created-at="{{ comment.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ comment.likes.count }}" data-comment-count="{{ comment.comments.count }}">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}"><img src="{{ comment.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ comment.user.username }}</a> <small class="text-muted h6">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                    <h5 class="card-title d-flex align-items-center">
+                        <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}" class="d-flex align-items-center">
+                            {% if comment.user.profilePicture %}
+                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ comment.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% else %}
+                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% endif %}
+                            {{ comment.user.username }}
+                        </a>
+                        <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                    </h5>
                     <p class="card-text">{{ comment.content }}</p>
                 </div>
                 <div class="card-footer">
@@ -121,7 +151,17 @@
                 <div class="col-12" style="margin-left: 12rem; padding-right: 12rem">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}"><img src="{{ comment.user.profilePicture|default(asset('build/images/userAvatar-placeholder.png')) }}" height="25" alt="" class="rounded-circle me-2">{{ comment.user.username }}</a> <small class="text-muted h6">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small></h5>
+                            <h5 class="card-title d-flex align-items-center">
+                                <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}" class="d-flex align-items-center">
+                                    {% if comment.user.profilePicture %}
+                                        <div style="background: url('{{ '/uploads/profile_pictures/' ~ comment.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                    {% else %}
+                                        <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                    {% endif %}
+                                    {{ comment.user.username }}
+                                </a>
+                                <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                            </h5>
                             <p class="card-text">{{ comment.content }}</p>
                         </div>
                         <div class="card-footer">

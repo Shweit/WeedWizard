@@ -29,6 +29,7 @@ Encore
     .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
     .addEntry('blog', './assets/script/blog.js')
     .addEntry('blogEntry', './assets/script/blogEntry.js')
+    .addEntry('editUserProfile', './assets/script/editUserProfile.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

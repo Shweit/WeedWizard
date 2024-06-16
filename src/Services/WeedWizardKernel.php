@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class WeedWizardKernel
 {
@@ -20,5 +22,11 @@ class WeedWizardKernel
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function redirectToPreviousPage(Request $request): RedirectResponse
+    {
+        $referer = $request->headers->get('referer') ?? '/';
+        return new RedirectResponse($referer);
     }
 }

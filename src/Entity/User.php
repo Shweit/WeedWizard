@@ -87,12 +87,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $profilePicture = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $banner = null;
-
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $bio = null;
 
@@ -113,6 +107,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
     private Collection $followers;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
 
     public function __construct()
     {
@@ -397,30 +397,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfilePicture(): ?string
-    {
-        return $this->profilePicture;
-    }
-
-    public function setProfilePicture(?string $profilePicture): static
-    {
-        $this->profilePicture = $profilePicture;
-
-        return $this;
-    }
-
-    public function getBanner(): ?string
-    {
-        return $this->banner;
-    }
-
-    public function setBanner(string $banner): static
-    {
-        $this->banner = $banner;
-
-        return $this;
-    }
-
     public function getBio(): ?string
     {
         return $this->bio;
@@ -512,5 +488,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture($profilePicture): static
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getBanner()
+    {
+        return $this->banner;
+    }
+
+    public function setBanner($banner): static
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function upload(): void
+    {
+        dd('inside');
     }
 }
