@@ -117,7 +117,7 @@
                                 <div class="d-flex flex-column gap-2 mt-2">
                                     <h3>{{ strainName }}</h3>
 
-                                    <p>{{ strainInfo.descr|replace({'<br />': '<br>'})|raw }}</p>
+                                    <p>{{ strainInfo.descr|replace({'&lt;br /&gt;': '<br>'})|raw }}</p>
 
                                     {#
                                     <div class="d-flex flex-row justify-content-end gap-4">

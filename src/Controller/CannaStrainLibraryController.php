@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use function Symfony\Component\String\s;
 
 class CannaStrainLibraryController extends AbstractController
 {

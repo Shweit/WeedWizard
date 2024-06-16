@@ -10,11 +10,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SeedFinderApiService
 {
-    private HttpClientInterface $client;
 
-    public function __construct(HttpClientInterface $client, private readonly string $apikey)
-    {
-        $this->client = $client;
+    public function __construct(
+        private readonly string $apikey
+    ) {
     }
 
     /**
@@ -94,6 +93,7 @@ class SeedFinderApiService
         } else {
             $json = ['error' => 'Failed to decode JSON'];
         }
+
         return $json;
     }
 }
