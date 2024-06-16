@@ -6,7 +6,6 @@
 
         {# We need to load this Script first, to avoid site flickering #}
         {% include 'templates/_bootstrap_darkMode.js.twig' %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -26,7 +25,7 @@
         <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('build/images/favicon/apple-icon-144x144.png') }}">
         <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('build/images/favicon/apple-icon-152x152.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('build/images/favicon/apple-icon-180x180.png') }}">
-        <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('build/images/favicon/android-icon-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('build/images/favicon/android-icon-192x192.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('build/images/favicon/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('build/images/favicon/favicon-96x96.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('build/images/favicon/favicon-16x16.png') }}">
@@ -35,6 +34,29 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('build/images/favicon/ms-icon-144x144.png') }}">
         <meta name="theme-color" content="#ffffff">
+
+        <meta http-equiv="content-Type" content="text/html; utf-8" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+        <meta http-equiv="content-Language" content="de" />
+        <meta name="description" content="Dein Begleiter für sorgenfreien Cannabiskonsum" />
+        <meta name="keywords" content="cannabis, konsum, drogen, grass, Cannabis Deutschland, bubatzkarte, cannabis map, konsum map" />
+        <meta name="author" content="WeedWizard" />
+        <meta name="publisher" content="WeedWizard" />
+        <meta name="copyright" content="WeedWizard" />
+        <meta name="audience" content="Alle" />
+        <meta name="page-topic" content="Cannabis" />
+        <meta name="revisit-after" content="2 days" />
+
+        <meta property="og:title" content="WeedWizard">
+        <meta property="og:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
+        <meta property="og:image" content="https://www.weedwizard.de/build/images/favicon/android-icon-192x192.png">
+        <meta property="og:url" content="https://www.weedwizard.de">
+        <meta property="og:type" content="website">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="WeedWizard">
+        <meta name="twitter:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
+        <meta name="twitter:image" content="https://www.weedwizard.de/build/images/favicon/android-icon-192x192.png">
     </head>
     <body>
         {% include('templates/_toasts.html.twig') %}
