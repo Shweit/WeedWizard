@@ -17,23 +17,42 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
     {
+        $user = $this->getUser();
+        $plants = $entityManager->getRepository(Plant::class)->findBy(['user' => $user]);
+
         $plant = new Plant();
         $form = $this->createForm(PlantType::class, $plant);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (count($plants) >= 3) {
+                $this->addFlash('error', 'Du kannst nur bis zu 3 Pflanzen hinzufügen.');
+                return $this->redirectToRoute('growMate');
+            }
+
+            switch ($plant->getPlaceOfCultivation()) {
+                case 'indoor':
+                    $plant->setLighting('lamp');
+                    break;
+                case 'outdoor':
+                    $plant->setLighting('sunnlight');
+                    break;
+                default:
+                    $plant->setLighting('unknown');
+            }
+
+            $plant->setUser($user);
             $entityManager->persist($plant);
             $entityManager->flush();
 
             return $this->redirectToRoute('growMate');
         }
 
-        $plants = $plantRepository->findAll();
 
         return $this->render('grow_mate/index.html.twig', [
-            'form' => $form->createView(),
             'plants' => $plants,
+            'form' => $form->createView(),
         ]);
     }
 

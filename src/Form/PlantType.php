@@ -15,17 +15,27 @@ class PlantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('name', TextType::class, ['label' => 'Name der Pflanze'])
-            ->add('type', ChoiceType::class, [
-                'label' => 'Pflanzentyp',
+            ->add('breeder', ChoiceType::class, [
                 'choices' => [
-                    '' => null,
-                    'Indica' => 'indica',
-                    'Sativa' => 'sativa',
-                    'Hybrid' => 'hybrid'
-                ]
+                    'Breeder 1' => 'breeder1',
+                    'Breeder 2' => 'breeder2',
+                ],
+                'placeholder' => 'Wählen Sie einen Breeder',
+                'attr' => ['class' => 'select2article'],
             ])
+            ->add('strain', ChoiceType::class, [
+                'choices' => [
+                    'Strain 1' => 'strain1',
+                    'Strain 2' => 'strain2',
+                    'Strain 3' => 'strain3',
+                    'Strain 4' => 'strain4',
+                ],
+                'placeholder' => 'Wählen Sie einen Strain',
+            ])
+
             ->add('date', DateType::class, [
                 'label' => 'Anbaudatum',
                 'widget' => 'single_text'
@@ -46,14 +56,6 @@ class PlantType extends AbstractType
                     '' => null,
                     'Innen' => 'indoor',
                     'Außen' => 'outdoor'
-                ]
-            ])
-            ->add('lighting', ChoiceType::class, [
-                'label' => 'Beleuchtung',
-                'choices' => [
-                    '' => null,
-                    'Sonnenlicht' => 'sunlight',
-                    'Lampe' => 'lamp'
                 ]
             ])
             ->add('submit', SubmitType::class, ['label' => 'Speichern']);
