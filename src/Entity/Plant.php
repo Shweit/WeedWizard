@@ -17,9 +17,6 @@ class Plant
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $strain = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -38,8 +35,13 @@ class Plant
     #[ORM\Column(type: Types::ARRAY)]
     private array $thread = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $breeder = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Strain $strain = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Breeder $breeder = null;
 
     public function getId(): ?int
     {
@@ -54,18 +56,6 @@ class Plant
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStrain(): ?string
-    {
-        return $this->strain;
-    }
-
-    public function setStrain(string $strain): static
-    {
-        $this->strain = $strain;
 
         return $this;
     }
@@ -142,12 +132,24 @@ class Plant
         return $this;
     }
 
-    public function getBreeder(): ?string
+    public function getStrain(): ?Strain
+    {
+        return $this->strain;
+    }
+
+    public function setStrain(?Strain $strain): static
+    {
+        $this->strain = $strain;
+
+        return $this;
+    }
+
+    public function getBreeder(): ?Breeder
     {
         return $this->breeder;
     }
 
-    public function setBreeder(string $breeder): static
+    public function setBreeder(?Breeder $breeder): static
     {
         $this->breeder = $breeder;
 

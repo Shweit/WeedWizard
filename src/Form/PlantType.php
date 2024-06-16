@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Plant;
+use App\Services\WeedWizardKernel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -13,27 +14,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlantType extends AbstractType
 {
+    public function __construct(
+        private readonly WeedWizardKernel $weedWizardKernel
+    ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
             ->add('name', TextType::class, ['label' => 'Name der Pflanze'])
             ->add('breeder', ChoiceType::class, [
-                'choices' => [
-                    'Breeder 1' => 'breeder1',
-                    'Breeder 2' => 'breeder2',
-                ],
-                'placeholder' => 'Wählen Sie einen Breeder',
-                'attr' => ['class' => 'select2article'],
+                'choices' => $this->weedWizardKernel->getBreederChoices(),
             ])
             ->add('strain', ChoiceType::class, [
-                'choices' => [
-                    'Strain 1' => 'strain1',
-                    'Strain 2' => 'strain2',
-                    'Strain 3' => 'strain3',
-                    'Strain 4' => 'strain4',
-                ],
-                'placeholder' => 'Wählen Sie einen Strain',
+                'choices' => $this->weedWizardKernel->getStrainChoices(),
             ])
 
             ->add('date', DateType::class, [
@@ -63,9 +57,6 @@ class PlantType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Plant::class,
-        ]);
     }
 }
 

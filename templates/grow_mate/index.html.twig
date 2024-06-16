@@ -2,11 +2,20 @@
 
 {% block title %}GrowMate - Cannabis Anbau{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('growMate') }}
+{% endblock %}
+
 {% block body %}
-    <div class="d-flex justify-content-between mb-3" style="margin-left: 3rem; margin-right: 3rem">
-        <h1>GrowMate</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlantModal"><b>Pflanze hinzufügen</b></button>
-    </div>
+
+    {% include 'templates/_header.html.twig' with {
+        'title': 'GrowMate',
+        'button': {
+            'label': 'Pflanze hinzufügen',
+            'attr': 'data-bs-toggle=modal data-bs-target=#addPlantModal'
+        }
+    } %}
 
     <!-- Anzeige von Fehlermeldungen -->
     {% for message in app.flashes('error') %}
@@ -16,7 +25,7 @@
     {% endfor %}
 
     <!-- Modal zum Hinzufügen einer Pflanze -->
-    <div class="modal fade" id="addPlantModal" tabindex="-1" role="dialog" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addPlantModal" role="dialog" aria-labelledby="addPlantModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -40,14 +49,21 @@
     </div>
 
     <!-- Pflanzen Karten -->
-    <div id="plantsContainer" class="row mt-4" style="margin: 8rem">
+    <div id="plantsContainer" class="row mt-4">
         {% for plant in plants %}
             <div class="col-md-4" style="margin-top: 5%">
                 <div class="card mb-4">
-                    <div class="card-body" style="margin: 0rem">
-                        <h5 class="card-title">{{ plant.name }}</h5>
-                        <p class="card-text">Typ: {{ plant.breeder }}  Datum: {{ plant.date|date('d.m.Y') }}</p>
-                        <img src="{{ asset('build/images/plant-' ~ plant.breeder ~ '.png') }}" class="card-img-top" alt="Bild der Pflanze">
+                    <div class="card-body" style="margin: 0">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td style="width: 70%"><h5 class="card-title">{{ plant.name }}</h5></td>
+                                <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze"></td>
+                            </tr>
+                            <tr>
+                                <td><p class="card-text">Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}  <br>Datum: {{ plant.date|date('d.m.Y') }}</p></td>
+                                <td></td>
+                            </tr>
+                        </table>
                         <p class="card-text">Prognose: </p>
                     </div>
                     <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom" data-bs-target="#offcanvasBottom-{{ plant.id }}" style="color: #ffffff">

@@ -41,4 +41,10 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
         return $budBashCheckAttendance->getSecretString();
     }
+
+    public function arrayKeyFirst(array $array)
+    {
+        reset($array);
+        return key($array);
+    }
 }
