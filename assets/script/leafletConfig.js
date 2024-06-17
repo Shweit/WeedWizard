@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
-                budBashMarkers.push(markerLayer);
+                clubMarkers.push(markerLayer);
             }
 
             applyMapSettings(map)
