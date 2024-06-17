@@ -16,7 +16,6 @@ class IndexController extends AbstractController
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
         private readonly RequestStack $requestStack,
-        private readonly string $apikey,
     ) {}
 
     #[Route('/', name: 'weedwizard_index')]
