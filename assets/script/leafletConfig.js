@@ -371,26 +371,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconAnchor: [20, 20],
             });
 
-            for (let [key, marker] of Object.entries(data.markers)) {
-                const coordinates = marker.coordinates.split(',');
+            for (let [key, club] of Object.entries(data.clubs)) {
+                const coordinates = club.coordinates.split(',');
                 const markerLayer = L.marker(coordinates, {icon: icon}).addTo(map);
                 markerLayer.bindPopup(`
-                    <h5>${marker.name}</h5>
+                    <h5>${club.name}</h5>
+                    <p>${club.description === undefined ? '' : club.description}</p>
                     <hr>
                     <p>
-                        <b>Mitgliedsbeitrag:</b> ${marker.fee}€<br>
-                        <b>Adresse:</b> ${marker.address}<br>
+                        <b>Mitgliedsbeitrag:</b> ${club.fee}€<br>
+                        <b>Adresse:</b> ${club.address}<br>
+                        <b>Website:</b> <a href="${club.website}" target="_blank">${club.website}</a><br>
                     </p>
                     <br>
-                    <a id="club-${marker.id}" href="#">Anschauen</a>
+                    <a id="club-${club.id}" href="#">Anschauen</a>
                 `);
 
                 markerLayer.on('popupopen', function () {
-                    const clubLink = document.getElementById(`club-${marker.id}`);
+                    const clubLink = document.getElementById(`club-${club.id}`);
                     clubLink.addEventListener('click', function () {
                         sessionStorage.setItem('clubFilter', JSON.stringify({
-                            name: marker.name,
-                            price: [marker.fee],
+                            name: club.name,
+                            price: [club.fee],
                         }));
                         window.location.href = `/cannabis-verein`;
                     });
