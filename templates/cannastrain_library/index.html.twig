@@ -88,8 +88,9 @@
                                     'id': loop.index,
                                     'image': breeder.logo,
                                     'name': breeder.name,
+                                    'seedfinder_id': breeder.seedfinder_id,
                                     'description': 'Keine Beschreibung verfügbar',
-                                    'strains_count': 10,
+                                    'strains_count': breeder.strains|length,
                                     'rating': 'Keine Wertung verfügbar',
                                     'source': 'SeedFinder',
                                 } %}

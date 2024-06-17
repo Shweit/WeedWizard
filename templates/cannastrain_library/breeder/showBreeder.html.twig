@@ -64,15 +64,15 @@
                 <div class="flex-grow-1" id="results">
                     <div class="container-fluid">
                         <div class="row">
-                            {% for strain_key, strain_name in strains %}
+                            {% for strain in strains %}
                                 {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': loop.index,
-                                    'name': strain_name,
+                                    'name': strain['name'],
                                     'description': 'Keine Beschreibung verfügbar',
                                     'intensity': 'Keine Intensität verfügbar',
                                     'rating': 'Keine Wertung verfügbar',
                                     'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    'btnLink': path('weedwizard_cannastrain-library_strain-view', {'breederName': breederName, 'strainName': strain_name})
+                                    'btnLink': path('weedwizard_cannastrain-library_strain-view', {'breeder_id': breeder['seedfinder_id'], 'strain_id': strain['seedfinder_id']})
                                 } %}
                             {% endfor %}
                         </div>

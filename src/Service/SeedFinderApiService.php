@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\Breeder;
+use App\Entity\Strain;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -10,61 +14,29 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 class SeedFinderApiService
 {
     public function __construct(
-        private readonly string $apikey
+        private readonly string $apikey,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SerializerInterface $serializer,
     ) {}
 
-    /**
-     * @throws Exception
-     */
-    public function getBreederInfo(bool $withStrains, string $breederId = 'all', int $limit = 8)
+    public function getBreederInfo(string $breederId = 'all')
     {
-        $url = 'https://de.seedfinder.eu/api/json/ids.json?br=' .
-            $breederId .
-            ($withStrains ? '&strains=1&' : '&') . 'ac=' .
-            $this->apikey;
+        $breeders = match ($breederId) {
+            'all' => $this->entityManager->getRepository(Breeder::class)->findAll(),
+            default => $this->entityManager->getRepository(Breeder::class)->findOneBy(['seedfinder_id' => $breederId]),
+        };
 
-        try {
-            $response = $this->fetchApiDataViaCurl($url);
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $this->decodeAndSliceJson($response, $limit);
+        return $this->serializer->normalize($breeders, null, ['groups' => 'cannastrainLibrary']);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function getStrainsByBreeder(string $breederName, int $limit = 8) // TODO: Remove limit (only valid for breeders at this point)
+    public function getStrainInfo(string $breeder_id, string $strain_id)
     {
-        $url = 'https://de.seedfinder.eu/api/json/ids.json?br=' .
-            (str_replace(' ', '_', $breederName)) . '&strains=1&ac=' .
-            $this->apikey;
+        $strain = $this->entityManager->getRepository(Strain::class)->findOneBy([
+            'breeder' => $this->entityManager->getRepository(Breeder::class)->findOneBy(['seedfinder_id' => $breeder_id]),
+            'seedfinder_id' => $strain_id,
+        ]);
 
-        try {
-            $response = $this->fetchApiDataViaCurl($url);
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $this->decodeAndSliceJson($response, $limit);
-    }
-
-    public function getStrainInfo(string $breederName, string $strainName)
-    {
-        $url = 'https://de.seedfinder.eu/api/json/strain.json?br=' .
-            (str_replace(' ', '_', $breederName)) .
-            '&str=' . (str_replace(' ', '_', $strainName)) .
-            '&medical=1' .
-            '&ac=' . $this->apikey;
-
-        try {
-            $response = $this->fetchApiDataViaCurl($url);
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            throw new Exception('An error occurred: ' . $e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $this->decodeAndSliceJson($response);
+        return $this->serializer->normalize($strain, null, ['groups' => 'cannastrainLibrary']);
     }
 
     private function fetchApiDataViaCurl($url): bool|string

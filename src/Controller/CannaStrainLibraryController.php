@@ -14,9 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 class CannaStrainLibraryController extends AbstractController
 {
     private SeedFinderApiService $seedFinderApiService;
-    private $breeders;
     private array $breederFilters = [];
-    private $strains;
     private array $strainFilters = [
         'filter' => [
             'Herkunft' => [
@@ -43,47 +41,34 @@ class CannaStrainLibraryController extends AbstractController
     #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
     public function index(): Response
     {
-        try {
-            $this->breeders = $this->seedFinderApiService->getBreederInfo(false);
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            return new Response('Error: ' . $e->getMessage());
-        } catch (Exception $e) {
-            return new Response('Error: ' . $e->getMessage());
-        }
+        $breeders = $this->seedFinderApiService->getBreederInfo();
 
         return $this->render('cannastrain_library/index.html.twig', [
-            'breeders' => $this->breeders,
+            'breeders' => $breeders,
             'filters' => $this->breederFilters,
         ]);
     }
 
-    #[Route('/cannastrain-library/breeder/{breederName}', name: 'weedwizard_cannastrain-library_breeder-view')]
-    public function showBreeder(string $breederName): Response
+    #[Route('/cannastrain-library/{breeder_id}', name: 'weedwizard_cannastrain-library_breeder-view')]
+    public function showBreeder(string $breeder_id): Response
     {
-        try {
-            $this->strains = $this->seedFinderApiService->getStrainsByBreeder($breederName);
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            return new Response('Error: ' . $e->getMessage());
-        } catch (Exception $e) {
-            return new Response('Error: ' . $e->getMessage());
-        }
-
-        $this->strains = $this->strains[str_replace(' ', '_', $breederName)]['strains'];
+        $breeder = $this->seedFinderApiService->getBreederInfo($breeder_id);
 
         return $this->render('cannastrain_library/breeder/showBreeder.html.twig', [
-            'breederName' => $breederName,
+            'breeder' => $breeder,
             'filters' => $this->strainFilters,
-            'strains' => $this->strains,
+            'strains' => $breeder['strains'],
         ]);
     }
 
-    #[Route('/cannastrain-library/strain/{breederName}/{strainName}', name: 'weedwizard_cannastrain-library_strain-view')]
-    public function showStrain(string $breederName, string $strainName): Response
+    #[Route('/cannastrain-library/{breeder_id}/{strain_id}', name: 'weedwizard_cannastrain-library_strain-view')]
+    public function showStrain(string $breeder_id, string $strain_id): Response
     {
-        $strain = $this->seedFinderApiService->getStrainInfo($breederName, $strainName);
+        $breeder = $this->seedFinderApiService->getBreederInfo($breeder_id);
+        $strain = $this->seedFinderApiService->getStrainInfo($breeder_id, $strain_id);
 
         $strainName = $strain['name'];
-        $strainInfo = $strain['brinfo'];
+        $strainInfo = $strain['breeder_info'];
         $strainMedicalInfo = $strain['medical'];
 
         return $this->render('cannastrain_library/strain/showStrain.html.twig', [
@@ -91,6 +76,8 @@ class CannaStrainLibraryController extends AbstractController
             'strainInfo' => $strainInfo,
             'strainName' => $strainName,
             'strainMedicalInfo' => $strainMedicalInfo,
+            'strain' => $strain,
+            'breeder' => $breeder,
         ]);
     }
 }
