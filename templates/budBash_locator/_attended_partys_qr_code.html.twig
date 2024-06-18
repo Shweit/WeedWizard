@@ -1,0 +1,23 @@
+<div class="modal fade" id="attendedPartyQrCode-{{ budBash.id }}" tabindex="-1" aria-labelledby="attendedPartyQrCode-{{ budBash.name }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">QR Code</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    Zeige bitte diesen QR-Code bei der Party vor ort vor, um deine Teilnahme zu bestätigen.
+                </div>
+
+                <img id='qrcode'
+                     src="https://api.qrserver.com/v1/create-qr-code/?data=/budbash-locator/{{ budBash.id }}/checkAttendance/{{ app.user.id }}/{{ secretStringForAttendance(budBash, app.user) }}"
+                     alt="QR Code for {{ budBash.name }}"
+                />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>

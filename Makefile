@@ -10,8 +10,14 @@ php-cs-fixer:
 phpstan:
 	php vendor/bin/phpstan analyse -c phpstan.dist.neon --memory-limit=-1
 
+bearer:
+	./bin/bearer scan ./
+
 webpack-watch:
-	npm build watch
+	npm run watch
+
+test:
+	php bin/phpunit
 
 reset_db:
 	@echo "$(NC)                                                                  $(NC)"
@@ -56,9 +62,7 @@ load-fixtures: reset_db
 	@echo "$(BG_BLUE)     (Ja, dass kann was länger dauern :) )                        $(NC)"
 	@echo "$(BG_BLUE)                                                                  $(NC)"
 	@echo "$(NC)                                                                  $(NC)"
-	@php bin/console doctrine:fixtures:load -q --env=dev --no-interaction || true
-	@php bin/console doctrine:fixtures:load -q --env=test --no-interaction || true
-
+	php bin/console doctrine:fixtures:load --env=dev --no-interaction
 
 	@echo "$(NC)                                                                  $(NC)"
 	@echo "$(BG_GREEN)                                                                  $(NC)"

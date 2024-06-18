@@ -1,8 +1,11 @@
 $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
-@import "~select2/dist/css/select2.min.css";
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~select2/src/scss/core";
+@import "nouislider/dist/nouislider.css";
+@import "responsive";
+@import "dark";
 
 .dropdown-user-details-name {
   color: #212832;
@@ -65,22 +68,50 @@ $navbar-dark-color: #DFDFDF;
   cursor: pointer;
 }
 
-[data-bs-theme="dark"] {
-  .dropdown-user-details-name {
-    color: #DFDFDF;
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vertical-divider {
+  height: 1px;
+  background-color: #949494;
+  flex-grow: 1;
+}
+
+.card-header {
+  background-color: rgba(181, 223, 185, 0.5);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.dosage-active {
+  background-color: #b5dfb9;
+}
+  .vertical-divider {
+    height: 1px;
+    background-color: #949494;
+    flex-grow: 1;
   }
 
-    .bd-navbar {
-    background-color: #050910;
-  }
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .nav-link {
-    color: #DFDFDF !important;
-  }
+.vertical-divider {
+  height: 1px;
+  background-color: #949494;
+  flex-grow: 1;
+}
 
-  code {
-    background-color: #1b1e21 !important;
-  }
+.noUi-connect {
+  background-color: $primary;
+}
+
+#priceSlider {
+  padding: 0 16px;
 }
 
 .card-footer-button {
@@ -97,4 +128,80 @@ $navbar-dark-color: #DFDFDF;
 .card-footer-button:hover {
   background-color: #065A1E; /* Dunklere Farbe auf Hover */
   color: #FFFFFF; /* Textfarbe auf Hover */
+}
+
+#priceSlider .noUi-tooltip {
+  display: none;
+}
+#priceSlider .noUi-active .noUi-tooltip {
+  display: block;
+}
+
+#qrcode {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+#chat::-webkit-scrollbar {
+  width: 10px;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background-color: #676767;
+  border-radius: 10px;
+}
+
+#chat::-webkit-scrollbar-thumb:hover {
+  background-color: #494949;
+  border-radius: 10px;
+}
+
+#chat::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+#chat-input:focus {
+  box-shadow: none !important;
+}
+
+.loading {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  animation: loadingAnimation 1s infinite;
+}
+
+@keyframes loadingAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+.chat-container {
+  max-height: 82vh;
+  height: calc(100vh - 175px - 111px) !important;
+  overflow-y: auto;
+}
+
+.lift {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.lift:hover {
+  transform: translateY(-0.1666666667rem);
+  box-shadow: 0 0.25rem 1rem 0 rgba(33, 40, 50, 0.25);
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection {
+  border-color: #86a788 !important;
+  box-shadow: 0 0 0 0.25rem rgba(12, 79, 17, 0.25) !important;
 }

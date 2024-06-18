@@ -7,34 +7,39 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" style="gap: 30px">
-                <li class="nav-item ms-2">
-                    <a class="nav-link text-uppercase text-center" href="#" >Cannabis Consumption<br> Compliance Map</a>
+            <ul class="navbar-nav" style="gap: 20px">
+                <li class="nav-item">
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannabis Consumption<br class="nav-br"> Compliance Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Cannabis<br> Vereinssuche</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('cannabis_verein') }}">Cannabis<br class="nav-br"> Vereinssuche</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Bud Bash<br> Locator</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_budbash_locator') }}" >Bud Bash<br class="nav-br"> Locator</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Cannastrain<br> Library</a>
+                    <a class="nav-link text-uppercase text-center" href="#" >Cannastrain<br class="nav-br"> Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Cannadose<br> Calculator</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_cannadose_calculator') }}">Cannadose<br class="nav-br"> Calculator</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('growMate') }}" >Grow<br> Mate</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('growMate') }}" >Grow<br class="nav-br"> Mate</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="#" >Canna<br> Consultant</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_canna_consultant') }}" >Canna<br class="nav-br"> Consultant</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="btn btn-link nav-link py-2 px-0 px-lg-2 d-flex align-items-center me-2" type="button" href="{{ path('weedwizard_knowledge_base') }}">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
                         <i class="fa-regular fa-sun me-2" id="theme-icon-active"></i>
-                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle ändern</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                         <li>
@@ -74,11 +79,9 @@
                                 <i class="fa-solid fa-bell"></i>
                                 Benachrichtigungen
                             </h6>
-
-                                <ul aria-labelledby="alertsDropdown" style="padding: 0">
-                                    {% include 'templates/_notification.html.twig' %}
-                                </ul>
-
+                            <ul aria-labelledby="alertsDropdown" class="p-0">
+                                {% include 'templates/_notification.html.twig' %}
+                            </ul>
                             <a class="dropdown-item dropdown-notifications-footer" href="#!">Alle Benachrichtigungen</a>
                         </div>
                     </li>
@@ -91,9 +94,14 @@
                                 <div class="dropdown-user-details">
                                     <div class="dropdown-user-details-name">{{ app.user.firstName }} {{ app.user.lastName }}</div>
                                     <div class="dropdown-user-details-email">{{ app.user.email }}</div>
+                                    {% if is_granted('ROLE_PREMIUM') %}<div class="dropdown-user-details-email">Premium</div>{% endif %}
                                 </div>
                             </h6>
                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_premium') }}">
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-dollar-sign me-2"></i></div>
+                                Abonnement
+                            </a>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
                                 Logout

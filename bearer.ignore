@@ -8,5 +8,17 @@
     "author": "Dennis van den Brock",
     "false_positive": false,
     "ignored_at": "2024-04-30T12:59:05Z"
+  },
+  "e5df843fa2f3eb5cdf856b9c95e65b0f_0": {
+    "author": "Dennis van den Brock",
+    "comment": "About unsafe HTML injection, but is safe. These are the answers from OpenAI",
+    "false_positive": true,
+    "ignored_at": "2024-06-02T11:53:19Z"
+  },
+  "e5df843fa2f3eb5cdf856b9c95e65b0f_1": {
+    "author": "Dennis van den Brock",
+    "comment": "About unsafe HTML injection, but is safe. These are the answers from OpenAI",
+    "false_positive": true,
+    "ignored_at": "2024-06-02T11:54:15Z"
   }
 }

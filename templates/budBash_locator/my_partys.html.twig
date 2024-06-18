@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BudBash Locator | Meine Partys{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('qrScanner') }}
+{% endblock %}
+
+{% block body %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'Meine BudBash Partys',
+    } %}
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item locator-nav">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator') }}">Party suchen</a>
+        </li>
+        <li class="nav-item locator-nav">
+            <a class="nav-link active" aria-current="page">Meine BudBash Partys</a>
+        </li>
+        <li class="nav-item locator-nav">
+            <a class="nav-link" href="{{ path('weedwizard_budbash_locator_attended_partys') }}">Beigetretenen BudBash Partys</a>
+        </li>
+    </ul>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    {% set budBashes = app.user.hostedBudBashes %}
+                    {% set budBashes = budBashes|sort((a, b) => a.start <=> b.start) %}
+                    {% for budBash in budBashes %}
+                        {% include 'budBash_locator/_my_party_attendance.html.twig' with {
+                            'budBash': budBash,
+                        } %}
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h4>{{ budBash.name }}</h4>
+                                            <small>{{ budBash.start|format_datetime('full', 'short', locale='de') }}</small>
+                                            <hr>
+                                            <p>{{ budBash.extraInfo|default('Der ersteller der Party hat keine Informationen angegeben.') }}</p>
+                                            <hr>
+                                            <p><b>Wo?</b> {{ budBash.address }}</p>
+                                            <p><b>Eintritt?</b> {{ budBash.entranceFee }}€</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <iframe class="position-relative rounded"
+                                                    src="https://www.google.com/maps/embed/v1/place?q={{ budBash.coordinates }}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                                                    frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"
+                                                    style="border: 0; width: 100%; height: 100%;">
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer btn-group">
+                                    <a type="button" href="{{ path('weedwizard_budbash_locator_cancel_party', {'id': budBash.id}) }}" class="btn btn-danger">Party absagen</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#attendanceModal-{{ budBash.id }}">Anwesenheitsliste</button>
+                                    {% if budBash.budBashCheckAttendances.first %}
+                                        {% if budBash.start <= date('now') %}
+                                            {% include 'budBash_locator/_my_party_check_attendance.html.twig' with {
+                                                'budBash': budBash,
+                                            } %}
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkAttendanceModal-{{ budBash.id }}">Anwesenheit kontrollieren</button>
+                                        {% else %}
+                                            <button disabled href="#" class="btn btn-primary disabled" data-bs-toggle="tooltip" data-bs-title="Du kannst erst die Anwesenheit kontrollieren, sobald die Party gestartet hat">Anwesenheit kontrollieren</button>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger">
+            Du musst dich einloggen, um diese Seite zu sehen.
+        </div>
+    {% endif %}
+{% endblock %}
+
