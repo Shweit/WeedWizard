@@ -3,8 +3,8 @@ import 'leaflet.locatecontrol';
 import 'leaflet.vectorgrid';
 import * as GeoSearch from 'leaflet-geosearch';
 import 'leaflet-easybutton';
-import BudBashMarker from '../../public/build/images/party_marker.png'
-import ClubMarker from '../../public/build/images/club_marker.png'
+import BudBashMarker from '../../assets/images/party_marker.png'
+import ClubMarker from '../../assets/images/club_marker.png'
 
 let userMarkers = [];
 let budBashMarkers = [];
@@ -75,29 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }).addTo(map);
-
-    const pedestrainZones = L.vectorGrid.protobuf('http://localhost:8080/data/germany-pedestrian-zones/{z}/{x}/{y}.pbf', {
-        maxNativeZoom: 14,
-        vectorTileLayerStyles: {
-            'merged_pedestrian': function(properties, zoom) {
-                return {
-                    fillColor: 'rgba(255, 0, 0, 0.5)',
-                    color: 'transparent',
-                    fill: true,
-                    fillOpacity: 0.5,
-                    opacity: 1,
-                };
-            }
-        }
-    });
-
-    // Only show pedestrian zones when time is between 7am and 8pm
-    const date = new Date();
-    const hours = date.getHours();
-    if (hours >= 7 && hours <= 20) {
-        pedestrainZones.addTo(map);
-    }
-    // END - No Smoke Tile Layer
 
     const pedestrainZones = L.vectorGrid.protobuf('http://localhost:8080/data/germany-pedestrian-zones/{z}/{x}/{y}.pbf', {
         maxNativeZoom: 14,
