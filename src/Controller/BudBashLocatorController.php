@@ -186,7 +186,7 @@ class BudBashLocatorController extends AbstractController
             $budBashCheckAttendance->setParticipant($this->weedWizardKernel->getUser());
             $budBashCheckAttendance->setBudBashParty($budBash);
             $budBashCheckAttendance->setCheckedAttendance(false);
-            $budBashCheckAttendance->setSecretString($this->generateRandomString(20));
+            $budBashCheckAttendance->setSecretString($this->weedWizardKernel->generateRandomString(20));
 
             $budBash->addBudBashCheckAttendance($budBashCheckAttendance);
         }
@@ -287,17 +287,5 @@ class BudBashLocatorController extends AbstractController
         $this->entityManager->flush();
 
         return new JsonResponse(['success' => 'Willkommen ' . $budBashCheckAttendance->getParticipant()->getFirstname() . ' ' . $budBashCheckAttendance->getParticipant()->getLastname() . ' auf der Party. Viel Spaß!'], Response::HTTP_OK);
-    }
-
-    private function generateRandomString($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; ++$i) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        }
-
-        return $randomString;
     }
 }

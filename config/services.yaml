@@ -20,6 +20,12 @@ services:
           - '../src/Entity/'
           - '../src/Kernel.php'
 
+  App\Services\CannaConsultantServiceV2:
+      arguments:
+          $apiKey: '%env(OPENAI_API_KEY)%'
+          $assistantId: '%env(OPENAI_ASSISTENT_ID)%'
+          $seedFinderApiKey: '%env(SEEDFINDER_API_KEY)%'
+
   App\Services\CannaConsultantService:
       arguments:
           $apiKey: '%env(OPENAI_API_KEY)%'

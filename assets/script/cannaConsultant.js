@@ -46,7 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
             }).then(r => r.json()).then(data => {
                 removeLoadingBubble();
-                createTextBubbleBot(data);
+                if (!data.error) {
+                    createTextBubbleBot(data);
+                } else {
+                    createErrorAlarm(data.error);
+                }
                 scrollToBottom();
                 chatSend.disabled = false;
             });
@@ -55,6 +59,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function scrollToBottom() {
         chat.scrollTop = chat.scrollHeight;
+    }
+
+    function createErrorAlarm(error) {
+        let outerDiv = document.createElement('div');
+        outerDiv.classList.add('row', 'mb-3');
+
+        let innerDiv = document.createElement('div');
+        innerDiv.classList.add('col-10');
+
+        let rowDiv = document.createElement('div');
+        rowDiv.classList.add('row');
+
+        let cardDiv = document.createElement('div');
+        cardDiv.classList.add('alert', 'alert-danger');
+
+        let pElement = document.createElement('p');
+        pElement.classList.add('mb-0');
+        pElement.textContent = sanitizeHtml("Es ist ein fehler aufgetreten. Versuche es später erneut. Fehler: " + error);
+
+        let spaceRight = document.createElement('div');
+        spaceRight.classList.add('col-1');
+
+        let spaceLeft = document.createElement('div');
+        spaceLeft.classList.add('col-1');
+
+        let roundedDiv = document.createElement('div');
+        roundedDiv.classList.add('rounded-5');
+        roundedDiv.style.width = '50px';
+        roundedDiv.style.height = '50px';
+        roundedDiv.style.backgroundColor = '#656003';
+
+        let pElement2 = document.createElement('p');
+        pElement2.classList.add('mb-0');
+        pElement2.style.padding = '12px 0';
+        pElement2.style.textAlign = 'center';
+        pElement2.textContent = chat.dataset.userinitials;
+
+
+        outerDiv.appendChild(spaceLeft);
+        cardDiv.appendChild(pElement);
+        rowDiv.appendChild(cardDiv);
+        innerDiv.appendChild(rowDiv);
+        outerDiv.appendChild(innerDiv);
+        outerDiv.appendChild(spaceRight);
+
+        chat.appendChild(outerDiv);
     }
 
     function createTextBubbleUser(message) {
@@ -106,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createTextBubbleBot(data) {
-        const message = data.run.data[0].content[0].text.value;
+        const message = data.data[0].content[0].text.value;
         const messageHTML = marked(message);
 
         let outerDiv = document.createElement('div');
