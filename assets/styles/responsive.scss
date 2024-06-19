@@ -17,10 +17,6 @@
     flex: 1 1 auto;
   }
 
-  .nav-link {
-    text-align: left !important;
-  }
-
   .navbar-nav.ms-auto {
     margin-top: 15px;
     margin-bottom: 5px;
@@ -39,6 +35,7 @@
 
   .navbar-nav.ms-auto .nav-item:first-child {
     margin-right: auto;
+    margin-left: 1rem;
   }
 
   .navbar-nav.ms-auto .nav-item:not(:first-child) {
@@ -46,11 +43,11 @@
   }
 
   .navbar-nav.ms-auto .nav-item:last-child {
-    margin-right: 3rem;
+    margin-right: 1rem;
   }
 
   .nav-item {
-    margin-left: 3rem;
+    text-align: center;
   }
 
   .locator-nav {
