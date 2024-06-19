@@ -1,9 +1,7 @@
 $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~select2/src/scss/core";
-@import "nouislider/dist/nouislider.css";
+
 @import "dependencies";
 @import "responsive";
 @import "dark";
