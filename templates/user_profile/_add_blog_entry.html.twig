@@ -1,0 +1,23 @@
+<div class="modal fade" id="addBlogEntry" tabindex="-1" aria-labelledby="addBlogEntry" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Blog Beitrag schreiben</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addBlogEntryForm">
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Verfasse dein neuen Beitrag" id="addBlogEntry_content" style="height: 200px"></textarea>
+                        <label for="addBlogEntry_content">Dein Beitrag</label>
+                    </div>
+                    <div class="form-text" id="character_limit">0/1000</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                    <button type="submit" class="btn btn-primary" id="addBlogEntry_submit">Beitrag veröffentlichen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -97,6 +97,11 @@
                                 </div>
                             </h6>
                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_user_profile', {'username': app.user.username}) }}">
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-user me-2"></i></div>
+                                Profil
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_premium') }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-dollar-sign me-2"></i></div>
                                 Abonnement

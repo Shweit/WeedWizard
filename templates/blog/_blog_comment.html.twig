@@ -1,0 +1,24 @@
+<div class="modal fade" id="addBlogComment" tabindex="-1" aria-labelledby="addBlogComment" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Kommentar zum Beitrag von {{ username }} verfassen</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addBlogCommentForm">
+                <input type="hidden" id="addBlogComment_parent" value="{{ parentID }}">
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Verfasse deinen Kommentar zu dem Beitrag von {{ username }}" id="addBlogComment_content" style="height: 200px"></textarea>
+                        <label for="addBlogComment_content">Dein Kommentar</label>
+                    </div>
+                    <div class="form-text" id="character_limit_comment">0/1000</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                    <button type="submit" class="btn btn-primary" id="addBlogComment_submit">Beitrag veröffentlichen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

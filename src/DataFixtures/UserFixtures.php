@@ -32,6 +32,8 @@ class UserFixtures extends Fixture
         $user->setBirthdate(new \DateTime('1990-01-01'));
         $user->setFirstname('Developer');
         $user->setLastname('Account');
+        $user->setUsername('dev.account');
+        $user->setBio('I am a developer account. I am used for testing purposes only.');
 
         $manager->persist($user);
         $manager->flush();
@@ -51,6 +53,7 @@ class UserFixtures extends Fixture
         $user->setBirthdate(new \DateTime('1990-01-01'));
         $user->setFirstname('Max');
         $user->setLastname('Mustermann');
+        $user->setUsername('max.mustermann');
 
         $manager->persist($user);
         $manager->flush();
