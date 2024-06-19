@@ -33,7 +33,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         try {
             $thread = $this->getThread();
 
-            //            $this->client->threads()->runs()->cancel($thread['id'], 'run_F9NPDOdlRVwSuYKS3wVmpaG1');
+            // $this->client->threads()->runs()->cancel($thread['id'], 'run_F9NPDOdlRVwSuYKS3wVmpaG1');
             $response = $this->client->threads()->messages()->create($thread['id'], [
                 'role' => 'user',
                 'content' => $message,

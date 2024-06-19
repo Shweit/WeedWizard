@@ -37,7 +37,7 @@ class WeedWizardKernel
 
         return $randomString;
     }
-  
+
     public function getBreederChoices(): array
     {
         $breeders = $this->entityManager->getRepository(Breeder::class)->findAll();
