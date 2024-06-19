@@ -48,18 +48,23 @@
                     <div class="lr-form position-relative">
                         {{ form_widget(registrationForm.password.first) }}
                         <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.password.first) }}</div>
-                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                        <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
                             <i class="bi bi-eye" id="togglePasswordIconFirst"></i>
                         </button>
                     </div>
                     <div class="lr-form position-relative">
                         {{ form_widget(registrationForm.password.second) }}
-                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                        <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
                             <i class="bi bi-eye" id="togglePasswordIconSecond"></i>
                         </button>
                     </div>
                     <div class="form-check mb-0">
-                        {{ form_widget(registrationForm.agreeTerms) }}
+                        {{ form_widget(registrationForm.agreeTerms, {
+                            label: 'Ich habe die <a href="' ~ path("app_agb") ~ '">Allgemeinen Geschäftsbedingungen</a> gelesen und akzeptiere sie.',
+                            label_html: true,
+                        }) }}
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     {{ form_end(registrationForm) }}

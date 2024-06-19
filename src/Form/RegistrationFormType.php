@@ -79,7 +79,6 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Ich stimme den AGB\'s zu',
                 'attr' => ['class' => 'form-check-input'],
                 'mapped' => false,
                 'constraints' => [
@@ -106,7 +105,7 @@ class RegistrationFormType extends AbstractType
                         ]),
                         new Length([
                             'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'minMessage' => 'Dein Passwort muss mindestens {{ limit }} Zeichen lang sein.',
                             'max' => 4096,
                         ]),
                     ],
