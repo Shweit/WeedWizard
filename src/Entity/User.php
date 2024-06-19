@@ -83,6 +83,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?CannabisVerein $createdClub = null;
 
+    /**
+     * @var Collection<int, MapMarkers>
+     */
+    #[ORM\OneToMany(targetEntity: MapMarkers::class, mappedBy: 'user')]
+    private Collection $mapMarkers;
+
     public function __construct()
     {
         $this->attendedBudBashes = new ArrayCollection();
@@ -90,6 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->cannaDoseCalculators = new ArrayCollection();
+        $this->mapMarkers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -347,6 +354,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedClub(?CannabisVerein $createdClub): static
     {
         $this->createdClub = $createdClub;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MapMarkers>
+     */
+    public function getMapMarkers(): Collection
+    {
+        return $this->mapMarkers;
+    }
+
+    public function addMapMarker(MapMarkers $mapMarker): static
+    {
+        if (!$this->mapMarkers->contains($mapMarker)) {
+            $this->mapMarkers->add($mapMarker);
+            $mapMarker->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMapMarker(MapMarkers $mapMarker): static
+    {
+        if ($this->mapMarkers->removeElement($mapMarker)) {
+            // set the owning side to null (unless already changed)
+            if ($mapMarker->getUser() === $this) {
+                $mapMarker->setUser(null);
+            }
+        }
 
         return $this;
     }

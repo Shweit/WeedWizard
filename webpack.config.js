@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('leafletConfig', './assets/script/leafletConfig.js')
     .addEntry('login', './assets/script/togglePasswordVisibility.js')
     .addEntry('register', './assets/script/togglePasswordVisibility.js')
     .addEntry('cannabis_club', './assets/script/cannabisVerein.js')
@@ -29,7 +30,6 @@ Encore
     .addEntry('cannaConsultant', './assets/script/cannaConsultant.js')
     .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
     .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
-
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -63,6 +63,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+    .enablePostCssLoader()
     .enableStimulusBridge('./assets/controllers.json')
 
     // uncomment if you use TypeScript

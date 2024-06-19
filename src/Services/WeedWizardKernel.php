@@ -21,4 +21,9 @@ class WeedWizardKernel
     {
         return $this->user;
     }
+
+    public function isUserPremium(): bool
+    {
+        return $this->user && in_array('ROLE_PREMIUM', $this->user->getRoles());
+    }
 }
