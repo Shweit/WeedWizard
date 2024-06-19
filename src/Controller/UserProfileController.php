@@ -20,9 +20,7 @@ class UserProfileController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
         private SluggerInterface $slugger,
-    ) {
-
-    }
+    ) {}
 
     #[Route('/profile/{username}', name: 'weedwizard_user_profile')]
     public function index(string $username): Response
@@ -39,6 +37,7 @@ class UserProfileController extends AbstractController
     {
         if (!$this->weedWizardKernel->getUser()) {
             $this->addFlash('error', 'Du musst angemeldet sein, um dein Profil zu bearbeiten.');
+
             return $this->weedWizardKernel->redirectToPreviousPage($request);
         }
 
@@ -61,7 +60,7 @@ class UserProfileController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
 
                 if ($newFilename != $userProfile->getProfilePicture()) {
-                    if ($userProfile->getProfilePicture()){
+                    if ($userProfile->getProfilePicture()) {
                         unlink('uploads/profile_pictures/' . $userProfile->getProfilePicture());
                     }
 
@@ -82,7 +81,7 @@ class UserProfileController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
 
                 if ($newFilename != $userProfile->getBanner()) {
-                    if ($userProfile->getBanner()){
+                    if ($userProfile->getBanner()) {
                         unlink('uploads/banners/' . $userProfile->getBanner());
                     }
 
@@ -96,12 +95,13 @@ class UserProfileController extends AbstractController
 
             $this->entityManager->flush();
             $this->addFlash('success', 'Dein Profil wurde erfolgreich aktualisiert.');
+
             return new RedirectResponse($this->generateUrl('weedwizard_user_profile', ['username' => $userProfile->getUsername()]));
         }
 
         return $this->render('user_profile/edit.html.twig', [
             'userProfile' => $userProfile,
-            'userProfileForm' => $userProfileForm
+            'userProfileForm' => $userProfileForm,
         ]);
     }
 }

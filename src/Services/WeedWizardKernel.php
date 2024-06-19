@@ -31,6 +31,7 @@ class WeedWizardKernel
     public function redirectToPreviousPage(Request $request): RedirectResponse
     {
         $referer = $request->headers->get('referer') ?? '/';
+
         return new RedirectResponse($referer);
     }
 

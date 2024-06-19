@@ -467,9 +467,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->blogs->add($blog);
             $blog->setUser($this);
         }
+
         return $this;
     }
-  
+
     /**
      * @return Collection<int, MapMarkers>
      */
@@ -494,7 +495,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($blog->getUser() === $this) {
                 $blog->setUser(null);
-              }
+            }
         }
 
         return $this;

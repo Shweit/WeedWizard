@@ -156,7 +156,7 @@ window.toggleLikeBlogEntry = function (blogEntryId, action, link) {
                     window.showToast(data.error, 'error');
                 } else {
                     link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'unlike', this)`);
-                    link.innerHTML = '<i class="fa-solid fa-heart me-2"></i> '+data.likes;
+                    link.innerHTML = '<i class="fa-solid fa-heart me-2"></i> '+ sanitizeHtml(data.likes);
                 }
             })
     } else {
@@ -174,7 +174,7 @@ window.toggleLikeBlogEntry = function (blogEntryId, action, link) {
                     window.showToast(data.error, 'error');
                 } else {
                     link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'like', this)`);
-                    link.innerHTML = '<i class="fa-regular fa-heart me-2"></i> '+data.likes;
+                    link.innerHTML = '<i class="fa-regular fa-heart me-2"></i> '+ sanitizeHtml(data.likes);
                 }
             })
     }

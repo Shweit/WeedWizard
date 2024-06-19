@@ -3,13 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Blog;
-use App\Entity\CannaConsultantThreads;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use JetBrains\PhpStorm\NoReturn;
 
 class BlogFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -24,6 +22,14 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
 
         $this->generateFollowers($user);
         $this->generateBlogPosts($user, rand(1, 10));
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+            ClubFixtures::class,
+        ];
     }
 
     private function generateFollowers(User $user): void
@@ -42,7 +48,6 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
 
     private function generateBlogPosts(User $user, int $count): void
     {
-
         for ($i = 1; $i <= $count; ++$i) {
             $blog = new Blog();
             $blog->setContent('Blog-' . $i);
@@ -78,13 +83,5 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
             $liker = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);
             $blog->addLike($liker);
         }
-    }
-
-    public function getDependencies(): array
-    {
-        return [
-            UserFixtures::class,
-            ClubFixtures::class,
-        ];
     }
 }

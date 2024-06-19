@@ -16,8 +16,7 @@ class BlogController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
-    ) {
-    }
+    ) {}
 
     #[Route('/blog', name: 'app_blog')]
     public function index(): Response
@@ -86,7 +85,6 @@ class BlogController extends AbstractController
         if (!$blog) {
             return new JsonResponse([
                 'error' => 'Der Beitrag konnte nicht gefunden werden.',
-                'likes' => $blog->getLikes()->count(),
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -128,8 +126,6 @@ class BlogController extends AbstractController
             'likes' => $blog->getLikes()->count(),
         ], Response::HTTP_CREATED);
     }
-
-
 
     #[Route('/blog/{id}', name: 'app_blog_entry')]
     public function show(int $id): Response

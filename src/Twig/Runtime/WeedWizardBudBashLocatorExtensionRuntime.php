@@ -50,12 +50,12 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
                 'user' => $user,
                 'parent' => null,
             ], ['createdAt' => 'DESC']);
-        } else {
-            return $this->entityManager->getRepository(Blog::class)->findBy([
-                'user' => $user,
-                'parent' => null,
-            ]);
         }
+
+        return $this->entityManager->getRepository(Blog::class)->findBy([
+            'user' => $user,
+            'parent' => null,
+        ]);
     }
 
     public function isUserFollowingUser($user, $following): bool
@@ -91,7 +91,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
         return $likes;
     }
-  
+
     public function arrayKeyFirst(array $array)
     {
         reset($array);
