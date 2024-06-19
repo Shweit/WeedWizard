@@ -184,3 +184,13 @@ $navbar-dark-color: #DFDFDF;
   transform: translateY(-0.1666666667rem);
   box-shadow: 0 0.25rem 1rem 0 rgba(33, 40, 50, 0.25);
 }
+
+.nav-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  white-space: nowrap;
+}
