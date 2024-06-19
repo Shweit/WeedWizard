@@ -25,6 +25,12 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
     {
+        if (!$this->weedWizardKernel->isUserPremium()) {
+            $this->addFlash('error', 'Du brauchst ein Premium-Abo um den GrowMate zu nutzen');
+
+            return $this->redirectToRoute('weedwizard_premium');
+        }
+
         $user = $this->weedWizardKernel->getUser();
         $plants = $entityManager->getRepository(Plant::class)->findBy(['user' => $user]);
 
@@ -83,6 +89,12 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate/{id}', name: 'growMate-plants')]
     public function show(Plant $plant): Response
     {
+        if (!$this->weedWizardKernel->isUserPremium()) {
+            $this->addFlash('error', 'Du brauchst ein Premium-Abo um den GrowMate zu nutzen');
+
+            return $this->redirectToRoute('weedwizard_premium');
+        }
+
         return $this->render('grow_mate/show.html.twig', [
             'plant' => $plant,
         ]);
@@ -91,6 +103,12 @@ class GrowMateController extends AbstractController
     #[Route('/growmate/delete/{id}', name: 'delete_plant', methods: ['POST'])]
     public function delete(int $id, EntityManagerInterface $em): Response
     {
+        if (!$this->weedWizardKernel->isUserPremium()) {
+            $this->addFlash('error', 'Du brauchst ein Premium-Abo um den GrowMate zu nutzen');
+
+            return $this->redirectToRoute('weedwizard_premium');
+        }
+
         $plant = $em->getRepository(Plant::class)->find($id);
 
         if (!$plant) {

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\CannaConsultantServiceV2;
+use App\Services\WeedWizardKernel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ class CannaConsultantController extends AbstractController
 {
     public function __construct(
         private CannaConsultantServiceV2 $cannaConsultantService,
+        private readonly WeedWizardKernel $weedWizardKernel,
     ) {}
 
     #[Route('/canna-consultant', name: 'weedwizard_canna_consultant')]
@@ -34,7 +36,7 @@ class CannaConsultantController extends AbstractController
     #[Route('/canna-consultant/add-message', name: 'weedwizard_canna_consultant_add_message')]
     public function addMessage(Request $request): Response
     {
-        if (!$this->isGranted('ROLE_PREMIUM')) {
+        if (!$this->weedWizardKernel->isUserPremium()) {
             $this->addFlash('error', 'Du brauchst ein Premium-Abo um den Canna-Consultant zu nutzen');
 
             return $this->redirectToRoute('weedwizard_premium');

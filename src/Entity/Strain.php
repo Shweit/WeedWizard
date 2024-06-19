@@ -20,7 +20,7 @@ class Strain
     private ?string $seedfinder_id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['growMate'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::JSON)]
