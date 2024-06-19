@@ -29,9 +29,5 @@ services:
       tags:
           - { name: twig.extension }
 
-  App\Service\SeedFinderApiService:
-      arguments:
-          $apikey: '%env(SEEDFINDER_API_KEY)%'
-
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
