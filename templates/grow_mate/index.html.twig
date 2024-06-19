@@ -32,7 +32,7 @@
                     <h5 class="modal-title" id="addPlantModalLabel">Neue Pflanze hinzufügen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                     {{ form_start(form, {'attr': {'id': 'addPlantForm'}}) }}
                     {{ form_row(form.name) }}
                     {{ form_row(form.breeder) }}
@@ -49,22 +49,43 @@
     </div>
 
     <!-- Pflanzen Karten -->
-    <div id="plantsContainer" class="row mt-4">
+    <div id="plantsContainer" class="row mt-4 ">
         {% for plant in plants %}
             <div class="col-md-4" style="margin-top: 5%">
-                <div class="card mb-4">
+                <div class="card mb-4" style="height: 95%">
                     <div class="card-body" style="margin: 0">
                         <table class="table table-borderless">
+                            <div style="width: 100%; color: white;"><h4 class="card-title" style="text-align: center">{{ plant.name }}</h4></div>
                             <tr>
-                                <td style="width: 70%"><h5 class="card-title">{{ plant.name }}</h5></td>
-                                <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze"></td>
-                            </tr>
-                            <tr>
-                                <td><p class="card-text">Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}  <br>Datum: {{ plant.date|date('d.m.Y') }}</p></td>
-                                <td></td>
+                                {% if plant.strain.pics %}
+                                    <td style="vertical-align: middle">
+                                        <p class="card-text" style="width: 150%; float: left;">
+                                            Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}
+                                            <br><br>
+                                            Datum: {{ plant.date|date('d.m.Y') }}
+                                            <br><br>
+                                            Entwicklungsphase: {{ plant.state }}
+                                        </p>
+                                    </td>
+                                {% else %}
+                                    <td style="vertical-align: middle">
+                                        <p class="card-text" style="width: 150%; float: left;">
+                                            Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}
+                                            <br>
+                                            Datum: {{ plant.date|date('d.m.Y') }}
+                                            <br>
+                                        </p>
+                                    </td>
+                                {% endif %}
+                                {% if plant.strain.pics %}
+                                    <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze" style="height:12rem; width: 9rem; float: right"></td>
+                                {% endif %}
                             </tr>
                         </table>
-                        <p class="card-text">Prognose: </p>
+                        {% if plant.strain.pics == false %}
+                        <img src="{{ asset('build/images/plant-Hybrid.jpg') }}" class="card-img-top" alt="Bild der Pflanze" style="">
+                        {% endif %}
+                        <div class="card-text">Prognose: </div>
                     </div>
                     <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom" data-bs-target="#offcanvasBottom-{{ plant.id }}" style="color: #ffffff">
                         Informationen
@@ -79,30 +100,58 @@
                     <h5 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body" style="margin: 5rem; margin-top: -1rem; margin-bottom: 4rem">
+                <div class="offcanvas-body" style="margin: 4rem; margin-top: -1rem; margin-bottom: 4rem">
                     <div class="container-fluid">
-                        <div class="row mb-3" >
+                        <div class="row mb-4">
                             <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
-                            <div class="col-md-6" style="background-color: #99A881; height: 10rem; width: 40%;padding: 1rem; border-radius: 10px; margin-bottom: 10px;">
-                                <h5>Name: {{ plant.name }}</h5>
-                                <p>Erstellt vor: {{ (date().diff(plant.date)).days }} Tagen</p>
-                                <p>Entwicklungsphase: {{ plant.state }}</p>
+                            <div class="col-5">
+                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 100%">
+                                    <div class="card-body">
+                                        <div >
+                                            <h5>Name: {{ plant.name }}</h5>
+                                            <p>Angepflanzt vor: {{ (date().diff(plant.date)).days }} Tagen</p>
+                                            <p>Entwicklungsphase: {{ plant.state }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                             <!-- Oben rechts: Prognose -->
-                            <div class="col-md-6" style="margin-left: 4% ;background-color: #203C47; color: white; height: 10rem; width: 55%; padding: 1rem; border-radius: 10px; margin-bottom: 10px;">
-                                <h5>Prognose</h5>
+                            <div class="col-7">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>Prognose</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
+
+                        <div class="row">
                             <!-- Unten links: CannaConsultant Thread Fenster -->
-                            <div class="col-md-7" style="background-color: #203C47; color: white; height: 20rem; width: 40%;padding: 1rem; border-radius: 10px;">
-                                <h5>CannaConsultant</h5>
-                                <!-- Bot-Chat Fenster einfügen -->
+                            <div class="col-5">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>CannaConsultant</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Bot-Chat Fenster einfügen -->
+
                             <!-- Unten rechts: Wochenaufgaben + anklicken -->
-                            <div class="col-md-5" style="margin-left: 4% ;background-color: #203C47; color: white; height: 20rem; width: 55%; padding: 1rem; border-radius: 10px;">
-                                <h5>Wochenaufgaben</h5>
+                            <div class="col-7">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>Wochenaufgaben</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
