@@ -154,7 +154,6 @@ $navbar-dark-color: #DFDFDF;
   }
 }
 
-
 .chat-container {
   max-height: 82vh;
   height: calc(100vh - 175px - 111px) !important;
@@ -163,4 +162,13 @@ $navbar-dark-color: #DFDFDF;
 
 .lr-form {
   margin-bottom: 0.7rem; // Kleinere Abstände zwischen den Feldern
+}
+
+.lift {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.lift:hover {
+  transform: translateY(-0.1666666667rem);
+  box-shadow: 0 0.25rem 1rem 0 rgba(33, 40, 50, 0.25);
 }

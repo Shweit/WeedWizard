@@ -18,6 +18,8 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
+        <meta name="seedfinderverification" content="Open Sesame!" />
+
         {# Load Favicon icons #}
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('build/images/favicon/apple-icon-57x57.png') }}">
         <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('build/images/favicon/apple-icon-60x60.png') }}">
@@ -45,6 +47,8 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+
+        {% block noContainerBody %}{% endblock %}
     </body>
 
     {% block script %}{% endblock %}
