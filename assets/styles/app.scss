@@ -2,8 +2,7 @@ $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
 
-@import "~bootstrap/scss/bootstrap.scss";
-@import "nouislider/dist/nouislider.css";
+@import "dependencies";
 @import "responsive";
 @import "dark";
 @import "cannastrain_library.scss";
@@ -69,6 +68,10 @@ $navbar-dark-color: #DFDFDF;
   cursor: pointer;
 }
 
+.navbar {
+  z-index: 999;
+}
+
 .header-container {
   display: flex;
   align-items: center;
@@ -89,26 +92,19 @@ $navbar-dark-color: #DFDFDF;
 .dosage-active {
   background-color: #b5dfb9;
 }
-  .vertical-divider {
-    height: 1px;
-    background-color: #949494;
-    flex-grow: 1;
-  }
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.vertical-divider {
-  height: 1px;
-  background-color: #949494;
-  flex-grow: 1;
-}
 
 .noUi-connect {
   background-color: $primary;
+}
+
+#map {
+  height: calc(100vh - 111px);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 #priceSlider {
@@ -118,6 +114,7 @@ $navbar-dark-color: #DFDFDF;
 #priceSlider .noUi-tooltip {
   display: none;
 }
+
 #priceSlider .noUi-active .noUi-tooltip {
   display: block;
 }
@@ -127,6 +124,16 @@ $navbar-dark-color: #DFDFDF;
   margin-left: auto;
   margin-right: auto;
 }
+
+.leaflet-control-geosearch form input {
+  background-color: white;
+  color: #212832;
+}
+
+.leaflet-control-geosearch .results > * {
+  color: #212832;
+}
+
 
 
 #chat::-webkit-scrollbar {
@@ -167,7 +174,7 @@ $navbar-dark-color: #DFDFDF;
     transform: scale(1.5);
   }
   100% {
-      transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -175,6 +182,10 @@ $navbar-dark-color: #DFDFDF;
   max-height: 82vh;
   height: calc(100vh - 175px - 111px) !important;
   overflow-y: auto;
+}
+
+.lr-form {
+  margin-bottom: 0.7rem; // Kleinere Abstände zwischen den Feldern
 }
 
 .lift {

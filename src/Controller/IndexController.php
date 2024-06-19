@@ -18,14 +18,6 @@ class IndexController extends AbstractController
         private readonly RequestStack $requestStack,
     ) {}
 
-    #[Route('/', name: 'weedwizard_index')]
-    public function index(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
-    }
-
     #[Route('/premium', name: 'weedwizard_premium')]
     public function upgradePremium(): Response
     {

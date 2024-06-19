@@ -16,9 +16,9 @@ We need to install NVM and NPM to run the frontend build process. Follow these s
 ```bash
 brew install nvm
 source $(brew --prefix nvm)/nvm.sh
-nvm install node
-nvm use node
-nvm alias default node
+nvm install 20
+nvm use 20
+nvm alias default 20
 ```
 If problems occur, please refer to the following NVM documentation: https://medium.com/@priscillashamin/how-to-install-and-configure-nvm-on-mac-os-43e3366c75a6
 
@@ -44,4 +44,20 @@ brew install ngrok
 ## Symfony server starten
 ```bash
 symfony server:start
+```
+
+## Für den Tile-Server
+```bash
+brew install postgis
+brew services start postgresql@14
+createdb $(whoami)
+psql -c "CREATE ROLE weedwizard WITH LOGIN PASSWORD 'weedwizard';"
+psql -c "GRANT pg_write_server_files TO weedwizard;"
+psql -c "CREATE DATABASE weedwizard_geometry;"
+psql -c "ALTER DATABASE weedwizard_geometry OWNER TO weedwizard;"
+psql -d weedwizard_geometry -c "ALTER TABLE weedwizard_geometry OWNER TO weedwizard;"
+psql -c "CREATE EXTENSION postgis;"
+psql -c "CREATE EXTENSION postgis_topology;"
+psql -U weedwizard -d weedwizard_geometry -c "CREATE TABLE weedwizard_geometry (id SERIAL PRIMARY KEY, geom GEOMETRY NOT NULL, src text);"
+brew services stop postgresql@14
 ```
