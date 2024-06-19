@@ -39,7 +39,7 @@ class WeedWizardKernel
 
         return $randomString;
     }
- 
+
     public function redirectToPreviousPage(Request $request): RedirectResponse
     {
         $referer = $request->headers->get('referer') ?? '/';
