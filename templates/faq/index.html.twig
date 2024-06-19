@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Knowledge Base{% endblock %}
+
+
+{% block noContainerBody %}
+    <div class="card container col-8 my-5" id="faq-header" style="border-bottom: none; background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
+        <div class="row flex-lg-row-reverse align-items-center">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="{{ asset('build/images/problem-solving.svg') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" style="max-height: 40vh" loading="lazy">
+            </div>
+            <div class="col-lg-6 ps-5">
+                <h1 class="display-6 fw-bold lh-1 mb-3">WeedWizard FAQ</h1>
+                <p class="lead">Willkommen beim WeedWizard FAQ. Hier findest du (hoffentlich) alle deine Fragen, über WeedWizard beantwortet. Falls du noch ein Frage hast, melde dich einfach beim Support.</p>
+            </div>
+            <ul class="nav nav-tabs mt-0 ps-3" style="border-radius: 0.375rem;">
+                <li class="nav-item locator-nav">
+                    <a class="nav-link" href="{{ path('weedwizard_knowledge_base') }}">Knowledge Base</a>
+                </li>
+                <li class="nav-item locator-nav">
+                    <a class="nav-link active" aria-current="page">FAQ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container mb-3">
+        {% include 'templates/_header.html.twig' with {
+            'title': 'FAQ',
+            'button': {
+                'path': 'mailto:support@weedwizard.com',
+                'label': 'Support anschreiben',
+            }
+        } %}
+
+        {% if entries|length != 0 %}
+            <div class="accordion" id="accordionExample">
+                {% for entry in entries %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ category }}-{{ entry.id }}" aria-controls="accordion-{{ category }}-{{ entry.id }}">
+                                {{ entry.articleName }}
+                            </button>
+                        </h2>
+                        <div id="accordion-{{ category }}-{{ entry.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-{{ category }}-{{ entry.id }}">
+                            <div class="accordion-body">
+                                {{ entry.articleContent }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Es wurden keine Einträge gefunden.
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

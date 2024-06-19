@@ -21,6 +21,9 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('leafletConfig', './assets/script/leafletConfig.js')
+    .addEntry('login', './assets/script/togglePasswordVisibility.js')
+    .addEntry('register', './assets/script/togglePasswordVisibility.js')
     .addEntry('cannabis_club', './assets/script/cannabisVerein.js')
     .addEntry('cannadose_calculator', './assets/script/CannaDoseCalculator.js')
     .addEntry('bud_bash_locator', './assets/script/BudBashLocator.js')
@@ -30,6 +33,8 @@ Encore
     .addEntry('blog', './assets/script/blog.js')
     .addEntry('blogEntry', './assets/script/blogEntry.js')
     .addEntry('editUserProfile', './assets/script/editUserProfile.js')
+    .addEntry('cannastrain_library', './assets/script/cannastrainLibrary.js')
+    .addEntry('growMate', './assets/script/growMate.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -64,6 +69,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+    .enablePostCssLoader()
     .enableStimulusBridge('./assets/controllers.json')
 
     // uncomment if you use TypeScript

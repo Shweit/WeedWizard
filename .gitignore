@@ -14,8 +14,6 @@
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
@@ -34,4 +32,9 @@ phpstan.neon
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
 /public/uploads/*
+
+# Maps
+/src/Command/GEOjson/*
+/logfile

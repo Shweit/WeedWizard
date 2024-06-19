@@ -83,6 +83,31 @@ window.addEventListener('load', function () {
     });
 });
 
+window.loadCSS = function(urls) {
+    if (typeof urls === 'string') {
+        urls = [urls];
+    }
+
+    urls.forEach(url => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+    });
+}
+
+window.loadJS = function(urls) {
+    if (typeof urls === 'string') {
+        urls = [urls];
+    }
+
+    urls.forEach(url => {
+        const script = document.createElement('script');
+        script.src = url;
+        document.head.appendChild(script);
+    });
+}
+
 window.showToast = function (message, type = 'success') {
     const toastContainer = document.getElementById('toast-container');
 

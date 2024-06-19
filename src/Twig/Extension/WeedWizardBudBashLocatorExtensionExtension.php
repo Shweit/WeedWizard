@@ -17,6 +17,7 @@ class WeedWizardBudBashLocatorExtensionExtension extends AbstractExtension
             new TwigFunction('isUserFollowingUser', [WeedWizardBudBashLocatorExtensionRuntime::class, 'isUserFollowingUser']),
             new TwigFunction('hasUserLikedPost', [WeedWizardBudBashLocatorExtensionRuntime::class, 'hasUserLikedPost']),
             new TwigFunction('getAllBlogLikesFromUser', [WeedWizardBudBashLocatorExtensionRuntime::class, 'getAllBlogLikesFromUser']),
+            new TwigFunction('arrayKeyFirst', [WeedWizardBudBashLocatorExtensionRuntime::class, 'arrayKeyFirst']),
         ];
     }
 }

@@ -50,7 +50,7 @@ class WeedWizardAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('weedwizard_index'));
+        return new RedirectResponse($this->urlGenerator->generate('weedwizard_compliance_map'));
     }
 
     protected function getLoginUrl(Request $request): string

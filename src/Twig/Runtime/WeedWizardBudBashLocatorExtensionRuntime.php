@@ -91,4 +91,11 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
         return $likes;
     }
+  
+    public function arrayKeyFirst(array $array)
+    {
+        reset($array);
+
+        return key($array);
+    }
 }
