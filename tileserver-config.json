@@ -1,0 +1,12 @@
+{
+  "options": {},
+  "styles": {},
+  "data": {
+    "germany-latest-with-tags": {
+      "mbtiles": "germany-latest-with-tags.mbtiles"
+    },
+    "germany-pedestrian-zones": {
+      "mbtiles": "germany-pedestrian-zones.mbtiles"
+    }
+  }
+}

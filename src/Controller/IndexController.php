@@ -15,16 +15,8 @@ class IndexController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
     ) {}
-
-    #[Route('/', name: 'weedwizard_index')]
-    public function index(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
-    }
 
     #[Route('/premium', name: 'weedwizard_premium')]
     public function upgradePremium(): Response

@@ -75,6 +75,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $notifications;
 
     /**
+     * @var Collection<int, Plant>
+     */
+    #[ORM\OneToMany(targetEntity: Plant::class, mappedBy: 'user')]
+    private Collection $plants;
+
+    /**
      * @var Collection<int, CannabisVerein>
      */
     #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
@@ -83,13 +89,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?CannabisVerein $createdClub = null;
 
+    /**
+     * @var Collection<int, MapMarkers>
+     */
+    #[ORM\OneToMany(targetEntity: MapMarkers::class, mappedBy: 'user')]
+    private Collection $mapMarkers;
+
     public function __construct()
     {
         $this->attendedBudBashes = new ArrayCollection();
         $this->hostedBudBashes = new ArrayCollection();
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->plants = new ArrayCollection();
         $this->cannaDoseCalculators = new ArrayCollection();
+        $this->mapMarkers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -332,6 +346,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<int, Plant>
+     */
+    public function getPlants(): Collection
+    {
+        return $this->plants;
+    }
+
+    public function addPlant(Plant $plant): static
+    {
+        if (!$this->plants->contains($plant)) {
+            $this->plants->add($plant);
+            $plant->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlant(Plant $plant): static
+    {
+        if ($this->plants->removeElement($plant)) {
+            // set the owning side to null (unless already changed)
+            if ($plant->getUser() === $this) {
+                $plant->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, CannabisVerein>
      */
     public function getCannabisVereine(): Collection
@@ -347,6 +391,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedClub(?CannabisVerein $createdClub): static
     {
         $this->createdClub = $createdClub;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MapMarkers>
+     */
+    public function getMapMarkers(): Collection
+    {
+        return $this->mapMarkers;
+    }
+
+    public function addMapMarker(MapMarkers $mapMarker): static
+    {
+        if (!$this->mapMarkers->contains($mapMarker)) {
+            $this->mapMarkers->add($mapMarker);
+            $mapMarker->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMapMarker(MapMarkers $mapMarker): static
+    {
+        if ($this->mapMarkers->removeElement($mapMarker)) {
+            // set the owning side to null (unless already changed)
+            if ($mapMarker->getUser() === $this) {
+                $mapMarker->setUser(null);
+            }
+        }
 
         return $this;
     }

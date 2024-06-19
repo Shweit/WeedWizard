@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cannastrain Library | WeedWizard{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cannastrain_library') }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .container-fluid {
+            margin: 1em;
+            width: 98%
+        }
+
+        #filters-container {
+            min-width: 20%;
+        }
+
+        .filter-icon {
+            margin-right: 0.5em;
+        }
+
+        #myTabContent {
+            height: 400px;
+        }
+
+        .cropped-img {
+            width: auto;
+            height: 200px;
+            overflow: hidden;
+            object-fit: cover;
+        }
+
+        #close-sidebar:hover {
+            color: #0C4F11;
+            cursor: pointer;
+            transform: scale(1.4) translateY(2px);
+            transition: transform 0.2s, color 0.2s;
+        }
+
+    </style>
+
+    {% block container_class %}
+        <div class="container-fluid">
+    {% endblock %}
+
+    {# Header #}
+    {% include 'cannastrain_library/partials/_header.html.twig' with {'callToAction': '2. Wähle einen Strain aus.'} %}
+
+    {# Tabs list #}
+    {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
+
+    {# Tabs content #}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="d-flex flex-row border-top-4" id="database-container">
+
+                {# Filters sidebar #}
+                {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
+
+                {# Strains overview #}
+                <div class="flex-grow-1" id="results">
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% for strain in strains %}
+                                {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
+                                    'id': loop.index,
+                                    'name': strain['name'],
+                                    'description': 'Keine Beschreibung verfügbar',
+                                    'intensity': 'Keine Intensität verfügbar',
+                                    'rating': 'Keine Wertung verfügbar',
+                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                    'btnLink': path('weedwizard_cannastrain-library_strain-view', {'breeder_id': breeder['seedfinder_id'], 'strain_id': strain['seedfinder_id']})
+                                } %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            Platzhalter Zubehör
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            Platzhalter Sonstiges
+        </div>
+    </div>
+    </div>
+{% endblock %}

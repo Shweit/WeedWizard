@@ -6,6 +6,9 @@
 
         {# We need to load this Script first, to avoid site flickering #}
         {% include 'templates/_bootstrap_darkMode.js.twig' %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -15,7 +18,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
-        <meta name="seedfinderverification" content="Open Sesame!" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
         {# Load Favicon icons #}
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('build/images/favicon/apple-icon-57x57.png') }}">
@@ -39,10 +42,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        {% include('templates/_toasts.html.twig') %}
+        {% include 'templates/_toasts.html.twig' %}
         {% include 'templates/_navbar.html.twig' %}
 
-        <div class="container">
+        {% block container_class %}
+            <div class="container">
+        {% endblock %}
             {% block body %}{% endblock %}
         </div>
 

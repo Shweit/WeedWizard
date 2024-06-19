@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StrainRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: StrainRepository::class)]
 class Strain
@@ -15,27 +16,35 @@ class Strain
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $seedfinder_id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $breeder_info = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $parents = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $hybrids = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $medical = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $pics = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $reviews = [];
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'strains')]
