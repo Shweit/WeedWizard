@@ -1,11 +1,13 @@
 $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
-
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~select2/src/scss/core";
 @import "nouislider/dist/nouislider.css";
+@import "dependencies";
 @import "responsive";
 @import "dark";
+@import "cannastrain_library.scss";
 
 .dropdown-user-details-name {
   color: #212832;
@@ -68,6 +70,10 @@ $navbar-dark-color: #DFDFDF;
   cursor: pointer;
 }
 
+.navbar {
+  z-index: 999;
+}
+
 .header-container {
   display: flex;
   align-items: center;
@@ -88,35 +94,45 @@ $navbar-dark-color: #DFDFDF;
 .dosage-active {
   background-color: #b5dfb9;
 }
-  .vertical-divider {
-    height: 1px;
-    background-color: #949494;
-    flex-grow: 1;
-  }
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.vertical-divider {
-  height: 1px;
-  background-color: #949494;
-  flex-grow: 1;
-}
 
 .noUi-connect {
   background-color: $primary;
+}
+
+#map {
+  height: calc(100vh - 111px);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 #priceSlider {
   padding: 0 16px;
 }
 
+.card-footer-button {
+  background-color: #0C4F11;
+  color: white;
+  text-align: center;
+  border-bottom-right-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card-footer-button:hover {
+  background-color: #065A1E; /* Dunklere Farbe auf Hover */
+  color: #FFFFFF; /* Textfarbe auf Hover */
+}
+
 #priceSlider .noUi-tooltip {
   display: none;
 }
+
 #priceSlider .noUi-active .noUi-tooltip {
   display: block;
 }
@@ -126,6 +142,16 @@ $navbar-dark-color: #DFDFDF;
   margin-left: auto;
   margin-right: auto;
 }
+
+.leaflet-control-geosearch form input {
+  background-color: white;
+  color: #212832;
+}
+
+.leaflet-control-geosearch .results > * {
+  color: #212832;
+}
+
 
 
 #chat::-webkit-scrollbar {
@@ -166,13 +192,61 @@ $navbar-dark-color: #DFDFDF;
     transform: scale(1.5);
   }
   100% {
-      transform: scale(1);
+    transform: scale(1);
   }
 }
-
 
 .chat-container {
   max-height: 82vh;
   height: calc(100vh - 175px - 111px) !important;
   overflow-y: auto;
+}
+
+.lr-form {
+  margin-bottom: 0.7rem; // Kleinere Abstände zwischen den Feldern
+}
+
+.lift {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.lift:hover {
+  transform: translateY(-0.1666666667rem);
+  box-shadow: 0 0.25rem 1rem 0 rgba(33, 40, 50, 0.25);
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection {
+  border-color: #86a788 !important;
+  box-shadow: 0 0 0 0.25rem rgba(12, 79, 17, 0.25) !important;
+}
+
+.modal
+{
+  vertical-align: 50vh;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
 }

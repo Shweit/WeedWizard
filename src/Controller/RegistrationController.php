@@ -42,4 +42,10 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
+
+    #[Route('/register/agb', name: 'app_agb')]
+    public function agb(): Response
+    {
+        return $this->render('registration/agb.html.twig');
+    }
 }
