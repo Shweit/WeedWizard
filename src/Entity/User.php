@@ -75,6 +75,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $notifications;
 
     /**
+     * @var Collection<int, Plant>
+     */
+    #[ORM\OneToMany(targetEntity: Plant::class, mappedBy: 'user')]
+    private Collection $plants;
+
+    /**
      * @var Collection<int, CannabisVerein>
      */
     #[ORM\ManyToMany(targetEntity: CannabisVerein::class, mappedBy: 'mitglieder')]
@@ -95,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->hostedBudBashes = new ArrayCollection();
         $this->cannabisVereine = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->plants = new ArrayCollection();
         $this->cannaDoseCalculators = new ArrayCollection();
         $this->mapMarkers = new ArrayCollection();
     }
@@ -332,6 +339,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Plant>
+     */
+    public function getPlants(): Collection
+    {
+        return $this->plants;
+    }
+
+    public function addPlant(Plant $plant): static
+    {
+        if (!$this->plants->contains($plant)) {
+            $this->plants->add($plant);
+            $plant->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlant(Plant $plant): static
+    {
+        if ($this->plants->removeElement($plant)) {
+            // set the owning side to null (unless already changed)
+            if ($plant->getUser() === $this) {
+                $plant->setUser(null);
             }
         }
 

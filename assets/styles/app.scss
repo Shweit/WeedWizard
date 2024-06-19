@@ -1,7 +1,9 @@
 $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
-
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~select2/src/scss/core";
+@import "nouislider/dist/nouislider.css";
 @import "dependencies";
 @import "responsive";
 @import "dark";
@@ -110,6 +112,22 @@ $navbar-dark-color: #DFDFDF;
   padding: 0 16px;
 }
 
+.card-footer-button {
+  background-color: #0C4F11;
+  color: white;
+  text-align: center;
+  border-bottom-right-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card-footer-button:hover {
+  background-color: #065A1E; /* Dunklere Farbe auf Hover */
+  color: #FFFFFF; /* Textfarbe auf Hover */
+}
+
 #priceSlider .noUi-tooltip {
   display: none;
 }
@@ -194,4 +212,40 @@ $navbar-dark-color: #DFDFDF;
 .lift:hover {
   transform: translateY(-0.1666666667rem);
   box-shadow: 0 0.25rem 1rem 0 rgba(33, 40, 50, 0.25);
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection {
+  border-color: #86a788 !important;
+  box-shadow: 0 0 0 0.25rem rgba(12, 79, 17, 0.25) !important;
+}
+
+.modal
+{
+  vertical-align: 50vh;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
 }
