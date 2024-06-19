@@ -30,6 +30,9 @@ Encore
     .addEntry('cannaConsultant', './assets/script/cannaConsultant.js')
     .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
     .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
+    .addEntry('blog', './assets/script/blog.js')
+    .addEntry('blogEntry', './assets/script/blogEntry.js')
+    .addEntry('editUserProfile', './assets/script/editUserProfile.js')
     .addEntry('cannastrain_library', './assets/script/cannastrainLibrary.js')
     .addEntry('growMate', './assets/script/growMate.js')
 

@@ -139,3 +139,50 @@ window.showToast = function (message, type = 'success') {
     const toastBootstrap = new bootstrap.Toast(toast);
     toastBootstrap.show();
 }
+
+window.toggleLikeBlogEntry = function (blogEntryId, action, link) {
+    if (action === 'like') {
+        fetch('/blog/like/' + blogEntryId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                if (data.error) {
+                    window.showToast(data.error, 'error');
+                } else {
+                    link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'unlike', this)`);
+                    link.innerHTML = '<i class="fa-solid fa-heart me-2"></i> '+ sanitizeHtml(data.likes);
+                }
+            })
+    } else {
+        fetch('/blog/unlike/' + blogEntryId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                if (data.error) {
+                    window.showToast(data.error, 'error');
+                } else {
+                    link.setAttribute('onclick', `window.toggleLikeBlogEntry(${blogEntryId}, 'like', this)`);
+                    link.innerHTML = '<i class="fa-regular fa-heart me-2"></i> '+ sanitizeHtml(data.likes);
+                }
+            })
+    }
+}
+
+window.copyToClipboard = function (content, toastMessage) {
+    navigator.clipboard.writeText(content)
+        .then(() => {
+            window.showToast(toastMessage, 'success')
+        });
+}

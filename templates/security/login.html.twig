@@ -14,11 +14,16 @@
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <input type="hidden" name="_target_path" value={{ app.request.headers.get('referer') }}>
             {% if app.user %}
                 <div class="mb-3">
                     Du bist angemeldet als {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
                 </div>
             {% endif %}
+
 
             <div class="card border-3 rounded-end-0 border-end-0 p-3" style="border-color: #888888">
                 <div class="m-4 mb-0">

@@ -31,15 +31,9 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="btn btn-link nav-link py-2 px-0 px-lg-2 d-flex align-items-center me-2" type="button" href="{{ path('weedwizard_knowledge_base') }}">
-                        <i class="fa-regular fa-circle-question"></i>
-                    </a>
-                </li>
                 <li class="nav-item dropdown">
                     <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
                         <i class="fa-regular fa-sun me-2" id="theme-icon-active"></i>
-                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle ändern</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                         <li>
@@ -62,6 +56,11 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="btn btn-link nav-link py-2 px-0 px-lg-2 d-flex align-items-center me-2" type="button" href="{{ path('weedwizard_knowledge_base') }}">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </a>
+                </li>
                 {% if app.user == null %}
                     <li class="nav-item">
                         <a class="btn btn-outline-primary me-2" href="{{ path('app_register') }}">Registrieren</a>
@@ -71,8 +70,8 @@
                     </li>
                 {% else %}
                     <li class="nav-item dropdown">
-                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center me-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-bell"></i>
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-bell me-2"></i>
                         </button>
                         <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
                             <h6 class="dropdown-header dropdown-notifications-header">
@@ -87,7 +86,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-user me-2"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
                             <h6 class="dropdown-header d-flex align-items-center">
@@ -97,6 +96,11 @@
                                     {% if is_granted('ROLE_PREMIUM') %}<div class="dropdown-user-details-email">Premium</div>{% endif %}
                                 </div>
                             </h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_user_profile', {'username': app.user.username}) }}">
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-user me-2"></i></div>
+                                Profil
+                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_premium') }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-dollar-sign me-2"></i></div>

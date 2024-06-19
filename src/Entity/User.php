@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Es gibt schon ein Account mit dieser E-Mail Adresse.')]
+#[UniqueEntity(fields: ['username'], message: 'Es gibt schon ein Account mit diesem Benutzernamen.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -89,6 +90,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?CannabisVerein $createdClub = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $bio = null;
+
+    /**
+     * @var Collection<int, Blog>
+     */
+    #[ORM\OneToMany(targetEntity: Blog::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $blogs;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
+    private Collection $following;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
+    private Collection $followers;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
+
     /**
      * @var Collection<int, MapMarkers>
      */
@@ -103,6 +134,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
         $this->plants = new ArrayCollection();
         $this->cannaDoseCalculators = new ArrayCollection();
+        $this->blogs = new ArrayCollection();
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
         $this->mapMarkers = new ArrayCollection();
     }
 
@@ -395,6 +429,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Blog>
+     */
+    public function getBlogs(): Collection
+    {
+        return $this->blogs;
+    }
+
+    public function addBlog(Blog $blog): static
+    {
+        if (!$this->blogs->contains($blog)) {
+            $this->blogs->add($blog);
+            $blog->setUser($this);
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, MapMarkers>
      */
@@ -413,6 +489,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function removeBlog(Blog $blog): static
+    {
+        if ($this->blogs->removeElement($blog)) {
+            // set the owning side to null (unless already changed)
+            if ($blog->getUser() === $this) {
+                $blog->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function removeMapMarker(MapMarkers $mapMarker): static
     {
         if ($this->mapMarkers->removeElement($mapMarker)) {
@@ -423,5 +511,85 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getfollowing(): Collection
+    {
+        return $this->following;
+    }
+
+    public function addfollowing(self $following): static
+    {
+        if (!$this->following->contains($following)) {
+            $this->following->add($following);
+        }
+
+        return $this;
+    }
+
+    public function removefollowing(self $following): static
+    {
+        $this->following->removeElement($following);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(self $follower): static
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers->add($follower);
+            $follower->addfollowing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(self $follower): static
+    {
+        if ($this->followers->removeElement($follower)) {
+            $follower->removefollowing($this);
+        }
+
+        return $this;
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture($profilePicture): static
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getBanner()
+    {
+        return $this->banner;
+    }
+
+    public function setBanner($banner): static
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function upload(): void
+    {
+        dd('inside');
     }
 }
