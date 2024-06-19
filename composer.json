@@ -49,6 +49,7 @@
         "twig/twig": "^2.12|^3.0",
         "ext-curl": "*",
         "twig/intl-extra": "^3.9",
+        "ext-curl": "*",
         "ext-pdo": "*"
     },
     "config": {

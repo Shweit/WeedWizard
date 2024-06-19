@@ -15,7 +15,7 @@ class IndexController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
     ) {}
 
     #[Route('/premium', name: 'weedwizard_premium')]

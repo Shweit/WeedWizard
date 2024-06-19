@@ -36,6 +36,10 @@ npm install
 npm run watch
 ```
 
+## Ngrok installieren
+```bash
+brew install ngrok
+```
 
 ## Symfony server starten
 ```bash

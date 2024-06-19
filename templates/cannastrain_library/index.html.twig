@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cannastrain Library | WeedWizard{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cannastrain_library') }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .container-fluid {
+            margin: 1em;
+            width: 98%
+        }
+
+        #filters-container {
+            min-width: 20%;
+        }
+
+        .filter-icon {
+            margin-right: 0.5em;
+        }
+
+        #myTabContent {
+            height: 400px;
+        }
+
+        .cropped-img {
+            width: auto;
+            height: 200px;
+            overflow: hidden;
+            object-fit: cover;
+        }
+
+        .breeder-logo {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 75%;
+            background-color: #f0f0f0;
+        }
+
+        .breeder-logo-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
+            filter: grayscale(100%) sepia(50%) contrast(90%);
+        }
+
+        #close-sidebar:hover {
+            color: #0C4F11;
+            cursor: pointer;
+            transform: scale(1.4) translateY(2px);
+            transition: transform 0.2s, color 0.2s;
+        }
+
+    </style>
+
+    {% block container_class %}
+        <div class="container-fluid">
+    {% endblock %}
+
+    {# Header #}
+    {% include 'cannastrain_library/partials/_header.html.twig' with {'callToAction': '1. Wähle einen Züchter aus.'} %}
+
+    {# Tabs list #}
+    {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
+
+    {# Tabs content #}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="d-flex flex-row border-top-4" id="database-container">
+
+                {# Filters sidebar #}
+                {% include 'cannastrain_library/partials/_filters_sidebar.html.twig' %}
+
+                {# Breeders overview #}
+                <div class="flex-grow-1" id="results">
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% for breeder in breeders %}
+                                {% include 'cannastrain_library/partials/_breeder_card.html.twig' with {
+                                    'id': loop.index,
+                                    'image': breeder.logo,
+                                    'name': breeder.name,
+                                    'seedfinder_id': breeder.seedfinder_id,
+                                    'description': 'Keine Beschreibung verfügbar',
+                                    'strains_count': breeder.strains|length,
+                                    'rating': 'Keine Wertung verfügbar',
+                                    'source': 'SeedFinder',
+                                } %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Additional tabs #}
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            Platzhalter Zubehör
+        </div>
+
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            Platzhalter Sonstiges
+        </div>
+    </div>
+    </div>
+{% endblock %}

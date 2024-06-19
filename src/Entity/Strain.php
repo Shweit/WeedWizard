@@ -16,7 +16,7 @@ class Strain
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['growMate'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $seedfinder_id = null;
 
     #[ORM\Column(length: 255)]
@@ -24,21 +24,27 @@ class Strain
     private ?string $name = null;
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $breeder_info = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $parents = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $hybrids = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $medical = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $pics = [];
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['cannastrainLibrary'])]
     private array $reviews = [];
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'strains')]

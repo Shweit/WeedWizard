@@ -44,7 +44,9 @@
         {% include 'templates/_toasts.html.twig' %}
         {% include 'templates/_navbar.html.twig' %}
 
-        <div class="container">
+        {% block container_class %}
+            <div class="container">
+        {% endblock %}
             {% block body %}{% endblock %}
         </div>
 
