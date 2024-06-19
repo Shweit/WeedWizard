@@ -3,8 +3,8 @@ import 'leaflet.locatecontrol';
 import 'leaflet.vectorgrid';
 import * as GeoSearch from 'leaflet-geosearch';
 import 'leaflet-easybutton';
-import BudBashMarker from '../../public/build/images/party_marker.png'
-import ClubMarker from '../../public/build/images/club_marker.png'
+import BudBashMarker from '../../assets/images/party_marker.png'
+import ClubMarker from '../../assets/images/club_marker.png'
 
 let userMarkers = [];
 let budBashMarkers = [];
