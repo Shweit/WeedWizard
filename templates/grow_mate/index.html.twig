@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GrowMate - Cannabis Anbau{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('growMate') }}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'templates/_header.html.twig' with {
+        'title': 'GrowMate',
+        'button': {
+            'label': 'Pflanze hinzufügen',
+            'attr': 'data-bs-toggle=modal data-bs-target=#addPlantModal'
+        }
+    } %}
+
+    <!-- Anzeige von Fehlermeldungen -->
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <!-- Modal zum Hinzufügen einer Pflanze -->
+    <div class="modal fade" id="addPlantModal" role="dialog" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPlantModalLabel">Neue Pflanze hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" >
+                    {{ form_start(form, {'attr': {'id': 'addPlantForm'}}) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.breeder) }}
+                    {{ form_row(form.strain) }}
+
+                    {{ form_row(form.date) }}
+                    {{ form_row(form.state) }}
+                    {{ form_row(form.placeOfCultivation) }}
+                    <div style="float: right">{{ form_row(form.submit) }}</div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pflanzen Karten -->
+    <div id="plantsContainer" class="row mt-4 ">
+        {% for plant in plants %}
+            <div class="col-md-4" style="margin-top: 5%">
+                <div class="card mb-4" style="height: 95%">
+                    <div class="card-body" style="margin: 0">
+                        <table class="table table-borderless">
+                            <div style="width: 100%; color: white;"><h4 class="card-title" style="text-align: center">{{ plant.name }}</h4></div>
+                            <tr>
+                                {% if plant.strain.pics %}
+                                    <td style="vertical-align: middle">
+                                        <p class="card-text" style="width: 150%; float: left;">
+                                            Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}
+                                            <br><br>
+                                            Datum: {{ plant.date|date('d.m.Y') }}
+                                            <br><br>
+                                            Entwicklungsphase: {{ plant.state }}
+                                        </p>
+                                    </td>
+                                {% else %}
+                                    <td style="vertical-align: middle">
+                                        <p class="card-text" style="width: 150%; float: left;">
+                                            Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}
+                                            <br>
+                                            Datum: {{ plant.date|date('d.m.Y') }}
+                                            <br>
+                                        </p>
+                                    </td>
+                                {% endif %}
+                                {% if plant.strain.pics %}
+                                    <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze" style="height:12rem; width: 9rem; float: right"></td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                        {% if plant.strain.pics == false %}
+                        <img src="{{ asset('build/images/plant-Hybrid.jpg') }}" class="card-img-top" alt="Bild der Pflanze" style="">
+                        {% endif %}
+                        <div class="card-text">Prognose: </div>
+                    </div>
+                    <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom" data-bs-target="#offcanvasBottom-{{ plant.id }}" style="color: #ffffff">
+                        Informationen
+                    </a>
+                </div>
+            </div>
+
+            <!-- Details Modal -->
+            <!-- Offcanvas für Pflanzendetails -->
+            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ plant.id }}" aria-labelledby="offcanvasLabel-{{ plant.id }}" style="height: 84%; background-color: #284A4F; border-top-right-radius: 15px; border-top-left-radius: 15px;">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body" style="margin: 4rem; margin-top: -1rem; margin-bottom: 4rem">
+                    <div class="container-fluid">
+                        <div class="row mb-4">
+                            <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
+                            <div class="col-5">
+                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 100%">
+                                    <div class="card-body">
+                                        <div >
+                                            <h5>Name: {{ plant.name }}</h5>
+                                            <p>Angepflanzt vor: {{ (date().diff(plant.date)).days }} Tagen</p>
+                                            <p>Entwicklungsphase: {{ plant.state }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Oben rechts: Prognose -->
+                            <div class="col-7">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>Prognose</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Unten links: CannaConsultant Thread Fenster -->
+                            <div class="col-5">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>CannaConsultant</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bot-Chat Fenster einfügen -->
+
+                            <!-- Unten rechts: Wochenaufgaben + anklicken -->
+                            <div class="col-7">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <div class="col-md-6" >
+                                            <h5>Wochenaufgaben</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas-footer" style="height: 3rem">
+                    <form method="post" action="{{ path('delete_plant', {'id': plant.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diese Pflanze löschen möchtest?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ plant.id) }}">
+                        <button class="btn btn-danger float-start">Löschen</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="offcanvas">Schließen</button>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}

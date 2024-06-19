@@ -31,6 +31,7 @@ Encore
     .addEntry('qrScanner', './assets/script/qrCodeScanner.js')
     .addEntry('chartJsConfig', './assets/script/chartJsConfig.js')
     .addEntry('cannastrain_library', './assets/script/cannastrainLibrary.js')
+    .addEntry('growMate', './assets/script/growMate.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

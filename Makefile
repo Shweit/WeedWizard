@@ -64,7 +64,6 @@ load-fixtures: reset_db
 	@echo "$(NC)                                                                  $(NC)"
 	php bin/console doctrine:fixtures:load --env=dev --no-interaction
 
-
 	@echo "$(NC)                                                                  $(NC)"
 	@echo "$(BG_GREEN)                                                                  $(NC)"
 	@echo "$(BG_GREEN)     Fertig!                                                      $(NC)"
