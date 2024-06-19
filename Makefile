@@ -69,3 +69,12 @@ load-fixtures: reset_db
 	@echo "$(BG_GREEN)     Fertig!                                                      $(NC)"
 	@echo "$(BG_GREEN)                                                                  $(NC)"
 	@echo "$(NC)                                                                  $(NC)"
+
+tileserver:
+ifeq (, $(shell which tileserver-gl))
+	$(info "tileserver-gl is not installed. Installing now...")
+	npm install -g tileserver-gl
+else
+	$(info "tileserver-gl is already installed.")
+endif
+	tileserver-gl --config tileserver-config.json
