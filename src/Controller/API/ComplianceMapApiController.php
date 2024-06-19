@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\BudBash;
+use App\Entity\CannabisVerein;
 use App\Entity\MapMarkers;
 use App\Form\AddMarkerFormType;
 use App\Services\WeedWizardKernel;
@@ -141,7 +142,7 @@ class ComplianceMapApiController extends AbstractController
                 'coordinates' => $budBash->getCoordinates(),
                 'entrance_fee' => $budBash->getEntranceFee(),
                 'extraInfo' => $budBash->getExtraInfo() ?? 'Der ersteller der Party hat keine Informationen angegeben.',
-                'address' => $budBash->getAddress(),
+                'address' => $budBash->getAddress() ?? '',
             ];
         }, $budBashes);
 
@@ -175,6 +176,28 @@ class ComplianceMapApiController extends AbstractController
 
         return new JsonResponse([
             'markers' => $markers,
+        ]);
+    }
+
+    #[Route('/api/compliance-map/get-clubs', name: 'weedwizard_compliance_map_get_clubs', methods: ['GET'])]
+    public function getClubs(): Response
+    {
+        $club = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
+
+        $club = array_map(function (CannabisVerein $club) {
+            return [
+                'id' => $club->getId(),
+                'name' => $club->getName(),
+                'description' => $club->getBeschreibung(),
+                'coordinates' => $club->getCoordinaten(),
+                'fee' => $club->getMitgliedsbeitrag(),
+                'address' => $club->getAdresse(),
+                'website' => $club->getWebsite(),
+            ];
+        }, $club);
+
+        return new JsonResponse([
+            'clubs' => $club,
         ]);
     }
 }

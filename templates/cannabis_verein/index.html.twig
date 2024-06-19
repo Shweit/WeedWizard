@@ -56,13 +56,13 @@
     </div>
 
     <div class="m-5 mt-0">
-        <div class="d-flex justify-content-between p-3 pb-0">
-            <div class="block">
-                <h1>Cannabis-Vereine</h1>
-            </div>
-            <a data-bs-toggle="modal" data-bs-target="#new_club"
-               class="btn btn-primary align-self-center">Verein erstellen</a>
-        </div>
+        {% include 'templates/_header.html.twig' with {
+            'title': 'Cannabis-Vereine',
+            'button': {
+                'attr': 'data-bs-toggle=modal data-bs-target=#new_club',
+                'label': 'Verein erstellen'
+            }
+        } %}
 
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item club-nav">

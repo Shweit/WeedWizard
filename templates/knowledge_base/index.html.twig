@@ -4,13 +4,13 @@
 
 
 {% block noContainerBody %}
-    <div class="card container col-8 my-5" id="faq-header" style="border-bottom: none; background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
+    <div class="card container col-11 my-5" id="faq-header" style="border-bottom: none; background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
         <div class="row flex-lg-row-reverse align-items-center">
-            <div class="col-10 col-sm-8 col-lg-6">
+            <div class="col-10 col-sm-8 col-lg-6 d-none d-sm-block">
                 <img src="{{ asset('build/images/problem-solving.svg') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" style="max-height: 40vh" loading="lazy">
             </div>
-            <div class="col-lg-6 ps-5">
-                <h1 class="display-6 fw-bold lh-1 mb-3">WeedWizard Knowledge Base</h1>
+            <div class="col-lg-6 ps-md-5 ps-sm-0 text-center text-sm-left">
+                <h1 class="display-6 fw-bold lh-1 mb-3 pt-3 pt-sm-0">WeedWizard Knowledge Base</h1>
                 <p class="lead">Willkommen auf der WeedWizard Knowledge Base. Hier findest du alle deine Fragen, bezüglich Cannabis, bis aufs letzte Detail beantwortet. Von der Pflanze bis zum anbaue einer Pflanze.</p>
             </div>
             <ul class="nav nav-tabs mt-0 ps-3" style="border-radius: 0.375rem;">
@@ -34,7 +34,7 @@
                 <div class="col-12">
                     <div class="card mb-3 lift">
                         <div class="row g-0">
-                            <div class="col-md-2 bg-primary d-flex align-items-center">
+                            <div class="col-md-2 bg-primary d-none d-sm-flex align-items-center">
                                 <i class="fa-regular fa-compass fs-1 text-white mx-auto"></i>
                             </div>
                             <div class="col-md-10">
@@ -52,7 +52,7 @@
                 <div class="col-12">
                     <div class="card mb-3 lift">
                         <div class="row g-0">
-                            <div class="col-md-2 bg-primary d-flex align-items-center">
+                            <div class="col-md-2 bg-primary d-none d-sm-flex align-items-center">
                                 <i class="fa-solid fa-seedling fs-1 text-white mx-auto"></i>
                             </div>
                             <div class="col-md-10">
@@ -70,7 +70,7 @@
                 <div class="col-12">
                     <div class="card mb-3 lift">
                         <div class="row g-0">
-                            <div class="col-md-2 bg-primary d-flex align-items-center">
+                            <div class="col-md-2 bg-primary d-none d-sm-flex align-items-center">
                                 <i class="fa-solid fa-joint fs-1 text-white mx-auto"></i>
                             </div>
                             <div class="col-md-10">
