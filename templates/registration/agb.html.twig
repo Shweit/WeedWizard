@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registrierung{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('register') }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="mt-4">Allgemeine Geschäftsbedingungen (AGB)</h1><br>
+    <br>
+    <h3>1. Geltungsbereich</h3>
+    <br>
+    1.1. Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für die Nutzung der Webseite [Name der Webseite]<br>
+    (nachfolgend "Webseite" genannt).<br>
+    <br>
+    1.2. Mit der Nutzung der Webseite erklären Sie sich mit diesen AGB einverstanden.<br>
+    <br>
+    <h3>2. Nutzung der Webseite</h3>
+    <br>
+    2.1. Die Inhalte auf dieser Webseite sind ausschließlich für Personen ab 18 Jahren bestimmt.<br>
+    <br>
+    2.2. Die Webseite dient der Bereitstellung von Informationen und Inhalten rund um das Thema Cannabis und
+    dessen<br>
+    Konsum.<br>
+    <br>
+    2.3. Die Webseite enthält keine Aufforderung oder Ermutigung zum illegalen Konsum von Cannabis. Der Konsum
+    von<br>
+    Cannabis sollte stets im Rahmen der gesetzlichen Bestimmungen erfolgen.<br>
+    <br>
+    <h3>3. Inhalte</h3>
+    <br>
+    3.1. Die auf der Webseite bereitgestellten Inhalte dienen ausschließlich zu Informationszwecken.<br>
+    <br>
+    3.2. Wir bemühen uns, die bereitgestellten Informationen stets aktuell und korrekt zu halten, übernehmen
+    jedoch<br>
+    keine Gewähr für die Vollständigkeit, Richtigkeit und Aktualität der Inhalte.<br>
+    <br>
+    <h3>4. Haftung</h3>
+    <br>
+    4.1. Die Nutzung der Inhalte der Webseite erfolgt auf eigene Gefahr des Nutzers.<br>
+    <br>
+    4.2. Wir haften nicht für Schäden, die direkt oder indirekt aus der Nutzung der Webseite oder der darin<br>
+    enthaltenen Informationen entstehen.<br>
+    <br>
+    4.3. Die Webseite enthält möglicherweise Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen<br>
+    Einfluss haben. Für diese fremden Inhalte übernehmen wir keine Haftung.<br>
+    <br>
+    <h3>5. Datenschutz</h3>
+    <br>
+    5.1. Der Schutz Ihrer persönlichen Daten ist uns wichtig. Informationen zum Datenschutz finden Sie in
+    unserer<br>
+    [Datenschutzerklärung].<br>
+    <br>
+    5.2. Mit der Nutzung der Webseite erklären Sie sich mit der Verarbeitung Ihrer Daten gemäß unserer<br>
+    Datenschutzerklärung einverstanden.<br>
+    <br>
+    <h3>6. Änderungen der AGB</h3>
+    <br>
+    6.1. Wir behalten uns das Recht vor, diese AGB jederzeit zu ändern. Die jeweils aktuelle Version der AGB ist auf<br>
+    der Webseite verfügbar.<br>
+    <br>
+    6.2. Mit der weiteren Nutzung der Webseite nach Änderung der AGB erklären Sie sich mit den Änderungen<br>
+    einverstanden.<br>
+    <br>
+    <h3>7. Schlussbestimmungen</h3>
+    <br>
+    7.1. Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder werden, so berührt dies die Wirksamkeit
+    der<br>
+    übrigen Bestimmungen nicht.<br>
+    <br>
+    7.2. Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.<br>
+    <br>
+    Kontakt<br>
+    <br>
+    Bei Fragen zu diesen AGB wenden Sie sich bitte an:<br>
+    <br>
+    WeedWizard<br>
+    weedwizard.de<br>
+    dev@weedwizard.de<br>
+    <div class="m-5 ms-0">
+        <a href="{{ path('app_register') }}" class="btn btn-primary">Zurück</a>
+    </div>
+{% endblock %}

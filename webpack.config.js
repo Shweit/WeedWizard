@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('leafletConfig', './assets/script/leafletConfig.js')
+    .addEntry('login', './assets/script/togglePasswordVisibility.js')
+    .addEntry('register', './assets/script/togglePasswordVisibility.js')
     .addEntry('cannabis_club', './assets/script/cannabisVerein.js')
     .addEntry('cannadose_calculator', './assets/script/CannaDoseCalculator.js')
     .addEntry('bud_bash_locator', './assets/script/BudBashLocator.js')
