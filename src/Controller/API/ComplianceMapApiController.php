@@ -228,5 +228,4 @@ class ComplianceMapApiController extends AbstractController
             'markers' => $markers,
         ]);
     }
-    //test
 }
