@@ -1,20 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registrierung{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('register') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="pt-5 row justify-content-center">
+        <form class="col-6 pe-0 login_form" method="post">
+            {% if app.user %}
+                <div class="mb-3">
+                    Du bist angemeldet als {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.birthdate) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.password) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn btn-primary">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="card border-3 rounded-end-0 border-end-0 p-3" style="border-color: #888888">
+                <div class="m-4 mb-0">
+                    <div class="row">
+                        <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px; width: auto;"
+                             class="rounded-circle col-5">
+                        <h1 class="mb-3 col offset-md-1 align-self-center">Registrieren</h1>
+                    </div>
+                    <hr>
+                </div>
+                <br>
+                <div class="ps-5 pe-5">
+                    {{ form_start(registrationForm) }}
+                    <div class="row mb-0">
+                        <div class="col-6 lr-form">
+                            {{ form_widget(registrationForm.firstname) }}
+                            <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.birthdate) }}</div>
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(registrationForm.lastname) }}
+                        </div>
+                    </div>
+                    <div class="lr-form">
+                        {{ form_widget(registrationForm.birthdate) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.birthdate) }}</div>
+                    </div>
+                    <div class="lr-form">
+                        {{ form_widget(registrationForm.email) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.email) }}</div>
+                    </div>
+                    <div class="lr-form position-relative">
+                        {{ form_widget(registrationForm.password.first) }}
+                        <div class="invalid-feedback ms-2">{{ form_errors(registrationForm.password.first) }}</div>
+                        <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                            <i class="bi bi-eye" id="togglePasswordIconFirst"></i>
+                        </button>
+                    </div>
+                    <div class="lr-form position-relative">
+                        {{ form_widget(registrationForm.password.second) }}
+                        <button type="button"
+                                class="btn position-absolute top-50 end-0 translate-middle-y border-0 me-1">
+                            <i class="bi bi-eye" id="togglePasswordIconSecond"></i>
+                        </button>
+                    </div>
+                    <div class="form-check mb-0">
+                        {{ form_widget(registrationForm.agreeTerms, {
+                            label: 'Ich habe die <a href="' ~ path("app_agb") ~ '">Allgemeinen Geschäftsbedingungen</a> gelesen und akzeptiere sie.',
+                            label_html: true,
+                        }) }}
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    {{ form_end(registrationForm) }}
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary col-5">Registrieren</button>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <a href="{{ path('app_login') }}" type="submit" class="btn col-5">Einloggen</a>
+                </div>
+            </div>
+        </form>
+        <div class="col-4 ps-0 pe-0 border-3 card rounded-start-0 border-start-0"
+             style="border-color: #888888; background-image: url({{ asset('build/images/weedwizrad_wizard.jpg') }}); background-size: cover; background-position: center"></div>
+    </div>
 {% endblock %}
