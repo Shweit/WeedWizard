@@ -9,6 +9,11 @@
     "false_positive": false,
     "ignored_at": "2024-04-30T12:59:05Z"
   },
+  "bae92001076b15bd57b6a48f7fbd982d_0": {
+    "author": "flix29",
+    "false_positive": true,
+    "ignored_at": "2024-06-19T15:21:25Z"
+  },
   "e5df843fa2f3eb5cdf856b9c95e65b0f_0": {
     "author": "Dennis van den Brock",
     "comment": "About unsafe HTML injection, but is safe. These are the answers from OpenAI",
