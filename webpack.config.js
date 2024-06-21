@@ -35,6 +35,7 @@ Encore
     .addEntry('editUserProfile', './assets/script/editUserProfile.js')
     .addEntry('cannastrain_library', './assets/script/cannastrainLibrary.js')
     .addEntry('growMate', './assets/script/growMate.js')
+    .addEntry('knowledgebase_entry', './assets/script/knowledgebase_entry.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

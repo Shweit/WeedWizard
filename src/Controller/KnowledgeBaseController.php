@@ -34,17 +34,34 @@ class KnowledgeBaseController extends AbstractController
         ]);
     }
 
-    #[Route('/knowledge-base/{category}', name: 'weedwizard_knowledge_base_entry')]
-    public function knowledge_base_entry(string $category): Response
+    #[Route('/knowledge-base/{category}', name: 'weedwizard_knowledge_base_category')]
+    public function knowledge_base_category(string $category): Response
     {
         $entries = $this->entityManager->getRepository(KnowledgeBase::class)->findBy([
             'site' => self::SITE_KNOWLEDGE_BASE,
             'categorie' => $category,
         ]);
 
-        return $this->render('knowledge_base/entry.html.twig', [
+        return $this->render('knowledge_base/category.html.twig', [
             'entries' => $entries,
             'category' => $category,
+        ]);
+    }
+
+    #[Route('/knowledge-base/{category}/{id}', name: 'weedwizard_knowledge_base_entry')]
+    public function knowledge_base_entry(string $category, string $id): Response
+    {
+        $entry = $this->entityManager->getRepository(KnowledgeBase::class)->find($id);
+
+        // Get random entries for the sidebar
+        $randomEntries = $this->entityManager->getRepository(KnowledgeBase::class)->findBy([
+            'site' => self::SITE_KNOWLEDGE_BASE,
+        ], limit: 3);
+
+        return $this->render('knowledge_base/entry.html.twig', [
+            'category' => $entry->getCategorie(),
+            'entry' => $entry,
+            'randomEntries' => $randomEntries,
         ]);
     }
 

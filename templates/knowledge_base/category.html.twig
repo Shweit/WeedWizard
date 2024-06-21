@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de') }}
+{% endblock %}
+
+{% block noContainerBody %}
+    <div class="card container-sm col-11 my-5" id="faq-header" style="border-bottom: none; background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
+        <div class="row position-relative">
+            <a href="{{ path('weedwizard_knowledge_base') }}" class="text-decoration-none ms-2 mt-3 d-flex align-items-center"><i class="fa-solid fa-arrow-left border p-2 me-2 border-1" style="border-color: rgb(109, 149, 112) !important; border-radius: 50%"></i> Zurück</a>
+        </div>
+        <div class="row flex-lg-row-reverse align-items-center">
+            <div class="col-10 col-sm-8 col-lg-6 d-none d-sm-block">
+                <img src="{{ asset('build/images/problem-solving.svg') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" style="max-height: 40vh" loading="lazy">
+            </div>
+            <div class="col-lg-6 ps-md-5 ps-sm-0 text-center text-sm-left">
+                <h1 class="display-6 fw-bold lh-1 mb-3 pt-3 pt-sm-0">WeedWizard Knowledge Base</h1>
+                <p class="lead">Willkommen auf der WeedWizard Knowledge Base. Hier findest du alle deine Fragen, bezüglich Cannabis, bis aufs letzte Detail beantwortet. Von der Pflanze bis zum anbaue einer Pflanze.</p>
+            </div>
+            <ul class="nav nav-tabs mt-0 ps-3" style="border-radius: 0.375rem;">
+                <li class="nav-item locator-nav">
+                    <a class="nav-link active" aria-current="page">Knowledge Base</a>
+                </li>
+                <li class="nav-item locator-nav">
+                    <a class="nav-link" aria-current="page" href="{{ path('weedwizard_faq') }}">FAQ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container mb-3">
+        {% include 'templates/_header.html.twig' with {
+            'title': ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de')
+        } %}
+
+        <div class="row mb-3">
+            {% for entry in entries %}
+                <div class="col-3">
+                    <div class="card p-3">
+                        {% if entry.user.profilePicture %}
+                            {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
+                        {% else %}
+                            {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
+                        {% endif %}
+
+                        <div class="d-flex align-items-center mb-2">
+                            <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            <small class="text-muted mb-0">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                        </div>
+                        <h3>
+                            {% if entry.articleName|length > 30 %}
+                                {{ entry.articleName|striptags|slice(0, 30) }}...
+                            {% else %}
+                                {{ entry.articleName }}
+                            {% endif %}
+                        </h3>
+                        <p>
+                            {% if entry.articleContent|length > 100 %}
+                                {{ entry.articleContent|striptags|slice(0, 100) }}...
+                            {% else %}
+                                {{ entry.articleContent }}
+                            {% endif %}
+                        </p>
+
+                        <a href="{{ path('weedwizard_knowledge_base_entry', {'category': category, 'id': entry.id}) }}" class="btn btn-primary">Mehr lesen</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
