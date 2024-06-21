@@ -203,4 +203,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const ageModal = window.bootstrap.Modal.getInstance(document.getElementById('ageVerification'));
         ageModal.hide();
     }
+
+    // onscroll add fixed postion to the navbar
+    const navbar = document.getElementById('navbar');
+    const navbarHeight = navbar.offsetHeight;
+    const navbarOffsetTop = navbar.offsetTop;
+
+    const navBarPlaceholder = document.createElement('div');
+    navBarPlaceholder.style.height = navbarHeight + 'px';
+
+    window.addEventListener('scroll', () => {
+        if (scrollY > 0) {
+            navbar.insertAdjacentElement('beforebegin', navBarPlaceholder);
+            navbar.style.position = 'fixed';
+            navbar.style.top = '0';
+            navbar.style.width = '100%';
+            navbar.style.zIndex = '9999';
+        } else {
+            navBarPlaceholder.remove();
+            navbar.style.position = 'relative';
+            navbar.style.top = '0';
+            navbar.style.width = '100%';
+            navbar.style.zIndex = '9999';
+        }
+    });
+
+    if (scrollY > 0) {
+        navbar.insertAdjacentElement('beforebegin', navBarPlaceholder);
+        navbar.style.position = 'fixed';
+        navbar.style.top = '0';
+        navbar.style.width = '100%';
+        navbar.style.zIndex = '9999';
+    }
 });
