@@ -207,7 +207,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // onscroll add fixed postion to the navbar
     const navbar = document.getElementById('navbar');
     const navbarHeight = navbar.offsetHeight;
-    const navbarOffsetTop = navbar.offsetTop;
 
     const navBarPlaceholder = document.createElement('div');
     navBarPlaceholder.style.height = navbarHeight + 'px';
