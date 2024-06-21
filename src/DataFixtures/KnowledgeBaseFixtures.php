@@ -27,6 +27,38 @@ class KnowledgeBaseFixtures extends Fixture
         $entry = new KnowledgeBase();
         $entry->setSite('knowledge_base');
         $entry->setCategorie('cannabis_tips');
+        $entry->setArticleName('Wichtige Stoffe in Cannabis und ihre Wirkung');
+        $entry->setArticleContent('
+            <p>Cannabis enthält eine Vielzahl von Stoffen, die seine Wirkung beeinflussen können. Hier sind einige der wichtigsten:</p>
+
+            <h4>Cannabinoide</h4>
+            <p>Cannabinoide sind die aktiven chemischen Verbindungen in Cannabis, die auf das Endocannabinoid-System des Körpers wirken. Die bekanntesten Cannabinoide sind:</p>
+            <ul>
+                <li><strong>Tetrahydrocannabinol (THC):</strong> Das psychoaktive Cannabinoid, das für die berauschende Wirkung von Cannabis verantwortlich ist.</li>
+                <li><strong>Cannabidiol (CBD):</strong> Ein nicht psychoaktives Cannabinoid, das für seine beruhigenden und entzündungshemmenden Eigenschaften bekannt ist.</li>
+                <li><strong>Cannabigerol (CBG):</strong> Ein nicht psychoaktives Cannabinoid, das als Vorläufer für andere Cannabinoide dient und entzündungshemmende und antibakterielle Eigenschaften besitzt.</li>
+                <li><strong>Cannabinol (CBN):</strong> Ein leicht psychoaktives Cannabinoid, das durch den Abbau von THC entsteht und für seine beruhigende Wirkung bekannt ist.</li>
+                <li><strong>Tetrahydrocannabivarin (THCV):</strong> Ein psychoaktives Cannabinoid, das in höheren Konzentrationen appetithemmende Eigenschaften haben kann.</li>
+            </ul>
+        
+            <h4>Terpene</h4>
+            <p>Terpene sind aromatische Verbindungen, die in vielen Pflanzen vorkommen, einschließlich Cannabis. Sie beeinflussen nicht nur den Geruch und Geschmack der Pflanze, sondern auch ihre Wirkung. Einige wichtige Terpene sind:</p>
+            <ul>
+                <li><strong>Myrcen:</strong> Hat eine beruhigende Wirkung und kann die psychoaktive Wirkung von THC verstärken.</li>
+                <li><strong>Limonen:</strong> Bekannt für seine stimmungsaufhellenden und stressreduzierenden Eigenschaften.</li>
+                <li><strong>Pinene:</strong> Bekannt für seine entzündungshemmenden und bronchienerweiternden Eigenschaften.</li>
+                <li><strong>Linalool:</strong> Bekannt für seine beruhigenden und angstlösenden Eigenschaften.</li>
+                <li><strong>Caryophyllen:</strong> Bekannt für seine entzündungshemmenden und schmerzlindernden Eigenschaften.</li>
+            </ul>
+        
+            <h4>Flavonoide</h4>
+            <p>Flavonoide sind sekundäre Pflanzenstoffe, die in Cannabis vorkommen und ebenfalls zur Wirkung beitragen können. Die Forschung zu Flavonoiden in Cannabis steht noch am Anfang, aber sie könnten in Zukunft wichtige Erkenntnisse liefern.</p>
+        ');
+        $manager->persist($entry);
+
+        $entry = new KnowledgeBase();
+        $entry->setSite('knowledge_base');
+        $entry->setCategorie('cannabis_tips');
         $entry->setArticleName('Welche Konsummethoden gibt es?');
         $entry->setArticleContent('
             <p>Es gibt verschiedene Methoden, Cannabis zu konsumieren, darunter:</p>
@@ -132,6 +164,47 @@ class KnowledgeBaseFixtures extends Fixture
         $entry->setCategorie('growing_tips');
         $entry->setArticleName('Was bedeutet close-only strain?');
         $entry->setArticleContent("<p>Ein 'clone-only strain' ist eine Cannabissorte, die nur durch Klonen und nicht durch Samen vermehrt wird. Das bedeutet, dass die genetische Identität der Pflanze nur durch das Schneiden und Wurzeln eines Teils der Mutterpflanze erhalten bleibt. Dies stellt sicher, dass die spezifischen Merkmale der Sorte konsistent bleiben.</p>");
+        $manager->persist($entry);
+
+        $entry = new KnowledgeBase();
+        $entry->setSite('knowledge_base');
+        $entry->setCategorie('growing_tips');
+        $entry->setArticleName('Post-Harvest Prozesse: Ein Leitfaden');
+        $entry->setArticleContent('
+            <p>Die Post-Harvest-Prozesse sind entscheidend für die Qualität und Potenz von Cannabis. Hier sind die wichtigsten Schritte:</p>
+
+            <h4>1. Ernte</h4>
+            <p>Der erste Schritt ist die Ernte der Pflanzen. Achten Sie darauf, die Pflanzen zum richtigen Zeitpunkt zu ernten, um die besten Ergebnisse zu erzielen. Anzeichen für den richtigen Erntezeitpunkt sind:</p>
+            <ul>
+                <li>Die Trichome sind milchig-weiß und einige sind bernsteinfarben.</li>
+                <li>Die Blütenstempel sind größtenteils braun oder rot.</li>
+            </ul>
+
+            <h4>2. Trocknen</h4>
+            <p>Nach der Ernte müssen die Pflanzen sorgfältig getrocknet werden, um Schimmelbildung zu verhindern und die Potenz zu maximieren. Hier sind die Schritte zum Trocknen:</p>
+            <ul>
+                <li>Hängen Sie die Pflanzen kopfüber in einem dunklen, gut belüfteten Raum auf.</li>
+                <li>Halten Sie die Temperatur zwischen 15-21°C (60-70°F) und die Luftfeuchtigkeit bei 45-55%.</li>
+                <li>Die Trocknung dauert normalerweise 7-14 Tage.</li>
+            </ul>
+
+            <h4>3. Aushärten</h4>
+            <p>Das Aushärten ist ein kritischer Prozess, der die Qualität der Blüten verbessert. So gehts:</p>
+            <ul>
+                <li>Schneiden Sie die getrockneten Blüten von den Ästen ab und legen Sie sie in luftdichte Glasbehälter.</li>
+                <li>Lagern Sie die Behälter in einem kühlen, dunklen Raum.</li>
+                <li>Öffnen Sie die Behälter täglich für 10-15 Minuten in den ersten zwei Wochen, um überschüssige Feuchtigkeit entweichen zu lassen (dies wird "Burping" genannt).</li>
+                <li>Der Aushärtungsprozess dauert mindestens 2-4 Wochen, kann aber auch mehrere Monate dauern.</li>
+            </ul>
+
+            <h4>4. Lagern</h4>
+            <p>Die richtige Lagerung ist wichtig, um die Qualität und Potenz der Blüten zu erhalten. Beachten Sie die folgenden Tipps:</p>
+            <ul>
+                <li>Lagern Sie die Blüten in luftdichten Behältern, vorzugsweise aus Glas.</li>
+                <li>Halten Sie die Behälter an einem kühlen, dunklen Ort.</li>
+                <li>Vermeiden Sie direkte Sonneneinstrahlung und extreme Temperaturen.</li>
+            </ul>
+       ');
         $manager->persist($entry);
 
         $entry = new KnowledgeBase();

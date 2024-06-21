@@ -37,7 +37,7 @@
             {% for entry in entries %}
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ category }}-{{ entry.id }}" aria-controls="accordion-{{ category }}-{{ entry.id }}">
+                        <button class="accordion-button collapsed" id="entry-{{ entry.id }}" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ category }}-{{ entry.id }}" aria-controls="accordion-{{ category }}-{{ entry.id }}">
                             {{ entry.articleName }}
                         </button>
                     </h2>
@@ -50,5 +50,29 @@
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the id of the entry from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const entryId = urlParams.get('entry');
+
+            // If the entryId is not null
+            if (entryId) {
+                // Scroll to the entry
+                const element = document.getElementById('entry-' + entryId);
+                element.click();
+
+                // Wait for the animation to finish
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            }
+        });
+    </script>
 {% endblock %}
 
