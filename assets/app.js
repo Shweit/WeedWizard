@@ -186,3 +186,21 @@ window.copyToClipboard = function (content, toastMessage) {
             window.showToast(toastMessage, 'success')
         });
 }
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    if (!localStorage.getItem('ageVerfied')) {
+        const ageModal = new window.bootstrap.Modal(document.getElementById('ageVerification'));
+        ageModal.show();
+    }
+
+    document.getElementById('ageVerification_youngerThan18').addEventListener('click', () => {
+        window.location.href = 'https://www.google.com';
+    });
+    document.getElementById('ageVerification_olderThan18').addEventListener('click', verifyAge);
+
+    function verifyAge() {
+        localStorage.setItem('ageVerfied', 'true');
+        const ageModal = window.bootstrap.Modal.getInstance(document.getElementById('ageVerification'));
+        ageModal.hide();
+    }
+});
