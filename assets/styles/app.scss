@@ -233,6 +233,10 @@ $navbar-dark-color: #DFDFDF;
   vertical-align: 50vh;
 }
 
+.leaflet-top, .leaflet-bottom {
+  z-index: 800;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

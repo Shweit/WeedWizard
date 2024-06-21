@@ -203,9 +203,9 @@ class KnowledgeBaseFixtures extends Fixture
 
         $entry = new KnowledgeBase();
         $entry->setSite('knowledge_base');
-        $entry->setCategorie('CannabisVereinssuche');
-        $entry->setArticleName('Cannabis Vereinssuche');
-        $entry->setArticleContent('This is how you use Cannabis Vereinssuche');
+        $entry->setCategorie('Sozial Club');
+        $entry->setArticleName('Sozial Club');
+        $entry->setArticleContent('This is how you use Sozial Club');
         $manager->persist($entry);
 
         $entry = new KnowledgeBase();

@@ -12,22 +12,70 @@
                     <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_compliance_map') }}" >Cannabis Consumption<br class="nav-br"> Compliance Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('cannabis_verein') }}">Cannabis<br class="nav-br"> Vereinssuche</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_budbash_locator') }}" >Bud Bash<br class="nav-br"> Locator</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('cannabis_verein') }}">Social<br class="nav-br"> Clubs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_cannastrain-library') }}" >Cannastrain<br class="nav-br"> Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_cannadose_calculator') }}">Cannadose<br class="nav-br"> Calculator</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link text-uppercase text-center" href="{{ path('growMate') }}" >Grow<br class="nav-br"> Mate</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_canna_consultant') }}" >Canna<br class="nav-br"> Consultant</a>
+                <li class="nav-item dropdown ktm-mega-menu" style="position:static;">
+                    <a class="nav-link text-uppercase text-center" href="#" data-bs-toggle="dropdown">Weiter<br class="nav-br"> Features</a>
+                    <div class="dropdown-menu" style="left: 0; right: 0; width: 100%; padding-right: 10%; padding-left: 10%; z-index: 1000">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-6 my-3 pe-0 pe-sm-5">
+                                <h3>Weitere Features</h3>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_budbash_locator') }}">Bud Bash Locator</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Bockk auf ne Party? Oder ein Öffentliches Cannabis Event? Dann bist du hier richtig.</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-calculator fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_cannadose_calculator') }}">Cannadose Calculator</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Der Cannadose Calculator berechnet dir deine Perfekte Dosierung zum Kiffen.</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-comment fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_canna_consultant') }}">Canna Consultant</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Fragen zu Cannabis oder ähnlichem? Hier werden sie beantwortet!</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card container col-md-6 my-3" id="faq-header" style="background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
+                                <div class="row flex-lg-row-reverse align-items-center">
+                                    <div class="col-10 col-sm-8 col-lg-6 d-none d-sm-block">
+                                        <img src="{{ asset('build/images/problem-solving.svg') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" style="max-height: 40vh" loading="lazy">
+                                    </div>
+                                    <div class="col-lg-6 ps-md-5 ps-sm-0 text-center text-sm-left">
+                                        <h2 class="fw-bold lh-1 mb-3 pt-3 pt-sm-0">WeedWizard Knowledge Base</h2>
+                                        <p>Du hast allgemeine Fragen zu Cannabis? Oder auch zum Anbau einer Pflanze? Oder auch zum sicheren Konsum von Cannabis? Dann bist du hier richtig aufgehoben!</p>
+                                        <a class="btn btn-primary mb-3 mb-sm-0" href="{{ path('weedwizard_knowledge_base') }}">Zur Knowledge Base</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
