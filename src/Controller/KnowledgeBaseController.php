@@ -53,10 +53,7 @@ class KnowledgeBaseController extends AbstractController
     {
         $entry = $this->entityManager->getRepository(KnowledgeBase::class)->find($id);
 
-        // Get random entries for the sidebar
-        $randomEntries = $this->entityManager->getRepository(KnowledgeBase::class)->findBy([
-            'site' => self::SITE_KNOWLEDGE_BASE,
-        ], limit: 3);
+        $randomEntries = $this->getRandomEntries();
 
         return $this->render('knowledge_base/entry.html.twig', [
             'category' => $entry->getCategorie(),
@@ -75,5 +72,21 @@ class KnowledgeBaseController extends AbstractController
         return $this->render('faq/index.html.twig', [
             'entries' => $entries,
         ]);
+    }
+
+    private function getRandomEntries(): array
+    {
+        $entries = $this->entityManager->getRepository(KnowledgeBase::class)->findBy([
+            'site' => self::SITE_KNOWLEDGE_BASE,
+        ]);
+
+        $randomEntries = [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $randomNumber = rand(0, count($entries) - 1);
+            $randomEntries[] = $entries[$randomNumber];
+        }
+
+        return $randomEntries;
     }
 }

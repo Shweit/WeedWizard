@@ -35,7 +35,7 @@
 
         <div class="row mb-3">
             {% for entry in entries %}
-                <div class="col-3">
+                <div class="col-3 mb-3">
                     <div class="card p-3">
                         {% if entry.user.profilePicture %}
                             {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
