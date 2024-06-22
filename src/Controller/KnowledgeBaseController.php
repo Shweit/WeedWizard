@@ -15,7 +15,8 @@ class KnowledgeBaseController extends AbstractController
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-    ) {}
+    ) {
+    }
 
     #[Route('/knowledge-base', name: 'weedwizard_knowledge_base')]
     public function knowledge_base_index(): Response
@@ -82,7 +83,7 @@ class KnowledgeBaseController extends AbstractController
 
         $randomEntries = [];
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $randomNumber = rand(0, count($entries) - 1);
             $randomEntries[] = $entries[$randomNumber];
         }
