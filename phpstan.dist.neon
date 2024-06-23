@@ -6,5 +6,4 @@ parameters:
         - public/
         - src/
         - tests/
-    checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
