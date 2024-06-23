@@ -67,6 +67,7 @@ class BudBashLocatorController extends AbstractController
                 $budBashCheckAttendance->setParticipant($this->weedWizardKernel->getUser());
                 $budBashCheckAttendance->setBudBashParty($newBudBash);
                 $budBashCheckAttendance->setCheckedAttendance(true);
+                $budBashCheckAttendance->setSecretString($this->weedWizardKernel->generateRandomString(20));
                 $newBudBash->addBudBashCheckAttendance($budBashCheckAttendance);
             }
 

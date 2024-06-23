@@ -1,7 +1,4 @@
 <?php
-
-namespace App\Tests;
-
 use App\Services\CannaDoseCalculatorService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
