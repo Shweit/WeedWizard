@@ -58,7 +58,7 @@ jobs:
 
       - name: Set up Database
         run: |
-          symfony console doctrine:database:create --env=test
+          php bin/console console doctrine:database:create --env=test
 
       - name: Run PHPUnit
         run: |
