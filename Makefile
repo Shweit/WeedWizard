@@ -18,7 +18,7 @@ webpack-watch:
 	npm run watch
 
 test:
-	php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml.dist
+	php bin/phpunit
 
 reset_db:
 	@echo "$(NC)                                                                  $(NC)"
