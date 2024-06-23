@@ -1,9 +1,10 @@
-name: Run Symfony PHPUnit Tests
+name: checks
 
 on: [push]
 
 jobs:
   test:
+    name: PHPUnit tests
     runs-on: ubuntu-latest
 
     services:

@@ -63,11 +63,11 @@ class BudBashLocatorTest extends WebTestCase
         $form['bud_bash[mapbox_id]'] = 'dXJuOm1ieGFkcjpjOGZkMGVhNi1mZTQ1LTQ3ZGItOTI3MS04NTllYjY1Y2VlZTA';
 
         $this->client->submit($form);
-        $this->assertResponseRedirects();
+        $this->assertResponseRedirects(message: 'Party was not created, even though all data was valid.');
 
         // Check if the party was created
         $party = $this->entityManager->getRepository(BudBash::class)->findOneBy(['name' => 'Test Party', 'address' => 'Marienplatz 1, 80331 München']);
-        $this->assertNotNull($party);
+        $this->assertNotNull($party, 'The created Party was not found in the database.');
     }
 
     public function testCreateBudBashPartyWithCheckAttendance(): void
@@ -103,11 +103,11 @@ class BudBashLocatorTest extends WebTestCase
 
         // Check if the party was created
         $party = $this->entityManager->getRepository(BudBash::class)->findOneBy(['name' => 'Test Party', 'address' => 'Marienplatz 1, 80331 München']);
-        $this->assertNotNull($party);
+        $this->assertNotNull($party, 'The created Party was not found in the database.');
 
         // Check if the check attendance was created
         $checkAttendance = $this->entityManager->getRepository(BudBashCheckAttendance::class)->findOneBy(['BudBashParty' => $party]);
-        $this->assertNotNull($checkAttendance);
+        $this->assertNotNull($checkAttendance, 'The created Check Attendance Entity for the Party was not found in the database.');
     }
 
     public function testCreateInvalidBudBashParty(): void
@@ -126,8 +126,8 @@ class BudBashLocatorTest extends WebTestCase
         $this->client->submit($form);
 
         $responseContent = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Bitte gib einen Namen ein.', $responseContent);
-        $this->assertStringContainsString('Bitte gib eine Adresse ein.', $responseContent);
+        $this->assertStringContainsString('Bitte gib einen Namen ein.', $responseContent, 'The name field was not validated correctly.');
+        $this->assertStringContainsString('Bitte gib eine Adresse ein.', $responseContent, 'The address field was not validated correctly.');
     }
 
     private function loadFixtures(array $fixtures = []): void

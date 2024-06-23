@@ -75,7 +75,7 @@ class SocialClubsTest extends WebTestCase
 
         // Check if the social club was created
         $club = $this->entityManager->getRepository(CannabisVerein::class)->findOneBy(['name' => 'Test Social Club', 'adresse' => 'Josef-Wolter-Weg 2, 41569 Rommerskirchen']);
-        $this->assertNotNull($club);
+        $this->assertNotNull($club, 'The created Social Club was not found in the database.');
     }
 
     public function testCreateInvalidSocialClub(): void
@@ -97,9 +97,9 @@ class SocialClubsTest extends WebTestCase
         $this->client->submit($form);
 
         $responseContent = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Bitte gib einen gültigen Namen ein.', $responseContent);
-        $this->assertStringContainsString('Bitte gib eine Adresse ein.', $responseContent);
-        $this->assertStringContainsString('Bitte gib einen gültigen Mitgliedsbeitrag ein.', $responseContent);
+        $this->assertStringContainsString('Bitte gib einen gültigen Namen ein.', $responseContent, 'The name field was not validated correctly.');
+        $this->assertStringContainsString('Bitte gib eine Adresse ein.', $responseContent, 'The address field was not validated correctly.');
+        $this->assertStringContainsString('Bitte gib einen gültigen Mitgliedsbeitrag ein.', $responseContent, 'The membership fee field was not validated correctly.');
     }
 
     private function loadFixtures(array $fixtures = []): void

@@ -49,7 +49,7 @@ class RegistrationTest extends WebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects();
+        $this->assertResponseRedirects(message: 'Fehler beim Registrieren des Benutzers.');
     }
 
     public function testRegisterExistingUser(): void
@@ -75,7 +75,7 @@ class RegistrationTest extends WebTestCase
         $this->client->submit($form);
 
         $responseContent = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Es gibt schon ein Account mit dieser E-Mail Adresse.', $responseContent);
+        $this->assertStringContainsString('Es gibt schon ein Account mit dieser E-Mail Adresse.', $responseContent, 'The user was still created, even though the email address already exists.');
     }
 
     public function testRegisterYoungerThan18(): void
@@ -97,7 +97,7 @@ class RegistrationTest extends WebTestCase
         $this->client->submit($form);
 
         $responseContent = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Du musst mindestens 18 Jahre alt sein.', $responseContent);
+        $this->assertStringContainsString('Du musst mindestens 18 Jahre alt sein.', $responseContent, 'The user was still created, even though the user is younger than 18.');
     }
 
     private function loadFixtures(array $fixtures): void
