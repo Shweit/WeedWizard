@@ -1,0 +1,65 @@
+
+name: Run Symfony PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0.32
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: WeedWizard_test
+          MYSQL_USER: weedwizard
+          MYSQL_PASSWORD: SicheresPasswort
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd 'mysqladmin ping --silent'
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::/Users/dennis/Library/Caches/composer/files"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+
+      - name: Prepare the database
+        run: |
+          cp .env.test .env.local
+          bin/console doctrine:database:create --env=test --if-not-exists
+          bin/console doctrine:schema:update --env=test --force
+          bin/console doctrine:fixtures:load --env=test --no-interaction
+
+      - name: Run PHPUnit tests
+        run: |
+          vendor/bin/phpunit --testdox --colors=always
+
