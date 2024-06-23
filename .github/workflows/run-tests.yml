@@ -1,6 +1,6 @@
 name: Run Symfony PHPUnit Tests
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
@@ -25,7 +25,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0' # Wähle die PHP-Version, die du benötigst
+          php-version: '8.3'
           extensions: mbstring, intl, pdo_mysql
 
       - name: Install Composer dependencies
