@@ -1,1 +1,75 @@
-// TODO: Collect for library
+.breeder-logo {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 75%;
+  background-color: #f0f0f0;
+}
+
+.breeder-logo-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  filter: grayscale(100%) sepia(50%) contrast(90%);
+}
+
+.btn-img {
+  width: 65px;
+  height: 65px;
+  margin-right: 0.5em;
+}
+
+#close-sidebar:hover {
+  color: #0C4F11;
+  cursor: pointer;
+  transform: scale(1.4) translateY(2px);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.container-fluid {
+  margin: 1em;
+  width: 98%
+}
+
+.cropped-img {
+  width: auto;
+  height: 200px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+#filters-container {
+  min-width: 20%;
+}
+
+.filter-icon {
+  margin-right: 0.5em;
+}
+
+.img-big {
+  height: 300px;
+}
+
+#myTabContent {
+  height: 400px;
+}
+
+.user-img-container
+{
+  position: relative;
+  background-color: #f0f0f0
+}
+
+.user-img
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}

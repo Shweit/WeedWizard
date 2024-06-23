@@ -8,40 +8,6 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        .container-fluid {
-            margin: 1em;
-            width: 98%
-        }
-
-        #filters-container {
-            min-width: 20%;
-        }
-
-        .filter-icon {
-            margin-right: 0.5em;
-        }
-
-        #myTabContent {
-            height: 400px;
-        }
-
-        .cropped-img {
-            width: auto;
-            height: 200px;
-            overflow: hidden;
-            object-fit: cover;
-        }
-
-        #close-sidebar:hover {
-            color: #0C4F11;
-            cursor: pointer;
-            transform: scale(1.4) translateY(2px);
-            transition: transform 0.2s, color 0.2s;
-        }
-
-    </style>
-
     {% block container_class %}
         <div class="container-fluid">
     {% endblock %}
@@ -65,7 +31,7 @@
                     <div class="container-fluid">
 
                         {# Back btn #}
-                        <a href="{{ path('weedwizard_cannastrain-library') }}"
+                        <a href="{{ path('weedwizard_cannastrain-library', {'page' : 1 }) }}"
                            class="btn btn-secondary mt-3 rounded ms-2">
                             <i class="fa-solid fa-arrow-left"></i>
                             &nbsp;Zurück zu allen Breedern

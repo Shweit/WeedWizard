@@ -8,60 +8,6 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        .container-fluid {
-            margin: 1em;
-            width: 98%
-        }
-
-        #filters-container {
-            min-width: 20%;
-        }
-
-        .filter-icon {
-            margin-right: 0.5em;
-        }
-
-        #myTabContent {
-            height: 400px;
-        }
-
-        .cropped-img {
-            width: auto;
-            height: 200px;
-            overflow: hidden;
-            object-fit: cover;
-        }
-
-        .img-big {
-            height: 300px;
-        }
-
-        .btn-img {
-            width: 65px;
-            height: 65px;
-            margin-right: 0.5em;
-        }
-
-        .user-img-container
-        {
-            position: relative;
-            background-color: #f0f0f0
-        }
-
-        .user-img
-        {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: auto;
-            height: 100%;
-            transform: translate(-50%, -50%);
-
-        }
-
-    </style>
-
     {% block container_class %}
         <div class="container-fluid">
     {% endblock %}
@@ -106,7 +52,8 @@
                             <div class="col p-3 d-flex flex-column justify-content-between">
                                 <div class="cropped-img user-img-container rounded-3">
                                     <img src="{{ strainInfo.pic }}"
-                                         class="card-img-top user-img" alt="User img for selected strain from SeedFinder">
+                                         class="card-img-top user-img"
+                                         alt="User img for selected strain from SeedFinder">
                                 </div>
 
                                 {# Forward / backward btn #}
