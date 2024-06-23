@@ -43,6 +43,23 @@
             margin-right: 0.5em;
         }
 
+        .user-img-container
+        {
+            position: relative;
+            background-color: #f0f0f0
+        }
+
+        .user-img
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: auto;
+            height: 100%;
+            transform: translate(-50%, -50%);
+
+        }
+
     </style>
 
     {% block container_class %}
@@ -80,16 +97,16 @@
                             {# Big img #}
                             <div class="col-6 p-3">
                                 <div class="cropped-img rounded-3 img-big">
-                                    <img src="{{ strainInfo.pic }}"
+                                    <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                          class="card-img-top" alt="...">
                                 </div>
                             </div>
 
                             {# Small img left #}
                             <div class="col p-3 d-flex flex-column justify-content-between">
-                                <div class="cropped-img rounded-3">
-                                    <img src="https://images.unsplash.com/photo-1589844428386-06bba62381a5?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                         class="card-img-top" alt="...">
+                                <div class="cropped-img user-img-container rounded-3">
+                                    <img src="{{ strainInfo.pic }}"
+                                         class="card-img-top user-img" alt="User img for selected strain from SeedFinder">
                                 </div>
 
                                 {# Forward / backward btn #}
