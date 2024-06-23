@@ -32,7 +32,7 @@ class BudBashLocatorTest extends WebTestCase
         $this->truncateDatabase();
         parent::tearDown();
         unset($this->entityManager);
-        restore_error_handler();
+        restore_exception_handler();
     }
 
     public function testCreateBudBashParty(): void

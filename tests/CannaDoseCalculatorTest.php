@@ -20,5 +20,6 @@ class CannaDoseCalculatorTest extends KernelTestCase
         $dose = $cannaDoseCalculatorService->calculateDose($cannaDoseCalculatorData);
 
         $this->assertSame(354.0, $dose, 'The calculated dose is not correct.');
+        restore_exception_handler();
     }
 }
