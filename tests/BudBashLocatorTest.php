@@ -57,7 +57,6 @@ class BudBashLocatorTest extends WebTestCase
         $form['bud_bash[address_postal_code]'] = '80331';
         $form['bud_bash[address_city]'] = 'München';
         $form['bud_bash[entrance_fee]'] = '10';
-        $form['bud_bash[CheckAttendances]'] = '0';
         $form['bud_bash[extraInfo]'] = 'Test Info';
 
         // We need to set the mapbox_id manually because we can not use the real mapbox_id in the test
