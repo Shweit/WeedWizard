@@ -16,7 +16,6 @@ use Symfony\UX\Chartjs\ChartjsBundle;
 use Symfony\UX\StimulusBundle\StimulusBundle;
 use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
-use Zenstruck\Foundry\ZenstruckFoundryBundle;
 
 return [
     FrameworkBundle::class => ['all' => true],
@@ -34,6 +33,5 @@ return [
     ChartjsBundle::class => ['all' => true],
     AutocompleteBundle::class => ['all' => true],
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
-    ZenstruckFoundryBundle::class => ['dev' => true, 'test' => true],
     LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
 ];

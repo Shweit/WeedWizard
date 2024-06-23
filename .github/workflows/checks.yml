@@ -56,9 +56,14 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Install Symfony CLI
+        run: |
+          wget https://get.symfony.com/cli/installer -O - | bash
+          export PATH="$HOME/.symfony/bin:$PATH"
+
       - name: Set up Database
         run: |
-          php bin/console console doctrine:database:create --env=test
+          symfony console console doctrine:database:create --env=test
 
       - name: Run PHPUnit
         run: |
