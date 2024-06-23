@@ -56,6 +56,10 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Set up Database
+        run: |
+          symfony console doctrine:database:create --env=test
+
       - name: Run PHPUnit
         run: |
           php vendor/bin/phpunit

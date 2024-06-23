@@ -1,5 +1,9 @@
 <?php
 
+use App\DataFixtures\ClubFixtures;
+use App\DataFixtures\UserFixtures;
+use App\Entity\CannabisVerein;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -10,6 +14,7 @@ class SocialClubsTest extends WebTestCase
     protected KernelBrowser $client;
     protected $entityManager;
     protected mixed $databaseTool;
+
     public function setUp(): void
     {
         // Will boot the kernel and give us a new client for testing
@@ -23,7 +28,7 @@ class SocialClubsTest extends WebTestCase
 
     public function tearDown(): void
     {
-        $users = $this->entityManager->getRepository(\App\Entity\User::class)->findAll();
+        $users = $this->entityManager->getRepository(User::class)->findAll();
         foreach ($users as $user) {
             $user->setJoinedClub(null);
             $user->setCreatedClub(null);
@@ -35,27 +40,14 @@ class SocialClubsTest extends WebTestCase
         restore_error_handler();
     }
 
-    private function loadFixtures(array $fixtures = []): void
-    {
-        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
-
-        $databaseTool->loadFixtures($fixtures);
-    }
-
-    private function truncateDatabase(): void
-    {
-        $ormPurger = new ORMPurger($this->entityManager);
-        $ormPurger->purge();
-    }
-
     public function testCreateSocialClub(): void
     {
         $this->loadFixtures([
-            \App\DataFixtures\UserFixtures::class,
-            \App\DataFixtures\ClubFixtures::class,
+            UserFixtures::class,
+            ClubFixtures::class,
         ]);
 
-        $this->client->loginUser($this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
+        $this->client->loginUser($this->entityManager->getRepository(User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
 
         $crawler = $this->client->request('GET', '/cannabis-verein');
 
@@ -82,18 +74,18 @@ class SocialClubsTest extends WebTestCase
         $this->assertResponseRedirects();
 
         // Check if the social club was created
-        $club = $this->entityManager->getRepository(\App\Entity\CannabisVerein::class)->findOneBy(['name' => 'Test Social Club', 'adresse' => 'Josef-Wolter-Weg 2, 41569 Rommerskirchen']);
+        $club = $this->entityManager->getRepository(CannabisVerein::class)->findOneBy(['name' => 'Test Social Club', 'adresse' => 'Josef-Wolter-Weg 2, 41569 Rommerskirchen']);
         $this->assertNotNull($club);
     }
 
     public function testCreateInvalidSocialClub(): void
     {
         $this->loadFixtures([
-            \App\DataFixtures\UserFixtures::class,
-            \App\DataFixtures\ClubFixtures::class,
+            UserFixtures::class,
+            ClubFixtures::class,
         ]);
 
-        $this->client->loginUser($this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
+        $this->client->loginUser($this->entityManager->getRepository(User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
 
         $crawler = $this->client->request('GET', '/cannabis-verein');
 
@@ -108,5 +100,18 @@ class SocialClubsTest extends WebTestCase
         $this->assertStringContainsString('Bitte gib einen gültigen Namen ein.', $responseContent);
         $this->assertStringContainsString('Bitte gib eine Adresse ein.', $responseContent);
         $this->assertStringContainsString('Bitte gib einen gültigen Mitgliedsbeitrag ein.', $responseContent);
+    }
+
+    private function loadFixtures(array $fixtures = []): void
+    {
+        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+
+        $databaseTool->loadFixtures($fixtures);
+    }
+
+    private function truncateDatabase(): void
+    {
+        $ormPurger = new ORMPurger($this->entityManager);
+        $ormPurger->purge();
     }
 }

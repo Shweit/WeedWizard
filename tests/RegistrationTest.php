@@ -1,5 +1,6 @@
 <?php
 
+use App\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -30,19 +31,6 @@ class RegistrationTest extends WebTestCase
         restore_error_handler();
     }
 
-    private function loadFixtures(array $fixtures): void
-    {
-        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
-
-        $databaseTool->loadFixtures($fixtures);
-    }
-
-    private function truncateDatabase(): void
-    {
-        $ormPurger = new ORMPurger($this->entityManager);
-        $ormPurger->purge();
-    }
-
     public function testRegisterNewUser(): void
     {
         $crawler = $this->client->request('GET', '/register');
@@ -57,7 +45,7 @@ class RegistrationTest extends WebTestCase
         $form['registration_form[email]'] = 'test@example.com';
         $form['registration_form[password][first]'] = 'password';
         $form['registration_form[password][second]'] = 'password';
-        $form['registration_form[agreeTerms]'] = true;
+        $form['registration_form[agreeTerms]'] = '1';
 
         $this->client->submit($form);
 
@@ -67,7 +55,7 @@ class RegistrationTest extends WebTestCase
     public function testRegisterExistingUser(): void
     {
         $this->loadFixtures([
-            \App\DataFixtures\UserFixtures::class,
+            UserFixtures::class,
         ]);
 
         $crawler = $this->client->request('GET', '/register');
@@ -82,7 +70,7 @@ class RegistrationTest extends WebTestCase
         $form['registration_form[email]'] = 'dev@weedwizard.de';
         $form['registration_form[password][first]'] = 'password';
         $form['registration_form[password][second]'] = 'password';
-        $form['registration_form[agreeTerms]'] = true;
+        $form['registration_form[agreeTerms]'] = '1';
 
         $this->client->submit($form);
 
@@ -104,11 +92,24 @@ class RegistrationTest extends WebTestCase
         $form['registration_form[email]'] = 'test@example.com';
         $form['registration_form[password][first]'] = 'password';
         $form['registration_form[password][second]'] = 'password';
-        $form['registration_form[agreeTerms]'] = true;
+        $form['registration_form[agreeTerms]'] = '1';
 
         $this->client->submit($form);
 
         $responseContent = $this->client->getResponse()->getContent();
         $this->assertStringContainsString('Du musst mindestens 18 Jahre alt sein.', $responseContent);
+    }
+
+    private function loadFixtures(array $fixtures): void
+    {
+        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+
+        $databaseTool->loadFixtures($fixtures);
+    }
+
+    private function truncateDatabase(): void
+    {
+        $ormPurger = new ORMPurger($this->entityManager);
+        $ormPurger->purge();
     }
 }
