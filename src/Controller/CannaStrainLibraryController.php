@@ -34,14 +34,20 @@ class CannaStrainLibraryController extends AbstractController
         $this->seedFinderApiService = $seedFinderApiService;
     }
 
-    #[Route('/cannastrain-library', name: 'weedwizard_cannastrain-library')]
-    public function index(): Response
+    #[Route('/cannastrain-library/page={page}', name: 'weedwizard_cannastrain-library')]
+    public function index(int $page): Response
     {
-        $breeders = $this->seedFinderApiService->getBreederInfo();
+        $paginationLimit = 8;
+        $breeders = $this->seedFinderApiService->getBreederInfoPaginated('all', $page, $paginationLimit);
+        $totalNumOfBreeders = count($this->seedFinderApiService->getBreederInfoPaginated('all', 1, PHP_INT_MAX));
+
 
         return $this->render('cannastrain_library/index.html.twig', [
             'breeders' => $breeders,
             'filters' => $this->breederFilters,
+            'currentPage' => $page,
+            'totalPages' => ceil($totalNumOfBreeders / $paginationLimit),
+
         ]);
     }
 
