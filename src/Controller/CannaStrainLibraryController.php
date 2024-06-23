@@ -41,13 +41,11 @@ class CannaStrainLibraryController extends AbstractController
         $breeders = $this->seedFinderApiService->getBreederInfoPaginated('all', $page, $paginationLimit);
         $totalNumOfBreeders = count($this->seedFinderApiService->getBreederInfoPaginated('all', 1, PHP_INT_MAX));
 
-
         return $this->render('cannastrain_library/index.html.twig', [
             'breeders' => $breeders,
             'filters' => $this->breederFilters,
             'currentPage' => $page,
             'totalPages' => ceil($totalNumOfBreeders / $paginationLimit),
-
         ]);
     }
 
