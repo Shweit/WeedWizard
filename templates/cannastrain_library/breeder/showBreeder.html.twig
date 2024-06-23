@@ -63,6 +63,14 @@
                 {# Strains overview #}
                 <div class="flex-grow-1" id="results">
                     <div class="container-fluid">
+
+                        {# Back btn #}
+                        <a href="{{ path('weedwizard_cannastrain-library') }}"
+                           class="btn btn-secondary mt-3 rounded">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            &nbsp;Zurück zu allen Breedern
+                        </a>
+
                         <div class="row">
                             {% for strain in strains %}
                                 {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
