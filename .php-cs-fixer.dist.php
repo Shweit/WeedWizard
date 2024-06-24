@@ -52,4 +52,5 @@ return (new Config())
         'method_chaining_indentation' => false,
     ])
     ->setFinder($finder)
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
 ;

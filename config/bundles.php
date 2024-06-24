@@ -3,6 +3,7 @@
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Liip\TestFixturesBundle\LiipTestFixturesBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MakerBundle\MakerBundle;
@@ -32,4 +33,5 @@ return [
     ChartjsBundle::class => ['all' => true],
     AutocompleteBundle::class => ['all' => true],
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+    LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
 ];
