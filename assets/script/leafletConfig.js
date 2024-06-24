@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             name: club.name,
                             price: [club.fee],
                         }));
-                        window.location.href = `/cannabis-verein`;
+                        window.location.href = `/social-club`;
                     });
                 });
 
