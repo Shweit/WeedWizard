@@ -129,13 +129,13 @@ class BudBashLocatorController extends AbstractController
         return $this->redirectToRoute('weedwizard_budbash_locator_my_partys');
     }
 
-    #[Route('/budbash-locator/my-partys', name: 'weedwizard_budbash_locator_my_partys')]
+    #[Route('/budbash-locator/my-parties', name: 'weedwizard_budbash_locator_my_partys')]
     public function myPartys(): Response
     {
         return $this->render('budBash_locator/my_partys.html.twig');
     }
 
-    #[Route('/budbash-locator/attended-partys', name: 'weedwizard_budbash_locator_attended_partys')]
+    #[Route('/budbash-locator/attended-parties', name: 'weedwizard_budbash_locator_attended_partys')]
     public function attendedPartys(): Response
     {
         $budbashes = $this->entityManager->getRepository(BudBash::class)->findAll();

@@ -15,12 +15,24 @@ class StrainWithBreederFixtures extends Fixture
         $finder->in(__DIR__ . '/StrainFixtures');
         $finder->name('*.sql');
         $finder->files();
-        $finder->sortByName();
+
+        $files = iterator_to_array($finder);
+        usort($files, function ($a, $b) {
+            // Stellen Sie sicher, dass breeder.sql immer zuerst geladen wird
+            if ($a->getFilename() === 'breeder.sql') {
+                return -1;
+            }
+            if ($b->getFilename() === 'breeder.sql') {
+                return 1;
+            }
+            // Ansonsten sortieren Sie die Dateien alphabetisch
+            return strcmp($a->getFilename(), $b->getFilename());
+        });
 
         /** @var EntityManagerInterface $manager */
         $connection = $manager->getConnection();
 
-        foreach ($finder as $file) {
+        foreach ($files as $file) {
             $sql = $file->getContents();
             $connection->executeQuery($sql);
 
