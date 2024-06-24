@@ -81,27 +81,3 @@
     {{ encore_entry_script_tags('knowledgebase_entry') }}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        // Wait for page to load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the id of the entry from the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const entryId = urlParams.get('entry');
-
-            // If the entryId is not null
-            if (entryId) {
-                // Scroll to the entry
-                const element = document.getElementById('entry-' + entryId);
-                element.click();
-
-                // Wait for the animation to finish
-                setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }, 500);
-            }
-        });
-    </script>
-{% endblock %}
-
