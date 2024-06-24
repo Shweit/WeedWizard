@@ -42,7 +42,7 @@ class NotificationFixtures extends Fixture implements DependentFixtureInterface
 
         $notification = new Notification();
         $notification->setType(NotificationService::CANNABIS_VEREINSSUCHE);
-        $notification->setText('Dies ist eine Testbenachrichtigung vom Typ Cannabis Vereinssuche');
+        $notification->setText('Dies ist eine Testbenachrichtigung vom Typ Social Club');
         $notification->setCreatedAt(new \DateTimeImmutable());
         $notification->setUser($this->getReference(UserFixtures::USER_REFERENCE_1));
         $manager->persist($notification);

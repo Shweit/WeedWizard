@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cannabis Vereine{% endblock %}
+{% block title %}Social Clubs{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -57,7 +57,7 @@
 
     <div class="m-5 mt-0">
         {% include 'templates/_header.html.twig' with {
-            'title': 'Cannabis-Vereine',
+            'title': 'Social Clubs',
             'button': {
                 'attr': 'data-bs-toggle=modal data-bs-target=#new_club',
                 'label': 'Verein erstellen'
@@ -66,10 +66,10 @@
 
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item club-nav">
-                <a class="nav-link active" aria-current="page">Verein suchen</a>
+                <a class="nav-link active" aria-current="page">Social Club suchen</a>
             </li>
             <li class="nav-item club-nav">
-                <a class="nav-link" href="{{ path('my_club') }}">Mein Cannabis-Verein</a>
+                <a class="nav-link" href="{{ path('my_club') }}">Mein Social Club</a>
             </li>
         </ul>
 
