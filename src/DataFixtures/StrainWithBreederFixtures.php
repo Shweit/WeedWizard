@@ -25,6 +25,7 @@ class StrainWithBreederFixtures extends Fixture
             if ($b->getFilename() === 'breeder.sql') {
                 return 1;
             }
+
             // Ansonsten sortieren Sie die Dateien alphabetisch
             return strcmp($a->getFilename(), $b->getFilename());
         });
