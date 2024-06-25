@@ -1342,8 +1342,96 @@ class KnowledgeBaseFixtures extends Fixture implements DependentFixtureInterface
         $entry = new KnowledgeBase();
         $entry->setSite('knowledge_base');
         $entry->setCategorie('Cannabis-Consumption-Compliance-Map');
-        $entry->setArticleName('Cannabis Consumption Compliance Map');
-        $entry->setArticleContent('This is how you use Cannabis Consumption Compliance Map');
+        $entry->setArticleName('Was ist die Cannabis Consumption Compliance Map?');
+        $entry->setArticleContent('
+            <p>Die Cannabis Consumption Compliance Map ist eine interaktive Karte, die die gesetzlichen Regelungen für den Konsum von Cannabis in der Öffentlichkeit in Deutschland anzeigt. Diese Karte wurde vom WeedWizard-Team entwickelt, um Konsumenten über die geltenden Gesetze und Vorschriften zu informieren und ihnen zu helfen, verantwortungsbewusst und legal zu konsumieren. Die auf dieser Karte angezeigten Informationen dienen nur zur Orientierung. Sie sollten immer die lokalen Gesetze und Vorschriften beachten, bevor Sie rauchen. Diese Karte entbindet Sie nicht von der Verantwortung, sich über die geltenden Gesetze zu informieren und diese einzuhalten.</p>
+    
+            <section id="nutzung" data-nav-title="Nutzung">
+                <h4>Nutzung</h4>
+                <p>Die Cannabis Consumption Compliance Map kann von jedem genutzt werden, der sich über die gesetzlichen Regelungen für den Konsum von Cannabis in der Öffentlichkeit informieren möchte. Die Karte ist kostenlos und einfach zu bedienen. Beachten Sie jedoch stets die lokalen Gesetze und Vorschriften und handeln Sie verantwortungsbewusst. Die Karte dient lediglich zur Orientierung und ersetzt keine rechtliche Beratung.</p>
+            </section>
+            
+            <section id="funktionen" data-nav-title="Funktionen">
+                <h4>Funktionen</h4>
+                <p>Die Cannabis Consumption Compliance Map bietet folgende Funktionen:</p>
+                <ul>
+                    <li><strong>Interaktive Karte:</strong> Zeigt die gesetzlichen Regelungen für den Konsum von Cannabis in der Öffentlichkeit in Deutschland an.</li>
+                    <li><strong>Standortsuche:</strong> Ermöglicht es Benutzern, nach Standorten zu suchen und die geltenden Gesetze für diesen Bereich anzuzeigen.</li>
+                    <li><strong>Positionsverfolgung:</strong> Ermöglicht den Benutzern, ihren eigenen Standort zu verfolgen.</li>
+                    <li><strong>Markierungen:</strong> Benutzer der Karte haben die Möglichkeit, Standorte auf der Karte zu markieren.</li>
+                </ul>
+            </section>
+        ');
+        $entry->setUser($user);
+        $entry->setCreatedAt(new DateTimeImmutable());
+        $manager->persist($entry);
+
+        $entry = new KnowledgeBase();
+        $entry->setSite('knowledge_base');
+        $entry->setCategorie('Cannabis-Consumption-Compliance-Map');
+        $entry->setArticleName('Interaktive Karte');
+        $entry->setArticleContent('
+            <p>Die Cannabis Consumption Compliance Map ist eine interaktive Karte, die Bereiche in Deutschland anzeigt, in denen das Rauchen von Cannabis verboten ist. Diese Bereiche werden durch rote Formen markiert.</p>
+
+            <section id="nutzung" data-nav-title="Nutzung">
+                <h4>Nutzung</h4>
+                <p>Die Karte kann von jedem genutzt werden, der sich über die gesetzlichen Regelungen für den Konsum von Cannabis in der Öffentlichkeit informieren möchte. Sie ist kostenlos und einfach zu bedienen. Beachten Sie jedoch stets die lokalen Gesetze und Vorschriften und handeln Sie verantwortungsbewusst. Die Karte dient lediglich zur Orientierung und ersetzt keine rechtliche Beratung.</p>
+            </section>
+            
+            <section id="karte_aktualisierung" data-nav-title="Aktualisierung der Karte">
+                <h4>Aktualisierung der Karte</h4>
+                <p>Die Karte wird wöchentlich aktualisiert, um sicherzustellen, dass die Nutzer stets über die neuesten gesetzlichen Regelungen informiert sind. Die Aktualisierung erfolgt automatisch und erfordert keine manuelle Eingabe.</p>
+                <p>Falls Sie feststellen, dass die Karte nicht alle relevanten Informationen enthält, kontaktieren Sie uns bitte, damit wir die notwendigen Aktualisierungen vornehmen können.</p>
+            </section>
+            
+            <section id="markierungen" data-nav-title="Markierungen auf der Karte">
+                <h4>Markierungen auf der Karte</h4>
+                <p>Die Markierungen auf der Karte haben unterschiedliche Bedeutungen und Funktionen:</p>
+                <ul>
+                    <li><strong>Partyhütchen:</strong> Diese Markierungen zeigen Standorte des Bud Bash Locators an.</li>
+                    <li><strong>Grüne Menschenmenge:</strong> Diese Markierungen stehen für Cannabis Social Clubs.</li>
+                </ul>
+            </section>
+        ');
+        $entry->setUser($user);
+        $entry->setCreatedAt(new DateTimeImmutable());
+        $manager->persist($entry);
+
+        $entry = new KnowledgeBase();
+        $entry->setSite('knowledge_base');
+        $entry->setCategorie('Cannabis-Consumption-Compliance-Map');
+        $entry->setArticleName('Markierung auf der Karte');
+        $entry->setArticleContent('
+            <p>Es gibt verschiedene Markierungen auf der Karte der Cannabis Consumption Compliance Map, die unterschiedliche Bedeutungen haben:</p>
+            <ul>
+                <li><strong>Partyhütchen:</strong> Diese Markierungen zeigen Standorte des Bud Bash Locators an.</li>
+                <li><strong>Grüne Menschenmenge:</strong> Diese Markierungen stehen für Cannabis Social Clubs.</li>
+                <li><strong>User Marker:</strong> Die User Marker sind Markierungen, die von den Nutzern der Karte gesetzt werden können.</li>
+            </ul>
+            <p>In diesem Beitrag konzentrieren wir uns nur auf die User Marker.</p>
+            
+            <section id="place_marker" data-nav-title="Marker platzieren">
+                <h4>Marker platzieren</h4>
+                <p>Um einen Marker auf der Karte zu platzieren, musst du folgende Schritte befolgen:</p>
+                <ol>
+                    <li>Melde dich an. Wir können leider nur deinen Marker speichern, wenn du angemeldet bist. Falls du kein Konto hast, kannst du dir einfach eins erstellen. Es ist kostenlos!</li>
+                    <li>Drücke auf den "Marker setzen" Button oben links auf der Karte.</li>
+                    <li>Setze deinen Marker auf der Karte, indem du einfach an den Ort klickst, wo du ihn platzieren möchtest.</li>
+                    <li>Fülle das Formular aus und fertig! Du hast deinen Marker erfolgreich erstellt.</li>
+                </ol>
+                <div class="alert alert-info" role="alert">
+                    <strong>Hinweis:</strong> Nur Nutzer mit einem Premium-Abonnement können mehr als 3 Marker setzen.
+                </div>
+            </section>
+            
+            <section id="delete_marker" data-nav-title="Marker löschen">
+                <h4>Marker löschen</h4>
+                <p>Um den Marker zu löschen, wähle einfach diesen aus und drücke dann auf löschen. Der gelöschte Marker kann leider nicht wiederhergestellt werden.</p>
+                <div class="alert alert-info" role="alert">
+                    <strong>Hinweis:</strong> Falls du deine Abo Stufe runtersetzt, werden deine Marker nicht gelöscht.
+                </div>
+            </section>
+        ');
         $entry->setUser($user);
         $entry->setCreatedAt(new DateTimeImmutable());
         $manager->persist($entry);
