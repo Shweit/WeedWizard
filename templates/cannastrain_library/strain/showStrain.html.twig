@@ -81,7 +81,16 @@
                                 <div class="d-flex flex-column gap-2 mt-2">
                                     <h3>{{ strainName }}</h3>
 
-                                    <p>{{ strainInfo.descr|replace({'&lt;br /&gt;': '<br>'})|raw }}</p>
+                                    {% set descr_without_breaks = strainInfo.descr|replace({'&lt;br /&gt;': '', '<br>': ''})|trim %}
+
+                                    <p>
+                                        {% if descr_without_breaks is not empty %}
+                                            {{ strainInfo.descr|replace({'&lt;br /&gt;': '<br>'})|raw }}
+                                        {% else %}
+                                            Die Beschreibung konnte leider nicht von der API abgerufen werden.
+                                        {% endif %}
+                                    </p>
+
 
                                     {#
                                     <div class="d-flex flex-row justify-content-end gap-4">
@@ -134,7 +143,7 @@
                                         {% if strainMedicalInfo %}
                                             {{ strainMedicalInfo.name }}
                                         {% else %}
-                                            Info nicht vorhanden
+                                            keine Info vorhanden
                                         {% endif %}
                                     </span>
                                 </div>
