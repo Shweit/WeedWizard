@@ -50,6 +50,11 @@
                                 } %}
                             {% endfor %}
                         </div>
+
+                        {# Pagination #}
+                        {% include 'cannastrain_library/partials/_pagination.html.twig' with {
+                            'pagination_path' : 'weedwizard_cannastrain-library_breeder-view',
+                        } %}
                     </div>
                 </div>
             </div>

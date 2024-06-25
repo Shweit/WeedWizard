@@ -28,7 +28,7 @@ class CannaStrainLibraryController extends AbstractController
                 'Gewächshaus'],
         ],
     ];
-
+    private int $paginationLimit = 8;
     public function __construct(SeedFinderApiService $seedFinderApiService)
     {
         $this->seedFinderApiService = $seedFinderApiService;
@@ -37,27 +37,31 @@ class CannaStrainLibraryController extends AbstractController
     #[Route('/cannastrain-library/page={page}', name: 'weedwizard_cannastrain-library')]
     public function index(int $page): Response
     {
-        $paginationLimit = 8;
-        $breeders = $this->seedFinderApiService->getBreederInfoPaginated('all', $page, $paginationLimit);
+        $breeders = $this->seedFinderApiService->getBreederInfoPaginated('all', $page, $this->paginationLimit);
         $totalNumOfBreeders = count($this->seedFinderApiService->getBreederInfoPaginated('all', 1, PHP_INT_MAX));
 
         return $this->render('cannastrain_library/index.html.twig', [
             'breeders' => $breeders,
             'filters' => $this->breederFilters,
             'currentPage' => $page,
-            'totalPages' => ceil($totalNumOfBreeders / $paginationLimit),
+            'totalPages' => ceil($totalNumOfBreeders / $this->paginationLimit),
+            'breeder_id' => null,
         ]);
     }
 
-    #[Route('/cannastrain-library/{breeder_id}', name: 'weedwizard_cannastrain-library_breeder-view')]
-    public function showBreeder(string $breeder_id): Response
+    #[Route('/cannastrain-library/{breeder_id}/page={page}', name: 'weedwizard_cannastrain-library_breeder-view')]
+    public function showBreeder(string $breeder_id, int $page): Response
     {
-        $breeder = $this->seedFinderApiService->getBreederInfo($breeder_id);
+        $breeder = $this->seedFinderApiService->getBreederInfoPaginated($breeder_id, $page, $this->paginationLimit);
+        $totalNumOfStrains = count($breeder['strains']);
 
         return $this->render('cannastrain_library/breeder/showBreeder.html.twig', [
             'breeder' => $breeder,
             'filters' => $this->strainFilters,
             'strains' => $breeder['strains'],
+            'currentPage' => $page,
+            'totalPages' => ceil($totalNumOfStrains / $this->paginationLimit),
+            'breeder_id' => $breeder['seedfinder_id'],
         ]);
     }
 
