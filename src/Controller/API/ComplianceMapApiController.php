@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Blog;
 use App\Entity\BudBash;
 use App\Entity\CannabisVerein;
 use App\Entity\MapMarkers;
@@ -44,12 +45,28 @@ class ComplianceMapApiController extends AbstractController
         $addMarkerForm = $this->createForm(AddMarkerFormType::class);
         $addMarkerForm->handleRequest($request);
 
-        if ($addMarkerForm->isSubmitted() && $addMarkerForm->isValid()) {
+        if (($addMarkerForm->isSubmitted() && $addMarkerForm->isValid()) || $addMarkerForm->getExtraData()['skipValidation'] === 'true') {
+            /** @var MapMarkers $marker */
             $marker = $addMarkerForm->getData();
             $marker->setCoordinates($request->get('add_marker_form')['coordinates']); // For some only God knows why reason, the coordinates are not being set by the form
             $marker->setUser($this->getUser());
             $this->entityManager->persist($marker);
             $this->entityManager->flush();
+
+            if ($marker->isPublic()) {
+                $blogEntry = new Blog();
+                $blogEntry->setContent('Ich habe einen neuen Marker hinzugefügt: ' . $marker->getTitle());
+                $blogEntry->setUser($this->weedWizardKernel->getUser());
+                $blogEntry->setMarkerData([
+                    'id' => $marker->getId(),
+                    'title' => $marker->getTitle(),
+                    'description' => $marker->getDescription(),
+                    'coordinates' => $marker->getCoordinates(),
+                ]);
+                $blogEntry->setCreatedAt(new \DateTimeImmutable());
+                $this->entityManager->persist($blogEntry);
+                $this->entityManager->flush();
+            }
 
             return new JsonResponse([
                 'success' => 'Marker wurde hinzugefügt.',
