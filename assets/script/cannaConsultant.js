@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         outerDiv.classList.add('row', 'd-flex', 'justify-content-end', 'mb-3');
 
         let innerDiv = document.createElement('div');
-        innerDiv.classList.add('col-9');
+        innerDiv.classList.add('col-10');
 
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('row');
@@ -123,33 +123,35 @@ document.addEventListener('DOMContentLoaded', function() {
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
 
+        let userInfo = document.createElement('h5');
+        userInfo.classList.add('d-flex', 'align-items-center', 'small');
+
+        let userImageDiv = document.createElement('div');
+        userImageDiv.classList.add('rounded-circle', 'me-2');
+        userImageDiv.style.background = `url(${chat.dataset.userphotopath})`;
+        userImageDiv.style.height = '20px';
+        userImageDiv.style.width = '20px';
+        userImageDiv.style.backgroundRepeat = 'no-repeat';
+        userImageDiv.style.backgroundSize = 'cover';
+        userImageDiv.style.backgroundPosition = 'center';
+
+        let usernameText = document.createTextNode(chat.dataset.username);
+        userInfo.appendChild(userImageDiv);
+        userInfo.appendChild(usernameText);
+
         let pElement = document.createElement('p');
         pElement.classList.add('mb-0');
         pElement.textContent = message;
 
-        let imageDiv = document.createElement('div');
-        imageDiv.classList.add('col-1', 'text-center');
-
-        let roundedDiv = document.createElement('div');
-        roundedDiv.classList.add('rounded-5');
-        roundedDiv.style.width = '50px';
-        roundedDiv.style.height = '50px';
-        roundedDiv.style.backgroundColor = '#656003';
-
-        let pElement2 = document.createElement('p');
-        pElement2.classList.add('mb-0');
-        pElement2.style.padding = '12px 0';
-        pElement2.style.textAlign = 'center';
-        pElement2.textContent = chat.dataset.userinitials;
-
+        cardBodyDiv.appendChild(userInfo);
         cardBodyDiv.appendChild(pElement);
         cardDiv.appendChild(cardBodyDiv);
         rowDiv.appendChild(cardDiv);
         innerDiv.appendChild(rowDiv);
         outerDiv.appendChild(innerDiv);
 
-        roundedDiv.appendChild(pElement2);
-        imageDiv.appendChild(roundedDiv);
+        let imageDiv = document.createElement('div');
+        imageDiv.classList.add('col-auto');
         outerDiv.appendChild(imageDiv);
 
         chat.appendChild(outerDiv);
@@ -162,8 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let outerDiv = document.createElement('div');
         outerDiv.classList.add('row', 'd-flex', 'justify-content-start', 'mb-3');
 
+        let emptyDiv = document.createElement('div');
+        emptyDiv.classList.add('col-auto');
+
         let innerDiv = document.createElement('div');
-        innerDiv.classList.add('col-9');
+        innerDiv.classList.add('col-10');
 
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('row');
@@ -174,26 +179,32 @@ document.addEventListener('DOMContentLoaded', function() {
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
 
-        let pElement = document.createElement('div');
-        pElement.classList.add('mb-0');
-        pElement.innerHTML = messageHTML;
+        let userInfo = document.createElement('h5');
+        userInfo.classList.add('d-flex', 'align-items-center', 'small');
 
-        let imageDiv = document.createElement('div');
-        imageDiv.classList.add('col-1', 'text-center');
+        let userImageDiv = document.createElement('div');
+        userImageDiv.classList.add('rounded-circle', 'me-2');
+        userImageDiv.style.background = `url('/build/images/weedwizrad_wizard.jpg')`;
+        userImageDiv.style.height = '20px';
+        userImageDiv.style.width = '20px';
+        userImageDiv.style.backgroundRepeat = 'no-repeat';
+        userImageDiv.style.backgroundSize = 'cover';
+        userImageDiv.style.backgroundPosition = 'center';
 
-        let image = document.createElement('img');
-        image.src = 'build/images/weedwizrad_wizard.jpg';
-        image.height = 50;
-        image.width = 50;
-        image.classList.add('rounded-5');
+        let usernameText = document.createTextNode('WeedWizard Canna Consultant');
+        userInfo.appendChild(userImageDiv);
+        userInfo.appendChild(usernameText);
 
-        imageDiv.appendChild(image);
-        outerDiv.appendChild(imageDiv);
+        let pElement = document.createElement('p');
+        pElement.classList.add('mb-0', 'assistant-message');
+        pElement.innerHTML = sanitizeHtml(messageHTML);
 
+        cardBodyDiv.appendChild(userInfo);
         cardBodyDiv.appendChild(pElement);
         cardDiv.appendChild(cardBodyDiv);
         rowDiv.appendChild(cardDiv);
         innerDiv.appendChild(rowDiv);
+        outerDiv.appendChild(emptyDiv);
         outerDiv.appendChild(innerDiv);
 
         chat.appendChild(outerDiv);
@@ -204,37 +215,46 @@ document.addEventListener('DOMContentLoaded', function() {
         outerDiv.classList.add('row', 'd-flex', 'justify-content-start', 'mb-3');
         outerDiv.id = 'loading';
 
+        let emptyDiv = document.createElement('div');
+        emptyDiv.classList.add('col-auto');
+
         let innerDiv = document.createElement('div');
-        innerDiv.classList.add('col-9');
+        innerDiv.classList.add('col-10');
 
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('row');
 
         let cardDiv = document.createElement('div');
-        cardDiv.classList.add('card', 'mb-2', 'border-0');
+        cardDiv.classList.add('card', 'mb-2');
 
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.classList.add('card-body');
 
+        let userInfo = document.createElement('h5');
+        userInfo.classList.add('d-flex', 'align-items-center', 'small');
+
+        let userImageDiv = document.createElement('div');
+        userImageDiv.classList.add('rounded-circle', 'me-2', 'mb-2');
+        userImageDiv.style.background = `url('/build/images/weedwizrad_wizard.jpg')`;
+        userImageDiv.style.height = '20px';
+        userImageDiv.style.width = '20px';
+        userImageDiv.style.backgroundRepeat = 'no-repeat';
+        userImageDiv.style.backgroundSize = 'cover';
+        userImageDiv.style.backgroundPosition = 'center';
+
+        let usernameText = document.createTextNode('WeedWizard Canna Consultant');
+        userInfo.appendChild(userImageDiv);
+        userInfo.appendChild(usernameText);
+
         let pElement = document.createElement('div');
         pElement.classList.add('mb-0', 'loading');
 
-        let imageDiv = document.createElement('div');
-        imageDiv.classList.add('col-1', 'text-center');
-
-        let image = document.createElement('img');
-        image.src = 'build/images/weedwizrad_wizard.jpg';
-        image.height = 50;
-        image.width = 50;
-        image.classList.add('rounded-5');
-
-        imageDiv.appendChild(image);
-        outerDiv.appendChild(imageDiv);
-
+        cardBodyDiv.appendChild(userInfo);
         cardBodyDiv.appendChild(pElement);
         cardDiv.appendChild(cardBodyDiv);
         rowDiv.appendChild(cardDiv);
         innerDiv.appendChild(rowDiv);
+        outerDiv.appendChild(emptyDiv);
         outerDiv.appendChild(innerDiv);
 
         chat.appendChild(outerDiv);

@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Entity\CannaConsultantThreads;
+use App\Service\SeedFinderApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenAI;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CannaConsultantServiceV2 extends CannaConsultantFunctions
 {
@@ -13,11 +15,12 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
     public function __construct(
         private readonly string $apiKey,
         private readonly string $assistantId,
-        private string $seedFinderApiKey,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
+        private readonly SeedFinderApiService $seedFinderApiService,
+        private readonly SerializerInterface $serializer,
     ) {
-        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiKey);
+        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiService, $serializer);
         $this->client = OpenAI::client($this->apiKey);
     }
 
@@ -122,11 +125,6 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
 
             return ['error' => $e->getMessage()];
         }
-    }
-
-    public function getSeedFinderApiKey(): string
-    {
-        return $this->seedFinderApiKey;
     }
 
     private function getThread(): array
