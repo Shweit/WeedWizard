@@ -237,6 +237,11 @@ $navbar-dark-color: #DFDFDF;
   z-index: 800;
 }
 
+.lr-card {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
