@@ -89,7 +89,9 @@
                         {% if plant.strain.pics == false %}
                         <img src="{{ asset('build/images/plant-hybrid.jpg') }}" class="card-img-top" alt="Bild der Pflanze" style="">
                         {% endif %}
-                        <div class="card-text">Prognose: </div>
+                        <div class="card-text" style="text-align: center">Prognose:
+                            <img src="{{ asset('build/images/GreenGraph.png') }}" class="card-img-top" alt="Graph" style="height: 15%; width: 15%">
+                        </div>
                     </div>
                     <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom" data-bs-target="#offcanvasBottom-{{ plant.id }}" style="color: #ffffff">
                         Informationen
@@ -99,20 +101,20 @@
 
             <!-- Details Modal -->
             <!-- Offcanvas für Pflanzendetails -->
-            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ plant.id }}" aria-labelledby="offcanvasLabel-{{ plant.id }}" style="height: 84%; background-color: #284A4F; border-top-right-radius: 15px; border-top-left-radius: 15px;">
+            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ plant.id }}" aria-labelledby="offcanvasLabel-{{ plant.id }}" style="height: 84%; background-color: #284A4F; border-top-right-radius: 15px; border-top-left-radius: 15px; ">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body" style="margin: 4rem; margin-top: -1rem; margin-bottom: 4rem">
+                <div class="offcanvas-body" style=" margin-top: -1rem; margin-bottom: -4rem; overflow: hidden">
                     <div class="container-fluid">
-                        <div class="row mb-4">
+                        <div class="row">
                             <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
-                            <div class="col-5">
-                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 100%">
+                            <div class="col-sm-5">
+                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 90%">
                                     <div class="card-body">
                                         <div >
-                                            <h5>Name: {{ plant.name }}</h5>
+                                            <h3>Name: {{ plant.name }}</h3>
                                             <p>Angepflanzt vor: {{ (date().diff(plant.date)).days }} Tagen</p>
                                             <p>Entwicklungsphase: {{ plant.state }}</p>
                                         </div>
@@ -121,11 +123,12 @@
                             </div>
 
                             <!-- Oben rechts: Prognose -->
-                            <div class="col-7">
-                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                            <div class="col-sm-7">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px; height: 90%">
                                     <div class="card-body">
                                         <div class="col-md-6" >
-                                            <h5>Prognose</h5>
+                                            <h5 style="margin-top: -1rem;">Prognose</h5>
+                                            <canvas id="myChart-{{ plant.id }}" class="myChart" style="width:100%;max-width:1000px; height: 175px"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -134,23 +137,41 @@
 
                         <div class="row">
                             <!-- Unten links: CannaConsultant Thread Fenster -->
-                            <div class="col-5">
+                            <div class="col-sm-5">
                                 <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
                                     <div class="card-body">
                                         <div class="col-md-6" >
                                             <h5>CannaConsultant</h5>
+                                            <!-- DENNIS -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Bot-Chat Fenster einfügen -->
 
                             <!-- Unten rechts: Wochenaufgaben + anklicken -->
-                            <div class="col-7">
+                            <div class="col-sm-7">
                                 <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
                                     <div class="card-body">
                                         <div class="col-md-6" >
                                             <h5>Wochenaufgaben</h5>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1" type="checkbox" value="" id="water-{{ plant.id }}">
+                                                    <label class="form-check-label" for="water-{{ plant.id }}">Gießen - 500ml</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1" type="checkbox" value="" id="fertilize-{{ plant.id }}">
+                                                    <label class="form-check-label" for="fertilize-{{ plant.id }}">Düngen - 100ml</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1" type="checkbox" value="" id="temperature-{{ plant.id }}">
+                                                    <label class="form-check-label" for="temperature-{{ plant.id }}">Temperatur prüfen</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1" type="checkbox" value="" id="pesticides-{{ plant.id }}">
+                                                    <label class="form-check-label" for="pesticides-{{ plant.id }}">Pestizide anwenden</label>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

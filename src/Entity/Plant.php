@@ -43,6 +43,9 @@ class Plant
     #[ORM\JoinColumn(nullable: false)]
     private ?Breeder $breeder = null;
 
+    #[ORM\Column]
+    private ?int $growth = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,6 +155,18 @@ class Plant
     public function setBreeder(?Breeder $breeder): static
     {
         $this->breeder = $breeder;
+
+        return $this;
+    }
+
+    public function getGrowth(): ?int
+    {
+        return $this->growth;
+    }
+
+    public function setGrowth(int $growth): static
+    {
+        $this->growth = $growth;
 
         return $this;
     }
