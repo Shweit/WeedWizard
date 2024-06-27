@@ -6,6 +6,7 @@
  */
 import './bootstrap';
 
+import Chart from 'chart.js/auto';
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
