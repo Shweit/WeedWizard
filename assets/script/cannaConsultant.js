@@ -42,8 +42,24 @@ document.addEventListener('DOMContentLoaded', function() {
             createLoadingBubble();
             scrollToBottom();
 
-            fetch('/canna-consultant/add-message?message=' + chatInput_value, {
+            let instructions = "";
+            if (document.getElementById('cannaconsultant_instructions')) {
+                instructions = document.getElementById('cannaconsultant_instructions').value;
+            }
+
+            let thread = null;
+            if (document.getElementById('cannaconsultant_thread')) {
+                thread = document.getElementById('cannaconsultant_thread').value;
+            }
+
+            let form = new FormData();
+            form.append('message', chatInput_value);
+            form.append('instructions', instructions);
+            form.append('thread', thread);
+
+            fetch('/canna-consultant/add-message', {
                 method: 'POST',
+                body: form
             }).then(r => r.json()).then(data => {
                 removeLoadingBubble();
                 if (!data.error) {

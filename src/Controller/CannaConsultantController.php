@@ -43,8 +43,10 @@ class CannaConsultantController extends AbstractController
         }
 
         $message = $request->get('message');
+        $thread = $request->get('thread') ? json_decode($request->get('thread'), true) : null;
+        $instructions = $request->get('instructions') ?? null;
 
-        $response = $this->cannaConsultantService->addMessageToThread($message);
+        $response = $this->cannaConsultantService->addMessageToThread($message, instructions: $instructions, thread: $thread);
 
         return new JsonResponse($response);
     }

@@ -9,6 +9,7 @@ use App\Entity\Plant;
 use App\Entity\Strain;
 use App\Form\PlantType;
 use App\Repository\PlantRepository;
+use App\Services\CannaConsultantServiceV2;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ class GrowMateController extends AbstractController
 {
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly CannaConsultantServiceV2 $cannaConsultantService,
     ) {}
 
     #[Route('/grow-mate', name: 'growMate')]
@@ -33,6 +35,22 @@ class GrowMateController extends AbstractController
 
         $user = $this->weedWizardKernel->getUser();
         $plants = $entityManager->getRepository(Plant::class)->findBy(['user' => $user]);
+
+        $plants = array_map(function (Plant $plant) {
+            return [
+                'id' => $plant->getId(),
+                'name' => $plant->getName(),
+                'date' => $plant->getDate(),
+                'state' => $plant->getState(),
+                'placeOfCultivation' => $plant->getPlaceOfCultivation(),
+                'lighting' => $plant->getLighting(),
+                'breeder' => $plant->getBreeder(),
+                'strain' => $plant->getStrain(),
+                'growth' => $plant->getGrowth(),
+                'thread' => $plant->getThread(),
+                'messages' => $plant->getThread() ? $this->cannaConsultantService->getRecentMessages($plant->getThread()) : '',
+            ];
+        }, $plants);
 
         $form = $this->createForm(PlantType::class);
 
@@ -72,6 +90,9 @@ class GrowMateController extends AbstractController
 
             $plant->setBreeder($entityManager->getRepository(Breeder::class)->findOneBy(['seedfinder_id' => $form->get('breeder')->getData()]));
             $plant->setStrain($entityManager->getRepository(Strain::class)->findOneBy(['seedfinder_id' => $form->get('strain')->getData()]));
+
+            $plant->setGrowth(1);
+            $plant->setThread($this->cannaConsultantService->getThreadForPlant($plant));
 
             $plant->setUser($user);
             $entityManager->persist($plant);

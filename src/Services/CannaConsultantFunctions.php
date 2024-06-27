@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
+use App\Entity\Plant;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 
@@ -154,6 +155,35 @@ class CannaConsultantFunctions
             $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/search.json?q=' . $search . '&ac=' . $this->seedFinderApiKey);
 
             return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_plant_info(int $plant_id): array
+    {
+        try {
+            $plant = $this->entityManager->getRepository(Plant::class)->find($plant_id);
+
+            if (!$plant) {
+                return ['error' => 'Plant not found'];
+            }
+
+            if ($plant->getUser() !== $this->weedWizardKernel->getUser()) {
+                return ['error' => 'You are not allowed to view this plant'];
+            }
+
+            return [
+                'id' => $plant->getId(),
+                'name' => $plant->getName(),
+                'date' => $plant->getDate(),
+                'state' => $plant->getState(),
+                'placeOfCultivation' => $plant->getPlaceOfCultivation(),
+                'lighting' => $plant->getLighting(),
+                'breeder' => $plant->getBreeder(),
+                'strain' => $plant->getStrain(),
+                'growth' => $plant->getGrowth(),
+            ];
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
