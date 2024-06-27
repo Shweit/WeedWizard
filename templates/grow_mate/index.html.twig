@@ -5,6 +5,20 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('growMate') }}
+    {{ encore_entry_script_tags('cannaConsultant') }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chat = document.getElementById('chat');
+            chat.scrollTop = chat.scrollHeight;
+
+            const form = document.getElementById('form-chat');
+            form.addEventListener('submit', function() {
+                setTimeout(function() {
+                    chat.scrollTop = chat.scrollHeight;
+                }, 100);
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -140,9 +154,67 @@
                             <div class="col-sm-5">
                                 <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
                                     <div class="card-body">
-                                        <div class="col-md-6" >
-                                            <h5>CannaConsultant</h5>
-                                            <!-- DENNIS -->
+                                        <h5>CannaConsultant</h5>
+                                        <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}" style="max-height: 30vh;">
+                                            {% for message in plant.messages.data|reverse %}
+                                                {% if message.role == 'user' %}
+                                                    <div class="row d-flex justify-content-end mb-3">
+                                                        <div class="col-9">
+                                                            <div class="row">
+                                                                <div class="card mb-2">
+                                                                    <div class="card-body">
+                                                                        <p class="mb-0" id="{{ message.id }}">{{ message.content[0].text.value }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-1 text-center">
+                                                            <div class="rounded-5" style="height: 50px; width: 50px; background-color: #656003">
+                                                                <p class="mb-0" style="padding: 12px 0; text-align: center">
+                                                                    {{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+                                                {% if message.role == 'assistant' %}
+                                                    <div class="row d-flex justify-content-start mb-3">
+                                                        <div class="col-1 text-center">
+                                                            <img src="{{ asset('build/images/weedwizrad_wizard.jpg') }}" height="50px" width="50px" class="rounded-5">
+                                                        </div>
+
+                                                        <div class="col-9">
+                                                            <div class="row">
+                                                                <div class="card mb-2">
+                                                                    <div class="card-body">
+                                                                        <p class="mb-0 assistant-message">{{ message.content[0].text.value }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="chat-input-container row mb-2">
+                                            <div class="col-1"></div>
+                                            <div class="col-10">
+                                                <div class="rounded-5 p-2 form-control">
+                                                    <form class="row" id="form-chat">
+                                                        <div class="col-11">
+                                                            <textarea type="text" id="chat-input" class="form-control border-0" aria-label="Nachricht eingeben" placeholder="Sende eine Nachricht an den Canna Consultant" rows="1" style="resize: none"></textarea>
+                                                        </div>
+                                                        <div class="col-1 d-flex justify-content-end">
+                                                            <button class="btn btn-primary rounded-5" type="submit" id="chat-send"><i class="fa-regular fa-paper-plane"></i></button>
+                                                        </div>
+                                                        <input type="hidden" name="instructions" id="cannaconsultant_instructions" value="Du bist ein hilfreicher virtueller Budtender, welcher sich um den Anbau von Cannabis Pflanzen kümmert. Die Pflanze die du gerade betreust gehört {{ app.user.username }} und trägt die ID {{ plant.id }}">
+                                                        <input type="hidden" name="thread" id="cannaconsultant_thread" value="{{ plant.thread|json_encode }}">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-1"></div>
                                         </div>
                                     </div>
                                 </div>

@@ -32,8 +32,8 @@ class Plant
     #[ORM\ManyToOne(inversedBy: 'plants')]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $thread = [];
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $thread = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -123,12 +123,12 @@ class Plant
         return $this;
     }
 
-    public function getThread(): array
+    public function getThread(): ?array
     {
         return $this->thread;
     }
 
-    public function setThread(array $thread): static
+    public function setThread(?array $thread): static
     {
         $this->thread = $thread;
 
