@@ -49,7 +49,7 @@ class ComplianceMapApiController extends AbstractController
             /** @var MapMarkers $marker */
             $marker = $addMarkerForm->getData();
             $marker->setCoordinates($request->get('add_marker_form')['coordinates']); // For some only God knows why reason, the coordinates are not being set by the form
-            $marker->setUser($this->getUser());
+            $marker->setUser($this->weedWizardKernel->getUser());
             $this->entityManager->persist($marker);
             $this->entityManager->flush();
 
