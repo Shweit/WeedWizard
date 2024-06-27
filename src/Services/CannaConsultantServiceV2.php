@@ -17,8 +17,8 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         private readonly string $assistantId,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SeedFinderApiService $seedFinderApiService,
-        private readonly SerializerInterface $serializer,
+        private readonly SeedFinderApiService $seedFinderApiService, // @phpstan-ignore-line
+        private readonly SerializerInterface $serializer, // @phpstan-ignore-line
     ) {
         parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiService, $serializer);
         $this->client = OpenAI::client($this->apiKey);

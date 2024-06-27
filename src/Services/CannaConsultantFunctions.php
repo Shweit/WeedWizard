@@ -148,7 +148,7 @@ class CannaConsultantFunctions
 
             $results = $query->getResult();
 
-            return $this->serializer->normalize($results, null, ['groups' => 'cannastrainLibrary']);;
+            return $this->serializer->normalize($results, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
