@@ -25,11 +25,6 @@ services:
           $apiKey: '%env(OPENAI_API_KEY)%'
           $assistantId: '%env(OPENAI_ASSISTENT_ID)%'
 
-  App\Services\CannaConsultantService:
-      arguments:
-          $apiKey: '%env(OPENAI_API_KEY)%'
-          $assistentId: '%env(OPENAI_ASSISTENT_ID)%'
-
   App\Twig\Extension\WeedWizardBudBashLocatorExtensionExtension:
       tags:
           - { name: twig.extension }
