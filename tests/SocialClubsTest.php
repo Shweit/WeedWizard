@@ -49,7 +49,7 @@ class SocialClubsTest extends WebTestCase
 
         $this->client->loginUser($this->entityManager->getRepository(User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
 
-        $crawler = $this->client->request('GET', '/cannabis-verein');
+        $crawler = $this->client->request('GET', '/social-club');
 
         $this->assertResponseIsSuccessful();
 
@@ -87,7 +87,7 @@ class SocialClubsTest extends WebTestCase
 
         $this->client->loginUser($this->entityManager->getRepository(User::class)->findOneBy(['email' => 'dev@weedwizard.de']));
 
-        $crawler = $this->client->request('GET', '/cannabis-verein');
+        $crawler = $this->client->request('GET', '/social-club');
 
         $this->assertResponseIsSuccessful();
 
