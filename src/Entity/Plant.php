@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlantRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlantRepository::class)]
 class Plant
@@ -15,18 +16,23 @@ class Plant
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['growMate'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $state = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $placeOfCultivation = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $lighting = null;
 
     #[ORM\ManyToOne(inversedBy: 'plants')]
@@ -37,13 +43,16 @@ class Plant
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['growMate'])]
     private ?Strain $strain = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['growMate'])]
     private ?Breeder $breeder = null;
 
     #[ORM\Column]
+    #[Groups(['growMate'])]
     private ?int $growth = null;
 
     public function getId(): ?int
