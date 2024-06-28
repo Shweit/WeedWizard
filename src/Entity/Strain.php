@@ -24,27 +24,27 @@ class Strain
     private ?string $name = null;
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $breeder_info = [];
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $parents = [];
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $hybrids = [];
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $medical = [];
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $pics = [];
 
     #[ORM\Column(type: Types::JSON)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private array $reviews = [];
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'strains')]
