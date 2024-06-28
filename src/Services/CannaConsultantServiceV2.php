@@ -6,6 +6,7 @@ use App\Entity\CannaConsultantThreads;
 use App\Entity\Plant;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenAI;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CannaConsultantServiceV2 extends CannaConsultantFunctions
 {
@@ -17,8 +18,9 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         private string $seedFinderApiKey,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
+        private readonly SerializerInterface $serializer,
     ) {
-        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiKey);
+        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiKey, $this->serializer);
         $this->client = OpenAI::client($this->apiKey);
     }
 

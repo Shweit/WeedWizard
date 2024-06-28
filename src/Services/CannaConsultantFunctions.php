@@ -7,6 +7,7 @@ use App\Entity\BudBashCheckAttendance;
 use App\Entity\Plant;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CannaConsultantFunctions
 {
@@ -14,6 +15,7 @@ class CannaConsultantFunctions
         private EntityManagerInterface $entityManager,
         private WeedWizardKernel $weedWizardKernel,
         private string $seedFinderApiKey,
+        private SerializerInterface $serializer,
     ) {}
 
     protected function get_bud_bash_partys(): array
@@ -173,17 +175,20 @@ class CannaConsultantFunctions
                 return ['error' => 'You are not allowed to view this plant'];
             }
 
-            return [
-                'id' => $plant->getId(),
-                'name' => $plant->getName(),
-                'date' => $plant->getDate(),
-                'state' => $plant->getState(),
-                'placeOfCultivation' => $plant->getPlaceOfCultivation(),
-                'lighting' => $plant->getLighting(),
-                'breeder' => $plant->getBreeder(),
-                'strain' => $plant->getStrain(),
-                'growth' => $plant->getGrowth(),
-            ];
+            dd($this->serializer->normalize($plant, null, ['groups' => 'growMate']));
+
+            return $this->serializer->normalize($plant, null, ['groups' => 'growMate']); // @phpstan-ignore-line
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_user_plant(): array
+    {
+        try {
+            $plants = $this->weedWizardKernel->getUser()->getPlants()->toArray();
+
+            return $this->serializer->normalize($plants, null, ['groups' => 'growMate']); // @phpstan-ignore-line
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
