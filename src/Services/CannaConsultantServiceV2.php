@@ -17,10 +17,10 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         private readonly string $assistantId,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SeedFinderApiService $seedFinderApiService, // @phpstan-ignore-line
-        private readonly SerializerInterface $serializer, // @phpstan-ignore-line
+        private readonly SeedFinderApiService $seedFinderApiService,
+        private readonly SerializerInterface $serializer,
     ) {
-        parent::__construct($entityManager, $weedWizardKernel, $seedFinderApiService, $serializer);
+        parent::__construct($entityManager, $weedWizardKernel, $this->seedFinderApiService, $this->serializer);
         $this->client = OpenAI::client($this->apiKey);
     }
 
@@ -28,7 +28,9 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
     {
         $thread = $this->getThread();
 
-        return $this->client->threads()->messages()->list($thread['id'])->toArray();
+        return $this->client->threads()->messages()->list($thread['id'], [
+            'limit' => 100,
+        ])->toArray();
     }
 
     public function addMessageToThread(string $message, bool $runThread = true, string $instructions = ''): array
