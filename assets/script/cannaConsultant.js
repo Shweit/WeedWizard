@@ -4,46 +4,64 @@ import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
 document.addEventListener('DOMContentLoaded', function() {
     let chat = document.getElementById('chat');
     let chatSend = document.getElementById('chat-send');
-    let formChat = document.getElementById('form-chat');
-    let chatInput = document.getElementById('chat-input');
+    let textarea = document.getElementById('message');
+    let chat_input_div = document.getElementById('chat-input-div');
 
     formatChatMessages();
     scrollToBottom();
 
-    formChat.addEventListener('submit', function(event) {
-        event.preventDefault();
+    const textareaHeight = textarea.scrollHeight;
+    textarea.addEventListener('input', function() {
+       // make the height of the textarea dynamic with a max height
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+        chat_input_div.style.marginTop = `-${textarea.scrollHeight - textareaHeight}px`;
+
+        if (textarea.scrollHeight > 150) {
+            textarea.style.overflowY = "scroll";
+            textarea.style.height = "150px";
+            chat_input_div.style.marginTop = `-${150 - textareaHeight}px`;
+        } else {
+            textarea.style.overflowY = "hidden";
+        }
+    });
+
+    // submit the form when the user presses enter, if the textarea is not empty
+    // and check if the textarea is only filled with line breaks
+    textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            // check if the textarea is only filled with line breaks
+            if (textarea.value.replace(/\n/g, '').trim() === '') {
+                e.preventDefault();
+            } else {
+                e.preventDefault();
+                submitForm();
+            }
+        }
+    });
+
+    chatSend.addEventListener('click', function() {
         submitForm();
     });
 
-    chatInput.addEventListener("keydown", function(e) {
-        if (e.key === "Enter" && e.shiftKey) {
-            e.preventDefault();
-            submitForm();
-        }
-
-        chatInput.style.height = "auto";
-        chatInput.style.height = `${chatInput.scrollHeight}px`;
-
-        if (chatInput.scrollHeight > 150) {
-            chatInput.style.overflowY = "scroll";
-            chatInput.style.height = "150px";
-        } else {
-            chatInput.style.overflowY = "hidden";
-        }
-    });
-
     function submitForm() {
-        if (chatInput.value) {
-            const chatInput_value = chatInput.value;
-            chatInput.value = '';
+        if (textarea.value) {
+            const chatInput_value = textarea.value;
+            textarea.value = '';
+            textarea.style.height = `${textareaHeight}px`;
+            chat_input_div.style.marginTop = `0px`;
             chatSend.disabled = true;
 
             createTextBubbleUser(chatInput_value);
             createLoadingBubble();
             scrollToBottom();
 
-            fetch('/canna-consultant/add-message?message=' + chatInput_value, {
+            let form = new FormData();
+            form.append('message', chatInput_value);
+
+            fetch('/canna-consultant/add-message', {
                 method: 'POST',
+                body: form
             }).then(r => r.json()).then(data => {
                 removeLoadingBubble();
                 if (!data.error) {
@@ -197,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let pElement = document.createElement('p');
         pElement.classList.add('mb-0', 'assistant-message');
-        pElement.innerHTML = sanitizeHtml(messageHTML);
+        pElement.innerHTML = messageHTML;
 
         cardBodyDiv.appendChild(userInfo);
         cardBodyDiv.appendChild(pElement);

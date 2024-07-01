@@ -5,19 +5,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('cannaConsultant') }}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const chat = document.getElementById('chat');
-            chat.scrollTop = chat.scrollHeight;
-
-            const form = document.getElementById('form-chat');
-            form.addEventListener('submit', function() {
-                setTimeout(function() {
-                    chat.scrollTop = chat.scrollHeight;
-                }, 100);
-            });
-        });
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -34,7 +21,7 @@
     <div class="chat-container overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userPhotoPath="{{ userProfilePicture }}" data-username="{{ app.user.username }}">
         {% if app.environment == 'dev' %}
             <div class="alert alert-warning position-fixed mt-3 d-none d-sm-block" style="z-index: 90; left: 50%; transform: translate(-50%, 0);" role="alert">
-                Bitte denkt dran, dass wir jede Anfrage an den Canna-Consultant bezahlen müssen. Bitte nicht so viele Anfragen stellen, bin leider (noch) kein Millionär. Ihr könnt <a href="https://openai.com/api/pricing/" target="_blank">hier</a> nachlesen wie teuer die Anfragen an OpenAI sind. Wir benutzen gerade das Model GPT-4o.
+                Bitte denkt dran, dass wir jede Anfrage an den Canna-Consultant bezahlen müssen. Bitte nicht so viele Anfragen stellen, bin leider (noch) kein Millionär. Ihr könnt <a href="https://openai.com/api/pricing/" target="_blank">hier</a> nachlesen wie teuer die Anfragen an OpenAI sind. Wir benutzen gerade das Model GPT-3.5 Turbo.
             </div>
         {% endif %}
 
@@ -77,24 +64,20 @@
                 </div>
             {% endif %}
         {% endfor %}
-
     </div>
 
-    <div class="chat-input-container row mb-2">
-        <div class="col-1"></div>
-        <div class="col-10">
-            <div class="rounded-5 p-2 form-control">
-                <form class="row" id="form-chat">
-                    <div class="col-11">
-                        <textarea type="text" id="chat-input" class="form-control border-0" aria-label="Nachricht eingeben" placeholder="Sende eine Nachricht an den Canna Consultant" rows="1" style="resize: none"></textarea>
-                    </div>
-                    <div class="col-1 d-flex justify-content-end">
-                        <button class="btn btn-primary rounded-5" type="submit" id="chat-send"><i class="fa-regular fa-paper-plane"></i></button>
-                    </div>
-                </form>
+    <div class="form-control rounded-5 mb-2 position-relative" id="chat-input-div">
+        <div class="d-flex justify-content-center flex-nowrap">
+            <div class="d-flex justify-content-end align-items-end pe-0">
+                <button class="btn btn-primary rounded-5" style="height: 38px; width: 38px;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Work in Progress"><i class="fa-solid fa-paperclip"></i></button>
+            </div>
+            <div class="ps-0 pe-0 w-100">
+                <textarea class="form-control chat-input" id="message" placeholder="Nachricht eingeben..." rows="1" aria-label="Nachricht eingeben..." aria-describedby="button-addon2"></textarea>
+            </div>
+            <div class="d-flex justify-content-start align-items-end ps-0">
+                <button class="btn btn-primary rounded-5" style="height: 38px; width: 38px;" type="button" id="chat-send"><i class="fa-regular fa-paper-plane"></i></button>
             </div>
         </div>
-        <div class="col-1"></div>
     </div>
 
 {% endblock %}
