@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bd-navbar" id="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle"> <!-- Adjust the logo URL and size -->
+            <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -57,6 +57,17 @@
                                             </tr>
                                             <tr>
                                                 <td class="text-muted p-0"><small>Fragen zu Cannabis oder ähnlichem? Hier werden sie beantwortet!</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-users fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('app_blog') }}">WeedWizard Blog</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Du willst dich mit andern über Cannabis unterhalten? Oder bist du neugierig was andere zu sagen haben?</small></td>
                                             </tr>
                                         </table>
                                     </li>

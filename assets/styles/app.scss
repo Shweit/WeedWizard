@@ -237,6 +237,28 @@ $navbar-dark-color: #DFDFDF;
   z-index: 800;
 }
 
+.no-rounded-corners {
+  .card-body {
+    border-radius: 0 !important;
+  }
+
+  .card-footer {
+    border-radius: 0 !important;
+  }
+
+  border-radius: 0 !important;
+}
+
+.no-borders {
+  .card-body {
+    border: 0 !important;
+  }
+
+  .card-footer {
+    border: 0 !important;
+  }
+
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

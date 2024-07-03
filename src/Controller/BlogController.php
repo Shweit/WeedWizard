@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Blog;
+use App\Interface\BlogServiceInterface;
+use App\Service\BlogService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,13 +18,39 @@ class BlogController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly BlogServiceInterface $blogService,
     ) {}
 
     #[Route('/blog', name: 'app_blog')]
     public function index(): Response
     {
+        $posts = [
+            BlogService::FOR_YOU => $this->blogService->gerForYouPosts(),
+            BlogService::FOLLOWING => $this->blogService->getFollowingPosts(),
+        ];
+
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
+            'posts' => $posts,
+        ]);
+    }
+
+    #[Route('/blog/search', name: 'weedwizard_blog_search')]
+    public function search(Request $request): Response
+    {
+        $query = $request->query->get('query') ?? '';
+
+        if ($query) {
+            $posts = [
+                BlogService::TOP_POSTS => $this->blogService->getTopPostsForQuery($query),
+                BlogService::LATEST_POSTS => $this->blogService->getLatestPostsForQuery($query),
+                BlogService::USERS => $this->blogService->getUsersForQuery($query),
+                BlogService::TOKENS => $this->blogService->getTokensForQuery($query),
+            ];
+        }
+
+        return $this->render('blog/search.html.twig', [
+            'query' => $query,
+            'posts' => $posts ?? [],
         ]);
     }
 

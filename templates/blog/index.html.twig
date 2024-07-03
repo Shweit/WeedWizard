@@ -1,20 +1,103 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row mt-3 ms-3 me-5">
+        <div class="col-3 d-none d-sm-block" style="height: 100vh">
+            <div class="row d-flex align-items-center mb-3">
+                <div class="col-3">
+                    <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" height="50px" class="rounded-circle">
+                </div>
+                <div class="col-9">
+                    <h5 class="mt-2">WeedWizard<br> Blog</h5>
+                </div>
+            </div>
+            <hr>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action active"><i class="fa-solid fa-house me-2"></i> Home</li>
+                <a class="list-group-item list-group-item-action" href="{{ path('weedwizard_blog_search') }}"><i class="fa-solid fa-magnifying-glass me-2"></i> Search</a>
+            </ul>
+            <hr>
+            <div class="row align-items-end">
+                {% if app.user.profilePicture %}
+                    {% set userProfilePicture = '/uploads/profile_pictures/' ~ app.user.profilePicture %}
+                {% else %}
+                    {% set userProfilePicture = '/build/images/userAvatar-placeholder.png' %}
+                {% endif %}
+                <div class="col-3 d-flex justify-content-center">
+                    <img src="{{ userProfilePicture }}" alt="Logo" height="50px" class="rounded-circle">
+                </div>
+                <div class="col-9">
+                    <h6 class="mt-2 mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
+                    <small class="text-muted">@{{ app.user.username }}</small>
+                </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/dennis/WeedWizard/src/Controller/BlogController.php</code></li>
-        <li>Your template at <code>/home/dennis/WeedWizard/templates/blog/index.html.twig</code></li>
-    </ul>
-</div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item locator-nav">
+                    <button class="nav-link active" id="for-you-tab" data-bs-toggle="tab" data-bs-target="#for-you-tab-pane" type="button" role="tab" aria-controls="for-you-tab-pane" aria-selected="true">Für dich</button>
+                </li>
+                <li class="nav-item locator-nav">
+                    <button class="nav-link" id="following-tab" data-bs-toggle="tab" data-bs-target="#following-tab-pane" type="button" role="tab" aria-controls="following-tab-pane" aria-selected="false">Folge ich</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="for-you-tab-pane" role="tabpanel" aria-labelledby="for-you-tab" tabindex="0">
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Work in Progress!</h4>
+                        <p>Die Funktionen für den Blog sind noch in Arbeit. Bitte haben Sie noch etwas Geduld.</p>
+                        <hr>
+                        <p class="mb-0">Vielen Dank für Ihr Verständnis.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="following-tab-pane" role="tabpanel" aria-labelledby="following-tab" tabindex="0">
+                    {% if posts['following']|length == 0 %}
+                        <div class="alert alert-warning" role="alert">
+                            <h4 class="alert-heading">Keine Beträge gefunden von Nutzern den du folgst!</h4>
+                            <p>Sorry, es wurden keine Beiträge gefunden. Bitte versuche es mit einem anderen Suchbegriff.</p>
+                            <hr>
+                            <p class="mb-0">Vielen Dank für dein Verständnis.</p>
+                        </div>
+                    {% endif %}
+                    {% for post in posts['following'] %}
+                        <div class="col-12 blogEntry" data-created-at="{{ post.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ post.likes.count }}" data-comment-count="{{ post.comments.count }}">
+                            <div class="card mb-4 no-rounded-corners no-borders">
+                                <div class="card-body">
+                                    <h5 class="card-title d-flex align-items-center">
+                                        {% if post.user.profilePicture %}
+                                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                        {% else %}
+                                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                        {% endif %}
+                                        {{ post.user.username }} <small class="text-muted h6 mb-0">- {{ post.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                                    </h5>
+                                    <p class="card-text">{{ post.content }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row d-flex">
+                                        <div class="col-1">
+                                            {% if hasUserLikedPost(app.user, post) %}
+                                                <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ post.likes.count }}</a>
+                                            {% else %}
+                                                <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ post.likes.count }}</a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-1">
+                                            <a href="{{ path('app_blog_entry', {'id': post.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ post.comments.count }}</a>
+                                        </div>
+                                        <div class="col-1">
+                                            <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ post.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
