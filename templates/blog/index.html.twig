@@ -19,21 +19,22 @@
                 <a class="list-group-item list-group-item-action" href="{{ path('weedwizard_blog_search') }}"><i class="fa-solid fa-magnifying-glass me-2"></i> Search</a>
             </ul>
             <hr>
-            <div class="row align-items-end">
-                {% if app.user.profilePicture %}
-                    {% set userProfilePicture = '/uploads/profile_pictures/' ~ app.user.profilePicture %}
-                {% else %}
-                    {% set userProfilePicture = '/build/images/userAvatar-placeholder.png' %}
-                {% endif %}
-                <div class="col-3 d-flex justify-content-center">
-                    <img src="{{ userProfilePicture }}" alt="Logo" height="50px" class="rounded-circle">
+            {% if app.user %}
+                <div class="row align-items-end">
+                    {% if app.user.profilePicture %}
+                        {% set userProfilePicture = '/uploads/profile_pictures/' ~ app.user.profilePicture %}
+                    {% else %}
+                        {% set userProfilePicture = '/build/images/userAvatar-placeholder.png' %}
+                    {% endif %}
+                    <div class="col-3 d-flex justify-content-center">
+                        <img src="{{ userProfilePicture }}" alt="Logo" height="50px" class="rounded-circle">
+                    </div>
+                    <div class="col-9">
+                        <h6 class="mt-2 mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
+                        <small class="text-muted">@{{ app.user.username }}</small>
+                    </div>
                 </div>
-                <div class="col-9">
-                    <h6 class="mt-2 mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
-                    <small class="text-muted">@{{ app.user.username }}</small>
-                </div>
-
-            </div>
+            {% endif %}
         </div>
         <div class="col-sm-9">
             <ul class="nav nav-tabs mb-3">

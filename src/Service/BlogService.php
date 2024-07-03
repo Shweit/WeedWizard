@@ -31,6 +31,10 @@ class BlogService implements BlogServiceInterface
 
     public function getFollowingPosts(): array
     {
+        if (!$this->weedWizardKernel->getUser()) {
+            return [];
+        }
+
         $posts = [];
         foreach ($this->weedWizardKernel->getUser()->getfollowing() as $following) {
             $posts[] = $following->getBlogs()->toArray();
