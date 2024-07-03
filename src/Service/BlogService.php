@@ -21,8 +21,7 @@ class BlogService implements BlogServiceInterface
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
-    ) {
-    }
+    ) {}
 
     public function gerForYouPosts(): string
     {
@@ -33,13 +32,13 @@ class BlogService implements BlogServiceInterface
     public function getFollowingPosts(): array
     {
         $posts = [];
-        foreach($this->weedWizardKernel->getUser()->getfollowing() as $following) {
+        foreach ($this->weedWizardKernel->getUser()->getfollowing() as $following) {
             $posts[] = $following->getBlogs()->toArray();
         }
 
         $singleArray = [];
-        foreach($posts as $post) {
-            foreach($post as $p) {
+        foreach ($posts as $post) {
+            foreach ($post as $p) {
                 $singleArray[] = $p;
             }
         }
@@ -61,7 +60,7 @@ class BlogService implements BlogServiceInterface
             ->select('b')
             ->from(Blog::class, 'b')
             ->orWhere('LOWER(b.content) LIKE :query')
-            ->setParameter('query', "%$query%")
+            ->setParameter('query', "%{$query}%")
             ->getQuery()
             ->getResult();
 
@@ -78,16 +77,14 @@ class BlogService implements BlogServiceInterface
         $query = strtolower($query);
         $query = str_replace(' ', '', $query);
 
-        $posts = $this->entityManager->createQueryBuilder()
+        return $this->entityManager->createQueryBuilder()
             ->select('b')
             ->from(Blog::class, 'b')
             ->orWhere('LOWER(b.content) LIKE :query')
-            ->setParameter('query', "%$query%")
+            ->setParameter('query', "%{$query}%")
             ->orderBy('b.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
-
-        return $posts;
     }
 
     public function getUsersForQuery(string $query): array
@@ -95,16 +92,14 @@ class BlogService implements BlogServiceInterface
         $query = strtolower($query);
         $query = str_replace(' ', '', $query);
 
-        $users = $this->entityManager->createQueryBuilder()
+        return $this->entityManager->createQueryBuilder()
             ->select('u')
             ->from(User::class, 'u')
             ->orWhere('LOWER(u.username) LIKE :query')
             ->orWhere('LOWER(u.email) LIKE :query')
-            ->setParameter('query', "%$query%")
+            ->setParameter('query', "%{$query}%")
             ->getQuery()
             ->getResult();
-
-        return $users;
     }
 
     public function getTokensForQuery(string $query): string

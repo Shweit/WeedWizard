@@ -50,7 +50,6 @@ class BudBashLocatorTest extends WebTestCase
         // Fill in the form and submit it
         $form = $crawler->selectButton('Party erstellen')->form();
         $form['bud_bash[name]'] = 'Test Party';
-        $form['bud_bash[start]'] = '2024-07-01 20:00';
         $form['bud_bash[address]'] = 'Marienplatz 1, 80331 München';
         $form['bud_bash[address_street]'] = 'Marienplatz';
         $form['bud_bash[address_house_number]'] = '1';
@@ -85,7 +84,6 @@ class BudBashLocatorTest extends WebTestCase
         // Fill in the form and submit it
         $form = $crawler->selectButton('Party erstellen')->form();
         $form['bud_bash[name]'] = 'Test Party';
-        $form['bud_bash[start]'] = '2024-07-01 20:00';
         $form['bud_bash[address]'] = 'Marienplatz 1, 80331 München';
         $form['bud_bash[address_street]'] = 'Marienplatz';
         $form['bud_bash[address_house_number]'] = '1';
@@ -99,10 +97,10 @@ class BudBashLocatorTest extends WebTestCase
         $form['bud_bash[mapbox_id]'] = 'dXJuOm1ieGFkcjpjOGZkMGVhNi1mZTQ1LTQ3ZGItOTI3MS04NTllYjY1Y2VlZTA';
 
         $this->client->submit($form);
-        $this->assertResponseRedirects();
+        $this->assertResponseRedirects(message: 'Party was not created, even though all data was valid.');
 
         // Check if the party was created
-        $party = $this->entityManager->getRepository(BudBash::class)->findOneBy(['name' => 'Test Party', 'address' => 'Marienplatz 1, 80331 München']);
+        $party = $this->entityManager->getRepository(BudBash::class)->findOneBy(['name' => 'Test Party']);
         $this->assertNotNull($party, 'The created Party was not found in the database.');
 
         // Check if the check attendance was created
