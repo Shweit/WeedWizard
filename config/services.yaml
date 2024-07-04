@@ -31,7 +31,7 @@ services:
           $apiKey: '%env(OPENAI_API_KEY)%'
           $assistentId: '%env(OPENAI_ASSISTENT_ID)%'
 
-  App\Twig\Extension\WeedWizardBudBashLocatorExtensionExtension:
+  App\Twig\Extension\WeedWizardExtension:
       tags:
           - { name: twig.extension }
 

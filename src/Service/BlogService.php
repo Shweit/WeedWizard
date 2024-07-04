@@ -16,7 +16,7 @@ class BlogService implements BlogServiceInterface
     public const TOP_POSTS = 'top';
     public const LATEST_POSTS = 'latest';
     public const USERS = 'users';
-    public const TOKENS = 'tokens';
+    public const TAGS = 'tags';
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -106,9 +106,25 @@ class BlogService implements BlogServiceInterface
             ->getResult();
     }
 
-    public function getTokensForQuery(string $query): string
+    public function getTagsForQuery(string $tag): array
     {
-        # TODO Implement this method
-        return '';
+        $query = strtolower($tag);
+        $query = str_replace(' ', '', $query);
+
+        // If the tag comes without an #, add it
+        if (strpos($query, '#') === false) {
+            $query = '#' . $query;
+        }
+
+        // Now get all Entries that contain the tag
+        $posts = $this->entityManager->createQueryBuilder()
+            ->select('b')
+            ->from(Blog::class, 'b')
+            ->orWhere('LOWER(b.content) LIKE :query')
+            ->setParameter('query', "%{$query}%")
+            ->getQuery()
+            ->getResult();
+
+        return $posts;
     }
 }

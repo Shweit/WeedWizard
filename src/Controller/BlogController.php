@@ -44,7 +44,7 @@ class BlogController extends AbstractController
                 BlogService::TOP_POSTS => $this->blogService->getTopPostsForQuery($query),
                 BlogService::LATEST_POSTS => $this->blogService->getLatestPostsForQuery($query),
                 BlogService::USERS => $this->blogService->getUsersForQuery($query),
-                BlogService::TOKENS => $this->blogService->getTokensForQuery($query),
+                BlogService::TAGS => $this->blogService->getTagsForQuery($query),
             ];
         }
 
@@ -80,6 +80,9 @@ class BlogController extends AbstractController
             $blog->setUser($user);
             $blog->setContent($content);
             $blog->setCreatedAt(new \DateTimeImmutable());
+
+            preg_match_all('/#(\w+)/', $content, $matches);
+            $blog->setTags($matches[1] ?? []);
 
             if ($parent) {
                 $parent = $this->entityManager->getRepository(Blog::class)->find($parent);

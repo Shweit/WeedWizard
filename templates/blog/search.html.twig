@@ -93,38 +93,10 @@
                             </div>
                         {% endif %}
                         {% for post in posts['top'] %}
-                            <div class="col-12 blogEntry" data-created-at="{{ post.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ post.likes.count }}" data-comment-count="{{ post.comments.count }}">
-                                <div class="card mb-4 no-rounded-corners no-borders">
-                                    <div class="card-body">
-                                        <h5 class="card-title d-flex align-items-center">
-                                            {% if post.user.profilePicture %}
-                                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                                            {% else %}
-                                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                                            {% endif %}
-                                            {{ post.user.username }} <small class="text-muted h6 mb-0">- {{ post.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                                        </h5>
-                                        <p class="card-text">{{ post.content }}</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row d-flex">
-                                            <div class="col-1">
-                                                {% if hasUserLikedPost(app.user, post) %}
-                                                    <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ post.likes.count }}</a>
-                                                {% else %}
-                                                    <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ post.likes.count }}</a>
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-1">
-                                                <a href="{{ path('app_blog_entry', {'id': post.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ post.comments.count }}</a>
-                                            </div>
-                                            <div class="col-1">
-                                                <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ post.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include 'templates/_blog_post_card.html.twig' with {
+                                    post: post
+                                }
+                            %}
                         {% endfor %}
                     </div>
                     <div class="tab-pane fade" id="latest-tab-pane" role="tabpanel" aria-labelledby="latest-tab" tabindex="0">
@@ -138,38 +110,10 @@
                             </div>
                         {% endif %}
                         {% for post in posts['latest'] %}
-                            <div class="col-12 blogEntry" data-created-at="{{ post.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ post.likes.count }}" data-comment-count="{{ post.comments.count }}">
-                                <div class="card mb-4 no-rounded-corners no-borders">
-                                    <div class="card-body">
-                                        <h5 class="card-title d-flex align-items-center">
-                                            {% if post.user.profilePicture %}
-                                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                                            {% else %}
-                                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                                            {% endif %}
-                                            {{ post.user.username }} <small class="text-muted h6 mb-0">- {{ post.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                                        </h5>
-                                        <p class="card-text">{{ post.content }}</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row d-flex">
-                                            <div class="col-1">
-                                                {% if hasUserLikedPost(app.user, post) %}
-                                                    <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ post.likes.count }}</a>
-                                                {% else %}
-                                                    <a onclick="window.toggleLikeBlogEntry({{ post.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ post.likes.count }}</a>
-                                                {% endif %}
-                                            </div>
-                                            <div class="col-1">
-                                                <a href="{{ path('app_blog_entry', {'id': post.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ post.comments.count }}</a>
-                                            </div>
-                                            <div class="col-1">
-                                                <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ post.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include 'templates/_blog_post_card.html.twig' with {
+                                    post: post
+                                }
+                            %}
                         {% endfor %}
                     </div>
                     <div class="tab-pane fade" id="users-tab-pane" role="tabpanel" aria-labelledby="users-tab" tabindex="0">
@@ -209,12 +153,21 @@
                         {% endfor %}
                     </div>
                     <div class="tab-pane fade" id="tags-tab-pane" role="tabpanel" aria-labelledby="tags-tab" tabindex="0">
-                        <div class="alert alert-info" role="alert">
-                            <h4 class="alert-heading">Work in Progress!</h4>
-                            <p>Sorry, this feature is not available yet. Please try again later.</p>
-                            <hr>
-                            <p class="mb-0">Thank you for your understanding.</p>
-                        </div>
+                        <h4>Tags</h4>
+                        {% if posts['tags']|length == 0 %}
+                            <div class="alert alert-warning" role="alert">
+                                <h4 class="alert-heading">Keine Tags gefunden!</h4>
+                                <p>Sorry, es wurden keine Tags gefunden. Bitte versuche es mit einem anderen Suchbegriff.</p>
+                                <hr>
+                                <p class="mb-0">Vielen Dank für dein Verständnis.</p>
+                            </div>
+                        {% endif %}
+                        {% for post in posts['tags'] %}
+                            {% include 'templates/_blog_post_card.html.twig' with {
+                                    post: post
+                                }
+                            %}
+                        {% endfor %}
                     </div>
                 </div>
             {% endif %}

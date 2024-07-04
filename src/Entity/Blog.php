@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BlogRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
@@ -43,6 +44,9 @@ class Blog
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent', cascade: ['persist'], orphanRemoval: true)]
     private Collection $comments;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $tags = null;
 
     public function __construct()
     {
@@ -165,6 +169,18 @@ class Blog
                 $comment->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?array $tags): static
+    {
+        $this->tags = $tags;
 
         return $this;
     }

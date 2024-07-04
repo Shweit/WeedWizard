@@ -9,7 +9,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
-class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterface
+class WeedWizardExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -97,5 +97,10 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
         reset($array);
 
         return key($array);
+    }
+
+    public function linkifyTags(string $content): string
+    {
+        return preg_replace('/#(\w+)/', '<a href="/blog/search?query=$1">#$1</a>', $content);
     }
 }

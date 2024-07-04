@@ -14,5 +14,5 @@ interface BlogServiceInterface
 
     public function getUsersForQuery(string $query): array;
 
-    public function getTokensForQuery(string $query): string;
+    public function getTagsForQuery(string $tag): array;
 }
