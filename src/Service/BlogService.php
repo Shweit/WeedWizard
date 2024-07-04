@@ -117,14 +117,12 @@ class BlogService implements BlogServiceInterface
         }
 
         // Now get all Entries that contain the tag
-        $posts = $this->entityManager->createQueryBuilder()
+        return $this->entityManager->createQueryBuilder()
             ->select('b')
             ->from(Blog::class, 'b')
             ->orWhere('LOWER(b.content) LIKE :query')
             ->setParameter('query', "%{$query}%")
             ->getQuery()
             ->getResult();
-
-        return $posts;
     }
 }
