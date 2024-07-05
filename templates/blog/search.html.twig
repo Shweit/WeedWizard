@@ -2,8 +2,13 @@
 
 {% block title %}Suche{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('blog') }}
+{% endblock %}
+
 {% block body %}
-    <div class="row mt-3 ms-3 me-5">
+    <div class="row mt-3">
         {% include 'blog/_blog_sidebar.html.twig' %}
         <div class="col-sm-9 col-12">
             {% if query %}

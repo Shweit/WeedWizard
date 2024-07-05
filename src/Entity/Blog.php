@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 class Blog
@@ -14,12 +15,15 @@ class Blog
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user_interactions'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 1000)]
+    #[Groups(['user_interactions'])]
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['user_interactions'])]
     private ?array $markerData = null;
 
     #[ORM\ManyToOne(inversedBy: 'blogs')]
@@ -33,10 +37,12 @@ class Blog
     private Collection $likes;
 
     #[ORM\Column]
+    #[Groups(['user_interactions'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['user_interactions'])]
     private ?self $parent = null;
 
     /**
@@ -46,6 +52,7 @@ class Blog
     private Collection $comments;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups(['user_interactions'])]
     private ?array $tags = null;
 
     /**

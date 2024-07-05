@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Blog;
 use App\Entity\User;
+use App\Entity\UserInteractions;
+use App\Service\InteractionsType;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -99,8 +101,29 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
             $user = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);
             $comment->setUser($user);
             $comment->setParent($blog);
-
             $this->manager->persist($comment);
+
+            $userInteraction = new UserInteractions();
+            $userInteraction->setUser($user);
+            $userInteraction->setPost($blog);
+            $userInteraction->setInteractionType(InteractionsType::COMMENT);
+
+            // Usually, the view would be created at the same time as the comment
+            // but for the sake of the fixtures, we will set to a random time
+            $userInteraction->setCreatedAt(new DateTimeImmutable('now - ' . rand(0, 6) . ' months'));
+            $this->manager->persist($userInteraction);
+
+            $userInteraction = new UserInteractions();
+            $userInteraction->setUser($user);
+            $userInteraction->setPost($blog);
+            $userInteraction->setInteractionType(InteractionsType::VIEW);
+
+            // Usually, the view would be created at the same time as the user viewing the post
+            // but for the sake of the fixtures, we will set to a random time
+            $userInteraction->setCreatedAt(new DateTimeImmutable('now - ' . rand(0, 6) . ' months'));
+            $this->manager->persist($userInteraction);
+
+            $this->manager->flush();
         }
     }
 
@@ -109,6 +132,18 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i <= $count; ++$i) {
             $liker = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);
             $blog->addLike($liker);
+
+            $userInteraction = new UserInteractions();
+            $userInteraction->setUser($liker);
+            $userInteraction->setPost($blog);
+            $userInteraction->setInteractionType(InteractionsType::LIKE);
+
+            // Usually, the like would be created at the same time as the user liking the post
+            // but for the sake of the fixtures, we will set to a random time
+            $userInteraction->setCreatedAt(new DateTimeImmutable('now - ' . rand(0, 6) . ' months'));
+            $this->manager->persist($userInteraction);
+
+            $this->manager->flush();
         }
     }
 }

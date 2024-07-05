@@ -103,4 +103,14 @@ class WeedWizardExtensionRuntime implements RuntimeExtensionInterface
     {
         return preg_replace('/#(\w+)/', '<a href="/blog/search?query=$1">#$1</a>', $content);
     }
+
+    public function getUserPhoto(User $user): string
+    {
+        // Check if a photo is saved in the user Entity, if not return the placeholder image
+        if ($user->getProfilePicture() == null) {
+            return '/build/images/userAvatar-placeholder.png';
+        }
+
+        return '/uploads/profile_pictures/' . $user->getProfilePicture();
+    }
 }

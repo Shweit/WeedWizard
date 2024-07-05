@@ -6,7 +6,10 @@ use App\Entity\Blog;
 use App\Entity\User;
 use App\Interface\BlogServiceInterface;
 use App\Services\WeedWizardKernel;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class BlogService implements BlogServiceInterface
 {
@@ -28,6 +31,7 @@ class BlogService implements BlogServiceInterface
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
+        private ChartBuilderInterface $chartBuilder,
     ) {}
 
     public function getForYouPosts(): array
@@ -207,5 +211,111 @@ class BlogService implements BlogServiceInterface
             ->setParameter('query', "%{$query}%")
             ->getQuery()
             ->getResult();
+    }
+
+    public function createGraph(string $title, array $data): Chart
+    {
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+        // Format the array to match the Chart.js format
+        [$labels, $datasets] = $this->formatData($data);
+
+        $chart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => $title,
+                    'borderColor' => 'rgb(12, 79, 17)',
+                    'backgroundColor' => 'rgb(12, 79, 17, 0.1)',
+                    'fill' => true,
+                    'data' => $datasets,
+                    'tension' => 0.4,
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Anzahl',
+                    ],
+                ],
+                'x' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Datum',
+                    ],
+                ],
+            ],
+        ]);
+
+        return $chart;
+    }
+
+    public function getInteractionsForLast30Days(array $data): int
+    {
+        $interactions = 0;
+        $last30Days = new DateTime('-30 days');
+
+        foreach ($data as $singleData) {
+            $createdAt = new DateTime($singleData['createdAt']);
+
+            if ($createdAt >= $last30Days) {
+                ++$interactions;
+            }
+        }
+
+        return $interactions;
+    }
+
+    public function getInteractionsForLast6Months(array $data): int
+    {
+        $interactions = 0;
+        $last6Months = new DateTime('-6 months');
+
+        foreach ($data as $singleData) {
+            $createdAt = new DateTime($singleData['createdAt']);
+
+            if ($createdAt >= $last6Months) {
+                ++$interactions;
+            }
+        }
+
+        return $interactions;
+    }
+
+    public function getInteractionsSinceBeginning(array $data): int
+    {
+        return count($data);
+    }
+
+    private function formatData(array $data): array
+    {
+        $formattedData = [];
+        setlocale(LC_TIME, 'de_DE');
+
+        // Initialisieren der letzten 6 Monate mit 0 Werten
+        for ($i = 5; $i >= 0; --$i) {
+            $month = (new DateTime())->modify("-{$i} month")->format('F Y');
+            $formattedData[$month] = 0;
+        }
+
+        foreach ($data as $singleData) {
+            $date = (new DateTime($singleData['createdAt']))->format('F Y');
+
+            if (array_key_exists($date, $formattedData)) {
+                ++$formattedData[$date];
+            }
+        }
+
+        $labels = array_keys($formattedData);
+        $data = array_values($formattedData);
+
+        return [$labels, $data];
     }
 }

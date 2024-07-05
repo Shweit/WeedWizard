@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class BlogController extends AbstractController
 {
@@ -21,6 +22,7 @@ class BlogController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly BlogServiceInterface $blogService,
+        private readonly SerializerInterface $serializer,
     ) {}
 
     #[Route('/blog', name: 'app_blog')]
@@ -53,6 +55,71 @@ class BlogController extends AbstractController
         return $this->render('blog/search.html.twig', [
             'query' => $query,
             'posts' => $posts ?? [],
+        ]);
+    }
+
+    #[Route('/blog/user_interactions', name: 'weedwizard_blog_user_interactions')]
+    public function user_interactions(): Response
+    {
+        if (!$this->weedWizardKernel->getUser()) {
+            $this->addFlash('error', 'Du musst angemeldet sein, um deine Interaktionen sehen zu können.');
+
+            return $this->redirectToRoute('app_blog');
+        }
+
+        $posts = $this->serializer->normalize($this->weedWizardKernel->getUser()->getBlogs(), null, ['groups' => 'user_interactions']); // @phpstan-ignore-line
+
+        foreach ($posts as &$post) {
+            $post['user'] = $this->weedWizardKernel->getUser();
+            $post['user_interactions'] = [
+                'likes' => $this->serializer->normalize( // @phpstan-ignore-line
+                    $this->entityManager->getRepository(UserInteractions::class)->findBy([
+                        'Post' => $this->entityManager->getRepository(Blog::class)->find($post['id']), // @phpstan-ignore-line
+                        'interactionType' => InteractionsType::LIKE,
+                    ]),
+                    null,
+                    ['groups' => 'user_interactions']
+                ),
+                'comments' => $this->serializer->normalize( // @phpstan-ignore-line
+                    $this->entityManager->getRepository(UserInteractions::class)->findBy([
+                        'Post' => $this->entityManager->getRepository(Blog::class)->find($post['id']), // @phpstan-ignore-line
+                        'interactionType' => InteractionsType::COMMENT,
+                    ]),
+                    null,
+                    ['groups' => 'user_interactions']
+                ),
+                'views' => $this->serializer->normalize( // @phpstan-ignore-line
+                    $this->entityManager->getRepository(UserInteractions::class)->findBy([
+                        'Post' => $this->entityManager->getRepository(Blog::class)->find($post['id']), // @phpstan-ignore-line
+                        'interactionType' => InteractionsType::VIEW,
+                    ]),
+                    null,
+                    ['groups' => 'user_interactions']
+                ),
+                'shares' => $this->serializer->normalize( // @phpstan-ignore-line
+                    $this->entityManager->getRepository(UserInteractions::class)->findBy([
+                        'Post' => $this->entityManager->getRepository(Blog::class)->find($post['id']), // @phpstan-ignore-line
+                        'interactionType' => InteractionsType::SHARE,
+                    ]),
+                    null,
+                    ['groups' => 'user_interactions']
+                ),
+            ];
+
+            $interactionTypes = ['likes', 'comments', 'views', 'shares'];
+            foreach ($interactionTypes as $type) {
+                $data = $post['user_interactions'][$type];
+                $post['user_interactions'][$type]['last30d'] = $this->blogService->getInteractionsForLast30Days($data);
+                $post['user_interactions'][$type]['last6m'] = $this->blogService->getInteractionsForLast6Months($data);
+                $post['user_interactions'][$type]['sinceBeginning'] = $this->blogService->getInteractionsSinceBeginning($data);
+
+                $post['user_interactions'][$type]['graph'] = $this->blogService->createGraph('Anzahl der ' . $type, $data);
+            }
+        }
+        unset($post);
+
+        return $this->render('blog/user_interactions.html.twig', [
+            'posts' => $posts,
         ]);
     }
 

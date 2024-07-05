@@ -48,67 +48,95 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const sortByOptions = document.getElementById('sortBy');
-    sortByOptions.addEventListener('change', function() {
-        const sortValue = sortByOptions.value;
-        const blogEntries = document.getElementsByClassName('blogEntry');
+    console.log(sortByOptions)
+    if (sortByOptions) {
+        sortByOptions.addEventListener('change', function() {
+            const sortValue = sortByOptions.value;
+            const blogEntries = document.getElementsByClassName('blogEntry');
 
-        let sorted = null;
+            let sorted = null;
 
-        switch (sortValue) {
-            case 'id_ASC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return new Date(b.dataset.createdAt) - new Date(a.dataset.createdAt);
-                });
+            switch (sortValue) {
+                case 'id_ASC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return new Date(b.dataset.createdAt) - new Date(a.dataset.createdAt);
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
-            case 'id_DESC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return new Date(a.dataset.createdAt) - new Date(b.dataset.createdAt);
-                });
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+                case 'id_DESC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return new Date(a.dataset.createdAt) - new Date(b.dataset.createdAt);
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
-            case 'likes_ASC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return a.dataset.likeCount - b.dataset.likeCount;
-                });
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+                case 'likes_ASC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return a.dataset.likeCount - b.dataset.likeCount;
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
-            case 'likes_DESC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return b.dataset.likeCount - a.dataset.likeCount;
-                });
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+                case 'likes_DESC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return b.dataset.likeCount - a.dataset.likeCount;
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
-            case 'comments_DESC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return b.dataset.commentCount - a.dataset.commentCount;
-                });
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+                case 'comments_DESC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return b.dataset.commentCount - a.dataset.commentCount;
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
-            case 'comments_ASC':
-                sorted = [...blogEntries].sort((a, b) => {
-                    return a.dataset.commentCount - b.dataset.commentCount;
-                });
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+                case 'comments_ASC':
+                    sorted = [...blogEntries].sort((a, b) => {
+                        return a.dataset.commentCount - b.dataset.commentCount;
+                    });
 
-                sorted.forEach((entry) => {
-                    entry.parentNode.appendChild(entry);
-                });
-                break;
+                    sorted.forEach((entry) => {
+                        entry.parentNode.appendChild(entry);
+                    });
+                    break;
+            }
+        });
+    }
+
+    // Make the fixed #fixed-blog-sidebar inherit the width of the sidebar, even on resize
+    const sidebar = document.getElementById('blog-sidebar');
+    const fixedBlogSidebar = document.getElementById('fixed-blog-sidebar');
+
+    function setFixedBlogSidebarWidth() {
+        if (fixedBlogSidebar && sidebar) {
+            fixedBlogSidebar.style.width = sidebar.offsetWidth - 10 + 'px';
         }
+    }
+
+    window.addEventListener('resize', function() {
+        setFixedBlogSidebarWidth();
+    });
+    setFixedBlogSidebarWidth();
+
+    document.querySelectorAll('.card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            // Überprüfe, ob der Klick innerhalb eines Links erfolgte
+            if (!e.target.closest('a')) {
+                // Leite zur URL um, die im data-href-Attribut des Karten-Divs gespeichert ist
+                window.location.href = this.getAttribute('data-href');
+            }
+        });
     });
 });

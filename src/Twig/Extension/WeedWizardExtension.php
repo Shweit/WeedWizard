@@ -19,6 +19,7 @@ class WeedWizardExtension extends AbstractExtension
             new TwigFunction('hasUserLikedPost', [WeedWizardExtensionRuntime::class, 'hasUserLikedPost']),
             new TwigFunction('getAllBlogLikesFromUser', [WeedWizardExtensionRuntime::class, 'getAllBlogLikesFromUser']),
             new TwigFunction('arrayKeyFirst', [WeedWizardExtensionRuntime::class, 'arrayKeyFirst']),
+            new TwigFunction('getUserPhoto', [WeedWizardExtensionRuntime::class, 'getUserPhoto']),
         ];
     }
 
