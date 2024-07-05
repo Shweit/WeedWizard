@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
     sortByOptions.addEventListener('change', function() {
         const sortValue = sortByOptions.value;
         const blogEntries = document.getElementsByClassName('commentEntry');
-        console.log(blogEntries, sortValue);
 
         let sorted = null;
 

@@ -11,13 +11,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class BlogFixtures extends Fixture implements DependentFixtureInterface
 {
-    private ObjectManager $manager;
-
     private const POSSIBLE_TAGS = [
         'php', 'symfony', 'javascript', 'react', 'vue', 'angular', 'java', 'spring', 'python', 'django', 'ruby', 'rails',
         'weed', 'cannabis', 'marijuana', 'thc', 'cbd', 'indica', 'sativa', 'hybrid', 'edibles', 'concentrates', 'vape',
         'bong', 'pipe', 'joint', 'blunt', 'dab', 'weedwizard', 'weedwizardapp', 'weedwizardapp.com', 'weedwizardapp.net',
     ];
+    private ObjectManager $manager;
 
     public function load(ObjectManager $manager): void
     {

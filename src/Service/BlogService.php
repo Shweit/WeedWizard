@@ -38,6 +38,7 @@ class BlogService implements BlogServiceInterface
             // Add some random posts if there are no tags
             $posts = $this->entityManager->getRepository(Blog::class)->findAll();
             shuffle($posts);
+
             return array_slice($posts, 0, 100);
         }
 
@@ -102,12 +103,12 @@ class BlogService implements BlogServiceInterface
 
             // Merge the unique posts with the random posts
             return array_merge($uniqueArray, $randomPosts);
-
         }
 
         // Add some random posts if there are no tags
         $posts = $this->entityManager->getRepository(Blog::class)->findAll();
         shuffle($posts);
+
         return array_slice($posts, 0, 100);
     }
 
