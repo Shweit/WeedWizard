@@ -4,41 +4,8 @@
 
 {% block body %}
     <div class="row mt-3 ms-3 me-5">
-        <div class="col-3 d-none d-sm-block">
-            <div class="position-fixed" style="height: calc(100vh - 140px); border-right: 1px #495057 solid; width: 17%">
-                <div class="row d-flex align-items-center mb-3">
-                    <div class="col-3">
-                        <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" height="50px" class="rounded-circle">
-                    </div>
-                    <div class="col-9">
-                        <h5 class="mt-2">WeedWizard<br> Blog</h5>
-                    </div>
-                </div>
-                <hr>
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action" href="{{ path('app_blog') }}"><i class="fa-solid fa-house me-2"></i> Home</a>
-                    <li class="list-group-item list-group-item-action active"><i class="fa-solid fa-magnifying-glass me-2"></i> Search</li>
-                </ul>
-                <hr>
-                {% if app.user %}
-                    <div class="row align-items-end">
-                        {% if app.user.profilePicture %}
-                            {% set userProfilePicture = '/uploads/profile_pictures/' ~ app.user.profilePicture %}
-                        {% else %}
-                            {% set userProfilePicture = '/build/images/userAvatar-placeholder.png' %}
-                        {% endif %}
-                        <div class="col-3 d-flex justify-content-center">
-                            <img src="{{ userProfilePicture }}" alt="Logo" height="50px" class="rounded-circle">
-                        </div>
-                        <div class="col-9">
-                            <h6 class="mt-2 mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
-                            <small class="text-muted">@{{ app.user.username }}</small>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col-sm-9">
+        {% include 'blog/_blog_sidebar.html.twig' %}
+        <div class="col-sm-9 col-12">
             {% if query %}
                 <div class="row mb-3">
                     <div class="col-1 d-flex align-items-center justify-content-center">

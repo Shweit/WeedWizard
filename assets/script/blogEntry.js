@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addBlogCommentForm = document.getElementById('addBlogCommentForm');
 
     addBlogCommentForm.addEventListener('submit', function(event) {
-        console.log('submitting');
         event.preventDefault();
 
         const content = document.getElementById('addBlogComment_content').value;
@@ -54,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sortByOptions.addEventListener('change', function() {
         const sortValue = sortByOptions.value;
         const blogEntries = document.getElementsByClassName('commentEntry');
+        console.log(blogEntries, sortValue);
 
         let sorted = null;
 

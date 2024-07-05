@@ -48,10 +48,17 @@ class Blog
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $tags = null;
 
+    /**
+     * @var Collection<int, UserInteractions>
+     */
+    #[ORM\OneToMany(targetEntity: UserInteractions::class, mappedBy: 'Post')]
+    private Collection $userInteractions;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->userInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +188,36 @@ class Blog
     public function setTags(?array $tags): static
     {
         $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserInteractions>
+     */
+    public function getUserInteractions(): Collection
+    {
+        return $this->userInteractions;
+    }
+
+    public function addUserInteraction(UserInteractions $userInteraction): static
+    {
+        if (!$this->userInteractions->contains($userInteraction)) {
+            $this->userInteractions->add($userInteraction);
+            $userInteraction->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInteraction(UserInteractions $userInteraction): static
+    {
+        if ($this->userInteractions->removeElement($userInteraction)) {
+            // set the owning side to null (unless already changed)
+            if ($userInteraction->getPost() === $this) {
+                $userInteraction->setPost(null);
+            }
+        }
 
         return $this;
     }

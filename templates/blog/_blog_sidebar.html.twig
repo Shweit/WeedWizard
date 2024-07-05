@@ -1,0 +1,37 @@
+{% include 'user_profile/_add_blog_entry.html.twig' %}
+<div class="col-3 d-none d-sm-block">
+    <div class="position-fixed" style="height: calc(100vh - 140px); border-right: 1px #495057 solid; width: 17%">
+        <div class="row d-flex align-items-center mb-3">
+            <div class="col-3">
+                <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" height="50px" class="rounded-circle">
+            </div>
+            <div class="col-9">
+                <h5 class="mt-2">WeedWizard<br> Blog</h5>
+            </div>
+        </div>
+        <hr>
+        <ul class="list-group list-group-flush">
+            {% set currentPath = app.request.attributes.get('_route') %}
+            <a class="list-group-item list-group-item-action {% if currentPath == 'app_blog' %} active {% endif %}" href="{{ path('app_blog') }}"><i class="fa-solid fa-house me-2"></i> Home</a>
+            <a class="list-group-item list-group-item-action {% if currentPath == 'weedwizard_blog_search' %} active {% endif %}" href="{{ path('weedwizard_blog_search') }}"><i class="fa-solid fa-magnifying-glass me-2"></i> Search</a>
+        </ul>
+        <button class="btn btn-primary rounded w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addBlogEntry">Beitrag schreiben</button>
+        <hr>
+        {% if app.user %}
+            <div class="row align-items-end">
+                {% if app.user.profilePicture %}
+                    {% set userProfilePicture = '/uploads/profile_pictures/' ~ app.user.profilePicture %}
+                {% else %}
+                    {% set userProfilePicture = '/build/images/userAvatar-placeholder.png' %}
+                {% endif %}
+                <div class="col-3 d-flex justify-content-center">
+                    <img src="{{ userProfilePicture }}" alt="Logo" height="50px" class="rounded-circle">
+                </div>
+                <div class="col-9">
+                    <h6 class="mt-2 mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
+                    <small class="text-muted">@{{ app.user.username }}</small>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

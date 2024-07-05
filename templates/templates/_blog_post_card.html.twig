@@ -3,11 +3,11 @@
         <div class="card-body">
             <h5 class="card-title d-flex align-items-center">
                 {% if post.user.profilePicture %}
-                    <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                    <div style="background: url('{{ '/uploads/profile_pictures/' ~ post.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
                 {% else %}
                     <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
                 {% endif %}
-                {{ post.user.username }} <small class="text-muted h6 mb-0">- {{ post.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                <a href="{{ path('weedwizard_user_profile', {'username': post.user.username}) }}">{{ post.user.username }}</a> <small class="text-muted h6 mb-0">- {{ post.createdAt|format_datetime('long', 'none', locale='de') }}</small>
             </h5>
             <p class="card-text">{{ post.content|linkifyTags|raw }}</p>
         </div>

@@ -13,6 +13,12 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
 {
     private ObjectManager $manager;
 
+    private const POSSIBLE_TAGS = [
+        'php', 'symfony', 'javascript', 'react', 'vue', 'angular', 'java', 'spring', 'python', 'django', 'ruby', 'rails',
+        'weed', 'cannabis', 'marijuana', 'thc', 'cbd', 'indica', 'sativa', 'hybrid', 'edibles', 'concentrates', 'vape',
+        'bong', 'pipe', 'joint', 'blunt', 'dab', 'weedwizard', 'weedwizardapp', 'weedwizardapp.com', 'weedwizardapp.net',
+    ];
+
     public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
@@ -52,7 +58,18 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
             $blog = new Blog();
             $blog->setContent('Blog-' . $i);
             $blog->setCreatedAt(new DateTimeImmutable('now - ' . rand(1, 100) . ' days'));
+
+            // Randomly select between 1 and 5 tags, and save them into an array
+            // even if only one element is selected, it should be saved as an array
+            $tags = [];
+            for ($j = 0; $j < rand(1, 5); ++$j) {
+                $tags[] = self::POSSIBLE_TAGS[array_rand(self::POSSIBLE_TAGS)];
+            }
+            $blog->setTags($tags);
             $blog->setUser($user);
+
+            // Add the Tags to the content with a # in front of them
+            $blog->setContent($blog->getContent() . ' ' . implode(' ', array_map(fn ($tag) => '#' . $tag, $blog->getTags())));
 
             $this->manager->persist($blog);
 
@@ -68,6 +85,17 @@ class BlogFixtures extends Fixture implements DependentFixtureInterface
             $comment = new Blog();
             $comment->setContent('Comment-' . $i);
             $comment->setCreatedAt(new DateTimeImmutable('now - ' . rand(1, 100) . ' days'));
+
+            // Randomly select between 1 and 5 tags, and save them into an array
+            // even if only one element is selected, it should be saved as an array
+            $tags = [];
+            for ($j = 0; $j < rand(1, 5); ++$j) {
+                $tags[] = self::POSSIBLE_TAGS[array_rand(self::POSSIBLE_TAGS)];
+            }
+            $comment->setTags($tags);
+
+            // Add the Tags to the content with a # in front of them
+            $comment->setContent($comment->getContent() . ' ' . implode(' ', array_map(fn ($tag) => '#' . $tag, $comment->getTags())));
 
             $user = $this->manager->getRepository(User::class)->findOneBy(['username' => 'user-' . $i]);
             $comment->setUser($user);

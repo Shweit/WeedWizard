@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Blog;
+use App\Entity\UserInteractions;
 use App\Interface\BlogServiceInterface;
 use App\Service\BlogService;
+use App\Service\InteractionsType;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +27,7 @@ class BlogController extends AbstractController
     public function index(): Response
     {
         $posts = [
-            BlogService::FOR_YOU => $this->blogService->gerForYouPosts(),
+            BlogService::FOR_YOU => $this->blogService->getForYouPosts(),
             BlogService::FOLLOWING => $this->blogService->getFollowingPosts(),
         ];
 
@@ -87,6 +89,13 @@ class BlogController extends AbstractController
             if ($parent) {
                 $parent = $this->entityManager->getRepository(Blog::class)->find($parent);
                 $blog->setParent($parent);
+
+                $userInteraction = new UserInteractions();
+                $userInteraction->setUser($user);
+                $userInteraction->setPost($parent);
+                $userInteraction->setCreatedAt(new \DateTimeImmutable());
+                $userInteraction->setInteractionType(InteractionsType::COMMENT);
+                $this->entityManager->persist($userInteraction);
             }
 
             $this->entityManager->persist($blog);
@@ -120,8 +129,15 @@ class BlogController extends AbstractController
         }
 
         $blog->addLike($user);
-
         $this->entityManager->persist($blog);
+
+        $userInteraction = new UserInteractions();
+        $userInteraction->setUser($user);
+        $userInteraction->setPost($blog);
+        $userInteraction->setCreatedAt(new \DateTimeImmutable());
+        $userInteraction->setInteractionType(InteractionsType::LIKE);
+        $this->entityManager->persist($userInteraction);
+
         $this->entityManager->flush();
 
         return new JsonResponse([
@@ -148,8 +164,15 @@ class BlogController extends AbstractController
         }
 
         $blog->removeLike($user);
-
         $this->entityManager->persist($blog);
+
+        $userInteraction = $this->entityManager->getRepository(UserInteractions::class)->findOneBy([
+            'user' => $user,
+            'post' => $blog,
+            'interactionType' => InteractionsType::LIKE,
+        ]);
+        $this->entityManager->remove($userInteraction);
+
         $this->entityManager->flush();
 
         return new JsonResponse([
@@ -162,6 +185,16 @@ class BlogController extends AbstractController
     public function show(int $id): Response
     {
         $blog = $this->entityManager->getRepository(Blog::class)->find($id);
+
+        if ($this->weedWizardKernel->getUser()) {
+            $userInteractions = new UserInteractions();
+            $userInteractions->setUser($this->weedWizardKernel->getUser());
+            $userInteractions->setPost($blog);
+            $userInteractions->setCreatedAt(new \DateTimeImmutable());
+            $userInteractions->setInteractionType(InteractionsType::VIEW);
+            $this->entityManager->persist($userInteractions);
+            $this->entityManager->flush();
+        }
 
         return $this->render('blog/entry.html.twig', [
             'blog' => $blog,

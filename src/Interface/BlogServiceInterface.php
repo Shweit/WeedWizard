@@ -4,7 +4,7 @@ namespace App\Interface;
 
 interface BlogServiceInterface
 {
-    public function gerForYouPosts(): string;
+    public function getForYouPosts(): array;
 
     public function getFollowingPosts(): array;
 
