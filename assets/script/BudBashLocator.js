@@ -1,5 +1,5 @@
-import nouislider from "nouislider";
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
+import "ion-rangeslider";
 
 document.addEventListener('DOMContentLoaded', function() {
     let address_input = document.getElementById('bud_bash_address');
@@ -54,27 +54,18 @@ document.addEventListener('DOMContentLoaded', function() {
         applyFilter();
     });
 
-    let priceSlider = document.getElementById('priceSlider');
-    if (priceSlider) {
-        nouislider.create(priceSlider, {
-            start: [parseInt(priceSlider.dataset.minValue), parseInt(priceSlider.dataset.maxValue)],
-            connect: true,
-            range: {
-                'min': parseInt(priceSlider.dataset.minValue),
-                'max': parseInt(priceSlider.dataset.maxValue)
-            },
-            tooltips: true,
-            pips: {
-                mode: 'steps',
-                stepped: true,
-                density: 4
-            }
-        });
-    }
+    $('#priceSlider').ionRangeSlider();
 
-    priceSlider.noUiSlider.on('change', function(values, handle) {
-        applyFilter();
-    });
+    let slider = $('#priceSlider').data("ionRangeSlider");
+
+    slider.update({
+        type: "double",
+        grid: true,
+        prefix: "€",
+        onChange: function(data) {
+            applyFilter();
+        }
+    })
 
     let searchBudBash = document.getElementById('searchBudBash');
     searchBudBash.addEventListener('keyup', function() {
@@ -195,7 +186,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (filter.price) {
-            priceSlider.noUiSlider.set(filter.price);
+            slider.update({
+                from: filter.price[0],
+                to: filter.price[1]
+            });
         }
 
         sessionStorage.removeItem('budBashFilter');
@@ -218,7 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 visible = false;
             }
 
-            if (priceSlider.noUiSlider.get()[0] > price || priceSlider.noUiSlider.get()[1] < price) {
+            const values = slider.input.value.split(';');
+            if (values[0] > price || values[1] < price) {
                 visible = false;
             }
 

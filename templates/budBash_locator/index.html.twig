@@ -10,7 +10,7 @@
 
 {% block body %}
     {% include 'templates/_header.html.twig' with {
-        'title': 'BudBash Locator',
+        'title': 'Bud Bash Locator',
         'button': {
             'label': 'Party steigen lassen',
             'attr': 'data-bs-toggle=modal data-bs-target=#new_busbash'
@@ -91,7 +91,7 @@
 
                 <div class="col-5">
                     <div class="input-group mb-3">
-                        <div class="w-100" id="priceSlider" data-min-value="{{ lowestEntranceFee }}" data-max-value="{{ highestEntranceFee }}"></div>
+                        <div class="w-100" id="priceSlider" data-min="{{ lowestEntranceFee }}" data-max="{{ highestEntranceFee }}"></div>
                     </div>
                 </div>
 
