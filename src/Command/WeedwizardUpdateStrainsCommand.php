@@ -93,6 +93,7 @@ class WeedwizardUpdateStrainsCommand extends Command
 
             if ($data['error'] !== false) {
                 $this->errors[] = 'Fehler beim Aktualisieren der Sorte ' . $strainID . ': ' . $data['error'];
+
                 return;
             }
 
@@ -141,6 +142,7 @@ class WeedwizardUpdateStrainsCommand extends Command
 
             if (isset($data['error'])) {
                 $this->errors[] = 'Fehler beim Aktualisieren des Züchters: ' . $data['error'];
+
                 return;
             }
 
@@ -187,6 +189,7 @@ class WeedwizardUpdateStrainsCommand extends Command
 
             if (isset($data['error'])) {
                 $this->errors[] = 'Fehler beim Aktualisieren aller Züchter: ' . $data['error'];
+
                 return;
             }
 
