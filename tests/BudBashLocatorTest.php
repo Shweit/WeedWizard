@@ -50,7 +50,6 @@ class BudBashLocatorTest extends WebTestCase
         // Fill in the form and submit it
         $form = $crawler->selectButton('Party erstellen')->form();
         $form['bud_bash[name]'] = 'Test Party';
-        $form['bud_bash[start]'] = '2024-07-01 20:00';
         $form['bud_bash[address]'] = 'Marienplatz 1, 80331 München';
         $form['bud_bash[address_street]'] = 'Marienplatz';
         $form['bud_bash[address_house_number]'] = '1';
@@ -85,7 +84,6 @@ class BudBashLocatorTest extends WebTestCase
         // Fill in the form and submit it
         $form = $crawler->selectButton('Party erstellen')->form();
         $form['bud_bash[name]'] = 'Test Party';
-        $form['bud_bash[start]'] = '2024-07-01 20:00';
         $form['bud_bash[address]'] = 'Marienplatz 1, 80331 München';
         $form['bud_bash[address_street]'] = 'Marienplatz';
         $form['bud_bash[address_house_number]'] = '1';
