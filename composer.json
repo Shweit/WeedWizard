@@ -28,7 +28,7 @@
         "symfony/http-client": "7.0.*",
         "symfony/intl": "7.0.*",
         "symfony/mailer": "7.0.*",
-        "symfony/mime": "7.0.*",
+        "symfony/mime": "7.1.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "7.0.*",
         "symfony/process": "7.0.*",
