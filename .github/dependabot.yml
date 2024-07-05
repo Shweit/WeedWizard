@@ -1,5 +1,17 @@
 version: 2
 updates:
+  - package-ecosystem: "composer"
+    target-branch: "master"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+      timezone: "Europe/Berlin"
+    commit-message:
+      prefix: "composer dependency"
+    labels:
+      - "dependency"
+
   - package-ecosystem: "npm"
     target-branch: "master"
     directory: "/"
