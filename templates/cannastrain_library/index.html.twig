@@ -16,7 +16,9 @@
     {% include 'templates/_header.html.twig' with {
         'title': 'CannaStrain Library'
     } %}
-    <h5 class="mb-4">1. Wähle einen Züchter aus.</h5>
+    <div class="d-flex justify-content-between mb-4">
+        <h5>1. Wähle einen Züchter aus.</h5>
+    </div>
 
     {# Tabs list #}
     {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
