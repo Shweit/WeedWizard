@@ -50,7 +50,12 @@
     {% endblock %}
 
     {# Header #}
-    {% include 'cannastrain_library/partials/_header.html.twig' with {'callToAction': '2. Wähle einen Strain aus.'} %}
+    {% include 'templates/_header.html.twig' with {
+        'title': 'CannaStrain Library',
+    } %}
+    <div>
+        <h5 class="mb-4">3. Informationen zum gewählten Strain</h5>
+    </div>
 
     {# Tabs list #}
     {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
