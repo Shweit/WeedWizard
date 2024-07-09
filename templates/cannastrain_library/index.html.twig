@@ -66,12 +66,7 @@
     {% endblock %}
 
     {# Header #}
-    {% include 'templates/_header.html.twig' with {
-        'title': 'CannaStrain Library',
-    } %}
-    <div>
-        <h5 class="mb-4">1. Wähle einen Züchter aus.</h5>
-    </div>
+    {% include 'cannastrain_library/partials/_header.html.twig' with {'callToAction': '1. Wähle einen Züchter aus.'} %}
 
     {# Tabs list #}
     {% include 'cannastrain_library/partials/_tab_list.html.twig' %}
@@ -108,11 +103,11 @@
 
         {# Additional tabs #}
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            Hier wird eines Tages etwas Großartiges entstehen.
+            Platzhalter Zubehör
         </div>
 
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            Hier wird eines Tages etwas Großartiges entstehen.
+            Platzhalter Sonstiges
         </div>
     </div>
     </div>
