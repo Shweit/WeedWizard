@@ -10,25 +10,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class CannaStrainLibraryController extends AbstractController
 {
     private SeedFinderApiService $seedFinderApiService;
-    private array $breederFilters = [];
+    private array $breederFilters = [
+        'searchForNameAllowed' => true,
+        'extendedFilters' => false,
+    ];
     private array $strainFilters = [
-        'filter' => [
-            'Herkunft' => [
-                'indica',
-                'sativa',
-                'ruderalis',
-                'unbekannt'],
-            'Strain-Typ' => [
-                'nur nicht femisierte',
-                'femisierte',
-                'close-only strains'],
-            'Location' => [
-                'Indoor',
-                'Outdoor',
-                'Gewächshaus'],
-        ],
+        'searchForNameAllowed' => false,
+        'extendedFilters' => true,
     ];
     private int $paginationLimit = 8;
+
     public function __construct(SeedFinderApiService $seedFinderApiService)
     {
         $this->seedFinderApiService = $seedFinderApiService;
@@ -46,6 +37,7 @@ class CannaStrainLibraryController extends AbstractController
             'currentPage' => $page,
             'totalPages' => ceil($totalNumOfBreeders / $this->paginationLimit),
             'breeder_id' => null,
+            'searchForNameAllowed' => true,
         ]);
     }
 
@@ -62,6 +54,7 @@ class CannaStrainLibraryController extends AbstractController
             'currentPage' => $page,
             'totalPages' => ceil($totalNumOfStrains / $this->paginationLimit),
             'breeder_id' => $breeder['seedfinder_id'],
+            'searchForNameAllowed' => false,
         ]);
     }
 

@@ -1,5 +1,6 @@
 <div class="d-flex flex-column border-end" id="filters-container">
 
+    {# Filter icon and close btn #}
     <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
         <div class="flex-item">
             <i class="fa-solid fa-sliders filter-icon"></i>
@@ -8,91 +9,115 @@
         <i class="fa-solid fa-xmark" id="close-sidebar"></i>
     </div>
 
+    {# No filters available #}
     {% if filters is empty %}
-        <div class="flex-item p-3">
+        <div class="p-3">
             <div class="d-flex flex-row justify-content-between mb-3">
                 <span class="fw-bold">Keine Filter verfügbar</span>
             </div>
         </div>
     {% endif %}
 
-    {% for filter in filters %}
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Herkunft</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
-                <span>indica</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
-                <span>sativa</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
-                <span>ruderalis</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
-                <span>unbekannt</span>
-            </div>
-        </div>
+    {# Form for filters #}
+    <form method="get" action="{{ path('weedwizard_cannastrain-library', {'page' : 1}) }}">
+        <div class="input-group d-flex flex-column">
 
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Strain-Typ</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="mb-2">
-                <span>Nur nicht femisierte</span>
-            </div>
-            <div class="mb-2">
-                <span>nur femisierte</span>
-            </div>
-            <div class="mb-2">
-                <span>close only strains</span>
-            </div>
-        </div>
-
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Preisspanne</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="d-flex flex-row gap-4 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control"
-                           aria-label="Amount (to the nearest dollar)" placeholder="min">
+            {# Name search field #}
+            {% if filters.searchForNameAllowed %}
+                <div class="p-3 flex-fill">
+                    <label>
+                        <input type="text" name="search" class="form-control fs-6" placeholder="Suche Breedername..."
+                               value="">
+                    </label>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control"
-                           aria-label="Amount (to the nearest dollar)" placeholder="max">
-                </div>
-            </div>
-        </div>
+            {% endif %}
 
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Aufzucht</span>
-                <i class="fa-solid fa-caret-down"></i>
+            {# Available filters #}
+            {% if filters.extendedFilters %}
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3">
+                        <span class="text-uppercase fw-bold">Herkunft</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
+                        <span>indica</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
+                        <span>sativa</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
+                        <span>ruderalis</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
+                        <span>unbekannt</span>
+                    </div>
+                </div>
+
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3">
+                        <span class="text-uppercase fw-bold">Strain-Typ</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="mb-2">
+                        <span>Nur nicht femisierte</span>
+                    </div>
+                    <div class="mb-2">
+                        <span>nur femisierte</span>
+                    </div>
+                    <div class="mb-2">
+                        <span>close only strains</span>
+                    </div>
+                </div>
+
+                {#                <div class="p-3 flex-fill"> #}
+                {#                    <div class="d-flex flex-row justify-content-between mb-3"> #}
+                {#                        <span class="text-uppercase fw-bold">Preisspanne</span> #}
+                {#                        <i class="fa-solid fa-caret-down"></i> #}
+                {#                    </div> #}
+                {#                    <div class="d-flex flex-row gap-4 mb-2"> #}
+                {#                        <div class="input-group"> #}
+                {#                            <span class="input-group-text">€</span> #}
+                {#                            <input type="number" min="0" step="0.01" class="form-control" #}
+                {#                                   aria-label="Amount (to the nearest dollar)" placeholder="min"> #}
+                {#                        </div> #}
+                {#                        <div class="input-group"> #}
+                {#                            <span class="input-group-text">€</span> #}
+                {#                            <input type="number" min="0" step="0.01" class="form-control" #}
+                {#                                   aria-label="Amount (to the nearest dollar)" placeholder="max"> #}
+                {#                        </div> #}
+                {#                    </div> #}
+                {#                </div> #}
+
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3">
+                        <span class="text-uppercase fw-bold">Aufzucht</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-house fa-sm filter-icon"></i>
+                        <span>Indoor-Sorten</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
+                        <span>Outdoor-Sorten</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
+                        <span>Spezial-Sorten</span>
+                    </div>
+                </div>
+            {% endif %}
+
+            {# Submit btn #}
+            <div class="p-3 d-flex flex-fill flex-row-reverse">
+                <button class="btn btn-primary fs-6" type="submit">Anwenden</button>
             </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-house fa-sm filter-icon"></i>
-                <span>Indoor-Sorten</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
-                <span>Outdoor-Sorten</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
-                <span>Spezial-Sorten</span>
-            </div>
+
         </div>
-    {% endfor %}
+    </form>
 
 </div>
