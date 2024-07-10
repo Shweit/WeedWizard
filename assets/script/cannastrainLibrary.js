@@ -1,9 +1,11 @@
-document.getElementById('show-sidebar').addEventListener('click', function () {
-    document.getElementById('filters-hidden-container').classList.toggle('d-none');
-    document.getElementById('filters-container').classList.toggle('d-none');
-});
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('show-sidebar').addEventListener('click', function () {
+        $('#filters-hidden-container').hide();
+        $('#filters-container').show();
+    });
 
-document.getElementById('close-sidebar').addEventListener('click', function () {
-    document.getElementById('filters-container').classList.toggle('d-none');
-    document.getElementById('filters-hidden-container').classList.toggle('d-none');
+    document.getElementById('close-sidebar').addEventListener('click', function () {
+        $('#filters-hidden-container').show();
+        $('#filters-container').hide();
+    });
 });

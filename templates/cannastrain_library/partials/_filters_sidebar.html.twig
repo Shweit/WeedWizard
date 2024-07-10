@@ -1,9 +1,11 @@
-<div class="d-flex flex-column border-end" id="filters-hidden-container">
+<div class="border-end" style="display: none" id="filters-hidden-container">
     <div class="p-3 mt-3">
-        <i class="fa-solid fa-angles-right filter-icon" id="show-sidebar"></i>
+        <button class="btn" id="show-sidebar">
+            <i class="fa-solid fa-angles-right filter-icon"></i>
+        </button>
     </div>
 </div>
-<div class="d-flex flex-column border-end" id="filters-container">
+<div class="border-end" id="filters-container">
 
     {# Filter icon and close btn #}
     <div class="d-flex flex-row justify-content-between p-3 mt-3" id="filters">
@@ -11,7 +13,7 @@
             <i class="fa-solid fa-sliders filter-icon"></i>
             <span>Filter</span>
         </div>
-        <i class="fa-solid fa-xmark" id="close-sidebar"></i>
+        <button class="btn" id="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     {# No filters available #}
