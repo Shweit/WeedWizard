@@ -18,6 +18,12 @@ class CannaStrainLibraryController extends AbstractController
         'searchForNameAllowed' => false,
         'extendedFilters' => true,
     ];
+
+    private array $noFilters = [
+        'searchForNameAllowed' => false,
+        'extendedFilters' => false,
+    ];
+
     private int $paginationLimit = 8;
 
     public function __construct(SeedFinderApiService $seedFinderApiService)
@@ -37,7 +43,6 @@ class CannaStrainLibraryController extends AbstractController
             'currentPage' => $page,
             'totalPages' => ceil($totalNumOfBreeders / $this->paginationLimit),
             'breeder_id' => null,
-            'searchForNameAllowed' => true,
         ]);
     }
 
@@ -54,7 +59,6 @@ class CannaStrainLibraryController extends AbstractController
             'currentPage' => $page,
             'totalPages' => ceil($totalNumOfStrains / $this->paginationLimit),
             'breeder_id' => $breeder['seedfinder_id'],
-            'searchForNameAllowed' => false,
         ]);
     }
 
@@ -69,7 +73,7 @@ class CannaStrainLibraryController extends AbstractController
         $strainMedicalInfo = $strain['medical'];
 
         return $this->render('cannastrain_library/strain/showStrain.html.twig', [
-            'filters' => [],
+            'filters' => $this->noFilters,
             'strainInfo' => $strainInfo,
             'strainName' => $strainName,
             'strainMedicalInfo' => $strainMedicalInfo,
