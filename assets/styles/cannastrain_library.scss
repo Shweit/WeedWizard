@@ -23,7 +23,7 @@
   margin-right: 0.5em;
 }
 
-#close-sidebar:hover {
+#close-sidebar:hover, #show-sidebar:hover {
   color: #0C4F11;
   cursor: pointer;
   transform: scale(1.4) translateY(2px);

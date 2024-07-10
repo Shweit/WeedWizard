@@ -1,8 +1,13 @@
+<div class="d-flex flex-column border-end" id="filters-hidden-container">
+    <div class="p-3 mt-3">
+        <i class="fa-solid fa-angles-right filter-icon" id="show-sidebar"></i>
+    </div>
+</div>
 <div class="d-flex flex-column border-end" id="filters-container">
 
     {# Filter icon and close btn #}
-    <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
-        <div class="flex-item">
+    <div class="d-flex flex-row justify-content-between p-3 mt-3" id="filters">
+        <div>
             <i class="fa-solid fa-sliders filter-icon"></i>
             <span>Filter</span>
         </div>
@@ -24,11 +29,9 @@
 
             {# Name search field #}
             {% if filters.searchForNameAllowed %}
-                <div class="p-3 flex-fill">
-                    <label>
-                        <input type="text" name="search" class="form-control fs-6" placeholder="Suche Breedername..."
-                               value="">
-                    </label>
+                <div class="p-3">
+                    <input type="text" name="search" class="form-control fs-6" placeholder="Suche nach Züchtername..."
+                           value="">
                 </div>
             {% endif %}
 
@@ -113,9 +116,9 @@
             {% endif %}
 
             {% if (filters.searchForNameAllowed or filters.extendedFilters) %}
-            <div class="p-3 d-flex flex-fill flex-row-reverse">
-                <button class="btn btn-primary fs-6" type="submit">Anwenden</button>
-            </div>
+                <div class="p-3 d-flex flex-fill flex-row-reverse">
+                    <button class="btn btn-primary fs-6" type="submit">Anwenden</button>
+                </div>
             {% endif %}
 
         </div>
