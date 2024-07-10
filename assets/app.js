@@ -130,7 +130,7 @@ window.showToast = function (message, type = 'success') {
 
     const toastBody = document.createElement('div');
     toastBody.classList.add('toast-body');
-    toastBody.innerHTML = sanitizeHtml(message);
+    toastBody.innerHTML = message;
 
     toast.appendChild(toastHeader);
     toast.appendChild(toastBody);

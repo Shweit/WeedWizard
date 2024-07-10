@@ -56,7 +56,7 @@ class Plant
     private ?int $growth = null;
 
     #[ORM\Column]
-    private ?int $prognosisValue = null;
+    private array $weekly_tasks = [];
 
     public function getId(): ?int
     {
@@ -183,14 +183,14 @@ class Plant
         return $this;
     }
 
-    public function getPrognosisValue(): ?int
+    public function getWeeklyTasks(): array
     {
-        return $this->prognosisValue;
+        return $this->weekly_tasks;
     }
 
-    public function setPrognosisValue(int $prognosisValue): static
+    public function setWeeklyTasks(array $weekly_tasks): static
     {
-        $this->prognosisValue = $prognosisValue;
+        $this->weekly_tasks = $weekly_tasks;
 
         return $this;
     }
