@@ -121,12 +121,13 @@
                         <div class="row">
                             <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
                             <div class="col-sm-5">
-                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 90%">
+                                <div class="card" style="background-color: #99A881; padding: 1rem; border-radius: 10px; color: black; height: 80%">
                                     <div class="card-body">
                                         <div >
                                             <h3>Name: {{ plant.name }}</h3>
-                                            <p>Angepflanzt vor: {{ (date().diff(plant.date)).days }} Tagen</p>
-                                            <p>Entwicklungsphase: {{ plant.state }}</p>
+                                            <p><b>Angepflanzt vor:</b> {{ (date().diff(plant.date)).days }} Tagen</p>
+                                            <p><b>Entwicklungsphase:</b> {{ plant.state }}</p>
+                                            <p><b>Typ:</b> {{ plant.strain.name }}, {{ plant.breeder.name }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -134,24 +135,44 @@
 
                             <!-- Oben rechts: Prognose -->
                             <div class="col-sm-7">
-                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px; height: 90%">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px; height: 80%">
                                     <div class="card-body">
-                                        <div class="col-md-6" >
+                                        <div class="col-md-12">
                                             <h5 style="margin-top: -1rem;">Prognose</h5>
-                                            <canvas id="myChart-{{ plant.id }}" class="myChart" style="width:100%;max-width:1000px; height: 175px"></canvas>
+                                            <table class="table table-borderless" style="background-color: transparent; width: 100%;">
+                                                <tr>
+                                                    <td style="background-color: transparent; width: 50%;">
+                                                        <canvas id="myChart-{{ plant.id }}" class="myChart" style="width:100%;max-width:1000px; height: 175px;"></canvas>
+                                                    </td>
+                                                    <td style="background-color: transparent; width: 50%; text-align: center;">
+                                                        <img src="{{ asset('build/images/GreenGraph.png') }}" alt="Graph" style="height: 100px; width: auto;">
+                                                        <p>(bla)</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <script>
+                                                var ctx = document.getElementById('myChart-{{ plant.id }}').getContext('2d');
+                                                var chartData = {{ charts[plant.id] | json_encode | raw }};
+                                                new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: chartData.data,
+                                                    options: chartData.options
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="row">
                             <!-- Unten links: CannaConsultant Thread Fenster -->
                             <div class="col-sm-5">
-                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px; margin-top: -2rem">
                                     <div class="card-body">
-                                        <h5>CannaConsultant</h5>
-                                        <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}" style="max-height: 30vh;">
+                                        <h5 style="margin-top: -1rem;">CannaConsultant</h5>
+                                        <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}" style="max-height: 14vh;">
                                             {% for message in plant.messages.data|reverse %}
                                                 {% if message.role == 'user' %}
                                                     <div class="row d-flex justify-content-end mb-3">
@@ -159,7 +180,7 @@
                                                             <div class="row">
                                                                 <div class="card mb-2">
                                                                     <div class="card-body">
-                                                                        <p class="mb-0" id="{{ message.id }}">{{ message.content[0].text.value }}</p>
+                                                                        <p class="mb-0" id="{{ message.id }}" >{{ message.content[0].text.value }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -194,7 +215,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <div class="chat-input-container row mb-2">
+                                        <div class="chat-input-container row mb-2" >
                                             <div class="col-1"></div>
                                             <div class="col-10">
                                                 <div class="rounded-5 p-2 form-control">
@@ -218,8 +239,8 @@
 
                             <!-- Unten rechts: Wochenaufgaben + anklicken -->
                             <div class="col-sm-7">
-                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px;">
-                                    <div class="card-body">
+                                <div class="card" style="background-color: #203C47; color: white; padding: 1rem; border-radius: 10px; margin-top: -2rem">
+                                    <div class="card-body" >
                                         <div class="col-md-6" >
                                             <h5>Wochenaufgaben</h5>
                                             <ul class="list-group">

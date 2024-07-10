@@ -55,6 +55,9 @@ class Plant
     #[Groups(['growMate'])]
     private ?int $growth = null;
 
+    #[ORM\Column]
+    private ?int $prognosisValue = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,6 +179,18 @@ class Plant
     public function setGrowth(int $growth): static
     {
         $this->growth = $growth;
+
+        return $this;
+    }
+
+    public function getPrognosisValue(): ?int
+    {
+        return $this->prognosisValue;
+    }
+
+    public function setPrognosisValue(int $prognosisValue): static
+    {
+        $this->prognosisValue = $prognosisValue;
 
         return $this;
     }
