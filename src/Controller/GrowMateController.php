@@ -16,12 +16,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class GrowMateController extends AbstractController
 {
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly CannaConsultantServiceV2 $cannaConsultantService,
+        private readonly ChartBuilderInterface $chartBuilder
+
     ) {}
 
     #[Route('/grow-mate', name: 'growMate')]
@@ -52,8 +56,12 @@ class GrowMateController extends AbstractController
             ];
         }, $plants);
 
-        $form = $this->createForm(PlantType::class);
+        $charts = [];
+        foreach ($plants as $plant) {
+            $charts[$plant['id']] = $this->calculateRangeIntensityChart($plant);
+        }
 
+        $form = $this->createForm(PlantType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -101,13 +109,77 @@ class GrowMateController extends AbstractController
             return $this->redirectToRoute('growMate');
         }
 
+
         return $this->render('grow_mate/index.html.twig', [
             'plants' => $plants,
             'form' => $form->createView(),
+            'charts' => $charts,
         ]);
+
     }
 
-    #[Route('/grow-mate/{id}', name: 'growMate-plants')]
+
+    private function calculateRangeIntensityChart(array $plant): Chart
+    {
+        $rangeIntensity = [];
+        $intensity = 10; // Example intensity value
+
+        for ($i = 1; $i <= 20; ++$i) {
+            $rangeIntensity[$i] = $i * 10; // Example calculation
+        }
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => array_keys($rangeIntensity),
+            'datasets' => [
+                [
+                    'label' => 'Dosierung',
+                    'borderColor' => 'rgb(12, 79, 17)',
+                    'backgroundColor' => 'rgba(12, 79, 17, 0.1)',
+                    'fill' => true,
+                    'data' => array_values($rangeIntensity),
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'responsive' => true,
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Dosierung (mg)',
+                    ],
+                ],
+                'x' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Intensität',
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'annotation' => [
+                    'annotations' => [
+                        [
+                            'type' => 'point',
+                            'xValue' => $intensity - 1,
+                            'yValue' => 100, // Example value
+                            'backgroundColor' => 'rgba(255, 99, 132, 0.25)',
+                            'borderColor' => 'rgb(255, 99, 132)',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        return $chart;
+    }
+
+
+#[Route('/grow-mate/{id}', name: 'growMate-plants')]
     public function show(Plant $plant): Response
     {
         if (!$this->weedWizardKernel->isUserPremium()) {
@@ -141,4 +213,6 @@ class GrowMateController extends AbstractController
 
         return $this->redirectToRoute('growMate');
     }
+
+
 }
