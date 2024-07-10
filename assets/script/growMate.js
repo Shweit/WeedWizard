@@ -32,4 +32,50 @@ $(document).ready(function() {
     }
 
     updatePlantStrainOptions($('#plant_breeder').val());
+
+    const weeklyTasks = document.querySelectorAll('.weekly-task');
+
+    [...weeklyTasks].forEach(task => {
+        task.addEventListener('click', () => {
+            task.disabled = true;
+            let label = document.querySelector('#' + task.dataset.task + '-' + task.dataset.plant + '-label');
+
+            let days = (() => {
+                switch (task.dataset.task) {
+                    case 'water':
+                        return 5;
+                    case 'fertilize':
+                        return 14;
+                    case 'temperature':
+                        return 2;
+                    case 'pesticide':
+                        return 7;
+                }
+            })();
+
+            label.innerText += ' - in ' + days + ' Tagen';
+
+            fetch('/api/completeTask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    plant_id: task.dataset.plant,
+                    task: task.dataset.task,
+                })
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        window.showToast(data.error, 'error');
+                    } else {
+                        console.log(data);
+                        window.showToast(data, 'success');
+                    }
+                });
+        });
+    });
 });
