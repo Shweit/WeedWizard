@@ -63,11 +63,6 @@ class GrowMateController extends AbstractController
             ];
         }, $plants);
 
-        $charts = [];
-        foreach ($plants as $plant) {
-            $charts[$plant['id']] = $this->calculateRangeIntensityChart($plant);
-        }
-
         $form = $this->createForm(PlantType::class);
         $form->handleRequest($request);
 
@@ -120,13 +115,12 @@ class GrowMateController extends AbstractController
         return $this->render('grow_mate/index.html.twig', [
             'plants' => $plants,
             'form' => $form->createView(),
-            'charts' => $charts,
         ]);
 
     }
 
 
-    private function calculateRangeIntensityChart(array $plant): Chart
+    private function calculateRangeIntensityChart(Plant $plant): Chart
     {
         $rangeIntensity = [];
         $intensity = 10; // Example intensity value
@@ -152,6 +146,7 @@ class GrowMateController extends AbstractController
 
         $chart->setOptions([
             'responsive' => true,
+            'maintainAspectRatio' => false,
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
