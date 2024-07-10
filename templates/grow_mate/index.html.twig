@@ -146,7 +146,7 @@
                                             <table class="table table-borderless" style="background-color: transparent; width: 100%;">
                                                 <tr>
                                                     <td style="background-color: transparent; width: 50%;">
-                                                        <canvas id="myChart-{{ plant.id }}" class="myChart" style="width:100%;max-width:1000px; height: 175px;"></canvas>
+                                                        {{ render_chart(plant['chart']) }}
                                                     </td>
                                                     <td style="background-color: transparent; width: 50%; text-align: center;">
                                                         <img src="{{ asset('build/images/GreenGraph.png') }}" alt="Graph" style="height: 100px; width: auto;">
@@ -154,15 +154,6 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <script>
-                                                var ctx = document.getElementById('myChart-{{ plant.id }}').getContext('2d');
-                                                var chartData = {{ charts[plant.id] | json_encode | raw }};
-                                                new Chart(ctx, {
-                                                    type: 'line',
-                                                    data: chartData.data,
-                                                    options: chartData.options
-                                                });
-                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -249,20 +240,20 @@
                                             <h5>Wochenaufgaben</h5>
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <input class="form-check-input me-1" type="checkbox" value="" id="water-{{ plant.id }}">
-                                                    <label class="form-check-label" for="water-{{ plant.id }}">Gießen - 500ml</label>
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" data-plant="{{ plant.id }}" data-task="water" id="water-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'water') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="water-{{ plant.id }}" id="water-{{ plant.id }}-label">Gießen - 500ml {% if isTaskCompleted(plant.id, 'water') > 0 %} in {{ isTaskCompleted(plant.id, 'water') }} Tagen. {% endif %}</label>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <input class="form-check-input me-1" type="checkbox" value="" id="fertilize-{{ plant.id }}">
-                                                    <label class="form-check-label" for="fertilize-{{ plant.id }}">Düngen - 100ml</label>
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="fertilize" id="fertilize-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="fertilize-{{ plant.id }}" id="fertilize-{{ plant.id }}-label">Düngen - 100ml {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} in {{ isTaskCompleted(plant.id, 'fertilize') }} Tagen. {% endif %}</label>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <input class="form-check-input me-1" type="checkbox" value="" id="temperature-{{ plant.id }}">
-                                                    <label class="form-check-label" for="temperature-{{ plant.id }}">Temperatur prüfen</label>
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="temperature" id="temperature-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'temperature') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="temperature-{{ plant.id }}" id="temperature-{{ plant.id }}-label">Temperatur prüfen {% if isTaskCompleted(plant.id, 'temperature') > 0 %} in {{ isTaskCompleted(plant.id, 'temperature') }} Tagen. {% endif %}</label>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <input class="form-check-input me-1" type="checkbox" value="" id="pesticides-{{ plant.id }}">
-                                                    <label class="form-check-label" for="pesticides-{{ plant.id }}">Pestizide anwenden</label>
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="pesticide" id="pesticides-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="pesticides-{{ plant.id }}" id="pesticide-{{ plant.id }}-label">Pestizide anwenden {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} in {{ isTaskCompleted(plant.id, 'pesticide') }} Tagen. {% endif %}</label>
                                                 </li>
                                             </ul>
                                         </div>

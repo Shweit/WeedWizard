@@ -13,6 +13,7 @@ use App\Services\CannaConsultantServiceV2;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,13 +54,9 @@ class GrowMateController extends AbstractController
                 'growth' => $plant->getGrowth(),
                 'thread' => $plant->getThread(),
                 'messages' => $plant->getThread() ? $this->cannaConsultantService->getRecentMessages($plant->getThread()) : '',
+                'chart' => $this->calculateRangeIntensityChart($plant),
             ];
         }, $plants);
-
-        $charts = [];
-        foreach ($plants as $plant) {
-            $charts[$plant['id']] = $this->calculateRangeIntensityChart($plant);
-        }
 
         $form = $this->createForm(PlantType::class);
         $form->handleRequest($request);
@@ -113,13 +110,12 @@ class GrowMateController extends AbstractController
         return $this->render('grow_mate/index.html.twig', [
             'plants' => $plants,
             'form' => $form->createView(),
-            'charts' => $charts,
         ]);
 
     }
 
 
-    private function calculateRangeIntensityChart(array $plant): Chart
+    private function calculateRangeIntensityChart(Plant $plant): Chart
     {
         $rangeIntensity = [];
         $intensity = 10; // Example intensity value
@@ -145,6 +141,7 @@ class GrowMateController extends AbstractController
 
         $chart->setOptions([
             'responsive' => true,
+            'maintainAspectRatio' => false,
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
@@ -214,5 +211,97 @@ class GrowMateController extends AbstractController
         return $this->redirectToRoute('growMate');
     }
 
+    #[Route('/api/completeTask', name: 'complete_plant_task', methods: ['POST'])]
+    public function addTask(Request $request, EntityManagerInterface $em): Response
+    {
+        $data = json_decode($request->getContent(), true);
 
+        $plant = $em->getRepository(Plant::class)->find($data['plant_id']);
+
+        if (!$plant) {
+            return new JsonResponse([
+                'error' => 'Die Pflanze existiert nicht'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $weeklyTasks = $plant->getWeeklyTasks();
+
+        switch($data['task']) {
+            case 'water':
+                // Check if the water array already exists in the weeklyTasks array
+                if (!array_key_exists('water', $weeklyTasks)) {
+                    $weeklyTasks['water'] = [];
+                }
+
+                // Check if the plant was already watered since the last 5 days
+                $lastWatering = end($weeklyTasks['water']);
+                $lastWateringDate = new \DateTime($lastWatering['date'] ?? 'now -5 days');
+
+                if ($lastWatering && $lastWateringDate->diff(new \DateTime())->days < 5) {
+                    return new JsonResponse([
+                        'error' => 'Die Pflanze wurde bereits in den letzten 5 Tagen gegossen.'
+                    ], Response::HTTP_NOT_FOUND);
+                }
+
+                $weeklyTasks['water'][] = new \DateTime();
+                break;
+            case 'fertilize':
+                if (!array_key_exists('fertilize', $weeklyTasks)) {
+                    $weeklyTasks['fertilize'] = [];
+                }
+
+                $lastFertilize = end($weeklyTasks['fertilize']);
+                $lastFertilizeDate = new \DateTime($lastFertilize['date'] ?? 'now -15 days');
+
+
+                if ($lastFertilizeDate && $lastFertilizeDate->diff(new \DateTime())->days < 14) {
+                    return new JsonResponse([
+                        'error' => 'Die Pflanze wurde bereits in den letzten 14 Tagen gedüngt.'
+                    ], Response::HTTP_NOT_FOUND);
+                }
+
+                $weeklyTasks['fertilize'][] = new \DateTime();
+                break;
+            case 'temperature':
+                if (!array_key_exists('temperature', $weeklyTasks)) {
+                    $weeklyTasks['temperature'] = [];
+                }
+
+                $lastFertilize = end($weeklyTasks['temperature']);
+                $lastFertilizeDate = new \DateTime($lastFertilize['date'] ?? 'now -3 days');
+
+
+                if ($lastFertilizeDate && $lastFertilizeDate->diff(new \DateTime())->days < 2) {
+                    return new JsonResponse([
+                        'error' => 'Die Temperatur der Pflanze wurde bereits in den letzten 2 Tagen überprüft.'
+                    ], Response::HTTP_NOT_FOUND);
+                }
+
+                $weeklyTasks['temperature'][] = new \DateTime();
+                break;
+            case 'pesticide':
+                if (!array_key_exists('pesticide', $weeklyTasks)) {
+                    $weeklyTasks['pesticide'] = [];
+                }
+
+                $lastFertilize = end($weeklyTasks['pesticide']);
+                $lastFertilizeDate = new \DateTime($lastFertilize['date'] ?? 'now -8 days');
+
+                if ($lastFertilizeDate && $lastFertilizeDate->diff(new \DateTime())->days < 7) {
+                    return new JsonResponse([
+                        'error' => 'Die Pflanze wurde bereits in den letzten 7 Tagen mit Pestiziden behandelt.'
+                    ], Response::HTTP_NOT_FOUND);
+                }
+
+                $weeklyTasks['pesticide'][] = new \DateTime();
+                break;
+            default:
+                throw $this->createNotFoundException('Die Aufgabe existiert nicht');
+        }
+
+        $plant->setWeeklyTasks($weeklyTasks);
+        $em->flush();
+
+        return new JsonResponse('Die Aufgabe wurde erfolgreich erledigt', Response::HTTP_OK);
+    }
 }
