@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-class GrowMateService {
-
-    const TASK_WEIGHTS = [
+class GrowMateService
+{
+    public const TASK_WEIGHTS = [
         'temperature' => 1,
         'pesticide' => 3,
         'fertilize' => 5,
@@ -18,11 +18,8 @@ class GrowMateService {
     ];
 
     public function __construct(
-        private readonly WeedWizardKernel $weedWizardKernel,
-        private EntityManagerInterface $entityManager,
         private ChartBuilderInterface $chartBuilder,
-    ) {
-    }
+    ) {}
 
     public function calculateRangeIntensityChart(Plant $plant): Chart
     {
@@ -46,7 +43,7 @@ class GrowMateService {
 
         for ($i = 1; $i <= 20; ++$i) {
             // Date time to string
-            $dateTime = new \DateTime("now - $i days");
+            $dateTime = new \DateTime("now - {$i} days");
             $dateTimeString = $dateTime->format('d.m.Y');
             $rangeIntensity[$dateTimeString] = $i * 10;
         }
@@ -137,7 +134,7 @@ class GrowMateService {
                             // Give penalty for each day the plant was not watered.
                             for ($i = $diff->days; $i != 2; --$i) {
                                 $modifyAble = clone $lastTaskDate;
-                                $date = $modifyAble->modify("+$i day")->format('d.m.Y');
+                                $date = $modifyAble->modify("+{$i} day")->format('d.m.Y');
 
                                 // we don't want a penalty for the date we watered the plant
                                 if ($date == $taskDate->format('d.m.Y')) {
@@ -153,6 +150,7 @@ class GrowMateService {
 
                         $lastTask = $task;
                     }
+
                     break;
                 case 'pesticide':
                     $lastTask = null;
@@ -175,7 +173,7 @@ class GrowMateService {
                             // Give penalty for each day the plant was not watered.
                             for ($i = $diff->days; $i != 7; --$i) {
                                 $modifyAble = clone $lastTaskDate;
-                                $date = $modifyAble->modify("+$i day")->format('d.m.Y');
+                                $date = $modifyAble->modify("+{$i} day")->format('d.m.Y');
 
                                 // we don't want a penalty for the date we watered the plant
                                 if ($date == $taskDate->format('d.m.Y')) {
@@ -191,6 +189,7 @@ class GrowMateService {
 
                         $lastTask = $task;
                     }
+
                     break;
                 case 'fertilize':
                     $lastTask = null;
@@ -213,7 +212,7 @@ class GrowMateService {
                             // Give penalty for each day the plant was not watered.
                             for ($i = $diff->days; $i != 14; --$i) {
                                 $modifyAble = clone $lastTaskDate;
-                                $date = $modifyAble->modify("+$i day")->format('d.m.Y');
+                                $date = $modifyAble->modify("+{$i} day")->format('d.m.Y');
 
                                 // we don't want a penalty for the date we watered the plant
                                 if ($date == $taskDate->format('d.m.Y')) {
@@ -229,6 +228,7 @@ class GrowMateService {
 
                         $lastTask = $task;
                     }
+
                     break;
                 case 'water':
                     $lastTask = null;
@@ -251,7 +251,7 @@ class GrowMateService {
                             // Give penalty for each day the plant was not watered.
                             for ($i = $diff->days; $i != 5; --$i) {
                                 $modifyAble = clone $lastTaskDate;
-                                $date = $modifyAble->modify("+$i day")->format('d.m.Y');
+                                $date = $modifyAble->modify("+{$i} day")->format('d.m.Y');
 
                                 // we don't want a penalty for the date we watered the plant
                                 if ($date == $taskDate->format('d.m.Y')) {
@@ -267,6 +267,7 @@ class GrowMateService {
 
                         $lastTask = $task;
                     }
+
                     break;
             }
         }
