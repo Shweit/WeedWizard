@@ -1,3 +1,7 @@
+.breeder-card {
+  width: auto;
+}
+
 .breeder-logo {
   position: relative;
   overflow: hidden;
@@ -58,12 +62,6 @@
   height: 400px;
 }
 
-.user-img-container
-{
-  position: relative;
-  background-color: #f0f0f0
-}
-
 .user-img
 {
   position: absolute;
@@ -72,4 +70,19 @@
   width: auto;
   height: 100%;
   transform: translate(-50%, -50%);
+}
+
+.user-img-container
+{
+  position: relative;
+  background-color: #f0f0f0
+}
+
+#filters-container, #filters-hidden-container {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
 }

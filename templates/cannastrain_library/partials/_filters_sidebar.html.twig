@@ -1,3 +1,4 @@
+{# Collapsed sidebar with show btn #}
 <div class="border-end" style="display: none" id="filters-hidden-container">
     <div class="p-3 mt-3">
         <button class="btn" id="show-sidebar">
@@ -7,7 +8,7 @@
 </div>
 <div class="border-end" id="filters-container">
 
-    {# Filter icon and close btn #}
+    {# Expanded sidebar with close btn #}
     <div class="d-flex flex-row justify-content-between p-3 mt-3" id="filters">
         <div>
             <i class="fa-solid fa-sliders filter-icon"></i>
@@ -26,14 +27,15 @@
     {% endif %}
 
     {# Form for filters #}
-    <form method="get" action="{{ path('weedwizard_cannastrain-library', {'page' : 1}) }}">
+    <form method="get" id="filter-form">
         <div class="input-group d-flex flex-column">
 
             {# Name search field #}
             {% if filters.searchForNameAllowed %}
-                <div class="p-3">
-                    <input type="text" name="search" class="form-control fs-6" placeholder="Suche nach Züchtername..."
-                           value="">
+                <div class="p-3 d-flex">
+                    <input type="text" name="search" class="form-control fs-6" placeholder="Suche Züchtername..."
+                           value="" id="breeder-name-search">
+                    <button type="button" class="btn btn-outline-secondary" id="clear-button" style="z-index: 1;">&times;</button>
                 </div>
             {% endif %}
 
@@ -119,7 +121,7 @@
 
             {% if (filters.searchForNameAllowed or filters.extendedFilters) %}
                 <div class="p-3 d-flex flex-fill flex-row-reverse">
-                    <button class="btn btn-primary fs-6" type="submit">Anwenden</button>
+                    <button class="btn btn-primary fs-6" type="button" id="filter-button">Anwenden</button>
                 </div>
             {% endif %}
 
