@@ -120,68 +120,7 @@ class GrowMateController extends AbstractController
     }
 
 
-    private function calculateRangeIntensityChart(Plant $plant): Chart
-    {
-        $rangeIntensity = [];
-        $intensity = 10; // Example intensity value
-
-        for ($i = 1; $i <= 20; ++$i) {
-            $rangeIntensity[$i] = $i * 10; // Example calculation
-        }
-
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
-
-        $chart->setData([
-            'labels' => array_keys($rangeIntensity),
-            'datasets' => [
-                [
-                    'label' => 'Dosierung',
-                    'borderColor' => 'rgb(12, 79, 17)',
-                    'backgroundColor' => 'rgba(12, 79, 17, 0.1)',
-                    'fill' => true,
-                    'data' => array_values($rangeIntensity),
-                ],
-            ],
-        ]);
-
-        $chart->setOptions([
-            'responsive' => true,
-            'maintainAspectRatio' => false,
-            'scales' => [
-                'y' => [
-                    'beginAtZero' => true,
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Dosierung (mg)',
-                    ],
-                ],
-                'x' => [
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Intensität',
-                    ],
-                ],
-            ],
-            'plugins' => [
-                'annotation' => [
-                    'annotations' => [
-                        [
-                            'type' => 'point',
-                            'xValue' => $intensity - 1,
-                            'yValue' => 100, // Example value
-                            'backgroundColor' => 'rgba(255, 99, 132, 0.25)',
-                            'borderColor' => 'rgb(255, 99, 132)',
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
-        return $chart;
-    }
-
-
-#[Route('/grow-mate/{id}', name: 'growMate-plants')]
+    #[Route('/grow-mate/{id}', name: 'growMate-plants')]
     public function show(Plant $plant): Response
     {
         if (!$this->weedWizardKernel->isUserPremium()) {

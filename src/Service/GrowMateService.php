@@ -20,6 +20,7 @@ class GrowMateService
     ];
 
     public function __construct(
+        private readonly WeedWizardKernel $weedWizardKernel,
         private ChartBuilderInterface $chartBuilder,
         private EntityManagerInterface $entityManager,
         private NotificationService $notificationService,
