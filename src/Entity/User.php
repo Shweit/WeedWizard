@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Type('\\DateTimeInterface')]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $birthdate = null;
 
     /**

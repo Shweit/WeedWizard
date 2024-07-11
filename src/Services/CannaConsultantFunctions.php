@@ -175,8 +175,6 @@ class CannaConsultantFunctions
                 return ['error' => 'You are not allowed to view this plant'];
             }
 
-            dd($this->serializer->normalize($plant, null, ['groups' => 'growMate']));
-
             return $this->serializer->normalize($plant, null, ['groups' => 'growMate']); // @phpstan-ignore-line
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
