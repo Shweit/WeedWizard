@@ -107,7 +107,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
         $weeklyTasks = $plant->getWeeklyTasks();
         $now = new \DateTime();
 
-        switch($task) {
+        switch ($task) {
             case 'water':
                 if (!empty($weeklyTasks['water'])) {
                     $lastWatering = end($weeklyTasks['water']);
@@ -116,6 +116,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
                     return 5 - $diff;
                 }
+
                 break;
             case 'fertilize':
                 if (!empty($weeklyTasks['fertilize'])) {
@@ -125,6 +126,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
                     return 14 - $diff;
                 }
+
                 break;
             case 'temperature':
                 if (!empty($weeklyTasks['temperature'])) {
@@ -134,6 +136,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
                     return 2 - $diff;
                 }
+
                 break;
             case 'pesticide':
                 if (!empty($weeklyTasks['pesticide'])) {
@@ -143,6 +146,7 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
 
                     return 7 - $diff;
                 }
+
                 break;
         }
 
