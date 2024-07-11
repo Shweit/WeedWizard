@@ -9,6 +9,7 @@ use App\Entity\Plant;
 use App\Entity\Strain;
 use App\Form\PlantType;
 use App\Repository\PlantRepository;
+use App\Service\GrowMateService;
 use App\Services\CannaConsultantServiceV2;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,9 +26,9 @@ class GrowMateController extends AbstractController
     public function __construct(
         private readonly WeedWizardKernel $weedWizardKernel,
         private readonly CannaConsultantServiceV2 $cannaConsultantService,
-        private readonly ChartBuilderInterface $chartBuilder
-
-    ) {}
+        private readonly GrowMateService $growMateService,
+    ) {
+    }
 
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
@@ -54,7 +55,7 @@ class GrowMateController extends AbstractController
                 'growth' => $plant->getGrowth(),
                 'thread' => $plant->getThread(),
                 'messages' => $plant->getThread() ? $this->cannaConsultantService->getRecentMessages($plant->getThread()) : '',
-                'chart' => $this->calculateRangeIntensityChart($plant),
+                'chart' => $this->growMateService->calculateRangeIntensityChart($plant),
             ];
         }, $plants);
 
@@ -115,68 +116,7 @@ class GrowMateController extends AbstractController
     }
 
 
-    private function calculateRangeIntensityChart(Plant $plant): Chart
-    {
-        $rangeIntensity = [];
-        $intensity = 10; // Example intensity value
-
-        for ($i = 1; $i <= 20; ++$i) {
-            $rangeIntensity[$i] = $i * 10; // Example calculation
-        }
-
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
-
-        $chart->setData([
-            'labels' => array_keys($rangeIntensity),
-            'datasets' => [
-                [
-                    'label' => 'Dosierung',
-                    'borderColor' => 'rgb(12, 79, 17)',
-                    'backgroundColor' => 'rgba(12, 79, 17, 0.1)',
-                    'fill' => true,
-                    'data' => array_values($rangeIntensity),
-                ],
-            ],
-        ]);
-
-        $chart->setOptions([
-            'responsive' => true,
-            'maintainAspectRatio' => false,
-            'scales' => [
-                'y' => [
-                    'beginAtZero' => true,
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Dosierung (mg)',
-                    ],
-                ],
-                'x' => [
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Intensität',
-                    ],
-                ],
-            ],
-            'plugins' => [
-                'annotation' => [
-                    'annotations' => [
-                        [
-                            'type' => 'point',
-                            'xValue' => $intensity - 1,
-                            'yValue' => 100, // Example value
-                            'backgroundColor' => 'rgba(255, 99, 132, 0.25)',
-                            'borderColor' => 'rgb(255, 99, 132)',
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
-        return $chart;
-    }
-
-
-#[Route('/grow-mate/{id}', name: 'growMate-plants')]
+    #[Route('/grow-mate/{id}', name: 'growMate-plants')]
     public function show(Plant $plant): Response
     {
         if (!$this->weedWizardKernel->isUserPremium()) {
@@ -243,7 +183,12 @@ class GrowMateController extends AbstractController
                     ], Response::HTTP_NOT_FOUND);
                 }
 
-                $weeklyTasks['water'][] = new \DateTime();
+                // Append the task water to the created array
+                $now = new \DateTime();
+                $weeklyTasks['water'][] = [
+                    'date' => $now->format('Y-m-d H:i:s'),
+                    'task' => 'water',
+                ];
                 break;
             case 'fertilize':
                 if (!array_key_exists('fertilize', $weeklyTasks)) {
@@ -260,7 +205,11 @@ class GrowMateController extends AbstractController
                     ], Response::HTTP_NOT_FOUND);
                 }
 
-                $weeklyTasks['fertilize'][] = new \DateTime();
+                $now = new \DateTime();
+                $weeklyTasks['fertilize'][] = [
+                    'date' => $now->format('Y-m-d H:i:s'),
+                    'task' => 'fertilize',
+                ];
                 break;
             case 'temperature':
                 if (!array_key_exists('temperature', $weeklyTasks)) {
@@ -270,14 +219,17 @@ class GrowMateController extends AbstractController
                 $lastFertilize = end($weeklyTasks['temperature']);
                 $lastFertilizeDate = new \DateTime($lastFertilize['date'] ?? 'now -3 days');
 
-
                 if ($lastFertilizeDate && $lastFertilizeDate->diff(new \DateTime())->days < 2) {
                     return new JsonResponse([
                         'error' => 'Die Temperatur der Pflanze wurde bereits in den letzten 2 Tagen überprüft.'
                     ], Response::HTTP_NOT_FOUND);
                 }
 
-                $weeklyTasks['temperature'][] = new \DateTime();
+                $now = new \DateTime();
+                $weeklyTasks['temperature'][] = [
+                    'date' => $now->format('Y-m-d H:i:s'),
+                    'task' => 'temperature',
+                ];
                 break;
             case 'pesticide':
                 if (!array_key_exists('pesticide', $weeklyTasks)) {
@@ -293,7 +245,11 @@ class GrowMateController extends AbstractController
                     ], Response::HTTP_NOT_FOUND);
                 }
 
-                $weeklyTasks['pesticide'][] = new \DateTime();
+                $now = new \DateTime();
+                $weeklyTasks['pesticide'][] = [
+                    'date' => $now->format('Y-m-d H:i:s'),
+                    'task' => 'pesticide',
+                ];
                 break;
             default:
                 throw $this->createNotFoundException('Die Aufgabe existiert nicht');
