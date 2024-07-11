@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
 
 class GrowMateController extends AbstractController
 {
@@ -111,14 +109,11 @@ class GrowMateController extends AbstractController
             return $this->redirectToRoute('growMate');
         }
 
-
         return $this->render('grow_mate/index.html.twig', [
             'plants' => $plants,
             'form' => $form->createView(),
         ]);
-
     }
-
 
     #[Route('/grow-mate/{id}', name: 'growMate-plants')]
     public function show(Plant $plant): Response

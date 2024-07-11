@@ -119,6 +119,7 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
                             'tool_outputs' => $toolOutputs,
                         ]
                     );
+
                     break;
                 default:
                     sleep($retryDelay);
@@ -126,6 +127,25 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         }
 
         throw new \Exception('Run did not complete in the expected time');
+    }
+
+    public function getSeedFinderApiKey(): string
+    {
+        return $this->seedFinderApiKey;
+    }
+
+    public function getThreadForPlant($plant): array
+    {
+        $plantThead = $plant->getThread();
+
+        if ($plantThead) {
+            return $plantThead;
+        }
+
+        // Create a Thread if none exists
+        $response = $this->client->threads()->create([]);
+
+        return $response->toArray();
     }
 
     private function getThread(): array
@@ -147,19 +167,6 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         $this->entityManager->persist($threadEntity);
         $this->entityManager->flush();
 
-        return $response->toArray();
-    }
-
-    public function getThreadForPlant($plant): array
-    {
-        $plantThead = $plant->getThread();
-
-        if ($plantThead) {
-            return $plantThead;
-        }
-
-        // Create a Thread if none exists
-        $response = $this->client->threads()->create([]);
         return $response->toArray();
     }
 }
