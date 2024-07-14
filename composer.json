@@ -43,7 +43,7 @@
         "symfony/twig-bundle": "7.0.*",
         "symfony/ux-autocomplete": "^2.17",
         "symfony/ux-chartjs": "^2.17",
-        "symfony/validator": "7.0.*",
+        "symfony/validator": "7.1.*",
         "symfony/web-link": "7.0.*",
         "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "7.0.*",
