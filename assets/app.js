@@ -28,6 +28,15 @@ window.addEventListener('load', function () {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast)
         toastBootstrap.show()
     });
+
+    // After loading the page, hide the loader-container
+    const loaderContainer = $('#loader-container');
+    loaderContainer.fadeOut(800, function () {
+        document.body.classList.remove('overflow-hidden');
+        const body = $('body');
+        body.fadeOut(0);
+        body.fadeIn(200);
+    });
 });
 
 // This function is used to debounce the input event listener

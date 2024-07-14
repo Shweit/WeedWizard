@@ -61,8 +61,10 @@
         <meta name="twitter:image" content="https://www.weedwizard.de/build/images/favicon/android-icon-192x192.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+
+    {% include 'templates/_site_loader.hmtl.twig' %}
     
-    <body>
+    <body class="overflow-hidden">
         {% include 'templates/_toasts.html.twig' %}
         {% include 'templates/_navbar.html.twig' %}
         {% include 'templates/_age_verification.html.twig' %}
@@ -75,6 +77,5 @@
 
         {% block noContainerBody %}{% endblock %}
     </body>
-
     {% block script %}{% endblock %}
 </html>

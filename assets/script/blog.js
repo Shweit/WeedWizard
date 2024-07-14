@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const sortByOptions = document.getElementById('sortBy');
-    console.log(sortByOptions)
     if (sortByOptions) {
         sortByOptions.addEventListener('change', function() {
             const sortValue = sortByOptions.value;
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     setFixedBlogSidebarWidth();
 
-    document.querySelectorAll('.card').forEach(function(card) {
+    document.querySelectorAll('.blogEntry').forEach(function(card) {
         card.addEventListener('click', function(e) {
             // Überprüfe, ob der Klick innerhalb eines Links erfolgte
             if (!e.target.closest('a')) {
