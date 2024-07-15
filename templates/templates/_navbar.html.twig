@@ -1,71 +1,104 @@
-<nav class="navbar navbar-expand-lg bd-navbar">
+<nav class="navbar navbar-expand-lg bd-navbar" id="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle">
-            <!-- Adjust the logo URL and size -->
+            <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px;" class="rounded-circle"> <!-- Adjust the logo URL and size -->
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav" style="gap: 20px">
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_compliance_map') }}">Cannabis
-                        Consumption<br class="nav-br"> Compliance Map</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_compliance_map') }}" >Cannabis Consumption<br class="nav-br"> Compliance Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('cannabis_verein') }}">Cannabis<br
-                                class="nav-br"> Vereinssuche</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('cannabis_verein') }}">Social<br class="nav-br"> Clubs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_budbash_locator') }}">Bud
-                        Bash<br class="nav-br"> Locator</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_cannastrain-library') }}" >Cannastrain<br class="nav-br"> Library</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center"
-                       href="{{ path('weedwizard_cannastrain-library', {'page': 1 }) }}">Cannastrain<br class="nav-br">
-                        Library</a>
+                    <a class="nav-link text-uppercase text-center" href="{{ path('growMate') }}" >Grow<br class="nav-br"> Mate</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_cannadose_calculator') }}">Cannadose<br
-                                class="nav-br"> Calculator</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('growMate') }}">Grow<br class="nav-br">
-                        Mate</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-center" href="{{ path('weedwizard_canna_consultant') }}">Canna<br
-                                class="nav-br"> Consultant</a>
+                <li class="nav-item dropdown ktm-mega-menu" style="position:static;">
+                    <a class="nav-link text-uppercase text-center" href="#" data-bs-toggle="dropdown">Weiter<br class="nav-br"> Features</a>
+                    <div class="dropdown-menu" style="left: 0; right: 0; width: 100%; padding-right: 10%; padding-left: 10%; z-index: 1000">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-6 my-3 pe-0 pe-sm-5">
+                                <h3>Weitere Features</h3>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-location-crosshairs fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_budbash_locator') }}">Bud Bash Locator</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Bock auf ne Party? Oder ein Öffentliches Cannabis Event? Dann bist du hier richtig.</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-calculator fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_cannadose_calculator') }}">Cannadose Calculator</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Der Cannadose Calculator berechnet dir deine Perfekte Dosierung zum Kiffen.</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle p-0 pe-3 text-center" style="width: 10%"><i class="fa-solid fa-comment fa-2xl"></i></td>
+                                                <td class="p-0"><a class="text-uppercase" href="{{ path('weedwizard_canna_consultant') }}">Canna Consultant</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted p-0"><small>Fragen zu Cannabis oder ähnlichem? Hier werden sie beantwortet!</small></td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card container col-md-6 my-3" id="faq-header" style="background-image: url('{{ asset('build/images/bg-wave.svg') }}'); background-repeat: no-repeat; background-position: bottom">
+                                <div class="row flex-lg-row-reverse align-items-center">
+                                    <div class="col-10 col-sm-8 col-lg-6 d-none d-sm-block">
+                                        <img src="{{ asset('build/images/problem-solving.svg') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" style="max-height: 40vh" loading="lazy">
+                                    </div>
+                                    <div class="col-lg-6 ps-md-5 ps-sm-0 text-center text-sm-left">
+                                        <h2 class="fw-bold lh-1 mb-3 pt-3 pt-sm-0">WeedWizard Knowledge Base</h2>
+                                        <p>Du hast allgemeine Fragen zu Cannabis? Oder auch zum Anbau einer Pflanze? Oder auch zum sicheren Konsum von Cannabis? Dann bist du hier richtig aufgehoben!</p>
+                                        <a class="btn btn-primary mb-3 mb-sm-0" href="{{ path('weedwizard_knowledge_base') }}">Zur Knowledge Base</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
-                            id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-                            data-bs-display="static" aria-label="Toggle theme (light)">
+                    <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
                         <i class="fa-regular fa-sun me-2" id="theme-icon-active"></i>
                         <span class="d-lg-none ms-2" id="bd-theme-text">Theme ändern</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                         <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center active"
-                                    data-bs-theme-value="light" aria-pressed="true">
+                            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
                                 <i class="fa-regular fa-sun me-2"></i>
                                 Hell
                             </button>
                         </li>
                         <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center"
-                                    data-bs-theme-value="dark" aria-pressed="false">
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
                                 <i class="fa-regular fa-moon me-2"></i>
                                 Dunkel
                             </button>
                         </li>
                         <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center"
-                                    data-bs-theme-value="auto" aria-pressed="false">
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
                                 <i class="fa-solid fa-circle-half-stroke me-2"></i>
                                 Auto
                             </button>
@@ -73,8 +106,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-link nav-link py-2 px-0 px-lg-2 d-flex align-items-center me-2" type="button"
-                       href="{{ path('weedwizard_knowledge_base') }}">
+                    <a class="btn btn-link nav-link py-2 px-0 px-lg-2 d-flex align-items-center me-2" type="button" href="{{ path('weedwizard_knowledge_base') }}">
                         <i class="fa-regular fa-circle-question"></i>
                     </a>
                 </li>
@@ -87,12 +119,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item dropdown">
-                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-bell me-2"></i>
                         </button>
-                        <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-                             aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
+                        <div class="dropdown-notifications dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts" data-bs-popper="static">
                             <h6 class="dropdown-header dropdown-notifications-header">
                                 <i class="fa-solid fa-bell"></i>
                                 Benachrichtigungen
@@ -104,23 +134,19 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user me-2"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-                             aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
+                        <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage" data-bs-popper="static">
                             <h6 class="dropdown-header d-flex align-items-center">
                                 <div class="dropdown-user-details">
                                     <div class="dropdown-user-details-name">{{ app.user.firstName }} {{ app.user.lastName }}</div>
                                     <div class="dropdown-user-details-email">{{ app.user.email }}</div>
-                                    {% if is_granted('ROLE_PREMIUM') %}
-                                        <div class="dropdown-user-details-email">Premium</div>{% endif %}
+                                    {% if is_granted('ROLE_PREMIUM') %}<div class="dropdown-user-details-email">Premium</div>{% endif %}
                                 </div>
                             </h6>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item d-flex align-items-center"
-                               href="{{ path('weedwizard_user_profile', {'username': app.user.username}) }}">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('weedwizard_user_profile', {'username': app.user.username}) }}">
                                 <div class="dropdown-item-icon"><i class="fa-solid fa-user me-2"></i></div>
                                 Profil
                             </a>
@@ -130,8 +156,7 @@
                                 Abonnement
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="{{ path('app_logout') }}">
-                                <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i>
-                                </div>
+                                <div class="dropdown-item-icon"><i class="fa-solid fa-right-from-bracket me-2"></i></div>
                                 Logout
                             </a>
                         </div>

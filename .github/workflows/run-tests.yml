@@ -1,0 +1,56 @@
+name: checks
+
+on: [push]
+
+jobs:
+  test:
+    name: PHPUnit tests
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0.32
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: WeedWizard_test
+          MYSQL_USER: weedwizard
+          MYSQL_PASSWORD: SicheresPasswort
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, pdo_mysql
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Build assets with Webpack
+        run: npm run build
+
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping -h127.0.0.1 -uweedwizard -pSicheresPasswort --silent; do
+            sleep 1
+          done
+
+      - name: Build database schema
+        run: php bin/console doctrine:schema:update --force --env=test
+
+      - name: Run PHPUnit tests
+        run: php bin/phpunit
