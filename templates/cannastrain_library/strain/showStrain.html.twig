@@ -46,10 +46,25 @@
                         {# Images #}
                         <div class="row">
 
+                            {% set type = strainInfo['type'] %}
+                            {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+
+                            {% if '/' in type %}
+                                {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FHybrid.jpg&w=1200&q=75' %}
+                            {% else %}
+                                {% if 'indica' in type %}
+                                    {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FIndica.jpg&w=1920&q=75' %}
+                                {% elseif 'sativa' in type %}
+                                    {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FSativa.jpg&w=1920&q=75' %}
+                                {% elseif 'ruderalis' in type %}
+                                    {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+                                {% endif %}
+                            {% endif %}
+
                             {# Big img #}
                             <div class="col-6 p-3">
                                 <div class="cropped-img rounded-3 img-big">
-                                    <img src="https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    <img src="{{ image_url }}"
                                          class="card-img-top" alt="Stock photo">
                                 </div>
                             </div>
@@ -83,12 +98,12 @@
                         </div>
 
                         <div class="row">
+                            {# Name and description #}
                             <div class="col-6 p-3">
                                 <div class="d-flex flex-column gap-2 mt-2">
                                     <h3>{{ strainName }}</h3>
 
                                     {% set descr_without_breaks = strainInfo.descr|replace({'&lt;br /&gt;': '', '<br>': ''})|trim %}
-
                                     <p>
                                         {% if descr_without_breaks is not empty %}
                                             {{ strainInfo.descr|replace({'&lt;br /&gt;': '<br>'})|raw }}
@@ -96,42 +111,35 @@
                                             Die Beschreibung konnte leider nicht von der API abgerufen werden.
                                         {% endif %}
                                     </p>
-
-
-                                    {#
-                                    <div class="d-flex flex-row justify-content-end gap-4">
-                                        <div>
-                                            <p class="fw-bold pt-3">Durchschnittlicher Preis pro Gramm</p>
-                                        </div>
-
-                                        <div class="input-group" style="width: 150px">
-                                            <span class="input-group-text">€</span>
-                                            <input type="number" min="0" step="0.01" class="form-control fw-bold"
-                                                   aria-label="Amount (to the nearest dollar)" placeholder="9.50"
-                                                   disabled>
-                                        </div>
-                                    </div>
-                                    #}
                                 </div>
                             </div>
+
+                            {# Detail info #}
+                            {% set default = "Info nicht vorhanden" %}
 
                             <div class="col-3 p-3">
                                 <div class="property border-black border-top p-3">
                                     <i class="fa-solid fa-hand-fist filter-icon"></i>
                                     <span>Intensität</span>
-                                    <span class="d-block fw-semibold fs-5 mt-1">stark</span>
+                                    <span class="d-block fw-semibold fs-5 mt-1">
+                                        {% if strainInfo.cbd is not empty %}
+                                            {{ strainInfo.cbd }}
+                                        {% else %}
+                                            {{ default }}
+                                        {% endif %}
+                                    </span>
                                 </div>
 
                                 <div class="property border-black border-top border-bottom p-3">
                                     <i class="fa-solid fa-location-dot filter-icon"></i>
                                     <span>Aufzucht</span>
-                                    <span class="d-block fw-semibold fs-5 mt-1">Indoor</span>
+                                    <span class="d-block fw-semibold fs-5 mt-1">{{ default }}</span>
                                 </div>
 
                                 <div class="property border-black border-bottom p-3">
                                     <i class="fa-solid fa-venus-mars filter-icon"></i>
                                     <span>Strain-Typ</span>
-                                    <span class="d-block fw-semibold fs-5 mt-1">femisiert</span>
+                                    <span class="d-block fw-semibold fs-5 mt-1">{{ default }}</span>
                                 </div>
                             </div>
 
@@ -147,9 +155,11 @@
                                     <span>Empfohlen für</span>
                                     <span class="d-block fw-semibold fs-5 mt-1">
                                         {% if strainMedicalInfo %}
-                                            {{ strainMedicalInfo.name }}
+                                            {% if strainMedicalInfo.autoimmun %}
+                                                {{ strainMedicalInfo.autoimmun.name }}
+                                            {% endif %}
                                         {% else %}
-                                            keine Info vorhanden
+                                            {{ default }}
                                         {% endif %}
                                     </span>
                                 </div>
