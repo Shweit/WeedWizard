@@ -1,3 +1,4 @@
+// --- Sidebar open & close --- //
 document.addEventListener('DOMContentLoaded', function () {
 
     // Show sidebar on icon click
@@ -11,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#filters-hidden-container').show();
         $('#filters-container').hide();
     });
+});
+
+// --- Filter functionality --- //
+document.addEventListener('DOMContentLoaded', function () {
 
     // Filter breeder cards on btn click
     document.getElementById('filter-button').addEventListener('click', () => {
@@ -20,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Prevent form submission
+    // Prevent filter form submission
     document.getElementById('filter-form').addEventListener('submit', (e) => {
         e.preventDefault();
     });
@@ -29,5 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('clear-button').addEventListener('click', () => {
         document.getElementById('breeder-name-search').value = '';
     });
+});
 
+// --- Pagination --- //
+document.addEventListener('DOMContentLoaded', function () {
+    const content = document.querySelector('.results');
+    const itemsPerPage = 8;
+    let currentPage = 1;
+    const items = Array.from(content.getElementsByTagName('tr')).slice(1) // TODO: Instead of ByTagName
+    // TODO: Add here
 });

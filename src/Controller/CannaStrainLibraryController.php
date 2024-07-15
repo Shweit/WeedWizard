@@ -37,8 +37,6 @@ class CannaStrainLibraryController extends AbstractController
         $breeders = $this->seedFinderApiService->getBreederInfo();
         $totalNumOfBreeders = count($this->seedFinderApiService->getBreederInfoPaginated('all', 1, PHP_INT_MAX));
 
-        // $displayedBreeders = applySelectedFilters($breeders); // TODO: Remove if unnecessary
-
         return $this->render('cannastrain_library/index.html.twig', [
             'breeders' => $breeders,
             'filters' => $this->breederFilters,
