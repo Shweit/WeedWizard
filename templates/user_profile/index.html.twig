@@ -103,6 +103,10 @@
                             {{ blog.user.username }} <small class="text-muted h6 mb-0">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small>
                         </h5>
                         <p class="card-text">{{ blog.content }}</p>
+
+                        {% if blog.markerData %}
+                            <div class="init-leaflet-map" data-marker="{{ blog.markerData|json_encode }}" style="height: 25vh"></div>
+                        {% endif %}
                     </div>
                     <div class="card-footer">
                         <div class="row d-flex">
