@@ -3,7 +3,7 @@
 // ----------------- //
 
 // --- Pagination --- //
-const itemsPerPage = 4;
+const itemsPerPage = 8;
 let currentPage = 0;
 let allItems = [];
 

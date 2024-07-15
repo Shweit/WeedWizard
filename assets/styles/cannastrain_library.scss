@@ -48,6 +48,7 @@
   height: 200px;
   overflow: hidden;
   object-fit: cover;
+  position: relative;
 }
 
 #filters-container {
@@ -74,6 +75,18 @@
 
 #myTabContent {
   height: 400px;
+}
+
+.type-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: auto;
+  color: white;
+  text-align: right;
+  padding: 0.4rem;
+  font-size: 0.7rem;
+  border-radius: 2rem;
 }
 
 .user-img

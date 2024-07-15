@@ -45,22 +45,38 @@
 
                         <div class="row">
                             {% for strain in strains %}
+
+                                {% set type = strain['breeder_info']['type'] %}
+                                {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+
+                                {% if '/' in strain['breeder_info']['type'] %}
+                                    {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FHybrid.jpg&w=1200&q=75' %}
+                                {% else %}
+                                    {% if 'indica' in strain['breeder_info']['type'] %}
+                                        {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FIndica.jpg&w=1920&q=75' %}
+                                    {% elseif 'sativa' in strain['breeder_info']['type'] %}
+                                        {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FSativa.jpg&w=1920&q=75' %}
+                                    {% elseif 'ruderalis' in strain['breeder_info']['type'] %}
+                                        {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+                                    {% endif %}
+                                {% endif %}
+
                                 {% include 'cannastrain_library/partials/_strain_card.html.twig' with {
                                     'id': loop.index,
                                     'name': strain['name'],
-                                    'description': 'Keine Beschreibung verfügbar',
-                                    'intensity': 'Keine Intensität verfügbar',
+                                    'description': strain['breeder_info']['descr'],
+                                    'type': type,
                                     'rating': 'Keine Wertung verfügbar',
-                                    'image': 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                    'image': image_url,
                                     'btnLink': path('weedwizard_cannastrain-library_strain-view', {'breeder_id': breeder['seedfinder_id'], 'strain_id': strain['seedfinder_id']})
                                 } %}
                             {% endfor %}
                         </div>
 
-                        {# Pagination #}
-                        {% include 'cannastrain_library/partials/_pagination.html.twig' with {
-                            'pagination_path' : 'weedwizard_cannastrain-library_breeder-view',
-                        } %}
+                        {#                        #}{# Pagination #}
+                        {#                        {% include 'cannastrain_library/partials/_pagination.html.twig' with { #}
+                        {#                            'pagination_path' : 'weedwizard_cannastrain-library_breeder-view', #}
+                        {#                        } %} #}
                     </div>
                 </div>
             </div>

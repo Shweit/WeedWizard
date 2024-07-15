@@ -1,19 +1,28 @@
 <div class="col-3 p-4 strain-card-container pagination-item">
     <div class="card rounded-3 mb-4" style="width: auto;">
-        <div class="cropped-img rounded-top-3">
+        <div class="cropped-img rounded-top-3 position-relative">
             <a href="{{ btnLink }}">
                 <img src="{{ image }}" class="card-img-top" alt="{{ name }}">
             </a>
+            <div class="type-overlay bg-secondary">{{ type }}</div>
         </div>
 
         <div class="card-body">
             <h5 class="card-title">{{ name }}</h5>
 
-            <p class="card-text">{{ description }}</p>
+            <p class="card-text fst-italic">
+                {% set descr_without_breaks = description|slice(0, 99)|replace({'&lt;br /&gt;': '', '<br>': ''})|trim %}
+
+                {% if descr_without_breaks is not empty %}
+                    {{ description|slice(0,99)|replace({'&lt;br /&gt;': '<br>'})|raw }}&nbsp...
+                {% else %}
+                    Die Beschreibung konnte leider nicht von der API abgerufen werden.
+                {% endif %}
+            </p>
         </div>
 
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Intensität: {{ intensity }}</li>
+            <li class="list-group-item">Typ: <span class="fw-bold">{{ type }}</span></li>
 
             <li class="list-group-item">Bewertung: {{ rating }}</li>
         </ul>
