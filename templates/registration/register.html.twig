@@ -9,9 +9,9 @@
 
 {% block body %}
     <div class="pt-5 row justify-content-center">
-        <form class="col-6 pe-0 login_form" method="post">
+        <form class="col-6 pe-0 lr_form" method="post">
 
-            <div class="card border-3 rounded-end-0 border-end-0 p-3" style="border-color: #888888">
+            <div class="card border-3 lr-card p-3" style="border-color: #888888">
                 <div class="m-4 mb-0">
                     <div class="row">
                         <img src="{{ asset('build/images/logo.webp') }}" alt="Logo" style="height: 85px; width: auto;"
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </form>
-        <div class="col-4 ps-0 pe-0 border-3 card rounded-start-0 border-start-0"
+        <div class="col-4 ps-0 pe-0 border-3 lr-background-image card rounded-start-0 border-start-0"
              style="border-color: #888888; background-image: url({{ asset('build/images/weedwizrad_wizard.jpg') }}); background-size: cover; background-position: center"></div>
     </div>
 {% endblock %}

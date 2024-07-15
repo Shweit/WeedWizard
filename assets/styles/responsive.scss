@@ -61,4 +61,17 @@
   .navbar-nav .dropdown-menu {
     position: absolute !important;
   }
+
+  .lr-background-image {
+    display: none;
+  }
+
+  .lr_form {
+    width: 80%;
+  }
+
+  .lr-card {
+    border-radius: 5px 5px 5px 5px !important;
+    border-right: #888888 3px solid !important;
+  }
 }
