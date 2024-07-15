@@ -46,12 +46,15 @@
                                     'source': 'SeedFinder',
                                 } %}
                             {% endfor %}
+                            <div id="no-results" class="alert alert-warning" style="display: none;">
+                                Keine Ergebnisse gefunden. Bitte schränke deine Suche weniger ein.
+                            </div>
                         </div>
 
                         {# Pagination #}
-                        {% include 'cannastrain_library/partials/_pagination.html.twig' with {
-                            'pagination_path' : 'weedwizard_cannastrain-library',
-                        } %}
+{#                        {% include 'cannastrain_library/partials/_pagination.html.twig' with {#}
+{#                            'pagination_path' : 'weedwizard_cannastrain-library',#}
+{#                        } %}#}
                     </div>
                 </div>
             </div>

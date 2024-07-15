@@ -2,6 +2,10 @@
   width: auto;
 }
 
+.breeder-card .card-title {
+  min-height: 3rem;
+}
+
 .breeder-logo {
   position: relative;
   overflow: hidden;
@@ -52,6 +56,16 @@
 
 .filter-icon {
   margin-right: 0.5em;
+}
+
+.hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .img-big {
