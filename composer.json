@@ -24,7 +24,7 @@
         "symfony/expression-language": "7.0.*",
         "symfony/flex": "^2",
         "symfony/form": "7.0.*",
-        "symfony/framework-bundle": "7.0.*",
+        "symfony/framework-bundle": "7.1.*",
         "symfony/http-client": "7.0.*",
         "symfony/intl": "7.0.*",
         "symfony/mailer": "7.0.*",
