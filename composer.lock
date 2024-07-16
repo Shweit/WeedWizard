@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77f47df64105d21efc33b1c7ec959d4f",
+    "content-hash": "19e704da4a2c02e552af3789abf74847",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -2829,16 +2829,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v7.0.8",
+            "version": "v7.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "0070bd599ab52c8dc87fa7b782810cba4fde9d06"
+                "reference": "e933e1d947ffb88efcdd34a2bd51561cab7deaae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/0070bd599ab52c8dc87fa7b782810cba4fde9d06",
-                "reference": "0070bd599ab52c8dc87fa7b782810cba4fde9d06",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/e933e1d947ffb88efcdd34a2bd51561cab7deaae",
+                "reference": "e933e1d947ffb88efcdd34a2bd51561cab7deaae",
                 "shasum": ""
             },
             "require": {
@@ -2846,6 +2846,7 @@
                 "psr/cache": "^2.0|^3.0",
                 "psr/log": "^1.1|^2|^3",
                 "symfony/cache-contracts": "^2.5|^3",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/service-contracts": "^2.5|^3",
                 "symfony/var-exporter": "^6.4|^7.0"
             },
@@ -2905,7 +2906,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v7.0.8"
+                "source": "https://github.com/symfony/cache/tree/v7.1.2"
             },
             "funding": [
                 {
@@ -2921,7 +2922,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-06-11T13:32:38+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -4002,16 +4003,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "f7f198c76b0b27d6b9d1684dd03d6e6050e35bfb"
+                "reference": "fbb0ba67688b780efbc886c1a0a0948dcf7205d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/f7f198c76b0b27d6b9d1684dd03d6e6050e35bfb",
-                "reference": "f7f198c76b0b27d6b9d1684dd03d6e6050e35bfb",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/fbb0ba67688b780efbc886c1a0a0948dcf7205d6",
+                "reference": "fbb0ba67688b780efbc886c1a0a0948dcf7205d6",
                 "shasum": ""
             },
             "require": {
@@ -4046,7 +4047,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v7.0.8"
+                "source": "https://github.com/symfony/finder/tree/v7.1.1"
             },
             "funding": [
                 {
@@ -4062,7 +4063,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-05-31T14:57:53+00:00"
         },
         {
             "name": "symfony/flex",
@@ -4227,16 +4228,16 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v7.0.8",
+            "version": "v7.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "f79d0eefe0a1e5a6858ad59f6fef470ec5ae13db"
+                "reference": "54a84f49658e2e87167396b2259a55e55e11f4a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/f79d0eefe0a1e5a6858ad59f6fef470ec5ae13db",
-                "reference": "f79d0eefe0a1e5a6858ad59f6fef470ec5ae13db",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/54a84f49658e2e87167396b2259a55e55e11f4a2",
+                "reference": "54a84f49658e2e87167396b2259a55e55e11f4a2",
                 "shasum": ""
             },
             "require": {
@@ -4245,11 +4246,11 @@
                 "php": ">=8.2",
                 "symfony/cache": "^6.4|^7.0",
                 "symfony/config": "^6.4|^7.0",
-                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/dependency-injection": "^7.1",
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/error-handler": "^6.4|^7.0",
                 "symfony/event-dispatcher": "^6.4|^7.0",
-                "symfony/filesystem": "^6.4|^7.0",
+                "symfony/filesystem": "^7.1",
                 "symfony/finder": "^6.4|^7.0",
                 "symfony/http-foundation": "^6.4|^7.0",
                 "symfony/http-kernel": "^6.4|^7.0",
@@ -4320,6 +4321,7 @@
                 "symfony/string": "^6.4|^7.0",
                 "symfony/translation": "^6.4|^7.0",
                 "symfony/twig-bundle": "^6.4|^7.0",
+                "symfony/type-info": "^7.1",
                 "symfony/uid": "^6.4|^7.0",
                 "symfony/validator": "^6.4|^7.0",
                 "symfony/web-link": "^6.4|^7.0",
@@ -4353,7 +4355,7 @@
             "description": "Provides a tight integration between Symfony components and the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/framework-bundle/tree/v7.0.8"
+                "source": "https://github.com/symfony/framework-bundle/tree/v7.1.2"
             },
             "funding": [
                 {
@@ -4369,7 +4371,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-06-28T08:00:31+00:00"
         },
         {
             "name": "symfony/http-client",
@@ -6146,16 +6148,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "ceb71bb86a8c4e65eb3b9dd33819df390c11ec67"
+                "reference": "60c31bab5c45af7f13091b87deb708830f3c96c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/ceb71bb86a8c4e65eb3b9dd33819df390c11ec67",
-                "reference": "ceb71bb86a8c4e65eb3b9dd33819df390c11ec67",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/60c31bab5c45af7f13091b87deb708830f3c96c0",
+                "reference": "60c31bab5c45af7f13091b87deb708830f3c96c0",
                 "shasum": ""
             },
             "require": {
@@ -6207,7 +6209,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v7.0.8"
+                "source": "https://github.com/symfony/routing/tree/v7.1.1"
             },
             "funding": [
                 {
@@ -6223,7 +6225,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-05-31T14:57:53+00:00"
         },
         {
             "name": "symfony/runtime",
