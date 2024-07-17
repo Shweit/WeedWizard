@@ -20,7 +20,7 @@ class CannabisVereinController extends AbstractController
         private readonly WeedWizardKernel $weedWizardKernel,
     ) {}
 
-    #[Route('/cannabis-verein', name: 'cannabis_verein')]
+    #[Route('/social-club', name: 'cannabis_verein')]
     public function index(Request $request): Response
     {
         $cannabisVereine = $this->entityManager->getRepository(CannabisVerein::class)->findAll();
@@ -77,7 +77,7 @@ class CannabisVereinController extends AbstractController
         ]);
     }
 
-    #[Route('/cannabis-verein/join/{id}', name: 'join_verein')]
+    #[Route('/social-club/join/{id}', name: 'join_verein')]
     public function joinClub(int $id): Response
     {
         $cannabisVerein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);
@@ -112,13 +112,13 @@ class CannabisVereinController extends AbstractController
         return $this->redirectToRoute('my_club');
     }
 
-    #[Route('/cannabis-verein/my-club', name: 'my_club')]
+    #[Route('/social-club/my-club', name: 'my_club')]
     public function myClub(): Response
     {
         return $this->render('cannabis_verein/_my_club.html.twig');
     }
 
-    #[Route('/cannabis-verein/leave/{id}', name: 'leave_verein')]
+    #[Route('/social-club/leave/{id}', name: 'leave_verein')]
     public function leaveClub(int $id): Response
     {
         $verein = $this->entityManager->getRepository(CannabisVerein::class)->find($id);

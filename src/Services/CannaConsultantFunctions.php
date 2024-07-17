@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
 use App\Entity\Plant;
+use App\Entity\Strain;
+use App\Service\SeedFinderApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -14,7 +16,7 @@ class CannaConsultantFunctions
     protected function __construct(
         private EntityManagerInterface $entityManager,
         private WeedWizardKernel $weedWizardKernel,
-        private string $seedFinderApiKey,
+        private SeedFinderApiService $seedFinderApiService,
         private SerializerInterface $serializer,
     ) {}
 
@@ -112,10 +114,7 @@ class CannaConsultantFunctions
     protected function get_all_breeders_and_strains(): array
     {
         try {
-            $guzzleClient = new Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=all&strains=1&ac=' . $this->seedFinderApiKey);
-
-            return json_decode($response->getBody()->getContents(), true);
+            return $this->seedFinderApiService->getBreederInfo();
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
@@ -124,10 +123,7 @@ class CannaConsultantFunctions
     protected function get_cannabis_breeder_info(string $breeder_id): array
     {
         try {
-            $guzzleClient = new Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/ids.json?br=' . $breeder_id . '&strains=1&ac=' . $this->seedFinderApiKey);
-
-            return json_decode($response->getBody()->getContents(), true);
+            return $this->seedFinderApiService->getBreederInfo($breeder_id);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
@@ -136,12 +132,7 @@ class CannaConsultantFunctions
     protected function get_cannabis_strain_info(string $breeder_id, string $strain_id): array
     {
         try {
-            $guzzleClient = new Client();
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/strain.json?br=' . $breeder_id . '&str=' . $strain_id . '&comments=10&parents=1&hybrids=1&medical=1&pics=1&reviews=1&tasting=1&ac=' . $this->seedFinderApiKey);
-            $result = json_decode($response->getBody()->getContents(), true);
-            unset($result['links'], $result['licence']);
-
-            return $result;
+            return $this->seedFinderApiService->getStrainInfo($breeder_id, $strain_id);
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
@@ -150,13 +141,46 @@ class CannaConsultantFunctions
     protected function search_cannabis_strain(string $search): array
     {
         try {
-            $guzzleClient = new Client();
+            $repository = $this->entityManager->getRepository(Strain::class);
 
-            // url encode the search string
-            $search = urlencode($search);
-            $response = $guzzleClient->request('GET', 'https://de.seedfinder.eu/api/json/search.json?q=' . $search . '&ac=' . $this->seedFinderApiKey);
+            $query = $repository->createQueryBuilder('s')
+                ->where('s.name LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+                ->getQuery();
 
-            return json_decode($response->getBody()->getContents(), true);
+            $results = $query->getResult();
+
+            return $this->serializer->normalize($results, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_plant_info(int $plant_id): array
+    {
+        try {
+            $plant = $this->entityManager->getRepository(Plant::class)->find($plant_id);
+
+            if (!$plant) {
+                return ['error' => 'Plant not found'];
+            }
+
+            if ($plant->getUser() !== $this->weedWizardKernel->getUser()) {
+                return ['error' => 'You are not allowed to view this plant'];
+            }
+
+            return $this->serializer->normalize($plant, null, ['groups' => 'growMate']); // @phpstan-ignore-line
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_user_plant(): array
+    {
+        try {
+            $plants = $this->weedWizardKernel->getUser()->getPlants()->toArray();
+
+            return $this->serializer->normalize($plants, null, ['groups' => 'growMate']); // @phpstan-ignore-line
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }

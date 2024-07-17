@@ -12,6 +12,11 @@
         'title': 'CannaDose Calculator'
     } %}
 
+    <div class="alert alert-warning mb-3 alert-dismissible fade show">
+        <strong>Hinweis:</strong> Die hier berechnete Dosierung ist eine Empfehlung. Jeder reagiert unterschiedlich auf Cannabis. Bei starken Beschwerden sollten Sie einen Arzt aufsuchen. Für weitere Informationen lesen Sie bitte in unserer <a href="{{ path('weedwizard_knowledge_base') }}">Knowledgebase</a> oder im <a href="https://www.bundesgesundheitsministerium.de/themen/cannabis/faq-cannabisgesetz.html#c28613" target="_blank">FAQ des Bundesgesundheitsministeriums</a> nach.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="row">
         <div class="col-lg-6">
             <div class="card mb-3">
@@ -22,17 +27,17 @@
                     {{ form_row(form.basis_dosage) }}
                     <div class="row text-center mb-3">
                         <div class="col">
-                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice dosage-active" data-basis-dosage="300">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice dosage-active" data-basis-dosage="300" data-bs-toggle="tooltip" data-bs-title="Leichte Dosierung: Empfohlen für Anfänger oder Personen mit geringer Toleranz">
                                 Leicht
                             </button>
                         </div>
                         <div class="col">
-                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="400">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="400" data-bs-toggle="tooltip" data-bs-title="Mittlere Dosierung: Empfohlen für gelegentliche Nutzer">
                                 Mittel
                             </button>
                         </div>
                         <div class="col">
-                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="500">
+                            <button type="button" class="btn btn-outline-primary ms-3 me-3 w-75 dosage-choice" data-basis-dosage="500" data-bs-toggle="tooltip" data-bs-title="Starke Dosierung: Empfohlen für regelmäßige Nutzer oder Personen mit hoher Toleranz">
                                 Stark
                             </button>
                         </div>

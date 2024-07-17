@@ -11,7 +11,6 @@ use App\Form\PlantType;
 use App\Repository\PlantRepository;
 use App\Service\GrowMateService;
 use App\Services\CannaConsultantServiceV2;
-use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
