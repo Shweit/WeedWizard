@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Plant;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Component\Notifier\Notification\Notification;
 
 class GrowMateService
 {
@@ -19,7 +21,10 @@ class GrowMateService
 
     public function __construct(
         private ChartBuilderInterface $chartBuilder,
-    ) {}
+        private EntityManagerInterface $entityManager,
+        private NotificationService $notificationService,
+
+) {}
 
     public function calculateRangeIntensityChart(Plant $plant): Chart
     {
@@ -37,7 +42,7 @@ class GrowMateService
             return $aDate - $bDate;
         });
 
-        $prognose = $this->createPrognose($weeklyTasks, $plant->getDate()->format('Y-m-d H:i:s'));
+        $prognose = $this->createPrognose($weeklyTasks, $plant->getDate()->format('Y-m-d H:i:s'), $plant);
 
         $prognose = array_slice($prognose, 0, 20);
 
@@ -100,7 +105,7 @@ class GrowMateService
         return $chart;
     }
 
-    public function createPrognose(array $data, string $creationDate): array
+    public function createPrognose(array $data, string $creationDate, Plant $plant): array
     {
         $prognose = [];
 
@@ -262,6 +267,7 @@ class GrowMateService
                                     $prognose[$date] = 0;
                                 }
                                 $prognose[$date] -= self::TASK_WEIGHTS['water'] * 0.3;
+
                             }
                         }
 
@@ -283,6 +289,11 @@ class GrowMateService
             $prognose[$date] = $sum;
         }
 
+        $plant->setCurrentPrognosisValue($sum);
+        $this->entityManager->persist($plant);
+        $this->entityManager->flush();
+
         return $prognose;
     }
+
 }

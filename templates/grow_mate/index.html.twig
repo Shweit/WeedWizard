@@ -100,7 +100,11 @@
                         <img src="{{ asset('build/images/plant-hybrid.jpg') }}" class="card-img-top" alt="Bild der Pflanze" style="">
                         {% endif %}
                         <div class="card-text" style="text-align: center">Prognose:
-                            <img src="{{ asset('build/images/GreenGraph.png') }}" class="card-img-top" alt="Graph" style="height: 15%; width: 15%">
+                            {% if plant.currentPrognosisValue >= 0 %}
+                                <img src="{{ asset('build/images/GreenGraph.png') }}" class="card-img-top" alt="Graph" style="height: 15%; width: 15%">
+                            {% else %}
+                                <img src="{{ asset('build/images/RedGraph.png') }}" class="card-img-top" alt="Graph" style="height: 15%; width: 15%">
+                            {% endif %}
                         </div>
                     </div>
                     <a class="card-footer btn btn-primary bg-primary" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom" data-bs-target="#offcanvasBottom-{{ plant.id }}" style="color: #ffffff">
@@ -120,8 +124,8 @@
                     <div class="container-fluid">
                         <div class="row">
                             <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
-                            <div class="col-sm-5">
-                                <div class="card" style="background-color: #99A881; border-radius: 10px; color: black;">
+                            <div class="col-sm-5 mt-2" >
+                                <div class="card" style="background-color: #99A881; border-radius: 10px; color: black; height: 100%">
                                     <div class="card-body">
                                         <div >
                                             <h3>Name: {{ plant.name }}</h3>
@@ -134,20 +138,30 @@
                             </div>
 
                             <!-- Oben rechts: Prognose -->
-                            <div class="col-sm-7 mt-2">
-                                <div class="card" style="background-color: #203C47; color: white; border-radius: 10px;">
+                            <div class="col-sm-7">
+                                <div class="card mt-2" style="background-color: #203C47; color: white; border-radius: 10px;">
                                     <div class="card-body">
-                                        <div class="col-md-12">
-                                            <h5>Prognose</h5>
-                                            <div class="row">
-                                                <div class="col-sm-10" style="height: 300px">
-                                                    {{ render_chart(plant['chart']) }}
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <img src="{{ asset('build/images/GreenGraph.png') }}" alt="Graph" style="height: 100px; width: auto;">
-                                                    <p>(bla)</p>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <h5>Wochenaufgaben</h5>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" data-plant="{{ plant.id }}" data-task="water" id="water-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'water') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="water-{{ plant.id }}" id="water-{{ plant.id }}-label">Gießen - 500ml {% if isTaskCompleted(plant.id, 'water') > 0 %} in {{ isTaskCompleted(plant.id, 'water') }} Tagen. {% endif %}</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="fertilize" id="fertilize-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="fertilize-{{ plant.id }}" id="fertilize-{{ plant.id }}-label">Düngen - 100ml {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} in {{ isTaskCompleted(plant.id, 'fertilize') }} Tagen. {% endif %}</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="temperature" id="temperature-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'temperature') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="temperature-{{ plant.id }}" id="temperature-{{ plant.id }}-label">Temperatur prüfen {% if isTaskCompleted(plant.id, 'temperature') > 0 %} in {{ isTaskCompleted(plant.id, 'temperature') }} Tagen. {% endif %}</label>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="pesticide" id="pesticides-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} checked disabled {% endif %}>
+                                                    <label class="form-check-label" for="pesticides-{{ plant.id }}" id="pesticide-{{ plant.id }}-label">Pestizide anwenden {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} in {{ isTaskCompleted(plant.id, 'pesticide') }} Tagen. {% endif %}</label>
+                                                </li>
+                                            </ul>
+
                                         </div>
                                     </div>
                                 </div>
@@ -157,8 +171,8 @@
 
                         <div class="row">
                             <!-- Unten links: CannaConsultant Thread Fenster -->
-                            <div class="col-sm-5">
-                                <div class="card mt-2" style="background-color: #203C47; color: white; border-radius: 10px;">
+                            <div class="col-sm-5 mt-2">
+                                <div class="card mt-2" style="background-color: #203C47; color: white; border-radius: 10px; height: 95%">
                                     <div class="card-body">
                                         <h5>CannaConsultant</h5>
                                         <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userInitials="{{ app.user.firstname|first|upper ~ app.user.lastname|first|upper }}" style="max-height: 14vh;">
@@ -227,29 +241,25 @@
                             </div>
 
                             <!-- Unten rechts: Wochenaufgaben + anklicken -->
-                            <div class="col-sm-7">
-                                <div class="card mt-2" style="background-color: #203C47; color: white; border-radius: 10px;">
+                            <div class="col-sm-7 mt-2">
+                                <div class="card mt-2" style="background-color: #203C47; color: white; border-radius: 10px; height: 95%">
                                     <div class="card-body" >
-                                        <div class="col-md-6" >
-                                            <h5>Wochenaufgaben</h5>
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" data-plant="{{ plant.id }}" data-task="water" id="water-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'water') > 0 %} checked disabled {% endif %}>
-                                                    <label class="form-check-label" for="water-{{ plant.id }}" id="water-{{ plant.id }}-label">Gießen - 500ml {% if isTaskCompleted(plant.id, 'water') > 0 %} in {{ isTaskCompleted(plant.id, 'water') }} Tagen. {% endif %}</label>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="fertilize" id="fertilize-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} checked disabled {% endif %}>
-                                                    <label class="form-check-label" for="fertilize-{{ plant.id }}" id="fertilize-{{ plant.id }}-label">Düngen - 100ml {% if isTaskCompleted(plant.id, 'fertilize') > 0 %} in {{ isTaskCompleted(plant.id, 'fertilize') }} Tagen. {% endif %}</label>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="temperature" id="temperature-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'temperature') > 0 %} checked disabled {% endif %}>
-                                                    <label class="form-check-label" for="temperature-{{ plant.id }}" id="temperature-{{ plant.id }}-label">Temperatur prüfen {% if isTaskCompleted(plant.id, 'temperature') > 0 %} in {{ isTaskCompleted(plant.id, 'temperature') }} Tagen. {% endif %}</label>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <input class="form-check-input me-1 weekly-task" type="checkbox" value="" data-plant="{{ plant.id }}" data-task="pesticide" id="pesticides-{{ plant.id }}" {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} checked disabled {% endif %}>
-                                                    <label class="form-check-label" for="pesticides-{{ plant.id }}" id="pesticide-{{ plant.id }}-label">Pestizide anwenden {% if isTaskCompleted(plant.id, 'pesticide') > 0 %} in {{ isTaskCompleted(plant.id, 'pesticide') }} Tagen. {% endif %}</label>
-                                                </li>
-                                            </ul>
+                                        <div class="col-md-12" >
+                                            <h5>Prognose</h5>
+                                            <div class="row">
+                                                <div class="col-sm-8" style="height: 200px; ">
+                                                    {{ render_chart(plant['chart']) }}
+                                                </div>
+                                                <div class="col-sm-4" style="text-align: center">
+                                                    {% if plant.currentPrognosisValue >= 0 %}
+                                                        <img src="{{ asset('build/images/GreenGraph.png') }}" alt="Graph" style="height: 100px; width: auto; ">
+                                                        <p>(die Pflanze hat mit hoher Wahrscheinlichkeit eine <b>positive</b> Entwicklung)</p>
+                                                    {% else  %}
+                                                        <img src="{{ asset('build/images/RedGraph.png') }}" alt="Graph" style="height: 100px; width: auto;">
+                                                        <p>(die Pflanze hat mit hoher Wahrscheinlichkeit eine <b>negative</b> Entwicklung)</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
