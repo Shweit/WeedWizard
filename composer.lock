@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5be6e525b44c362a9ec4d9e2afab9bb4",
+    "content-hash": "32774ffb8e0f4ee0d961932571a8b32f",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -3569,16 +3569,16 @@
         },
         {
             "name": "symfony/dotenv",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dotenv.git",
-                "reference": "73ba4287d5b6cd5d67fe5a08987981842a599313"
+                "reference": "efa715ec40c098f2fba62444f4fd75d0d4248ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dotenv/zipball/73ba4287d5b6cd5d67fe5a08987981842a599313",
-                "reference": "73ba4287d5b6cd5d67fe5a08987981842a599313",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/efa715ec40c098f2fba62444f4fd75d0d4248ede",
+                "reference": "efa715ec40c098f2fba62444f4fd75d0d4248ede",
                 "shasum": ""
             },
             "require": {
@@ -3623,7 +3623,7 @@
                 "environment"
             ],
             "support": {
-                "source": "https://github.com/symfony/dotenv/tree/v7.0.8"
+                "source": "https://github.com/symfony/dotenv/tree/v7.1.1"
             },
             "funding": [
                 {
@@ -3639,7 +3639,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-05-31T14:57:53+00:00"
         },
         {
             "name": "symfony/error-handler",
