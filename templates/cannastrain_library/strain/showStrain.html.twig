@@ -79,12 +79,18 @@
 
                                 {# Forward / backward btn #}
                                 <div>
-                                    <button type="button" class="btn btn-primary btn-img rounded-5">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-img rounded-5">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </button>
+                                    <a class="no-underline" href="{{ previousStrainLink }}">
+                                        <button type="button" class="btn btn-primary btn-img rounded-5">
+                                            <i class="fa-solid fa-chevron-left"></i>
+                                        </button>
+                                    </a>
+
+                                    <a class="no-underline" href="{{ nextStrainLink }}">
+                                        <button type="button" class="btn btn-secondary btn-img rounded-5">
+
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
 
