@@ -11,6 +11,7 @@ use App\Form\PlantType;
 use App\Repository\PlantRepository;
 use App\Service\GrowMateService;
 use App\Services\CannaConsultantServiceV2;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +31,7 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
     {
+
         if (!$this->weedWizardKernel->isUserPremium()) {
             $this->addFlash('error', 'Du brauchst ein Premium-Abo um den GrowMate zu nutzen');
 
@@ -53,6 +55,7 @@ class GrowMateController extends AbstractController
                 'thread' => $plant->getThread(),
                 'messages' => $plant->getThread() ? $this->cannaConsultantService->getRecentMessages($plant->getThread()) : '',
                 'chart' => $this->growMateService->calculateRangeIntensityChart($plant),
+                'currentPrognosisValue' => $plant->getCurrentPrognosisValue(),
             ];
         }, $plants);
 

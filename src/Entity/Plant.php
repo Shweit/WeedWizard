@@ -58,6 +58,9 @@ class Plant
     #[ORM\Column]
     private array $weekly_tasks = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?int $currentPrognosisValue = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -191,6 +194,18 @@ class Plant
     public function setWeeklyTasks(array $weekly_tasks): static
     {
         $this->weekly_tasks = $weekly_tasks;
+
+        return $this;
+    }
+
+    public function getCurrentPrognosisValue(): ?int
+    {
+        return $this->currentPrognosisValue;
+    }
+
+    public function setCurrentPrognosisValue(?int $currentPrognosisValue): static
+    {
+        $this->currentPrognosisValue = $currentPrognosisValue;
 
         return $this;
     }
