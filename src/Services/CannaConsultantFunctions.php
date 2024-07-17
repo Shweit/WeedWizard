@@ -186,33 +186,4 @@ class CannaConsultantFunctions
         }
     }
 
-    protected function get_plant_info(int $plant_id): array
-    {
-        try {
-            $plant = $this->entityManager->getRepository(Plant::class)->find($plant_id);
-
-            if (!$plant) {
-                return ['error' => 'Plant not found'];
-            }
-
-            if ($plant->getUser() !== $this->weedWizardKernel->getUser()) {
-                return ['error' => 'You are not allowed to view this plant'];
-            }
-
-            return $this->serializer->normalize($plant, null, ['groups' => 'growMate']); // @phpstan-ignore-line
-        } catch (\Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-    }
-
-    protected function get_user_plant(): array
-    {
-        try {
-            $plants = $this->weedWizardKernel->getUser()->getPlants()->toArray();
-
-            return $this->serializer->normalize($plants, null, ['groups' => 'growMate']); // @phpstan-ignore-line
-        } catch (\Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-    }
 }
