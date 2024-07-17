@@ -9,7 +9,7 @@
 
 {% block body %}
     {% block container_class %}
-        <div class="container-fluid">
+        <div class="container-fluid container-cannastrain-library">
     {% endblock %}
 
     {# Header #}
@@ -34,7 +34,7 @@
 
                 {# Single strain view #}
                 <div class="flex-grow-1" id="results">
-                    <div class="container-fluid">
+                    <div class="container-fluid container-cannastrain-library">
 
                         {# Back btn #}
                         <a href="{{ path('weedwizard_cannastrain-library_breeder-view', {'page' : 1, 'breeder_id': breeder['seedfinder_id']}) }}"

@@ -38,7 +38,7 @@
   transition: transform 0.2s, color 0.2s;
 }
 
-.container-fluid {
+.container-fluid.container-cannastrain-library {
   margin: 1em;
   width: 98%
 }
@@ -60,13 +60,7 @@
 }
 
 .hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+  display: none;
 }
 
 .img-big {
@@ -107,9 +101,4 @@
 
 #filters-container, #filters-hidden-container {
   transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.hidden {
-  opacity: 0;
-  visibility: hidden;
 }
