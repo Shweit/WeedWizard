@@ -45,17 +45,16 @@ class CannaStrainLibraryController extends AbstractController
         ]);
     }
 
-    #[Route('/cannastrain-library/{breeder_id}/page={page}', name: 'weedwizard_cannastrain-library_breeder-view')]
-    public function showBreeder(string $breeder_id, int $page): Response
+    #[Route('/cannastrain-library/{breeder_id}', name: 'weedwizard_cannastrain-library_breeder-view')]
+    public function showBreeder(string $breeder_id): Response
     {
-        $breeder = $this->seedFinderApiService->getBreederInfoPaginated($breeder_id, $page, $this->paginationLimit);
+        $breeder = $this->seedFinderApiService->getBreederInfo($breeder_id);
         $totalNumOfStrains = count($breeder['strains']);
 
         return $this->render('cannastrain_library/breeder/showBreeder.html.twig', [
             'breeder' => $breeder,
             'filters' => $this->strainFilters,
             'strains' => $breeder['strains'],
-            'currentPage' => $page,
             'totalPages' => ceil($totalNumOfStrains / $this->paginationLimit),
             'breeder_id' => $breeder['seedfinder_id'],
         ]);
