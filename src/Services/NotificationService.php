@@ -11,6 +11,7 @@ class NotificationService
     // Hier kann mam typisierte Konstanten definieren, welche für die Notification
     // verwendet werden können.
 
+    public const GENERAL_TYPE = 'general';
     public const CANNABIS_CONSUMPTION_COMPLIANCE_MAP_TYPE = 'cannabis_consumption_compliance_map';
     public const CANNABIS_VEREINSSUCHE = 'cannabis_vereinssuche';
     public const BUD_BASH_LOCATOR_TYPE = 'bud_bash_locator';
@@ -18,6 +19,7 @@ class NotificationService
     public const CANNADOSE_CALCULATOR_TYPE = 'cannadose_calculator';
     public const GROW_MATE_TYPE = 'grow_mate';
     public const CANNA_CONSULTANT_TYPE = 'canna_consultant';
+    public const BLOG_TYPE = 'blog';
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

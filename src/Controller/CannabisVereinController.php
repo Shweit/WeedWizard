@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CannabisVerein;
 use App\Form\CannabisVereinType;
 use App\Services\CannabisVereinService;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,7 @@ class CannabisVereinController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly CannabisVereinService $cannabisVereinService,
         private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly NotificationService $notificationService,
     ) {}
 
     #[Route('/social-club', name: 'cannabis_verein')]
@@ -108,6 +110,11 @@ class CannabisVereinController extends AbstractController
 
         $cannabisVerein->addParticipant($this->weedWizardKernel->getUser());
         $this->entityManager->flush();
+        $this->notificationService->createNotification(
+            NotificationService::CANNABIS_VEREINSSUCHE,
+            $this->weedWizardKernel->getUser()->getUsername() . ' ist dem Verein ' . $cannabisVerein->getName() . ' beigetreten.',
+            $cannabisVerein->getCreatedBy()
+        );
 
         return $this->redirectToRoute('my_club');
     }
@@ -132,6 +139,11 @@ class CannabisVereinController extends AbstractController
             $verein->removeParticipant($this->weedWizardKernel->getUser());
         }
         $this->entityManager->flush();
+        $this->notificationService->createNotification(
+            NotificationService::CANNABIS_VEREINSSUCHE,
+            $this->weedWizardKernel->getUser()->getUsername() . ' hat den Verein ' . $verein->getName() . ' verlassen.',
+            $verein->getCreatedBy()
+        );
 
         return $this->redirectToRoute('cannabis_verein');
     }

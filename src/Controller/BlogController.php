@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Blog;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ class BlogController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly NotificationService $notificationService,
     ) {}
 
     #[Route('/blog', name: 'app_blog')]
@@ -89,6 +91,7 @@ class BlogController extends AbstractController
         }
 
         $blog->addLike($user);
+        $this->notificationService->createNotification(NotificationService::BLOG_TYPE, 'Ein Beitrag wurde geliked.', $blog->getUser());
 
         $this->entityManager->persist($blog);
         $this->entityManager->flush();

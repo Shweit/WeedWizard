@@ -116,7 +116,7 @@ class BudBashLocatorController extends AbstractController
         foreach ($budBash->getParticipants() as $participant) {
             $this->notificationService->createNotification(
                 NotificationService::BUD_BASH_LOCATOR_TYPE,
-                'Die Party wurde abgesagt.',
+                'Die Party ' . $budBash->getName() . ' von ' . $budBash->getCreatedBy()->getFirstname() . ' ' . $budBash->getCreatedBy()->getLastname() . ' wurde abgesagt.',
                 $participant
             );
         }
@@ -249,7 +249,7 @@ class BudBashLocatorController extends AbstractController
 
         $this->notificationService->createNotification(
             NotificationService::BUD_BASH_LOCATOR_TYPE,
-            $this->weedWizardKernel->getUser()->getFirstname() . ' ' . $this->weedWizardKernel->getUser()->getLastname() . ' hat abgesagt.',
+            $this->weedWizardKernel->getUser()->getFirstname() . ' ' . $this->weedWizardKernel->getUser()->getLastname() . ' hat zur Party abgesagt.',
             $host
         );
 

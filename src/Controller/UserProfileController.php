@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserProfileFormType;
+use App\Services\NotificationService;
 use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ class UserProfileController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WeedWizardKernel $weedWizardKernel,
         private SluggerInterface $slugger,
+        private readonly NotificationService $notificationService,
     ) {}
 
     #[Route('/profile/{username}', name: 'weedwizard_user_profile')]
@@ -95,6 +97,7 @@ class UserProfileController extends AbstractController
 
             $this->entityManager->flush();
             $this->addFlash('success', 'Dein Profil wurde erfolgreich aktualisiert.');
+            $this->notificationService->createNotification(NotificationService::GENERAL_TYPE, 'Dein Profil wurde aktualisiert.', $userProfile);
 
             return new RedirectResponse($this->generateUrl('weedwizard_user_profile', ['username' => $userProfile->getUsername()]));
         }
