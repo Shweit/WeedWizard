@@ -4,7 +4,6 @@ use App\DataFixtures\ClubFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\CannabisVerein;
 use App\Entity\User;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -112,7 +111,7 @@ class SocialClubsTest extends WebTestCase
     private function truncateDatabase(): void
     {
         $connection = $this->entityManager->getConnection();
-        $platform   = $connection->getDatabasePlatform();
+        $platform = $connection->getDatabasePlatform();
 
         $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0;');
         $connection->executeUpdate($platform->getTruncateTableSQL('cannabis_verein', true));
