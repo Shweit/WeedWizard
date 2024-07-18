@@ -107,7 +107,7 @@ class ClubFixtures extends Fixture
                     'SicheresPasswort'
                 )
             );
-            $user->setUsername('user-' . $i + 1);
+            $user->setUsername('user-' . ($i + 1));
 
             $address = explode(' $ ', $addresses[$i]);
 
