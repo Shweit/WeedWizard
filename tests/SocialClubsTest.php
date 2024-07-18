@@ -111,7 +111,12 @@ class SocialClubsTest extends WebTestCase
 
     private function truncateDatabase(): void
     {
-        $ormPurger = new ORMPurger($this->entityManager);
-        $ormPurger->purge();
+        $connection = $this->entityManager->getConnection();
+        $platform   = $connection->getDatabasePlatform();
+
+        $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0;');
+        $connection->executeUpdate($platform->getTruncateTableSQL('cannabis_verein', true));
+        $connection->executeUpdate($platform->getTruncateTableSQL('user', true));
+        $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1;');
     }
 }
