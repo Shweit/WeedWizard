@@ -21,6 +21,7 @@ class GrowMateService
 
     public function __construct(
         private ChartBuilderInterface $chartBuilder,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     public function calculateRangeIntensityChart(Plant $plant): Chart
