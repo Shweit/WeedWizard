@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PlantType extends AbstractType
 {
@@ -31,6 +34,10 @@ class PlantType extends AbstractType
             ->add('date', DateType::class, [
                 'label' => 'Anbaudatum',
                 'widget' => 'single_text',
+                'constraints' => [
+                    new NotBlank(message: 'Bitte gib ein Datum ein.'),
+                    new LessThanOrEqual('today'),
+                ],
             ])
             ->add('state', ChoiceType::class, [
                 'label' => 'Wachstumsstatus',

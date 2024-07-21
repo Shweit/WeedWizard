@@ -62,6 +62,7 @@ class GrowMateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             if (!$this->weedWizardKernel->getUser()) {
                 $this->addFlash('error', 'Du musst eingeloggt sein um eine Pflanze erstellen zu können. Siehe CanG');
 
