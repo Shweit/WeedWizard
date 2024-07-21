@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-pdo": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -32,7 +33,7 @@
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "7.1.*",
         "symfony/process": "7.1.*",
-        "symfony/property-access": "7.0.*",
+        "symfony/property-access": "7.1.*",
         "symfony/property-info": "7.0.*",
         "symfony/runtime": "7.0.*",
         "symfony/security-bundle": "7.1.*",
@@ -48,11 +49,8 @@
         "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "7.0.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "ext-curl": "*",
         "twig/intl-extra": "^3.9",
-        "ext-curl": "*",
-        "ext-pdo": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {

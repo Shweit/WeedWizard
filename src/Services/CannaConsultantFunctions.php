@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
+use App\Entity\Plant;
 use App\Entity\Strain;
 use App\Service\SeedFinderApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,10 +13,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 class CannaConsultantFunctions
 {
     protected function __construct(
-        private EntityManagerInterface $entityManager,
-        private WeedWizardKernel $weedWizardKernel,
-        private SeedFinderApiService $seedFinderApiService,
-        private SerializerInterface $serializer,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly SeedFinderApiService $seedFinderApiService,
+        private readonly SerializerInterface $serializer,
     ) {}
 
     protected function get_bud_bash_partys(): array
@@ -149,6 +150,36 @@ class CannaConsultantFunctions
             $results = $query->getResult();
 
             return $this->serializer->normalize($results, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_plant_info(int $plant_id): array
+    {
+        try {
+            $plant = $this->entityManager->getRepository(Plant::class)->find($plant_id);
+
+            if (!$plant) {
+                return ['error' => 'Plant not found'];
+            }
+
+            if ($plant->getUser() !== $this->weedWizardKernel->getUser()) {
+                return ['error' => 'You are not allowed to view this plant'];
+            }
+
+            return $this->serializer->normalize($plant, null, ['groups' => 'growMate']); // @phpstan-ignore-line
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    protected function get_user_plant(): array
+    {
+        try {
+            $plants = $this->weedWizardKernel->getUser()->getPlants()->toArray();
+
+            return $this->serializer->normalize($plants, null, ['groups' => 'growMate']); // @phpstan-ignore-line
         } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }

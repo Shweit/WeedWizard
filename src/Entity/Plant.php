@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlantRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlantRepository::class)]
 class Plant
@@ -15,33 +16,50 @@ class Plant
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['growMate'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $state = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $placeOfCultivation = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['growMate'])]
     private ?string $lighting = null;
 
     #[ORM\ManyToOne(inversedBy: 'plants')]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $thread = [];
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $thread = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['growMate'])]
     private ?Strain $strain = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['growMate'])]
     private ?Breeder $breeder = null;
+
+    #[ORM\Column]
+    #[Groups(['growMate'])]
+    private ?int $growth = null;
+
+    #[ORM\Column]
+    private array $weekly_tasks = [];
+
+    #[ORM\Column(nullable: true)]
+    private ?int $currentPrognosisValue = null;
 
     public function getId(): ?int
     {
@@ -120,12 +138,12 @@ class Plant
         return $this;
     }
 
-    public function getThread(): array
+    public function getThread(): ?array
     {
         return $this->thread;
     }
 
-    public function setThread(array $thread): static
+    public function setThread(?array $thread): static
     {
         $this->thread = $thread;
 
@@ -152,6 +170,42 @@ class Plant
     public function setBreeder(?Breeder $breeder): static
     {
         $this->breeder = $breeder;
+
+        return $this;
+    }
+
+    public function getGrowth(): ?int
+    {
+        return $this->growth;
+    }
+
+    public function setGrowth(int $growth): static
+    {
+        $this->growth = $growth;
+
+        return $this;
+    }
+
+    public function getWeeklyTasks(): array
+    {
+        return $this->weekly_tasks;
+    }
+
+    public function setWeeklyTasks(array $weekly_tasks): static
+    {
+        $this->weekly_tasks = $weekly_tasks;
+
+        return $this;
+    }
+
+    public function getCurrentPrognosisValue(): ?int
+    {
+        return $this->currentPrognosisValue;
+    }
+
+    public function setCurrentPrognosisValue(?int $currentPrognosisValue): static
+    {
+        $this->currentPrognosisValue = $currentPrognosisValue;
 
         return $this;
     }
