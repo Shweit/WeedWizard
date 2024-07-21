@@ -2,22 +2,17 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Breeder;
 use App\Entity\Plant;
 use App\Entity\User;
-use App\Entity\Strain;
-use App\Entity\Breeder;
-use App\Services\CannaConsultantService;
 use App\Services\CannaConsultantServiceV2;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class PlantFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function __construct(private readonly CannaConsultantServiceV2 $cannaConsultantService)
-    {
-    }
+    public function __construct(private readonly CannaConsultantServiceV2 $cannaConsultantService) {}
 
     public function load(ObjectManager $manager)
     {
@@ -32,16 +27,10 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $breeder2 = $manager->getRepository(Breeder::class)->find(4);
         $breeder3 = $manager->getRepository(Breeder::class)->find(6);
 
-
-
         $strain1 = $breeder1->getStrains()->get(array_rand($breeder1->getStrains()->toArray()));
         $strain2 = $breeder2->getStrains()->get(array_rand($breeder2->getStrains()->toArray()));
         $strain3 = $breeder3->getStrains()->get(array_rand($breeder3->getStrains()->toArray()));
         $strain4 = $breeder2->getStrains()->get(array_rand($breeder2->getStrains()->toArray()));
-
-
-
-
 
         // Create plants
         $plant1 = new Plant();
@@ -55,30 +44,29 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant1->setBreeder($breeder1);
         $plant1->setGrowth(1);
         $plant1->setWeeklyTasks([
-            "water" => [
+            'water' => [
                 [
-                    "date" => "2024-07-17 18:48:09",
-                    "task" => "water"
-                ]
+                    'date' => '2024-07-17 18:48:09',
+                    'task' => 'water',
+                ],
             ],
-            "fertilize" => [
+            'fertilize' => [
                 [
-                    "date" => "2024-07-17 18:48:10",
-                    "task" => "fertilize"
-                ]
+                    'date' => '2024-07-17 18:48:10',
+                    'task' => 'fertilize',
+                ],
             ],
-            "temperature" => [
+            'temperature' => [
                 [
-                    "date" => "2024-07-17 18:48:10",
-                    "task" => "temperature"
-                ]
-            ]
+                    'date' => '2024-07-17 18:48:10',
+                    'task' => 'temperature',
+                ],
+            ],
         ]);
         $plant1->setCurrentPrognosisValue(80);
         $plant1->setThread($this->cannaConsultantService->getThreadForPlant($plant1));
 
         $manager->persist($plant1);
-
 
         $plant2 = new Plant();
         $plant2->setName('BOB');
@@ -91,36 +79,35 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant2->setBreeder($breeder2);
         $plant2->setGrowth(1);
         $plant2->setWeeklyTasks([
-            "water" => [
+            'water' => [
                 [
-                    "date" => "2024-07-15 18:48:09",
-                    "task" => "water"
-                ]
+                    'date' => '2024-07-15 18:48:09',
+                    'task' => 'water',
+                ],
             ],
-            "fertilize" => [
+            'fertilize' => [
                 [
-                    "date" => "2024-07-17 18:48:10",
-                    "task" => "fertilize"
-                ]
+                    'date' => '2024-07-17 18:48:10',
+                    'task' => 'fertilize',
+                ],
             ],
-            "temperature" => [
+            'temperature' => [
                 [
-                    "date" => "2024-07-12 18:48:10",
-                    "task" => "temperature"
-                ]
+                    'date' => '2024-07-12 18:48:10',
+                    'task' => 'temperature',
+                ],
             ],
-            "pesticide" => [
+            'pesticide' => [
                 [
-                    "date" => "2024-07-15 18:48:10",
-                    "task" => "pesticide"
-                ]
-            ]
+                    'date' => '2024-07-15 18:48:10',
+                    'task' => 'pesticide',
+                ],
+            ],
         ]);
         $plant2->setCurrentPrognosisValue(95);
         $plant2->setThread($this->cannaConsultantService->getThreadForPlant($plant2));
 
         $manager->persist($plant2);
-
 
         $plant3 = new Plant();
         $plant3->setName('Plant 1');
@@ -133,24 +120,24 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant3->setBreeder($breeder2);
         $plant3->setGrowth(1);
         $plant3->setWeeklyTasks([
-            "water" => [
+            'water' => [
                 [
-                    "date" => "2024-07-17 08:30:00",
-                    "task" => "water"
-                ]
+                    'date' => '2024-07-17 08:30:00',
+                    'task' => 'water',
+                ],
             ],
-            "fertilize" => [
+            'fertilize' => [
                 [
-                    "date" => "2024-07-18 08:30:00",
-                    "task" => "fertilize"
-                ]
+                    'date' => '2024-07-18 08:30:00',
+                    'task' => 'fertilize',
+                ],
             ],
-            "temperature" => [
+            'temperature' => [
                 [
-                    "date" => "2024-07-19 08:30:00",
-                    "task" => "temperature"
-                ]
-            ]
+                    'date' => '2024-07-19 08:30:00',
+                    'task' => 'temperature',
+                ],
+            ],
         ]);
         $plant3->setCurrentPrognosisValue(-30);
         $plant3->setThread($this->cannaConsultantService->getThreadForPlant($plant3));
@@ -169,30 +156,30 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant4->setBreeder($breeder3);
         $plant4->setGrowth(1);
         $plant4->setWeeklyTasks([
-            "water" => [
+            'water' => [
                 [
-                    "date" => "2024-07-18 09:00:00",
-                    "task" => "water"
-                ]
+                    'date' => '2024-07-18 09:00:00',
+                    'task' => 'water',
+                ],
             ],
-            "fertilize" => [
+            'fertilize' => [
                 [
-                    "date" => "2024-07-19 09:00:00",
-                    "task" => "fertilize"
-                ]
+                    'date' => '2024-07-19 09:00:00',
+                    'task' => 'fertilize',
+                ],
             ],
-            "temperature" => [
+            'temperature' => [
                 [
-                    "date" => "2024-07-20 09:00:00",
-                    "task" => "temperature"
-                ]
+                    'date' => '2024-07-20 09:00:00',
+                    'task' => 'temperature',
+                ],
             ],
-            "pesticide" => [
+            'pesticide' => [
                 [
-                    "date" => "2024-07-20 18:48:10",
-                    "task" => "pesticide"
-                ]
-            ]
+                    'date' => '2024-07-20 18:48:10',
+                    'task' => 'pesticide',
+                ],
+            ],
         ]);
         $plant4->setCurrentPrognosisValue(85);
         $plant4->setThread($this->cannaConsultantService->getThreadForPlant($plant4));
@@ -211,65 +198,60 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant5->setBreeder($breeder2);
         $plant5->setGrowth(1);
         $plant5->setWeeklyTasks([
-            "water" => [
+            'water' => [
                 [
-                    "date" => "2024-07-05 10:00:00",
-                    "task" => "water"
+                    'date' => '2024-07-05 10:00:00',
+                    'task' => 'water',
                 ],
                 [
-                    "date" => "2024-07-11 10:00:00",
-                    "task" => "water"
+                    'date' => '2024-07-11 10:00:00',
+                    'task' => 'water',
                 ],
                 [
-                    "date" => "2024-07-17 10:00:00",
-                    "task" => "water"
-                ]
+                    'date' => '2024-07-17 10:00:00',
+                    'task' => 'water',
+                ],
             ],
-            "fertilize" => [
+            'fertilize' => [
                 [
-                    "date" => "2024-07-09 10:00:00",
-                    "task" => "fertilize"
+                    'date' => '2024-07-09 10:00:00',
+                    'task' => 'fertilize',
                 ],
                 [
-                    "date" => "2024-07-20 10:00:00",
-                    "task" => "fertilize"
-                ]
+                    'date' => '2024-07-20 10:00:00',
+                    'task' => 'fertilize',
+                ],
             ],
-            "temperature" => [
+            'temperature' => [
                 [
-                    "date" => "2024-07-03 10:00:00",
-                    "task" => "temperature"
+                    'date' => '2024-07-03 10:00:00',
+                    'task' => 'temperature',
                 ],
                 [
-                    "date" => "2024-07-07 10:00:00",
-                    "task" => "temperature"
-                ]
+                    'date' => '2024-07-07 10:00:00',
+                    'task' => 'temperature',
+                ],
             ],
-            "pesticide" => [
+            'pesticide' => [
                 [
-                    "date" => "2024-07-14 10:00:00",
-                    "task" => "pesticide"
-                ]
-            ]
+                    'date' => '2024-07-14 10:00:00',
+                    'task' => 'pesticide',
+                ],
+            ],
         ]);
         $plant5->setCurrentPrognosisValue(90);
         $plant5->setThread($this->cannaConsultantService->getThreadForPlant($plant5));
 
         $manager->persist($plant5);
 
-
-
         $manager->flush();
-
-
-
     }
 
     public function getDependencies()
     {
         return [
             UserFixtures::class,
-            StrainWithBreederFixtures::class
+            StrainWithBreederFixtures::class,
         ];
     }
 }

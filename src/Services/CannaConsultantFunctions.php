@@ -8,16 +8,15 @@ use App\Entity\Plant;
 use App\Entity\Strain;
 use App\Service\SeedFinderApiService;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CannaConsultantFunctions
 {
     protected function __construct(
-        private EntityManagerInterface $entityManager,
-        private WeedWizardKernel $weedWizardKernel,
-        private SeedFinderApiService $seedFinderApiService,
-        private SerializerInterface $serializer,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WeedWizardKernel $weedWizardKernel,
+        private readonly SeedFinderApiService $seedFinderApiService,
+        private readonly SerializerInterface $serializer,
     ) {}
 
     protected function get_bud_bash_partys(): array
@@ -185,5 +184,4 @@ class CannaConsultantFunctions
             return ['error' => $e->getMessage()];
         }
     }
-
 }

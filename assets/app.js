@@ -6,7 +6,6 @@
  */
 import './bootstrap';
 
-import Chart from 'chart.js/auto';
 import * as bootstrap from 'bootstrap';
 import './styles/app.scss';
 import {sanitizeHtml} from "bootstrap/js/src/util/sanitizer";
@@ -130,7 +129,7 @@ window.showToast = function (message, type = 'success') {
 
     const toastBody = document.createElement('div');
     toastBody.classList.add('toast-body');
-    toastBody.innerHTML = message;
+    toastBody.innerHTML = sanitizeHtml(message);
 
     toast.appendChild(toastHeader);
     toast.appendChild(toastBody);

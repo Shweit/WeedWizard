@@ -30,7 +30,6 @@ class GrowMateController extends AbstractController
     #[Route('/grow-mate', name: 'growMate')]
     public function index(Request $request, EntityManagerInterface $entityManager, PlantRepository $plantRepository): Response
     {
-
         if (!$this->weedWizardKernel->isUserPremium()) {
             $this->addFlash('error', 'Du brauchst ein Premium-Abo um den GrowMate zu nutzen');
 
@@ -62,7 +61,6 @@ class GrowMateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             if (!$this->weedWizardKernel->getUser()) {
                 $this->addFlash('error', 'Du musst eingeloggt sein um eine Pflanze erstellen zu können. Siehe CanG');
 

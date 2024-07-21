@@ -3,12 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Plant;
-use App\Services\NotificationService;
-use App\Services\WeedWizardKernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
-use Symfony\Component\Notifier\Notification\Notification;
 
 class GrowMateService
 {
@@ -265,7 +262,6 @@ class GrowMateService
                                     $prognose[$date] = 0;
                                 }
                                 $prognose[$date] -= self::TASK_WEIGHTS['water'] * 0.3;
-
                             }
                         }
 
@@ -293,5 +289,4 @@ class GrowMateService
 
         return $prognose;
     }
-
 }

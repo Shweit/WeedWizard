@@ -72,7 +72,6 @@ $(document).ready(function() {
                     if (data.error) {
                         window.showToast(data.error, 'error');
                     } else {
-                        console.log(data);
                         window.showToast(data, 'success');
                     }
                 });

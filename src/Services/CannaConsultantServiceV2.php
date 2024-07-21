@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Entity\CannaConsultantThreads;
-use App\Entity\Plant;
 use App\Service\SeedFinderApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenAI;
@@ -127,11 +126,6 @@ class CannaConsultantServiceV2 extends CannaConsultantFunctions
         }
 
         throw new \Exception('Run did not complete in the expected time');
-    }
-
-    public function getSeedFinderApiKey(): string
-    {
-        return $this->seedFinderApiKey;
     }
 
     public function getThreadForPlant($plant): array
