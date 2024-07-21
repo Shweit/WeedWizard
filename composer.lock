@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5be6e525b44c362a9ec4d9e2afab9bb4",
+    "content-hash": "3a5d424f2704ba7108e4b2bbffdd6dfe",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -6065,22 +6065,21 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v7.1.2",
+            "version": "v7.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "d7b91e4aa07e822a9b935fc29a7254c12d502f16"
+                "reference": "d6fd6539ce1dbcb3955b1c4db8f0b68a45c47d2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/d7b91e4aa07e822a9b935fc29a7254c12d502f16",
-                "reference": "d7b91e4aa07e822a9b935fc29a7254c12d502f16",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/d6fd6539ce1dbcb3955b1c4db8f0b68a45c47d2c",
+                "reference": "d6fd6539ce1dbcb3955b1c4db8f0b68a45c47d2c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "symfony/string": "^6.4|^7.0",
-                "symfony/type-info": "^7.1"
+                "symfony/string": "^6.4|^7.0"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<5.2",
@@ -6129,7 +6128,7 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-info/tree/v7.1.2"
+                "source": "https://github.com/symfony/property-info/tree/v7.0.9"
             },
             "funding": [
                 {
@@ -6145,7 +6144,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-26T07:21:35+00:00"
+            "time": "2024-06-22T11:38:48+00:00"
         },
         {
             "name": "symfony/routing",
@@ -7414,88 +7413,6 @@
                 }
             ],
             "time": "2024-05-31T14:57:53+00:00"
-        },
-        {
-            "name": "symfony/type-info",
-            "version": "v7.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/type-info.git",
-                "reference": "60b28eb733f1453287f1263ed305b96091e0d1dc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/type-info/zipball/60b28eb733f1453287f1263ed305b96091e0d1dc",
-                "reference": "60b28eb733f1453287f1263ed305b96091e0d1dc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "psr/container": "^1.1|^2.0"
-            },
-            "conflict": {
-                "phpstan/phpdoc-parser": "<1.0",
-                "symfony/dependency-injection": "<6.4",
-                "symfony/property-info": "<6.4"
-            },
-            "require-dev": {
-                "phpstan/phpdoc-parser": "^1.0",
-                "symfony/dependency-injection": "^6.4|^7.0",
-                "symfony/property-info": "^6.4|^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\TypeInfo\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mathias Arlaud",
-                    "email": "mathias.arlaud@gmail.com"
-                },
-                {
-                    "name": "Baptiste LEDUC",
-                    "email": "baptiste.leduc@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Extracts PHP types information.",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "PHPStan",
-                "phpdoc",
-                "symfony",
-                "type"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/type-info/tree/v7.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-05-31T14:59:31+00:00"
         },
         {
             "name": "symfony/ux-autocomplete",
