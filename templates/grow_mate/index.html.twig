@@ -78,7 +78,7 @@
                                 {% if plant.strain.pics %}
                                     <td style="vertical-align: middle">
                                         <p class="card-text" style="width: 150%; float: left;">
-                                            Typ: {{ plant.strain.name }}, {{ plant.breeder.name }}
+                                            Typ: {{ plant.strain.name }},<br> {{ plant.breeder.name }}
                                             <br><br>
                                             Datum: {{ plant.date|date('d.m.Y') }}
                                             <br><br>
@@ -120,8 +120,8 @@
             <!-- Details Modal -->
             <!-- Offcanvas für Pflanzendetails -->
             <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ plant.id }}" aria-labelledby="offcanvasLabel-{{ plant.id }}" style="height: 84%; background-color: #284A4F; border-top-right-radius: 15px; border-top-left-radius: 15px; ">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h5>
+                <div class="offcanvas-header" style="height: 30px">
+                    <h4 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body" style="overflow: hidden">

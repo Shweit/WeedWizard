@@ -382,40 +382,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Plant>
      */
-    public function getPlants(): Collection
-    {
-        return $this->plants;
-    }
-
-    public function addPlant(Plant $plant): static
-    {
-        if (!$this->plants->contains($plant)) {
-            $this->plants->add($plant);
-            $plant->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlant(Plant $plant): static
-    {
-        if ($this->plants->removeElement($plant)) {
-            // set the owning side to null (unless already changed)
-            if ($plant->getUser() === $this) {
-                $plant->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CannabisVerein>
-     */
-    public function getCannabisVereine(): Collection
-    {
-        return $this->cannabisVereine;
-    }
 
     public function getCreatedClub(): ?CannabisVerein
     {
