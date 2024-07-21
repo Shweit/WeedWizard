@@ -24,8 +24,6 @@ class CannaStrainLibraryController extends AbstractController
         'extendedFilters' => false,
     ];
 
-    private int $paginationLimit = 8;
-
     public function __construct(SeedFinderApiService $seedFinderApiService)
     {
         $this->seedFinderApiService = $seedFinderApiService;
