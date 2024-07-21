@@ -2,6 +2,7 @@ $primary: #0C4F11 !default;
 $navbar-light-color: #212832;
 $navbar-dark-color: #DFDFDF;
 
+@import "loader";
 @import "dependencies";
 @import "responsive";
 @import "dark";
@@ -190,6 +191,28 @@ $navbar-dark-color: #DFDFDF;
   z-index: 800;
 }
 
+.no-rounded-corners {
+  .card-body {
+    border-radius: 0 !important;
+  }
+
+  .card-footer {
+    border-radius: 0 !important;
+  }
+
+  border-radius: 0 !important;
+}
+
+.no-borders {
+  .card-body {
+    border: 0 !important;
+  }
+
+  .card-footer {
+    border: 0 !important;
+  }
+
+}
 .lr-card {
   border-radius: 5px 0 0 5px;
   border-right: none;

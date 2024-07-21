@@ -126,6 +126,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: MapMarkers::class, mappedBy: 'user')]
     private Collection $mapMarkers;
 
+    /**
+     * @var Collection<int, UserInteractions>
+     */
+    #[ORM\OneToMany(targetEntity: UserInteractions::class, mappedBy: 'user')]
+    private Collection $userInteractions;
+
     public function __construct()
     {
         $this->attendedBudBashes = new ArrayCollection();
@@ -138,6 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->mapMarkers = new ArrayCollection();
+        $this->userInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -591,5 +598,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function upload(): void
     {
         dd('inside');
+    }
+
+    /**
+     * @return Collection<int, UserInteractions>
+     */
+    public function getUserInteractions(): Collection
+    {
+        return $this->userInteractions;
+    }
+
+    public function addUserInteraction(UserInteractions $userInteraction): static
+    {
+        if (!$this->userInteractions->contains($userInteraction)) {
+            $this->userInteractions->add($userInteraction);
+            $userInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInteraction(UserInteractions $userInteraction): static
+    {
+        if ($this->userInteractions->removeElement($userInteraction)) {
+            // set the owning side to null (unless already changed)
+            if ($userInteraction->getUser() === $this) {
+                $userInteraction->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

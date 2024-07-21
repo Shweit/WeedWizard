@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addBlogCommentForm = document.getElementById('addBlogCommentForm');
 
     addBlogCommentForm.addEventListener('submit', function(event) {
-        console.log('submitting');
         event.preventDefault();
 
         const content = document.getElementById('addBlogComment_content').value;

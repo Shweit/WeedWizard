@@ -10,7 +10,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
-class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterface
+class WeedWizardExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -151,5 +151,20 @@ class WeedWizardBudBashLocatorExtensionRuntime implements RuntimeExtensionInterf
         }
 
         return 0;
+    }
+
+    public function linkifyTags(string $content): string
+    {
+        return preg_replace('/#(\w+)/', '<a href="/blog/search?query=$1">#$1</a>', $content);
+    }
+
+    public function getUserPhoto(User $user): string
+    {
+        // Check if a photo is saved in the user Entity, if not return the placeholder image
+        if ($user->getProfilePicture() == null) {
+            return '/build/images/userAvatar-placeholder.png';
+        }
+
+        return '/uploads/profile_pictures/' . $user->getProfilePicture();
     }
 }

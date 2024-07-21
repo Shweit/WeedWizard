@@ -4,9 +4,10 @@ namespace App\Twig\Extension;
 
 use App\Twig\Runtime\WeedWizardExtensionRuntime;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-class WeedWizardBudBashLocatorExtensionExtension extends AbstractExtension
+class WeedWizardExtension extends AbstractExtension
 {
     public function getFunctions(): array
     {
@@ -18,7 +19,14 @@ class WeedWizardBudBashLocatorExtensionExtension extends AbstractExtension
             new TwigFunction('hasUserLikedPost', [WeedWizardExtensionRuntime::class, 'hasUserLikedPost']),
             new TwigFunction('getAllBlogLikesFromUser', [WeedWizardExtensionRuntime::class, 'getAllBlogLikesFromUser']),
             new TwigFunction('arrayKeyFirst', [WeedWizardExtensionRuntime::class, 'arrayKeyFirst']),
-            new TwigFunction('isTaskCompleted', [WeedWizardExtensionRuntime::class, 'isTaskCompleted']),
+            new TwigFunction('getUserPhoto', [WeedWizardExtensionRuntime::class, 'getUserPhoto']),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('linkifyTags', [WeedWizardExtensionRuntime::class, 'linkifyTags']),
         ];
     }
 }

@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Interaktionen
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('blog') }}
+{% endblock %}
+
+{% block body %}
+    <div class="row mt-3">
+        {% include 'blog/_blog_sidebar.html.twig' %}
+
+        <div class="col-9">
+            {% include 'templates/_header.html.twig' with {
+                title: 'Interaktionen',
+            } %}
+            {% for post in posts %}
+                <div class="col-12">
+                    <div class="card mb-4 no-rounded-corners no-borders">
+                        <div class="card-body">
+                            <h5 class="card-title d-flex align-items-center">
+                                <div style="background: url('{{ getUserPhoto(post.user) }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                <a href="{{ path('weedwizard_user_profile', {'username': post.user.username}) }}">{{ post.user.username }}</a> <small class="text-muted h6 mb-0">- {{ post["createdAt"]|format_datetime('long', 'none', locale='de') }}</small>
+                            </h5>
+                            <p class="card-text">{{ post.content|linkifyTags|raw }}</p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-9" style="height: 200px">
+                                    {{ render_chart(post["user_interactions"]["likes"]["graph"]) }}
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="text-center">Likes</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 30 Tage<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["likes"]["last30d"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 6 Monate<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["likes"]["last6m"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Seit Anfang<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["likes"]["sinceBeginning"] }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9" style="height: 200px">
+                                    {{ render_chart(post["user_interactions"]["comments"]["graph"]) }}
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="text-center">Kommentare</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 30 Tage<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["comments"]["last30d"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 6 Monate<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["comments"]["last6m"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Seit Anfang<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["comments"]["sinceBeginning"] }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9" style="height: 200px">
+                                    {{ render_chart(post["user_interactions"]["shares"]["graph"]) }}
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="text-center">Geteilt</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 30 Tage<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["shares"]["last30d"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 6 Monate<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["shares"]["last6m"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Seit Anfang<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["shares"]["sinceBeginning"] }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9" style="height: 200px">
+                                    {{ render_chart(post["user_interactions"]["views"]["graph"]) }}
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="text-center">Sichten</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 30 Tage<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["views"]["last30d"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Letzte 6 Monate<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["views"]["last6m"] }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Seit Anfang<span class="badge bg-primary rounded-pill">
+                                                {{ post["user_interactions"]["views"]["sinceBeginning"] }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
