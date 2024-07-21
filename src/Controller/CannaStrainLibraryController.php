@@ -10,23 +10,18 @@ use Symfony\Component\Routing\Attribute\Route;
 class CannaStrainLibraryController extends AbstractController
 {
     private SeedFinderApiService $seedFinderApiService;
-    private array $breederFilters = [];
+    private array $breederFilters = [
+        'searchForNameAllowed' => true,
+        'extendedFilters' => false,
+    ];
     private array $strainFilters = [
-        'filter' => [
-            'Herkunft' => [
-                'indica',
-                'sativa',
-                'ruderalis',
-                'unbekannt'],
-            'Strain-Typ' => [
-                'nur nicht femisierte',
-                'femisierte',
-                'close-only strains'],
-            'Location' => [
-                'Indoor',
-                'Outdoor',
-                'Gewächshaus'],
-        ],
+        'searchForNameAllowed' => false,
+        'extendedFilters' => true,
+    ];
+
+    private array $noFilters = [
+        'searchForNameAllowed' => false,
+        'extendedFilters' => false,
     ];
 
     public function __construct(SeedFinderApiService $seedFinderApiService)
@@ -54,6 +49,7 @@ class CannaStrainLibraryController extends AbstractController
             'breeder' => $breeder,
             'filters' => $this->strainFilters,
             'strains' => $breeder['strains'],
+            'breeder_id' => $breeder['seedfinder_id'],
         ]);
     }
 
@@ -63,17 +59,58 @@ class CannaStrainLibraryController extends AbstractController
         $breeder = $this->seedFinderApiService->getBreederInfo($breeder_id);
         $strain = $this->seedFinderApiService->getStrainInfo($breeder_id, $strain_id);
 
+        // Other strains links
+        $previousStrain = $this->findPreviousStrain($breeder['strains'], $strain_id);
+        $nextStrain = $this->findNextStrain($breeder['strains'], $strain_id);
+
+        // Selected strain info
         $strainName = $strain['name'];
         $strainInfo = $strain['breeder_info'];
         $strainMedicalInfo = $strain['medical'];
 
         return $this->render('cannastrain_library/strain/showStrain.html.twig', [
-            'filters' => [],
+            'filters' => $this->noFilters,
             'strainInfo' => $strainInfo,
             'strainName' => $strainName,
             'strainMedicalInfo' => $strainMedicalInfo,
             'strain' => $strain,
             'breeder' => $breeder,
+            'previousStrainLink' => $this->generateBtnLinkToStrain($breeder_id, $previousStrain['seedfinder_id']),
+            'nextStrainLink' => $this->generateBtnLinkToStrain($breeder_id, $nextStrain['seedfinder_id']),
+        ]);
+    }
+
+    private function findPreviousStrain($allStrainsFromBreeder, string $currentStrainId)
+    {
+        $allStrainIds = array_column($allStrainsFromBreeder, 'seedfinder_id');
+        $currentIndex = array_search($currentStrainId, $allStrainIds);
+
+        // Return last element if current strain is first or not found
+        if ($currentIndex === false || $currentIndex === 0) {
+            return end($allStrainsFromBreeder);
+        }
+
+        return $allStrainsFromBreeder[$currentIndex - 1];
+    }
+
+    private function findNextStrain($allStrainsFromBreeder, string $currentStrainId)
+    {
+        $allStrainIds = array_column($allStrainsFromBreeder, 'seedfinder_id');
+        $currentIndex = array_search($currentStrainId, $allStrainIds);
+
+        // Return first element if current strain is last or not found
+        if ($currentIndex === false || $currentIndex === 0) {
+            return end($allStrainsFromBreeder);
+        }
+
+        return $allStrainsFromBreeder[$currentIndex - 1];
+    }
+
+    private function generateBtnLinkToStrain($breederId, $strainId): string
+    {
+        return $this->generateUrl('weedwizard_cannastrain-library_strain-view', [
+            'breeder_id' => $breederId,
+            'strain_id' => $strainId,
         ]);
     }
 }

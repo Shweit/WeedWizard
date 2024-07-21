@@ -1,98 +1,155 @@
-<div class="d-flex flex-column border-end" id="filters-container">
+{# Collapsed sidebar with show btn #}
+<div class="border-end" style="display: none" id="filters-hidden-container">
+    <div class="p-3 mt-3">
+        <button class="btn" id="show-sidebar">
+            <i class="fa-solid fa-angles-right filter-icon"></i>
+        </button>
+    </div>
+</div>
+<div class="border-end" id="filters-container">
 
-    <div class="flex-item d-flex flex-row justify-content-between p-3 mt-3" id="filters">
-        <div class="flex-item">
+    {# Expanded sidebar with close btn #}
+    <div class="d-flex flex-row justify-content-between p-3 mt-3" id="filters">
+        <div>
             <i class="fa-solid fa-sliders filter-icon"></i>
             <span>Filter</span>
         </div>
-        <i class="fa-solid fa-xmark" id="close-sidebar"></i>
+        <button class="btn" id="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    {% if filters is empty %}
-        <div class="flex-item p-3">
+    {# No filters available #}
+    {% if not (filters.searchForNameAllowed or filters.extendedFilters) %}
+        <div class="p-3">
             <div class="d-flex flex-row justify-content-between mb-3">
                 <span class="fw-bold">Keine Filter verfügbar</span>
             </div>
         </div>
     {% endif %}
 
-    {% for filter in filters %}
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Herkunft</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
-                <span>indica</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
-                <span>sativa</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
-                <span>ruderalis</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
-                <span>unbekannt</span>
-            </div>
-        </div>
+    {# Form for filters #}
+    <form method="get" id="filter-form">
+        <div class="input-group d-flex flex-column">
 
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Strain-Typ</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="mb-2">
-                <span>Nur nicht femisierte</span>
-            </div>
-            <div class="mb-2">
-                <span>nur femisierte</span>
-            </div>
-            <div class="mb-2">
-                <span>close only strains</span>
-            </div>
-        </div>
-
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Preisspanne</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="d-flex flex-row gap-4 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control"
-                           aria-label="Amount (to the nearest dollar)" placeholder="min">
+            {# Name search field #}
+            {% if filters.searchForNameAllowed %}
+                <div class="p-3 d-flex">
+                    <input type="text" name="search" class="form-control fs-6" placeholder="Suche Züchtername..."
+                           value="" id="breeder-name-search">
+                    <button type="button" class="btn btn-outline-secondary" id="clear-button" style="z-index: 1;">&times;</button>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" min="0" step="0.01" class="form-control"
-                           aria-label="Amount (to the nearest dollar)" placeholder="max">
-                </div>
-            </div>
-        </div>
+            {% endif %}
 
-        <div class="flex-item p-3">
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <span class="text-uppercase fw-bold">Aufzucht</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-house fa-sm filter-icon"></i>
-                <span>Indoor-Sorten</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
-                <span>Outdoor-Sorten</span>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
-                <span>Spezial-Sorten</span>
-            </div>
+            {# Available filters #}
+            {% if filters.extendedFilters %}
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
+                         data-bs-target="#herkunftFilterItems" type="button" aria-expanded="false"
+                         aria-controls="collapseExample">
+                        <span class="text-uppercase fw-bold">Herkunft</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="collapse" id="herkunftFilterItems">
+                        <div>
+                            <input class="mb-2 btn-check" id="indicaInput" type="checkbox">
+                            <label for="indicaInput">
+                                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #ff6b6b;"></i>
+                                <span>indica</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="sativaInput" type="checkbox">
+                            <label for="sativaInput">
+                                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #feca57;"></i>
+                                <span>sativa</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="ruderalisInput" type="checkbox">
+                            <label for="ruderalisInput">
+                                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #1dd1a1;"></i>
+                                <span>ruderalis</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="unbekanntInput" type="checkbox">
+                            <label for="unbekanntInput">
+                                <i class="fa-solid fa-cannabis fa-sm filter-icon" style="color: #000000;"></i>
+                                <span>unbekannt</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
+                         data-bs-target="#strainTypeFilterItems" type="button" aria-expanded="false"
+                         aria-controls="collapseExample">
+                        <span class="text-uppercase fw-bold">Strain-Typ</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="collapse" id="strainTypeFilterItems">
+                        <input class="mb-2 btn-check" id="nichtFemisiert" type="checkbox">
+                        <label for="nichtFemisiert">Nur nicht femisierte</label>
+                        <input class="mb-2 btn-check" id="femisiert" type="checkbox">
+                        <label for="femisiert">nur femisierte</label>
+                        <input class="mb-2 btn-check" id="closeOnly" type="checkbox">
+                        <label for="closeOnly">close only strains</label>
+                    </div>
+                </div>
+
+                {#                <div class="p-3 flex-fill"> #}
+                {#                    <div class="d-flex flex-row justify-content-between mb-3"> #}
+                {#                        <span class="text-uppercase fw-bold">Preisspanne</span> #}
+                {#                        <i class="fa-solid fa-caret-down"></i> #}
+                {#                    </div> #}
+                {#                    <div class="d-flex flex-row gap-4 mb-2"> #}
+                {#                        <div class="input-group"> #}
+                {#                            <span class="input-group-text">€</span> #}
+                {#                            <input type="number" min="0" step="0.01" class="form-control" #}
+                {#                                   aria-label="Amount (to the nearest dollar)" placeholder="min"> #}
+                {#                        </div> #}
+                {#                        <div class="input-group"> #}
+                {#                            <span class="input-group-text">€</span> #}
+                {#                            <input type="number" min="0" step="0.01" class="form-control" #}
+                {#                                   aria-label="Amount (to the nearest dollar)" placeholder="max"> #}
+                {#                        </div> #}
+                {#                    </div> #}
+                {#                </div> #}
+
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
+                         data-bs-target="#aufzuchtFilterItems" type="button" aria-expanded="false"
+                         aria-controls="collapseExample">
+                        <span class="text-uppercase fw-bold">Aufzucht</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="collapse" id="aufzuchtFilterItems">
+                        <input class="mb-2 btn-check" id="indoor-Sorten" type="checkbox">
+                        <label for="indoor-Sorten">
+                            <i class="fa-solid fa-house fa-sm filter-icon"></i>
+                            <span>Indoor-Sorten</span>
+                        </label>
+                        <input class="mb-2 btn-check" id="outdoor-Sorten" type="checkbox">
+                        <label for="outdoor-Sorten">
+                            <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
+                            <span>Outdoor-Sorten</span>
+                        </label>
+                        <input class="mb-2 btn-check" id="spezial-Sorten" type="checkbox">
+                        <label for="spezial-Sorten">
+                            <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
+                            <span>Spezial-Sorten</span>
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if (filters.searchForNameAllowed or filters.extendedFilters) %}
+                <div class="p-3 d-flex flex-fill flex-row-reverse">
+                    <button class="btn btn-primary fs-6" type="button" id="filter-button">Anwenden</button>
+                </div>
+            {% endif %}
+
         </div>
-    {% endfor %}
+    </form>
 
 </div>

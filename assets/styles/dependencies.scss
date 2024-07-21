@@ -1,8 +1,27 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap.scss";
 
-// Nouislider
-@import "nouislider/dist/nouislider.css";
+// ion-rangeslider
+@import "ion-rangeslider/css/ion.rangeSlider.min.css";
+.irs {
+  width: 100% !important;
+}
+
+.irs-bar {
+  background-color: $primary !important;
+}
+
+.irs--flat .irs-from, .irs--flat .irs-to, .irs--flat .irs-single {
+  background-color: $primary !important;
+}
+
+.irs--flat .irs-from:before, .irs--flat .irs-to:before, .irs--flat .irs-single:before {
+  border-top-color: $primary !important;
+}
+
+.irs--flat .irs-handle>i:first-child {
+  background-color: $primary !important;
+}
 
 // Leaflet
 @import "leaflet/dist/leaflet.css";

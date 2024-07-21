@@ -5,6 +5,7 @@ namespace App\Twig\Runtime;
 use App\Entity\Blog;
 use App\Entity\BudBash;
 use App\Entity\BudBashCheckAttendance;
+use App\Entity\Plant;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -97,6 +98,59 @@ class WeedWizardExtensionRuntime implements RuntimeExtensionInterface
         reset($array);
 
         return key($array);
+    }
+
+    public function isTaskCompleted(int $plant_id, string $task): int
+    {
+        $plant = $this->entityManager->getRepository(Plant::class)->find($plant_id);
+
+        $weeklyTasks = $plant->getWeeklyTasks();
+        $now = new \DateTime();
+
+        switch ($task) {
+            case 'water':
+                if (!empty($weeklyTasks['water'])) {
+                    $lastWatering = end($weeklyTasks['water']);
+                    $lastWateringDate = new \DateTime($lastWatering['date']);
+                    $diff = $now->diff($lastWateringDate)->days;
+
+                    return 5 - $diff;
+                }
+
+                break;
+            case 'fertilize':
+                if (!empty($weeklyTasks['fertilize'])) {
+                    $lastWatering = end($weeklyTasks['fertilize']);
+                    $lastWateringDate = new \DateTime($lastWatering['date']);
+                    $diff = $now->diff($lastWateringDate)->days;
+
+                    return 14 - $diff;
+                }
+
+                break;
+            case 'temperature':
+                if (!empty($weeklyTasks['temperature'])) {
+                    $lastWatering = end($weeklyTasks['temperature']);
+                    $lastWateringDate = new \DateTime($lastWatering['date']);
+                    $diff = $now->diff($lastWateringDate)->days;
+
+                    return 2 - $diff;
+                }
+
+                break;
+            case 'pesticide':
+                if (!empty($weeklyTasks['pesticide'])) {
+                    $lastWatering = end($weeklyTasks['pesticide']);
+                    $lastWateringDate = new \DateTime($lastWatering['date']);
+                    $diff = $now->diff($lastWateringDate)->days;
+
+                    return 7 - $diff;
+                }
+
+                break;
+        }
+
+        return 0;
     }
 
     public function linkifyTags(string $content): string

@@ -91,10 +91,42 @@
     </div>
     <div class="row">
         {% for blog in getUserBlogPosts(userProfile) %}
-            {% include 'templates/_blog_post_card.html.twig' with {
-                    post: blog
-                }
-            %}
+            <div class="col-12 blogEntry" data-created-at="{{ blog.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ blog.likes.count }}" data-comment-count="{{ blog.comments.count }}">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex align-items-center">
+                            {% if userProfile.profilePicture %}
+                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ userProfile.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% else %}
+                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                            {% endif %}
+                            {{ blog.user.username }} <small class="text-muted h6 mb-0">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                        </h5>
+                        <p class="card-text">{{ blog.content }}</p>
+
+                        {% if blog.markerData %}
+                            <div class="init-leaflet-map" data-marker="{{ blog.markerData|json_encode }}" style="height: 25vh"></div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <div class="row d-flex">
+                            <div class="col-1">
+                                {% if hasUserLikedPost(app.user, blog) %}
+                                    <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                                {% else %}
+                                    <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-1">
+                                <a href="{{ path('app_blog_entry', {'id': blog.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
+                            </div>
+                            <div class="col-1">
+                                <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ blog.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
