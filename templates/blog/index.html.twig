@@ -1,20 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!{% endblock %}
+{% block title %}Blog{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('blog') }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/dennis/WeedWizard/src/Controller/BlogController.php</code></li>
-        <li>Your template at <code>/home/dennis/WeedWizard/templates/blog/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="row mt-3">
+        {% include 'blog/_blog_sidebar.html.twig' %}
+        <div class="col-sm-9 col-12">
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item locator-nav">
+                    <button class="nav-link active" id="for-you-tab" data-bs-toggle="tab" data-bs-target="#for-you-tab-pane" type="button" role="tab" aria-controls="for-you-tab-pane" aria-selected="true">Für dich</button>
+                </li>
+                <li class="nav-item locator-nav">
+                    <button class="nav-link" id="following-tab" data-bs-toggle="tab" data-bs-target="#following-tab-pane" type="button" role="tab" aria-controls="following-tab-pane" aria-selected="false">Folge ich</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="for-you-tab-pane" role="tabpanel" aria-labelledby="for-you-tab" tabindex="0">
+                    {% if posts['for_you']|length == 0 %}
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Keine Beträge gefunden!</h4>
+                            <p>Sorry, es wurden keine Beiträge gefunden. Schau dich ein bisschen um und siehe dir ein paar Beiträge an.</p>
+                            <hr>
+                            <p class="mb-0">Vielen Dank für dein Verständnis.</p>
+                        </div>
+                    {% endif %}
+                    {% for post in posts['for_you'] %}
+                        {% include 'templates/_blog_post_card.html.twig' with {
+                            post: post,
+                        } %}
+                    {% endfor %}
+                </div>
+                <div class="tab-pane fade" id="following-tab-pane" role="tabpanel" aria-labelledby="following-tab" tabindex="0">
+                    {% if posts['following']|length == 0 %}
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">Keine Beträge gefunden von Nutzern den du folgst!</h4>
+                            <p>Sorry, es wurden keine Beiträge gefunden. Bitte versuche es mit einem anderen Suchbegriff.</p>
+                            <hr>
+                            <p class="mb-0">Vielen Dank für dein Verständnis.</p>
+                        </div>
+                    {% endif %}
+                    {% for post in posts['following'] %}
+                        {% include 'templates/_blog_post_card.html.twig' with {
+                            post: post,
+                        } %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

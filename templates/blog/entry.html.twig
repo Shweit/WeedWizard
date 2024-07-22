@@ -5,185 +5,129 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('blogEntry') }}
+    {{ encore_entry_script_tags('blog') }}
 {% endblock %}
 
 {% block body %}
-    {% include 'blog/_blog_comment.html.twig' with {
-        'username': blog.user.username,
-        'parentID': blog.id
-    } %}
+    <div class="row mt-3">
+        {% include 'blog/_blog_sidebar.html.twig' %}
 
-    {% if blog.parent != null %}
-        <div class="card mt-5 mb-2">
-            <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                    <a href="{{ path('weedwizard_user_profile', {'username': blog.parent.user.username}) }}" class="d-flex align-items-center">
-                        {% if blog.parent.user.profilePicture %}
-                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ blog.parent.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                        {% else %}
-                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                        {% endif %}
-                        {{ blog.parent.user.username }}
-                    </a>
-                    <small class="text-muted h6 mb-0">- {{ blog.parent.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                </h5>
-                <p class="card-text">{{ blog.parent.content }}</p>
+        <div class="col-sm-9 col-12">
+            {% include 'blog/_blog_comment.html.twig' with {
+                'username': blog.user.username,
+                'parentID': blog.id
+            } %}
+
+            {% if blog.parent != null %}
+                {% include 'templates/_blog_post_card.html.twig' with {
+                        post: blog.parent
+                    }
+                %}
+            {% endif %}
+            <div class="col-12 {% if blog.parent != null %} ms-5" style="padding-right: 3rem" {% else %} mt-5 {% endif %}">
+                {% include 'templates/_blog_post_card.html.twig' with {
+                        post: blog
+                    }
+                %}
             </div>
-            <div class="card-footer">
-                <div class="row d-flex">
-                    <div class="col-1">
-                        {% if hasUserLikedPost(app.user, blog.parent) %}
-                            <a onclick="window.toggleLikeBlogEntry({{ blog.parent.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.parent.likes.count }}</a>
-                        {% else %}
-                            <a onclick="window.toggleLikeBlogEntry({{ blog.parent.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.parent.likes.count }}</a>
-                        {% endif %}
-                    </div>
-                    <div class="col-1">
-                        <a href="{{ path('app_blog_entry', {'id': blog.parent.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.parent.comments.count }}</a>
-                    </div>
-                    <div class="col-1">
-                        <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ blog.parent.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
-                    </div>
+
+            {% include 'templates/_header.html.twig' with {
+                'title': 'Kommentare' ~ (blog.comments.count > 0 ? ' (' ~ blog.comments.count ~ ')' : ''),
+                'button': {
+                    'label': 'Kommentar verfassen',
+                    'attr': 'data-bs-toggle=modal data-bs-target=#addBlogComment'
+                },
+            } %}
+
+            <div class="row">
+                <div class="col-9 mt-5"></div>
+                <div class="col-3">
+                    <select class="form-select" id="sortBy">
+                        <option value="id_ASC">Neuste</option>
+                        <option value="id_DESC">Älteste</option>
+                        <option value="likes_DESC">Beliebteste</option>
+                        <option value="likes_ASC">Unbeliebteste</option>
+                        <option value="comments_DESC">Meiste Kommentare</option>
+                        <option value="comments_ASC">Wenigste Kommentare</option>
+                    </select>
                 </div>
             </div>
-        </div>
-    {% endif %}
-    <div class="col-12 {% if blog.parent != null %} ms-5" style="padding-right: 3rem" {% else %} mt-5 {% endif %}">
-        <div class="card mb-2">
-            <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                    <a href="{{ path('weedwizard_user_profile', {'username': blog.user.username}) }}" class="d-flex align-items-center">
-                        {% if blog.user.profilePicture %}
-                            <div style="background: url('{{ '/uploads/profile_pictures/' ~ blog.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                        {% else %}
-                            <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                        {% endif %}
-                        {{ blog.user.username }}
-                    </a>
-                    <small class="text-muted h6 mb-0">- {{ blog.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                </h5>
-                <p class="card-text">{{ blog.content }}</p>
-            </div>
-            <div class="card-footer">
-                <div class="row d-flex">
-                    <div class="col-1">
-                        {% if hasUserLikedPost(app.user, blog) %}
-                            <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ blog.likes.count }}</a>
-                        {% else %}
-                            <a onclick="window.toggleLikeBlogEntry({{ blog.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ blog.likes.count }}</a>
-                        {% endif %}
-                    </div>
-                    <div class="col-1">
-                        <a href="{{ path('app_blog_entry', {'id': blog.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ blog.comments.count }}</a>
-                    </div>
-                    <div class="col-1">
-                        <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ blog.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% include 'templates/_header.html.twig' with {
-        'title': 'Kommentare' ~ (blog.comments.count > 0 ? ' (' ~ blog.comments.count ~ ')' : ''),
-        'button': {
-            'label': 'Kommentar verfassen',
-            'attr': 'data-bs-toggle=modal data-bs-target=#addBlogComment'
-        },
-    } %}
-
-    <div class="row">
-        <div class="col-9 mt-5"></div>
-        <div class="col-3">
-            <select class="form-select" id="sortBy">
-                <option value="id_ASC">Neuste</option>
-                <option value="id_DESC">Älteste</option>
-                <option value="likes_DESC">Beliebteste</option>
-                <option value="likes_ASC">Unbeliebteste</option>
-                <option value="comments_DESC">Meiste Kommentare</option>
-                <option value="comments_ASC">Wenigste Kommentare</option>
-            </select>
-        </div>
-    </div>
-    {% set comments = blog.comments %}
-    {% set comments = comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
-    {% for comment in comments %}
-        <div class="col-12 commentEntry {% if comment.parent != null %} ms-5" style="padding-right: 3rem" {% endif %} data-created-at="{{ comment.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ comment.likes.count }}" data-comment-count="{{ comment.comments.count }}">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title d-flex align-items-center">
-                        <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}" class="d-flex align-items-center">
-                            {% if comment.user.profilePicture %}
-                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ comment.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                            {% else %}
-                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                            {% endif %}
-                            {{ comment.user.username }}
-                        </a>
-                        <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                    </h5>
-                    <p class="card-text">{{ comment.content }}</p>
-                </div>
-                <div class="card-footer">
-                    <div class="row d-flex">
-                        <div class="col-1">
-                            {% if hasUserLikedPost(app.user, comment) %}
-                                <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
-                            {% else %}
-                                <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
-                            {% endif %}
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
-                        </div>
-                        <div class="col-1">
-                            <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {% if comment.comments.count > 0 %}
-            {% set comments = comment.comments %}
+            {% set comments = blog.comments %}
             {% set comments = comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
-            {% for comment in comments|slice(0, 5) %}
-                <div class="col-12" style="margin-left: 12rem; padding-right: 12rem">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title d-flex align-items-center">
-                                <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}" class="d-flex align-items-center">
+            {% for comment in comments %}
+                <div class="commentEntry">
+                    <div class="col-12" data-created-at="{{ comment.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ comment.likes.count }}" data-comment-count="{{ comment.comments.count }}">
+                        <div class="card mb-4 no-rounded-corners no-borders">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex align-items-center">
                                     {% if comment.user.profilePicture %}
                                         <div style="background: url('{{ '/uploads/profile_pictures/' ~ comment.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
                                     {% else %}
                                         <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
                                     {% endif %}
-                                    {{ comment.user.username }}
-                                </a>
-                                <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                            </h5>
-                            <p class="card-text">{{ comment.content }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row d-flex">
-                                <div class="col-1">
-                                    {% if hasUserLikedPost(app.user, comment) %}
-                                        <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
-                                    {% else %}
-                                        <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
-                                    {% endif %}
-                                </div>
-                                <div class="col-1">
-                                    <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
-                                </div>
-                                <div class="col-1">
-                                    <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                                    <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}">{{ comment.user.username }}</a> <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                                </h5>
+                                <p class="card-text">{{ comment.content|linkifyTags|raw }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row d-flex">
+                                    <div class="col-1">
+                                        {% if hasUserLikedPost(app.user, comment) %}
+                                            <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                        {% else %}
+                                            <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
+                                    </div>
+                                    <div class="col-1">
+                                        <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {% if comment.comments.count > 0 %}
+                        {% set comments = comment.comments %}
+                        {% set comments = comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+                        {% for comment in comments|slice(0, 5) %}
+                            <div class="col-12 ms-5 pe-5" data-created-at="{{ comment.createdAt|date('Y-m-d\\TH:i:sP') }}" data-like-count="{{ comment.likes.count }}" data-comment-count="{{ comment.comments.count }}">
+                                <div class="card mb-4 no-rounded-corners no-borders">
+                                    <div class="card-body">
+                                        <h5 class="card-title d-flex align-items-center">
+                                            {% if comment.user.profilePicture %}
+                                                <div style="background: url('{{ '/uploads/profile_pictures/' ~ comment.user.profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                            {% else %}
+                                                <div style="background: url('{{ asset('build/images/userAvatar-placeholder.png') }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                                            {% endif %}
+                                            <a href="{{ path('weedwizard_user_profile', {'username': comment.user.username}) }}">{{ comment.user.username }}</a> <small class="text-muted h6 mb-0">- {{ comment.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                                        </h5>
+                                        <p class="card-text">{{ comment.content|linkifyTags|raw }}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row d-flex">
+                                            <div class="col-1">
+                                                {% if hasUserLikedPost(app.user, comment) %}
+                                                    <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'unlike', this)"><i class="fa-solid fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                                {% else %}
+                                                    <a onclick="window.toggleLikeBlogEntry({{ comment.id }}, 'like', this)"><i class="fa-regular fa-heart me-2"></i> {{ comment.likes.count }}</a>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-1">
+                                                <a href="{{ path('app_blog_entry', {'id': comment.id}) }}" class="text-decoration-none"><i class="fa-solid fa-comment me-2"></i> {{ comment.comments.count }}</a>
+                                            </div>
+                                            <div class="col-1">
+                                                <a onclick="window.copyToClipboard(window.location.host + '/blog/' + {{ comment.id }}, 'Beitrag wurde in die Zwischenablage kopiert.')"><i class="fa-solid fa-share"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             {% endfor %}
-        {% endif %}
-    {% endfor %}
+        </div>
 {% endblock %}

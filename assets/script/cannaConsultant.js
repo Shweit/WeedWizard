@@ -56,8 +56,20 @@ document.addEventListener('DOMContentLoaded', function() {
             createLoadingBubble();
             scrollToBottom();
 
+            let instructions = "";
+            if (document.getElementById('cannaconsultant_instructions')) {
+                instructions = document.getElementById('cannaconsultant_instructions').value;
+            }
+
+            let thread = null;
+            if (document.getElementById('cannaconsultant_thread')) {
+                thread = document.getElementById('cannaconsultant_thread').value;
+            }
+
             let form = new FormData();
             form.append('message', chatInput_value);
+            form.append('instructions', instructions);
+            form.append('thread', thread);
 
             fetch('/canna-consultant/add-message', {
                 method: 'POST',

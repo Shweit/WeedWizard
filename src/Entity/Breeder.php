@@ -17,15 +17,15 @@ class Breeder
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $seedfinder_id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cannastrainLibrary'])]
+    #[Groups(['growMate', 'cannastrainLibrary'])]
     private ?string $logo = null;
 
     /**

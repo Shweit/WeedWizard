@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Breeder;
 use App\Entity\Strain;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SeedFinderApiService
@@ -22,6 +23,25 @@ class SeedFinderApiService
         };
 
         return $this->serializer->normalize($breeders, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
+    }
+
+    public function getBreederInfoPaginated(string $breederId = 'all', int $page = 1, int $paginationLimit = 8)
+    {
+        if ($breederId === 'all') {
+            $query = $this->entityManager->getRepository(Breeder::class)
+                ->createQueryBuilder('b')
+                ->getQuery()
+                ->setFirstResult(($page - 1) * $paginationLimit)
+                ->setMaxResults($paginationLimit);
+
+            $paginator = new Paginator($query);
+
+            return $this->serializer->normalize($paginator, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
+        }
+        $breeder = $this->entityManager->getRepository(Breeder::class)
+            ->findOneBy(['seedfinder_id' => $breederId]);
+
+        return $this->serializer->normalize($breeder, null, ['groups' => 'cannastrainLibrary']); // @phpstan-ignore-line
     }
 
     public function getStrainInfo(string $breeder_id, string $strain_id)
