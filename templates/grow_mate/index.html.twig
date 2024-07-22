@@ -174,7 +174,7 @@
 
                                         <h5>CannaConsultant</h5>
                                         <div class="cannaConsultantChat-init">
-                                            <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userPhotoPath="{{ userProfilePicture }}" data-username="{{ app.user.username }}" style="height: 40vh;">
+                                            <div class="overflow-y-auto overflow-x-hidden mb-3" id="chat" data-userPhotoPath="{{ userProfilePicture }}" data-username="{{ app.user.username }}" style="height: 30vh;">
                                                 {% for message in plant.messages.data|reverse %}
                                                     {% if message.role == 'user' %}
                                                         <div class="row d-flex justify-content-end mb-3">
