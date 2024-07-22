@@ -62,7 +62,7 @@
                             {% endif %}
 
                             {# Big img #}
-                            <div class="col-6 p-3">
+                            <div class="col-12 col-lg-6 p-3">
                                 <div class="cropped-img rounded-3 img-big">
                                     <img src="{{ image_url }}"
                                          class="card-img-top" alt="Stock photo">
@@ -70,7 +70,7 @@
                             </div>
 
                             {# Small img left #}
-                            <div class="col p-3 d-flex flex-column justify-content-between">
+                            <div class="col-12 col-lg-3 p-3 d-flex flex-column justify-content-between">
                                 <div class="cropped-img user-img-container rounded-3">
                                     <img src="{{ strainInfo.pic }}"
                                          class="card-img-top user-img"
@@ -78,7 +78,7 @@
                                 </div>
 
                                 {# Forward / backward btn #}
-                                <div>
+                                <div class="mt-3 d-flex justify-content-center">
                                     <a class="no-underline" href="{{ previousStrainLink }}">
                                         <button type="button" class="btn btn-primary btn-img rounded-5">
                                             <i class="fa-solid fa-chevron-left"></i>
@@ -95,7 +95,7 @@
                             </div>
 
                             {# Small image right #}
-                            <div class="col p-3">
+                            <div class="col-lg-3 p-3 d-none d-lg-block">
                                 <div class="cropped-img rounded-3">
                                     <img src="https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                          class="card-img-top" alt="Stock photo">
@@ -105,7 +105,7 @@
 
                         <div class="row">
                             {# Name and description #}
-                            <div class="col-6 p-3">
+                            <div class="col-12 col-lg-6 p-3">
                                 <div class="d-flex flex-column gap-2 mt-2">
                                     <h3>{{ strainName }}</h3>
 
@@ -123,7 +123,7 @@
                             {# Detail info #}
                             {% set default = "Info nicht vorhanden" %}
 
-                            <div class="col-3 p-3">
+                            <div class="col-6 col-lg-3 p-3">
                                 <div class="property border-black border-top p-3">
                                     <i class="fa-solid fa-hand-fist filter-icon"></i>
                                     <span>Intensität</span>
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-3 p-3">
+                            <div class="col-6 col-lg-3 p-3">
                                 <div class="property border-black border-top border-bottom p-3">
                                     <i class="fa-solid fa-cannabis filter-icon"></i>
                                     <span>Herkunft</span>
