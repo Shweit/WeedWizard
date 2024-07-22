@@ -5,75 +5,76 @@
 {% endblock %}
 
 {% block body %}
-        {% include 'templates/_header.html.twig' with {
-            'title': ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de')
-        } %}
+    {% include 'templates/_header.html.twig' with {
+        'title': ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de')
+    } %}
 
-        <div class="row">
-            <div class="col-12">
-                <h1>{{ entry.articleName }}</h1>
-            </div>
-            <div class="col-12">
-                {% if entry.user.profilePicture %}
-                    {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
-                {% else %}
-                    {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
-                {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ entry.articleName }}</h1>
+        </div>
+        <div class="col-12">
+            {% if entry.user.profilePicture %}
+                {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
+            {% else %}
+                {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
+            {% endif %}
 
-                <div class="d-flex align-items-center mb-2">
-                    <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                    <small class="text-muted mb-0 me-2">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small> | <small class="ms-2 mb-0"><a href="{{ path('weedwizard_knowledge_base_category', {'category': category}) }}">{{ ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de') }}</a></small>
-                </div>
+            <div class="d-flex align-items-center mb-2">
+                <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                <small class="text-muted mb-0 me-2">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small> | <small class="ms-2 mb-0"><a href="{{ path('weedwizard_knowledge_base_category', {'category': category}) }}">{{ ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de') }}</a></small>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card p-3" id="knowledgebase_navbar_card">
-                    <h4>Inhaltsverzeichnis</h4>
-                    <nav class="h-100 flex-column align-items-stretch pe-4">
-                        <nav class="nav nav-pills flex-column" id="knowledgebase_navbar">
-                        </nav>
+    <div class="row">
+        <div class="col-sm-3 d-none d-sm-block">
+            <div class="card p-3" id="knowledgebase_navbar_card">
+                <h4>Inhaltsverzeichnis</h4>
+                <nav class="h-100 flex-column align-items-stretch pe-4">
+                    <nav class="nav nav-pills flex-column" id="knowledgebase_navbar">
                     </nav>
-                </div>
-            </div>
-
-            <div class="col-sm-6" data-bs-spy="scroll" data-bs-target="#knowledgebase_navbar" data-bs-offset="0" data-bs-smooth-scroll="true" tabindex="0" id="articleContent">
-                {{ entry.articleContent|raw }}
-            </div>
-
-            <div class="col-sm-3">
-                {% for entry in randomEntries %}
-                    <div class="card p-3 mb-3">
-                        {% if entry.user.profilePicture %}
-                            {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
-                        {% else %}
-                            {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
-                        {% endif %}
-
-                        <div class="d-flex align-items-center mb-2">
-                            <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
-                            <small class="text-muted mb-0">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small>
-                        </div>
-                        <h3>
-                            {% if entry.articleName|length > 30 %}
-                                {{ entry.articleName|striptags|slice(0, 30) }}...
-                            {% else %}
-                                {{ entry.articleName }}
-                            {% endif %}
-                        </h3>
-                        <p>
-                            {% if entry.articleContent|length > 100 %}
-                                {{ entry.articleContent|striptags|slice(0, 100) }}...
-                            {% else %}
-                                {{ entry.articleContent }}
-                            {% endif %}
-                        </p>
-                        <a href="{{ path('weedwizard_knowledge_base_entry', {'category': category, 'id': entry.id}) }}" class="btn btn-primary">Mehr lesen</a>
-                    </div>
-                {% endfor %}
+                </nav>
             </div>
         </div>
+
+        <div class="col-sm-6" data-bs-spy="scroll" data-bs-target="#knowledgebase_navbar" data-bs-offset="0" data-bs-smooth-scroll="true" tabindex="0" id="articleContent">
+            {{ entry.articleContent|raw }}
+            <hr>
+        </div>
+
+        <div class="col-sm-3">
+            {% for entry in randomEntries %}
+                <div class="card p-3 mb-3">
+                    {% if entry.user.profilePicture %}
+                        {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
+                    {% else %}
+                        {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
+                    {% endif %}
+
+                    <div class="d-flex align-items-center mb-2">
+                        <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
+                        <small class="text-muted mb-0">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small>
+                    </div>
+                    <h3>
+                        {% if entry.articleName|length > 30 %}
+                            {{ entry.articleName|striptags|slice(0, 30) }}...
+                        {% else %}
+                            {{ entry.articleName }}
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if entry.articleContent|length > 100 %}
+                            {{ entry.articleContent|striptags|slice(0, 100) }}...
+                        {% else %}
+                            {{ entry.articleContent }}
+                        {% endif %}
+                    </p>
+                    <a href="{{ path('weedwizard_knowledge_base_entry', {'category': category, 'id': entry.id}) }}" class="btn btn-primary">Mehr lesen</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
