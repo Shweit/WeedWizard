@@ -6,6 +6,10 @@
 const itemsPerPage = 8;
 let currentPage = 0;
 let allItems = [];
+let filteredItems = [];
+let searchValue = '';
+let paginationContainer;
+let contentContainer;
 
 // ----------------------- //
 // --- EVENT LISTENERS --- //
@@ -14,24 +18,20 @@ let allItems = [];
 document.addEventListener('DOMContentLoaded', function () {
 
     // --- Pagination --- //
-    const contentContainer = document.querySelector('#results');
+    // Select all items for current view and init pagination
+    contentContainer = document.querySelector('#results');
     allItems = Array.from(contentContainer.getElementsByClassName('pagination-item'));
     initPagination(allItems);
 
     // --- Filter functionality --- //
     // Filter breeder cards on btn click
-
-    document.getElementById('filter-button').addEventListener('click', () => {
-        const searchValue = document.getElementById('breeder-name-search').value.toLowerCase();
-        document.querySelectorAll('.breeder-card-container').forEach(cardContainer => {
-            cardContainer.style.display = cardContainer.getAttribute('data-name').toLowerCase().includes(searchValue) ? 'block' : 'none';
+    const filterButton = document.getElementById('filter-button');
+    if (filterButton) {
+        filterButton.addEventListener('click', () => {
+            searchValue = document.getElementById('breeder-name-search').value.toLowerCase();
+            filterItems(searchValue);
         });
-    });
-
-    document.getElementById('filter-button').addEventListener('click', () => {
-        const searchValue = document.getElementById('breeder-name-search').value.toLowerCase();
-        filterItems(searchValue);
-    });
+    }
 
     // Prevent filter form submission
     document.getElementById('filter-form').addEventListener('submit', (e) => {
@@ -39,9 +39,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Clear search input on btn click
-    document.getElementById('clear-button').addEventListener('click', () => {
-        document.getElementById('breeder-name-search').value = '';
-    });
+    const clearButton = document.getElementById('clear-button');
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            document.getElementById('breeder-name-search').value = '';
+        });
+    }
 
     // --- Sidebar open & close --- //
     // Show sidebar on icon click
@@ -76,14 +79,25 @@ function updateActiveButtonStates() {
 function showPage(items, page) {
     const startIndex = page * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
+
+    // Hide all items
+    allItems.forEach(item => {
+        item.style.display = 'none';
+    });
+
+    // Show items for current page
     items.forEach((item, index) => {
-        item.classList.toggle('hidden', index < startIndex || index >= endIndex);
+        if (index >= startIndex && index < endIndex) {
+            item.style.display = 'block';
+        }
     });
     updateActiveButtonStates();
 }
 
-function createPageButtons(items, content) {
-    const totalPages = Math.ceil(items.length / itemsPerPage);
+function createPageButtons(relevantItems, contentContainer) {
+    const totalPages = Math.ceil(relevantItems.length / itemsPerPage);
+
+    // Create pagination container and add child elements
     const paginationContainer = document.createElement('nav');
     paginationContainer.classList.add('pagination-container', 'mb-4');
     const paginationList = document.createElement('ul');
@@ -101,7 +115,7 @@ function createPageButtons(items, content) {
         pageButton.addEventListener('click', (event) => {
             event.preventDefault();
             currentPage = i;
-            showPage(items, currentPage);
+            showPage(relevantItems, currentPage);
             updateActiveButtonStates();
         });
 
@@ -109,27 +123,27 @@ function createPageButtons(items, content) {
         paginationList.appendChild(pageItem);
     }
 
-    const rowElement = content.querySelector('.row');
+    const rowElement = contentContainer.querySelector('.row');
     rowElement.insertAdjacentElement('afterend', paginationContainer);
 }
 
-function initPagination(items) {
-    const content = document.querySelector('#results');
-    createPageButtons(items, content);
-    showPage(items, currentPage);
+function initPagination(paginationItems) {
+    createPageButtons(paginationItems, contentContainer);
+    showPage(paginationItems, currentPage);
 }
 
-function resetPagination() {
-    const paginationContainer = document.querySelector('.pagination');
+function removePagination() {
+    paginationContainer = document.querySelector('.pagination-container');
     if (paginationContainer) {
         paginationContainer.remove();
     }
 }
 
 function filterItems(searchValue) {
-    const filteredItems = allItems.filter(item => item.getAttribute('data-name').toLowerCase().includes(searchValue));
+    filteredItems = allItems.filter(item => item.getAttribute('data-name').toLowerCase().includes(searchValue));
+
     currentPage = 0;
-    resetPagination();
+    removePagination();
 
     if (filteredItems.length === 0) {
         document.getElementById('no-results').style.display = 'block';
