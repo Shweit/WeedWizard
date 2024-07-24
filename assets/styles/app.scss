@@ -9,6 +9,10 @@ $navbar-dark-color: #DFDFDF;
 @import "cannastrain_library.scss";
 @import "canna_consultant";
 
+.register-btn:hover {
+  color: #000;
+}
+
 .dropdown-user-details-name {
   color: #212832;
   font-weight: 500;
