@@ -35,6 +35,16 @@
         <form method="get" id="filter-form">
             <div class="input-group d-flex flex-column">
 
+            {# Name search field #}
+            {% if filters.searchForNameAllowed %}
+                <div class="p-3 d-flex">
+                    <input type="text" name="search" class="form-control fs-6" placeholder="Suche Züchtername..."
+                           value="" id="breeder-name-search">
+                    <button type="button" class="btn btn-outline-secondary" id="clear-button" style="z-index: 1;">
+                        &times;
+                    </button>
+                </div>
+            {% endif %}
                 {# Name search field #}
                 {% if filters.searchForNameAllowed %}
                     <div class="p-3 d-flex">
@@ -87,6 +97,28 @@
                         </div>
                     </div>
 
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
+                         data-bs-target="#strainTypeFilterItems" type="button" aria-expanded="false"
+                         aria-controls="collapseExample">
+                        <span class="text-uppercase fw-bold">Strain-Typ</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="collapse" id="strainTypeFilterItems">
+                        <div>
+                            <input class="mb-2 btn-check" id="nichtFemisiert" type="checkbox">
+                            <label for="nichtFemisiert">Nur nicht femisierte</label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="femisiert" type="checkbox">
+                            <label for="femisiert">nur femisierte</label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="closeOnly" type="checkbox">
+                            <label for="closeOnly">close only strains</label>
+                        </div>
+                    </div>
+                </div>
                     <div class="p-3 flex-fill">
                         <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
                              data-bs-target="#strainTypeFilterItems" type="button" aria-expanded="false"
@@ -123,6 +155,38 @@
                     {#                    </div> #}
                     {#                </div> #}
 
+                <div class="p-3 flex-fill">
+                    <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
+                         data-bs-target="#aufzuchtFilterItems" type="button" aria-expanded="false"
+                         aria-controls="collapseExample">
+                        <span class="text-uppercase fw-bold">Aufzucht</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="collapse" id="aufzuchtFilterItems">
+                        <div>
+                            <input class="mb-2 btn-check" id="indoor-Sorten" type="checkbox">
+                            <label for="indoor-Sorten">
+                                <i class="fa-solid fa-house fa-sm filter-icon"></i>
+                                <span>Indoor-Sorten</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="outdoor-Sorten" type="checkbox">
+                            <label for="outdoor-Sorten">
+                                <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
+                                <span>Outdoor-Sorten</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="spezial-Sorten" type="checkbox">
+                            <label for="spezial-Sorten">
+                                <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
+                                <span>Spezial-Sorten</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
                     <div class="p-3 flex-fill">
                         <div class="d-flex flex-row justify-content-between mb-3 p-0 btn" data-bs-toggle="collapse"
                              data-bs-target="#aufzuchtFilterItems" type="button" aria-expanded="false"
