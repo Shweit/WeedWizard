@@ -35,7 +35,9 @@
                 <div class="p-3 d-flex">
                     <input type="text" name="search" class="form-control fs-6" placeholder="Suche Züchtername..."
                            value="" id="breeder-name-search">
-                    <button type="button" class="btn btn-outline-secondary" id="clear-button" style="z-index: 1;">&times;</button>
+                    <button type="button" class="btn btn-outline-secondary" id="clear-button" style="z-index: 1;">
+                        &times;
+                    </button>
                 </div>
             {% endif %}
 
@@ -88,12 +90,18 @@
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                     <div class="collapse" id="strainTypeFilterItems">
-                        <input class="mb-2 btn-check" id="nichtFemisiert" type="checkbox">
-                        <label for="nichtFemisiert">Nur nicht femisierte</label>
-                        <input class="mb-2 btn-check" id="femisiert" type="checkbox">
-                        <label for="femisiert">nur femisierte</label>
-                        <input class="mb-2 btn-check" id="closeOnly" type="checkbox">
-                        <label for="closeOnly">close only strains</label>
+                        <div>
+                            <input class="mb-2 btn-check" id="nichtFemisiert" type="checkbox">
+                            <label for="nichtFemisiert">Nur nicht femisierte</label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="femisiert" type="checkbox">
+                            <label for="femisiert">nur femisierte</label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="closeOnly" type="checkbox">
+                            <label for="closeOnly">close only strains</label>
+                        </div>
                     </div>
                 </div>
 
@@ -124,21 +132,27 @@
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                     <div class="collapse" id="aufzuchtFilterItems">
-                        <input class="mb-2 btn-check" id="indoor-Sorten" type="checkbox">
-                        <label for="indoor-Sorten">
-                            <i class="fa-solid fa-house fa-sm filter-icon"></i>
-                            <span>Indoor-Sorten</span>
-                        </label>
-                        <input class="mb-2 btn-check" id="outdoor-Sorten" type="checkbox">
-                        <label for="outdoor-Sorten">
-                            <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
-                            <span>Outdoor-Sorten</span>
-                        </label>
-                        <input class="mb-2 btn-check" id="spezial-Sorten" type="checkbox">
-                        <label for="spezial-Sorten">
-                            <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
-                            <span>Spezial-Sorten</span>
-                        </label>
+                        <div>
+                            <input class="mb-2 btn-check" id="indoor-Sorten" type="checkbox">
+                            <label for="indoor-Sorten">
+                                <i class="fa-solid fa-house fa-sm filter-icon"></i>
+                                <span>Indoor-Sorten</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="outdoor-Sorten" type="checkbox">
+                            <label for="outdoor-Sorten">
+                                <i class="fa-solid fa-sun-plant-wilt fa-sm filter-icon"></i>
+                                <span>Outdoor-Sorten</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="mb-2 btn-check" id="spezial-Sorten" type="checkbox">
+                            <label for="spezial-Sorten">
+                                <i class="fa-solid fa-leaf fa-sm filter-icon"></i>
+                                <span>Spezial-Sorten</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             {% endif %}
