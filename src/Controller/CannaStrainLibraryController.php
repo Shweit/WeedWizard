@@ -99,11 +99,11 @@ class CannaStrainLibraryController extends AbstractController
         $currentIndex = array_search($currentStrainId, $allStrainIds);
 
         // Return first element if current strain is last or not found
-        if ($currentIndex === false || $currentIndex === 0) {
-            return end($allStrainsFromBreeder);
+        if ($currentIndex === false || $currentIndex === count($allStrainIds) - 1) {
+            return reset($allStrainsFromBreeder);
         }
 
-        return $allStrainsFromBreeder[$currentIndex - 1];
+        return $allStrainsFromBreeder[$currentIndex + 1];
     }
 
     private function generateBtnLinkToStrain($breederId, $strainId): string
