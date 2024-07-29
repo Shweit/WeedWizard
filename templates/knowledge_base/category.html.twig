@@ -35,7 +35,7 @@
 
         <div class="row mb-3">
             {% for entry in entries %}
-                <div class="col-3 mb-3">
+                <div class="col-sm-3 mb-3">
                     <div class="card p-3">
                         {% if entry.user.profilePicture %}
                             {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
@@ -47,7 +47,7 @@
                             <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>
                             <small class="text-muted mb-0">{{ entry.user.username }} - {{ entry.createdAt|format_datetime('long', 'none', locale='de') }}</small>
                         </div>
-                        <h3>
+                        <h3 title="{{ entry.articleName }}">
                             {% if entry.articleName|length > 30 %}
                                 {{ entry.articleName|striptags|slice(0, 30) }}...
                             {% else %}

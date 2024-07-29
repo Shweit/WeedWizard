@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% set errorMessage = "Es ist ein Unbekannter Fehler aufgetreten. Bitte versuche es später erneut" %}
+{% set code = exception.statusCode %}
+
+{% if code == 400 %}
+    {% set errorMessage = "Ungültige Anfrage. Bitte überprüfe deine Eingaben." %}
+{% elseif code == 401 %}
+    {% set errorMessage = "Nicht autorisiert. Bitte melde dich an." %}
+{% elseif code == 403 %}
+    {% set errorMessage = "Zugriff verweigert. Du hast keine Berechtigung, diese Seite zu sehen." %}
+{% elseif code == 404 %}
+    {% set errorMessage = "Die von dir angeforderte Seite wurde nicht gefunden." %}
+{% elseif code == 500 %}
+    {% set errorMessage = "Es ist ein Serverfehler aufgetreten. Bitte versuche es später erneut." %}
+{% elseif code == 502 %}
+    {% set errorMessage = "Schlechtes Gateway. Der Server hat eine ungültige Antwort erhalten." %}
+{% elseif code == 503 %}
+    {% set errorMessage = "Dienst nicht verfügbar. Bitte versuche es später erneut." %}
+{% elseif code == 504 %}
+    {% set errorMessage = "Gateway-Zeitüberschreitung. Der Server hat nicht rechtzeitig geantwortet." %}
+{% endif %}
+
+{% block title %}
+    {{ code }} - {{ errorMessage }}
+{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center d-flex" style="height: 75vh">
+        <div class="col-12 text-center">
+            <h1 class="display-1">{{ exception.statusCode }}</h1>
+            <h2 class="display-4">{{ exception.statusText }}</h2>
+
+            <p class="lead">{{ errorMessage }}</p>
+            <a href="{{ path('weedwizard_compliance_map') }}" class="btn btn-primary">Zurück zur Startseite</a>
+
+            <div class="accordion mt-4" id="errorDetailsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Fehlerdetails anzeigen
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#errorDetailsAccordion">
+                        <div class="accordion-body text-start">
+                            <h5>Fehler Nachricht:</h5>
+                            <pre>{{ exception.message }}</pre>
+                            <h5>Fehler Datei:</h5>
+                            <pre>{{exception.file }}:{{ exception.line }}</pre>
+                            <h5>Stacktrace:</h5>
+                            <pre>{{ exception.traceAsString }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
