@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-5">
                     <h3 class="m-b-0">{{ userProfile.firstname }} {{ userProfile.lastname }} <small class="text-muted h6">{{ userProfile.username }}</small></h3>
-                    <p class="text-muted text-truncate" data-bs-toggle="tooltip" data-bs-title="{{ userProfile.bio }}">
+                    <p class="text-muted text-truncate" data-bs-toggle="tooltip" data-bs-title="{{ userProfile.bio|default("Keine Bio") }}">
                         {{ userProfile.bio }}
                     </p>
                     {% if app.user != userProfile %}
