@@ -37,7 +37,7 @@
                     <div class="container-fluid container-cannastrain-library">
 
                         {# Back btn #}
-                        <a href="{{ path('weedwizard_cannastrain-library', {'page' : 1 }) }}"
+                        <a href="{{ path('weedwizard_cannastrain-library') }}"
                            class="btn btn-secondary mt-3 rounded ms-2">
                             <i class="fa-solid fa-arrow-left"></i>
                             &nbsp;Zurück zu allen Breedern
@@ -47,17 +47,17 @@
                             {% for strain in strains %}
 
                                 {% set type = strain['breeder_info']['type'] %}
-                                {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+                                {% set image_url = asset('build/images/type-unknown.jpg') %}
 
                                 {% if '/' in type %}
-                                    {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FHybrid.jpg&w=1200&q=75' %}
+                                    {% set image_url = asset('build/images/type-hybrid.webp') %}
                                 {% else %}
                                     {% if 'indica' in type %}
-                                        {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FIndica.jpg&w=1920&q=75' %}
+                                        {% set image_url = asset('build/images/type-indica.webp') %}
                                     {% elseif 'sativa' in type %}
-                                        {% set image_url = 'https://www.weed.de/_next/image?url=%2Fimages%2Fproduct%2FSativa.jpg&w=1920&q=75' %}
+                                        {% set image_url = asset('build/images/type-sativa.webp') %}
                                     {% elseif 'ruderalis' in type %}
-                                        {% set image_url = 'https://images.unsplash.com/photo-1498671546682-94a232c26d17?q=80&w=2603&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %}
+                                        {% set image_url = asset('build/images/type-unknown.jpg') %}
                                     {% endif %}
                                 {% endif %}
 

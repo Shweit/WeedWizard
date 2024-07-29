@@ -28,6 +28,7 @@
 .btn-img {
   width: 65px;
   height: 65px;
+  margin-left: 0.5em;
   margin-right: 0.5em;
 }
 
@@ -39,7 +40,6 @@
 }
 
 .container-fluid.container-cannastrain-library {
-  margin: 1em;
   width: 98%
 }
 
@@ -51,7 +51,7 @@
   position: relative;
 }
 
-#filters-container {
+#filters-container-wrapper {
   min-width: 20%;
 }
 
