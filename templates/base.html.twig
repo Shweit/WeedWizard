@@ -39,32 +39,34 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('build/images/favicon/ms-icon-144x144.png') }}">
         <meta name="theme-color" content="#ffffff">
-
-        <meta http-equiv="content-Type" content="text/html; utf-8" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <meta http-equiv="content-Language" content="de" />
-        <meta name="description" content="Dein Begleiter für sorgenfreien Cannabiskonsum" />
-        <meta name="keywords" content="cannabis, konsum, drogen, grass, Cannabis Deutschland, bubatzkarte, cannabis map, konsum map" />
-        <meta name="author" content="WeedWizard" />
-        <meta name="publisher" content="WeedWizard" />
-        <meta name="copyright" content="WeedWizard" />
-        <meta name="audience" content="Alle" />
-        <meta name="page-topic" content="Cannabis" />
-        <meta name="revisit-after" content="2 days" />
-
-        <meta property='og:site_name' content='WeedWizard'>
-        <meta property='og:type' content='website'>
-        <meta property="og:title" content="WeedWizard">
-        <meta property="og:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
-        <meta property="og:image" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
-        <meta property="og:url" content="https://www.weedwizard.de">
-        <meta property="og:type" content="website">
-
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="WeedWizard">
-        <meta name="twitter:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
-        <meta name="twitter:image" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="revisit-after" content="2 days" />
+        <meta http-equiv="content-Type" content="text/html; utf-8" />
+        <meta http-equiv="content-Language" content="de" />
+
+        {% block meta %}
+            <meta name="title" content="WeedWizard">
+            <meta name="description" content="Dein Begleiter für sorgenfreien Cannabiskonsum" />
+            <meta name="keywords" content="cannabis, konsum, drogen, grass, Cannabis Deutschland, bubatzkarte, cannabis map, konsum map" />
+            <meta name="author" content="WeedWizard" />
+            <meta name="publisher" content="WeedWizard" />
+            <meta name="copyright" content="WeedWizard" />
+            <meta name="audience" content="Alle" />
+            <meta name="page-topic" content="Cannabis" />
+
+            <meta property='og:site_name' content='WeedWizard'>
+            <meta property='og:type' content='website'>
+            <meta property="og:title" content="WeedWizard">
+            <meta property="og:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
+            <meta property="og:image" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
+            <meta property="og:url" content="https://www.weedwizard.de">
+            <meta property="og:type" content="website">
+
+            <meta name="twitter:card" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
+            <meta name="twitter:title" content="WeedWizard">
+            <meta name="twitter:description" content="Dein Begleiter für sorgenfreien Cannabiskonsum">
+            <meta name="twitter:image" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
+        {% endblock %}
 
         <meta name='mobile-web-app-capable' content='yes'>
         <meta name='apple-mobile-web-app-capable' content='yes'>
