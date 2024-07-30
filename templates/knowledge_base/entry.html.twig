@@ -4,6 +4,38 @@
     {{ entry.articleName }}
 {% endblock %}
 
+{% if entry.user.profilePicture %}
+    {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
+{% else %}
+    {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
+{% endif %}
+
+{% block meta %}
+    <meta name="title" content="{{ entry.articleName }}">
+    <meta name="description" content="{{ entry.articleContent|striptags|slice(0, 100) }}">
+    <meta name="keywords" content="{{ entry.articleName }}">
+    <meta name="author" content="{{ entry.user.username }}">
+    <meta name="publisher" content="{{ entry.user.username }}">
+    <meta name="copyright" content="WeedWizard" />
+    <meta name="audience" content="Alle">
+    <meta name="page-topic" content="{{ ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de') }}">
+
+    <meta property='og:site_name' content='WeedWizard'>
+    <meta property='og:type' content='website'>
+    <meta property="og:title" content="{{ entry.articleName }}">
+    <meta property="og:description" content="{{ entry.articleContent|striptags|slice(0, 100) }}">
+    <meta property="og:image" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
+    <meta property="og:url" content="{{ path('weedwizard_knowledge_base_entry', {'category': category, 'id': entry.id}) }}">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="{{ asset('build/images/favicon/android-icon-144x144.png') }}">
+    <meta name="twitter:title" content="{{ entry.articleName }}">
+    <meta name="twitter:description" content="{{ entry.articleContent|striptags|slice(0, 100) }}">
+    <meta name="twitter:image" content="{{ profilePicture }}">
+
+    <meta name="article:author" content="{{ entry.user.username }}">
+{% endblock %}
+
 {% block body %}
     {% include 'templates/_header.html.twig' with {
         'title': ('knowledge_base.categories.'~category)|trans([], 'weedwizard', 'de')
@@ -14,11 +46,6 @@
             <h1>{{ entry.articleName }}</h1>
         </div>
         <div class="col-12">
-            {% if entry.user.profilePicture %}
-                {% set profilePicture = '/uploads/profile_pictures/' ~ entry.user.profilePicture %}
-            {% else %}
-                {% set profilePicture = '/build/images/userAvatar-placeholder.png' %}
-            {% endif %}
 
             <div class="d-flex align-items-center mb-2">
                 <div style="background: url('{{ profilePicture }}'); height: 20px; width: 20px; background-repeat: no-repeat; background-size: cover; background-position: center" class="rounded-circle me-2"></div>

@@ -83,7 +83,7 @@
                                     </td>
                                 {% endif %}
                                 {% if plant.strain.pics %}
-                                    <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze" style="height:12rem; width: 9rem; float: right"></td>
+                                    <td rowspan="2"><img src="{{ plant.strain.breederInfo['pic'] }}" class="card-img-top" alt="Bild der Pflanze" style="height:12rem; width: 9rem; float: right" loading="lazy"></td>
                                 {% endif %}
                             </tr>
                         </table>
@@ -111,7 +111,7 @@
                     <h4 class="offcanvas-title" id="offcanvasLabel-{{ plant.id }}" style="color: white">Pflanzendetails</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body" style="overflow: hidden">
+                <div class="offcanvas-body">
                     <div class="container-fluid">
                         <div class="row">
                             <!-- Oben links: Name, erstellt vor, Entwicklungsphase -->
