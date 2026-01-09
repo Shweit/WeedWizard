@@ -35,7 +35,7 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         // Create plants
         $plant1 = new Plant();
         $plant1->setName('Plant 1');
-        $plant1->setDate(new \DateTime('2024-06-27'));
+        $plant1->setDate(new \DateTime('now - 7 days'));
         $plant1->setState('Vegetativ');
         $plant1->setPlaceOfCultivation('Innen');
         $plant1->setLighting('LED');
@@ -43,22 +43,33 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant1->setStrain($strain1);
         $plant1->setBreeder($breeder1);
         $plant1->setGrowth(1);
+
+        // Get a random date between now and 7 days ago
+        $watering = new \DateTime('now - ' . random_int(0, 7) . ' days');
+        $wateringDateString = $watering->format('Y-m-d H:i:s');
+
+        $fertilize = new \DateTime('now - ' . random_int(0, 3) . ' days');
+        $fertilizeDateString = $fertilize->format('Y-m-d H:i:s');
+
+        $temperature = new \DateTime('now - ' . random_int(0, 5) . ' days');
+        $temperatureDateString = $temperature->format('Y-m-d H:i:s');
+
         $plant1->setWeeklyTasks([
             'water' => [
                 [
-                    'date' => '2024-07-17 18:48:09',
+                    'date' => $wateringDateString,
                     'task' => 'water',
                 ],
             ],
             'fertilize' => [
                 [
-                    'date' => '2024-07-17 18:48:10',
+                    'date' => $fertilizeDateString,
                     'task' => 'fertilize',
                 ],
             ],
             'temperature' => [
                 [
-                    'date' => '2024-07-17 18:48:10',
+                    'date' => $temperatureDateString,
                     'task' => 'temperature',
                 ],
             ],
@@ -70,7 +81,7 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
 
         $plant2 = new Plant();
         $plant2->setName('BOB');
-        $plant2->setDate(new \DateTime('2024-07-10'));
+        $plant2->setDate(new \DateTime('now - 10 days'));
         $plant2->setState('Blüte');
         $plant2->setPlaceOfCultivation('Außen');
         $plant2->setLighting('Natural');
@@ -78,28 +89,42 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
         $plant2->setStrain($strain2);
         $plant2->setBreeder($breeder2);
         $plant2->setGrowth(1);
+
+        $watering = new \DateTime('now - ' . random_int(0, 7) . ' days');
+        $wateringDateString = $watering->format('Y-m-d H:i:s');
+
+        $fertilize = new \DateTime('now - ' . random_int(0, 3) . ' days');
+        $fertilizeDateString = $fertilize->format('Y-m-d H:i:s');
+
+        $temperature = new \DateTime('now - ' . random_int(0, 5) . ' days');
+        $temperatureDateString = $temperature->format('Y-m-d H:i:s');
+
+        $pesticide = new \DateTime('now - ' . random_int(0, 5) . ' days');
+        $pesticideDateString = $pesticide->format('Y-m-d H:i:s');
+
         $plant2->setWeeklyTasks([
             'water' => [
                 [
-                    'date' => '2024-07-15 18:48:09',
+                    'date' => $wateringDateString,
                     'task' => 'water',
                 ],
             ],
             'fertilize' => [
                 [
-                    'date' => '2024-07-17 18:48:10',
+                    'date' => $fertilizeDateString,
                     'task' => 'fertilize',
                 ],
             ],
             'temperature' => [
                 [
-                    'date' => '2024-07-12 18:48:10',
+                    'date' => $temperatureDateString,
                     'task' => 'temperature',
                 ],
             ],
+
             'pesticide' => [
                 [
-                    'date' => '2024-07-15 18:48:10',
+                    'date' => $pesticideDateString,
                     'task' => 'pesticide',
                 ],
             ],

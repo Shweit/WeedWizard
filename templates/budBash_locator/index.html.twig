@@ -82,20 +82,20 @@
         <div class="col-md-12">
             <input type="text" class="form-control mb-3" id="searchBudBash" placeholder="Suche nach Name...">
             <div class="row mb-4">
-                <div class="col-4">
+                <div class="col-12 col-sm-4">
                     <div class="input-group mb-3">
                         <input type="number" id="entfernung" class="form-control" placeholder="Maximale Entfernung" aria-label="Maximale Entfernung" aria-describedby="Maximale Entfernung" value="{{ app.request.get('distance') }}">
                         <span class="input-group-text" id="entfernung_label">km</span>
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-12 col-sm-5">
                     <div class="input-group mb-3">
                         <div class="w-100" id="priceSlider" data-min="{{ lowestEntranceFee }}" data-max="{{ highestEntranceFee }}"></div>
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-12 col-sm-3">
                     <select class="form-select" id="sortBy">
                         <option value="id_ASC">Neuste</option>
                         <option value="id_DESC">Älteste</option>
